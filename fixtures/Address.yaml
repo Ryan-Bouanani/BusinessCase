@@ -1,0 +1,8 @@
+
+App\Entity\Address:
+  address{0..1000}:
+    number: '<numberBetween(0, 30)>'
+    street: '<streetAddress()>'
+    line3: '<buildingNumber()>'
+    postalCode: '<postcode()>'
+    city: '<city()>'

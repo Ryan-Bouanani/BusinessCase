@@ -1,0 +1,18 @@
+parameters:
+  password: '$2y$13$QG6i1mWJ9xBhk9AgmSvAWetxZAkaqTxk2uRdVNJyShn4hbYzGcT/S'
+
+App\Entity\Customer:
+  customers (template):
+    firstName: '<firstName()>'
+    lastName: '<lastName()>'
+    email: '<email()>'
+    password: '<{password}>'
+    dateOfBirth: '<dateTimeBetween("-60 years", "-18 years")>'
+    registrationDate: '<dateTimeBetween("-10 years", "now")>'
+
+  customers_admin (extends customers):
+    email: 'admin@test.com'
+    firstName: 'Admin'
+    lastName: 'Admin'
+
+  customers{0..105} (extends customers): ~

@@ -1,0 +1,4 @@
+App\Entity\Category:
+  category{0..1000}:
+    name: '<word()>'
+    categoryChildren: '80%? @categoryParent*'

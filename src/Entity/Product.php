@@ -52,14 +52,15 @@ class Product
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Review::class)]
     private Collection $reviews;
 
-    #[ORM\ManyToOne(inversedBy: 'product')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?ContentShoppingCart $contentShoppingCart = null;
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ContentShoppingCart::class)]
+    private Collection $contentShoppingCarts;
+
 
     public function __construct()
     {
         $this->images = new ArrayCollection();
         $this->reviews = new ArrayCollection();
+        $this->contentShoppingCarts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -235,14 +236,32 @@ class Product
         return $this;
     }
 
-    public function getContentShoppingCart(): ?ContentShoppingCart
+    /**
+     * @return Collection<int, ContentShoppingCart>
+     */
+    public function getContentShoppingCarts(): Collection
     {
-        return $this->contentShoppingCart;
+        return $this->contentShoppingCarts;
     }
 
-    public function setContentShoppingCart(?ContentShoppingCart $contentShoppingCart): self
+    public function addContentShoppingCart(ContentShoppingCart $contentShoppingCart): self
     {
-        $this->contentShoppingCart = $contentShoppingCart;
+        if (!$this->contentShoppingCarts->contains($contentShoppingCart)) {
+            $this->contentShoppingCarts->add($contentShoppingCart);
+            $contentShoppingCart->setProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContentShoppingCart(ContentShoppingCart $contentShoppingCart): self
+    {
+        if ($this->contentShoppingCarts->removeElement($contentShoppingCart)) {
+            // set the owning side to null (unless already changed)
+            if ($contentShoppingCart->getProduct() === $this) {
+                $contentShoppingCart->setProduct(null);
+            }
+        }
 
         return $this;
     }

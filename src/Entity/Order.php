@@ -26,7 +26,7 @@ class Order
     #[ORM\JoinColumn(nullable: false)]
     private ?Basket $basket = null;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?MeanOfPayment $meanOfPayment = null;
 

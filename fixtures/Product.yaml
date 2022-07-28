@@ -1,0 +1,12 @@
+App\Entity\Product:
+  product{0..1000}:
+    title: '<word()>'
+    description: 'sentence(10, 50)'
+    priceExclVat: '<numberBetween(0, 200)>'
+    priceVat: '<numberBetween(0, 200)>'
+    active:  '<boolean(90)>'
+    dateAdded: "<dateTimeBetween('-10 years','now')>"
+    brand: '@brand*'
+    promotion: '@promotion*'
+    category: '@category*'
+    reviews: '85% @review*'

@@ -1,0 +1,45 @@
+App\Entity\Brand:
+  brand1:
+    label: 'Royal Canin'
+
+  brand2:
+    label: 'Pro Plan'
+
+  brand3:
+    label: 'Frolic'
+
+  brand4:
+    label: 'Pedigree'
+
+  brand5:
+    label: 'Whiskas'
+
+  brand6:
+    label: 'Cunipic'
+
+  brand7:
+    label: 'Dreambox'
+
+  brand8:
+    label: 'Foxnovo'
+
+  brand9:
+    label: 'Animalis'
+
+  brand10:
+    label: 'JBL'
+
+  brand11:
+    label: 'Sera'
+
+  brand12:
+    label: 'Tetra'
+
+  brand13:
+    label: 'Lucky Reptile'
+
+  brand14:
+    label: 'Namiba Terra'
+
+  brand15:
+    label: 'Exo Terra'

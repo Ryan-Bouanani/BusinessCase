@@ -1,0 +1,15 @@
+App\Entity\Status:
+  status1:
+    name: 'Validate'
+
+  status2:
+    name: 'Fail'
+
+  status3:
+    name: 'Waiting for validation'
+
+  status4:
+    name: 'Canceled'
+
+  status5:
+    name: 'Waiting for payment'

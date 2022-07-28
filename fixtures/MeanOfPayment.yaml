@@ -1,0 +1,9 @@
+App\Entity\MeanOfPayment:
+  meanOfPayment0:
+    designation: 'CB'
+
+  meanOfPayment1:
+    label: 'Paypal'
+
+  meanOfPayment2:
+    label: 'Cryptomonnaie'

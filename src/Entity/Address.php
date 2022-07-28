@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AddressRepository;
 use Doctrine\ORM\Mapping as ORM;
+use phpDocumentor\Reflection\Types\Nullable;
 
 #[ORM\Entity(repositoryClass: AddressRepository::class)]
 class Address
@@ -13,11 +14,11 @@ class Address
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $line1 = null;
+    #[ORM\Column (nullable : true)]
+    private ?int $number = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $line2 = null;
+    private ?string $street = null;
 
     #[ORM\Column(length: 255)]
     private ?string $line3 = null;
@@ -37,26 +38,26 @@ class Address
         return $this->id;
     }
 
-    public function getLine1(): ?string
+    public function getNumber(): ?int
     {
-        return $this->line1;
+        return $this->number;
     }
 
-    public function setLine1(string $line1): self
+    public function setNumber(? int $number): self
     {
-        $this->line1 = $line1;
+        $this->number = $number;
 
         return $this;
     }
 
-    public function getLine2(): ?string
+    public function getStreet(): ?string
     {
-        return $this->line2;
+        return $this->street;
     }
 
-    public function setLine2(string $line2): self
+    public function setStreet(string $street): self
     {
-        $this->line2 = $line2;
+        $this->street = $street;
 
         return $this;
     }

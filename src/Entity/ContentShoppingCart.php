@@ -22,17 +22,14 @@ class ContentShoppingCart
     #[ORM\Column(type: Types::DECIMAL, precision: 7, scale: 2)]
     private ?string $price = null;
 
-    #[ORM\OneToMany(mappedBy: 'contentShoppingCart', targetEntity: Product::class)]
-    private Collection $product;
 
     #[ORM\ManyToOne(inversedBy: 'contentShoppingCarts')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Basket $basket = null;
 
-    public function __construct()
-    {
-        $this->product = new ArrayCollection();
-    }
+    #[ORM\ManyToOne(inversedBy: 'contentShoppingCarts')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Product $product = null;
 
     public function getId(): ?int
     {
@@ -63,35 +60,6 @@ class ContentShoppingCart
         return $this;
     }
 
-    /**
-     * @return Collection<int, Product>
-     */
-    public function getProduct(): Collection
-    {
-        return $this->product;
-    }
-
-    public function addProduct(Product $product): self
-    {
-        if (!$this->product->contains($product)) {
-            $this->product->add($product);
-            $product->setContentShoppingCart($this);
-        }
-
-        return $this;
-    }
-
-    public function removeProduct(Product $product): self
-    {
-        if ($this->product->removeElement($product)) {
-            // set the owning side to null (unless already changed)
-            if ($product->getContentShoppingCart() === $this) {
-                $product->setContentShoppingCart(null);
-            }
-        }
-
-        return $this;
-    }
 
     public function getBasket(): ?Basket
     {
@@ -101,6 +69,18 @@ class ContentShoppingCart
     public function setBasket(?Basket $basket): self
     {
         $this->basket = $basket;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(?Product $product): self
+    {
+        $this->product = $product;
 
         return $this;
     }
