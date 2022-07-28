@@ -18,6 +18,18 @@ class Order
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $billingDate = null;
 
+    #[ORM\ManyToOne(inversedBy: 'orders')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Status $status = null;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Basket $basket = null;
+
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?MeanOfPayment $meanOfPayment = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -31,6 +43,42 @@ class Order
     public function setBillingDate(\DateTimeInterface $billingDate): self
     {
         $this->billingDate = $billingDate;
+
+        return $this;
+    }
+
+    public function getStatus(): ?Status
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?Status $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getBasket(): ?Basket
+    {
+        return $this->basket;
+    }
+
+    public function setBasket(Basket $basket): self
+    {
+        $this->basket = $basket;
+
+        return $this;
+    }
+
+    public function getMeanOfPayment(): ?MeanOfPayment
+    {
+        return $this->meanOfPayment;
+    }
+
+    public function setMeanOfPayment(MeanOfPayment $meanOfPayment): self
+    {
+        $this->meanOfPayment = $meanOfPayment;
 
         return $this;
     }
