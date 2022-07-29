@@ -1,3 +1,4 @@
 App\Entity\Basket:
   basket{0..2000}:
     dateCreated: '<dateTimeBetween("-1 years", "now")>'
+    customer: '@customer*'

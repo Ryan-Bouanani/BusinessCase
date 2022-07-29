@@ -2,13 +2,31 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\BasketRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: BasketRepository::class)]
+#[ORM\Entity(repositoryClass: 
+BasketRepository::class)]
+#[ApiResource(
+    
+    attributes: [
+        "security" => "is_granted('ROLE_ADMIN') or is_granted('ROLE_STATS')",
+        "security_message" => "Accès refusé"
+    ],
+    // tableaux sans id
+    collectionOperations: [
+        'get'
+    ],
+    //modifier ce qu'il y'a dans la doc se termine par l'id
+    itemOperations: [
+        'get'
+    ],
+)]
 class Basket
 {
     #[ORM\Id]
@@ -17,6 +35,9 @@ class Basket
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[
+        Assert\NotBlank,
+    ]
     private ?\DateTimeInterface $dateCreated = null;
 
     #[ORM\OneToMany(mappedBy: 'basket', targetEntity: ContentShoppingCart::class)]

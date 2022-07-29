@@ -14,5 +14,12 @@ App\Entity\Customer:
     email: 'admin@test.com'
     firstName: 'Admin'
     lastName: 'Admin'
+    roles: ['ROLE_ADMIN']
 
-  customer{0..2000} (extends customer): ~
+  customers_stats (extends customer):
+    email: 'stats@test.com'
+    firstName: 'Admin'
+    lastName: 'Admin'
+    roles: ['ROLE_STATS']
+
+  customer{0..500} (extends customer): ~

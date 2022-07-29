@@ -1,7 +1,7 @@
 App\Entity\Product:
   product{0..800}:
     title: '<word()>'
-    description: 'sentence(70, 100)'
+    description: '<sentence(10, 70)>'
     priceExclVat: '<numberBetween(0, 200)>'
     priceVat: '<numberBetween(0, 200)>'
     active:  '<boolean(90)>'

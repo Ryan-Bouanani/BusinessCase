@@ -2,12 +2,26 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\BrandRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BrandRepository::class)]
+#[ApiResource(
+    attributes: [
+        "security" => "is_granted('ROLE_ADMIN')  or is_granted('ROLE_STATS')",
+        "security_message" => "Accès refusé"
+    ],
+    // tableaux sans id
+    collectionOperations: [
+    ],
+    //modifier ce qu'il y'a dans la doc se termine par l'id
+    itemOperations: [
+        'get'
+    ],
+)]
 class Brand
 {
     #[ORM\Id]

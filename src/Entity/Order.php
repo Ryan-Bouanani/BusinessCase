@@ -2,12 +2,27 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\OrderRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: OrderRepository::class)]
 #[ORM\Table(name: '`order`')]
+#[ApiResource(
+    attributes: [
+        "security" => "is_granted('ROLE_ADMIN')  or is_granted('ROLE_STATS')",
+        "security_message" => "Accès refusé"
+    ],
+    // tableaux sans id
+    collectionOperations: [
+        'get'
+    ],
+    //modifier ce qu'il y'a dans la doc se termine par l'id
+    itemOperations: [
+        'get'
+    ],
+)]
 class Order
 {
     #[ORM\Id]

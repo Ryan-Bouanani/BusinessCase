@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\CustomerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,6 +13,20 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
+#[ApiResource(
+    attributes: [
+        "security" => "is_granted('ROLE_ADMIN') or is_granted('ROLE_STATS')",
+        "security_message" => "Accès refusé"
+    ],
+    // tableaux sans id
+    collectionOperations: [
+        'get'
+    ],
+    //modifier ce qu'il y'a dans la doc se termine par l'id
+    itemOperations: [
+        'get'
+    ],
+)]
 class Customer implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -19,6 +35,12 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
     #[ORM\Column(length: 180, unique: true)]
+    #[
+        Assert\NotBlank,
+        Assert\Expression(
+            message: 'L\'email est obligatoiret',
+        )
+    ]
     private ?string $email = null;
 
     #[ORM\Column]
@@ -28,15 +50,45 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[
+        Assert\NotBlank,
+        Assert\Expression(
+            message: 'Le mot de passe est obligatoiret',
+        )
+    ]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
+    #[
+        Assert\NotBlank([
+            'message' => 'Merci de remplir le prenom'
+        ]),
+        Assert\Length([
+            'min' => 10,
+            'max'=> 255,
+        ]),
+    ]
     private ?string $firstName = null;
 
     #[ORM\Column(length: 255)]
+    #[
+        Assert\NotBlank([
+            'message' => 'Merci de remplir le nom'
+        ]),
+        Assert\Length([
+            'min' => 10,
+            'max'=> 255,
+        ]),
+    ]
     private ?string $lastName = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[
+        Assert\Expression(
+            'this.getDateOfBirth() < this.getRegistrationDate()',
+            message: 'Birth date must be lesser than created at',
+        )
+    ]
     private ?\DateTimeInterface $dateOfBirth = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
