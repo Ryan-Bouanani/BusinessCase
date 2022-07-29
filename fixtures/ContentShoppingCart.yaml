@@ -1,6 +1,6 @@
 App\Entity\ContentShoppingCart:
-  contentShoppingCart{0..1000}:
-    quentity: '<numberBetween(0, 20)>'
+  contentShoppingCart{0..3000}:
+    quantity: '<numberBetween(0, 20)>'
     price: '<numberBetween(0, 200)>'
     product: '@product*'
     basket: '@basket*'

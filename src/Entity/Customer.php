@@ -48,10 +48,14 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Address::class)]
     private Collection $addresses;
 
+    #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Basket::class)]
+    private Collection $baskets;
+
     public function __construct()
     {
         $this->reviews = new ArrayCollection();
         $this->addresses = new ArrayCollection();
+        $this->baskets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -226,6 +230,36 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($address->getCustomer() === $this) {
                 $address->setCustomer(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Basket>
+     */
+    public function getBaskets(): Collection
+    {
+        return $this->baskets;
+    }
+
+    public function addBasket(Basket $basket): self
+    {
+        if (!$this->baskets->contains($basket)) {
+            $this->baskets->add($basket);
+            $basket->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBasket(Basket $basket): self
+    {
+        if ($this->baskets->removeElement($basket)) {
+            // set the owning side to null (unless already changed)
+            if ($basket->getCustomer() === $this) {
+                $basket->setCustomer(null);
             }
         }
 

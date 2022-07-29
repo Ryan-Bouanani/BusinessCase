@@ -1,4 +1,30 @@
 App\Entity\Category:
-  category{0..1000}:
-    name: '<word()>'
-    categoryChildren: '80%? @categoryParent*'
+  category1:
+    name: 'Croquette'
+    categoryParent: '80%? @category1*'
+  
+  category2:
+    name: 'Litieres'
+    categoryParent: '80%? @category2*'
+  
+  category3:
+    name: 'Reptiles'
+    categoryParent: '80%? @category3*'
+  
+  category4:
+    name: 'Friandises'
+    categoryParent: '80%? @category4*'
+
+  category5:
+    name: 'Chauffages'
+    categoryParent: '80%? @category5*'
+
+  category6:
+    name: 'Pâtées'
+    categoryParent: '80%? @category6'
+
+  category7:
+    name: 'Os'
+    categoryParent: '80%? @category7*'
+
+  

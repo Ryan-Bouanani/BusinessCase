@@ -21,7 +21,7 @@ class Review
     private ?int $nbStar = null;
 
     #[ORM\ManyToOne(inversedBy: 'reviews')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Product $product = null;
 
     #[ORM\ManyToOne(inversedBy: 'reviews')]

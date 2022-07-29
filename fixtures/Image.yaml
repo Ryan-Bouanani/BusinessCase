@@ -1,5 +1,5 @@
 App\Entity\Image:
-  image{0..1000}:
+  image{0..3000}:
     path: '<imageUrl()>'
     title: '<name()>'
     isMain: '<boolean(25)>'

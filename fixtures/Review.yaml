@@ -1,0 +1,6 @@
+App\Entity\Review:
+  review{0..1000}:
+    comment: '<sentence(20,80)>'
+    nbStar: '<numberBetween(0, 5)>'
+    product: '85%? @product*'
+    customer: '@customer*'

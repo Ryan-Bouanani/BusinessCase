@@ -39,7 +39,7 @@ class Product
     private ?Brand $brand = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Promotion $promotion = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]

@@ -22,6 +22,9 @@ class Basket
     #[ORM\OneToMany(mappedBy: 'basket', targetEntity: ContentShoppingCart::class)]
     private Collection $contentShoppingCarts;
 
+    #[ORM\ManyToOne(inversedBy: 'baskets')]
+    private ?Customer $customer = null;
+
     public function __construct()
     {
         $this->contentShoppingCarts = new ArrayCollection();
@@ -70,6 +73,18 @@ class Basket
                 $contentShoppingCart->setBasket(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCustomer(): ?Customer
+    {
+        return $this->customer;
+    }
+
+    public function setCustomer(?Customer $customer): self
+    {
+        $this->customer = $customer;
 
         return $this;
     }
