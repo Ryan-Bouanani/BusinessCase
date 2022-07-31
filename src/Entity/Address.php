@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use App\Repository\AddressRepository;
 use Doctrine\ORM\Mapping as ORM;
-use phpDocumentor\Reflection\Types\Nullable;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AddressRepository::class)]
 class Address
@@ -15,22 +15,62 @@ class Address
     private ?int $id = null;
 
     #[ORM\Column (nullable : true)]
+    #[
+        Assert\NotBlank,
+        Assert\PositiveOrZero,
+    ]
     private ?int $number = null;
 
     #[ORM\Column(length: 255)]
+    #[
+        Assert\NotBlank,
+        Assert\Length([
+            'min' => 2,
+            'max' => 255,
+            'minMessage' => 'Veuiller entrer un produit contenant au minimum {{ limit }} caractères',
+            'maxMessage' => 'Veuiller entrer un produit contenant au maximum {{ limit }} caractères',
+        ]),
+    ]
     private ?string $street = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
+    #[
+        Assert\Length([
+            'max' => 255,
+            'maxMessage' => 'Veuiller entrer une information contenant au maximum {{ limit }} caractères',
+        ]),
+    ]
     private ?string $line3 = null;
 
     #[ORM\Column(length: 15)]
+    #[
+        Assert\NotBlank,
+        Assert\Length([
+            'min' => 2,
+            'max' => 5,
+            'minMessage' => 'Veuiller entrer un code postale contenant au minimum {{ limit }} caractères',
+            'maxMessage' => 'Veuiller entrer un code postale contenant au maximum {{ limit }} caractères',
+        ]),
+    ]
     private ?string $postalCode = null;
 
     #[ORM\Column(length: 255)]
+    #[
+        Assert\NotBlank,
+        Assert\Length([
+            'min' => 2,
+            'max' => 255,
+            'minMessage' => 'Veuiller entrer une ville contenant au minimum {{ limit }} caractères',
+            'maxMessage' => 'Veuiller entrer une ville contenant au maximum {{ limit }} caractères',
+        ]),
+    ]
     private ?string $city = null;
 
     #[ORM\ManyToOne(inversedBy: 'addresses')]
     #[ORM\JoinColumn(nullable: false)]
+    #[
+        Assert\NotBlank,
+    ]
     private ?Customer $customer = null;
 
     public function getId(): ?int

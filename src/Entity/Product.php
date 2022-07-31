@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Serializer\Annotation\Groups;
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -11,16 +13,12 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[ApiResource(
-    attributes: [
-        "security" => "is_granted('ROLE_ADMIN') or is_granted('ROLE_STATS')",
-        "security_message" => "Accès refusé."
-    ],
-    // tableaux sans id
     collectionOperations: [
+        'get',
     ],
-    //modifier ce qu'il y'a dans la doc se termine par l'id
     itemOperations: [
-        'get'
+        'get',
+    
     ],
 )]
 class Product
@@ -28,28 +26,91 @@ class Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['read:Basket:attributes'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[
+        Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
+        Assert\Length([
+            'min' => 2,
+            'max'=> 255,
+            'minMessage' => 'Veuiller entrer un produict contenant au minimum {{ limit }} caractères',
+            'maxMessage' => 'Veuiller entrer un produict contenant au maximum {{ limit }} caractères',
+        ]),
+    ]
+
+    #[Groups(['read:Basket:attributes'])]
     private ?string $title = null;
 
     #[ORM\Column(length: 255)]
+    #[
+        Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
+        Assert\Length([
+            'min' => 2,
+            'max' => 500,
+            'minMessage' => 'Veuiller entrer une description contenant au minimum {{ limit }} caractères',
+            'maxMessage' => 'Veuiller entrer une description contenant au maximum {{ limit }} caractères',
+        ]),
+    ]
+
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 7, scale: 2)]
+    #[
+        Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
+        Assert\PositiveOrZero(),
+        Assert\Range(
+            min: 0,
+            max: 99000.99,
+            notInRangeMessage: 'Le prix TTC doit être plus grand que 0 et inferieur à 100 000',
+        )
+    ]
     private ?string $priceExclVat = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 7, scale: 2)]
+    #[
+        Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
+        Assert\PositiveOrZero,
+        Assert\Range(
+            min: 0,
+            max: 99000.99,
+            notInRangeMessage: 'Le prix TTC doit être plus grand que 0 et inferieur à 100 000',
+        )
+    ]
     private ?string $priceVat = null;
 
     #[ORM\Column]
+    #[
+        Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
+    ]
     private ?bool $active = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[
+        Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
+    ]
     private ?\DateTimeInterface $dateAdded = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
+    #[
+        Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
+    ]
     private ?Brand $brand = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
@@ -58,9 +119,19 @@ class Product
 
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
+    #[
+        Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
+    ]
     private ?Category $category = null;
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Image::class)]
+    #[
+        Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
+    ]
     private Collection $images;
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: Review::class)]

@@ -3,20 +3,19 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Serializer\Annotation\Groups;
 use App\Repository\ContentShoppingCartRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ContentShoppingCartRepository::class)]
 #[ApiResource(
-    // tableaux sans id
     collectionOperations: [
+        'get'
     ],
-    //modifier ce qu'il y'a dans la doc se termine par l'id
     itemOperations: [
-        'get' => [
-            'security' => 'is_granted("ROLE_ADMIN") or is_granted("ROLE_STATS")'
-        ],
+        'get'
     ],
 )]
 class ContentShoppingCart
@@ -24,21 +23,44 @@ class ContentShoppingCart
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['read:Basket:attributes'])]
     private ?int $id = null;
 
     #[ORM\Column]
+    #[Groups(['read:Basket:attributes'])]
+    #[
+        Assert\NotBlank,
+        Assert\Positive
+    ]
     private ?int $quantity = null;
 
+    #[Groups(['read:Basket:attributes'])]
     #[ORM\Column(type: Types::DECIMAL, precision: 7, scale: 2)]
+    #[
+        Assert\NotBlank,
+        Assert\PositiveOrZero,
+        Assert\Range(
+            min: 0,
+            max: 99000.99,
+            notInRangeMessage: 'Le prix TTC doit être plus grand que 0 et inferieur à 100 000',
+        )
+    ]
     private ?string $price = null;
 
 
     #[ORM\ManyToOne(inversedBy: 'contentShoppingCarts')]
     #[ORM\JoinColumn(nullable: false)]
+    #[
+        Assert\NotBlank,
+    ]
     private ?Basket $basket = null;
 
+    #[Groups(['read:Basket:attributes'])]
     #[ORM\ManyToOne(inversedBy: 'contentShoppingCarts')]
     #[ORM\JoinColumn(nullable: false)]
+    #[
+        Assert\NotBlank,
+    ]
     private ?Product $product = null;
 
     public function getId(): ?int

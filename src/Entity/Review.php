@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\ReviewRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,17 +16,49 @@ class Review
     private ?int $id = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[
+        Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
+        Assert\Length([
+            'min' => 2,
+            'max' => 500,
+            'minMessage' => 'Veuiller entrer un commentaire contenant au minimum {{ limit }} caractères',
+            'maxMessage' => 'Veuiller entrer un commentaire contenant au maximum {{ limit }} caractères',
+        ]),
+    ]
     private ?string $comment = null;
 
     #[ORM\Column]
+    #[
+        Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
+        Assert\PositiveOrZero,
+        Assert\Range(
+            min: 0,
+            max: 5,
+            notInRangeMessage: 'La note doit être plus grand que 0 et inferieur à 5',
+        )
+    ]
     private ?int $nbStar = null;
 
     #[ORM\ManyToOne(inversedBy: 'reviews')]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\JoinColumn(nullable: false)]
+    #[
+        Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
+    ]
     private ?Product $product = null;
 
     #[ORM\ManyToOne(inversedBy: 'reviews')]
     #[ORM\JoinColumn(nullable: false)]
+    #[
+        Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
+    ]
     private ?Customer $customer = null;
 
     public function getId(): ?int

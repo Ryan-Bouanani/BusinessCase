@@ -2,24 +2,13 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use App\Repository\CategoryRepository;
+use Symfony\Component\Validator\Constraints as Assert;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
-#[ApiResource(
-    // tableaux sans id
-    collectionOperations: [
-    ],
-    //modifier ce qu'il y'a dans la doc se termine par l'id
-    itemOperations: [
-        'get' => [
-            'security' => 'is_granted("ROLE_ADMIN") or is_granted("ROLE_STATS")'
-        ],
-    ],
-)]
 class Category
 {
     #[ORM\Id]
@@ -28,6 +17,15 @@ class Category
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[
+        Assert\NotBlank,
+        Assert\Length([
+            'min' => 2,
+            'max' => 255,
+            'minMessage' => 'Veuiller entrer une categorie contenant au minimum {{ limit }} caractères',
+            'maxMessage' => 'Veuiller entrer une categorie contenant au maximum {{ limit }} caractères',
+        ]),
+    ]
     private ?string $name = null;
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'categoryChild')]

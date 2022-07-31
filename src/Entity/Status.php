@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\StatusRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -16,6 +17,22 @@ class Status
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[
+        Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
+        Assert\Choice([
+            'choices' => [
+                'Expédié',
+                'Echouer',
+                'Annuller',
+                'En attente',
+                'En cours de preparation',
+                'En cours d\'expédition',
+            ],
+            'message' => 'Choississer un status valide.',
+        ]),
+    ]
     private ?string $name = null;
 
     #[ORM\OneToMany(mappedBy: 'status', targetEntity: Order::class)]

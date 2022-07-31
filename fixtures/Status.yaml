@@ -1,15 +1,15 @@
 App\Entity\Status:
   status1:
-    name: 'Validate'
+    name: 'Livré'
 
   status2:
-    name: 'Fail'
+    name: 'Echouer'
 
   status3:
-    name: 'Waiting for validation'
+    name: 'En preparation'
 
   status4:
-    name: 'Canceled'
+    name: 'Annuler'
 
   status5:
-    name: 'Waiting for payment'
+    name: 'En attente'

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\MeanOfPaymentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -14,6 +15,15 @@ class MeanOfPayment
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[
+        Assert\NotBlank,
+        Assert\Length([
+            'min' => 2,
+            'max' => 255,
+            'minMessage' => 'Veuiller entrer un moyen de paiement contenant au minimum {{ limit }} caractères',
+            'maxMessage' => 'Veuiller entrer un moyen de paiement contenant au maximum {{ limit }} caractères',
+        ]),
+    ]
     private ?string $designation = null;
 
     public function getId(): ?int

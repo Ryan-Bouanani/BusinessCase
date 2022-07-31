@@ -10,16 +10,17 @@ App\Entity\Customer:
     dateOfBirth: '<dateTimeBetween("-60 years", "-18 years")>'
     registrationDate: '<dateTimeBetween("-10 years", "now")>'
 
+  customers_stats (extends customer):
+    email: 'stats@test.com'
+    firstName: 'Admin'
+    lastName: 'Admin'
+    roles: ['ROLE_STATS']
+    
   customers_admin (extends customer):
     email: 'admin@test.com'
     firstName: 'Admin'
     lastName: 'Admin'
     roles: ['ROLE_ADMIN']
 
-  customers_stats (extends customer):
-    email: 'stats@test.com'
-    firstName: 'Admin'
-    lastName: 'Admin'
-    roles: ['ROLE_STATS']
 
   customer{0..500} (extends customer): ~

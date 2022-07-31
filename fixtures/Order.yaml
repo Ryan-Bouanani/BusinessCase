@@ -1,5 +1,5 @@
 App\Entity\Order:
-  order{0..1000}:
+  order{0..2}:
     billingDate: '<dateTimeBetween("-1 years", "now")>'
     status: '@status*'
     basket: '@basket<current()>'

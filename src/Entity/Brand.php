@@ -3,25 +3,13 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\BrandRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: BrandRepository::class)]
-#[ApiResource(
-    attributes: [
-        "security" => "is_granted('ROLE_ADMIN')  or is_granted('ROLE_STATS')",
-        "security_message" => "Accès refusé"
-    ],
-    // tableaux sans id
-    collectionOperations: [
-    ],
-    //modifier ce qu'il y'a dans la doc se termine par l'id
-    itemOperations: [
-        'get'
-    ],
-)]
 class Brand
 {
     #[ORM\Id]
@@ -30,6 +18,15 @@ class Brand
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[
+        Assert\NotBlank,
+        Assert\Length([
+            'min' => 2,
+            'max' => 255,
+            'minMessage' => 'Veuiller entrer une marque contenant au minimum {{ limit }} caractères',
+            'maxMessage' => 'Veuiller entrer une marque contenant au maximum {{ limit }} caractères',
+        ]),
+    ]
     private ?string $label = null;
 
     #[ORM\OneToMany(mappedBy: 'brand', targetEntity: Product::class)]

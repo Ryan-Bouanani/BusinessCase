@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\PromotionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -17,12 +18,34 @@ class Promotion
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[
+        Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
+        Assert\Length([
+            'min' => 2,
+            'max' => 255,
+            'minMessage' => 'Veuiller entrer une promotion contenant au minimum {{ limit }} caractères',
+            'maxMessage' => 'Veuiller entrer une promotion contenant au maximum {{ limit }} caractères',
+        ]),
+    ]
     private ?string $name = null;
 
     #[ORM\Column]
+    #[
+        Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
+        Assert\Positive
+    ]
     private ?int $percentage = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[
+        Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
+    ]
     private ?\DateTimeInterface $expirationDate = null;
 
     #[ORM\OneToMany(mappedBy: 'promotion', targetEntity: Product::class)]

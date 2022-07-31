@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\ImageRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -14,16 +15,45 @@ class Image
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[
+        Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
+        Assert\Url([
+            'message' => 'L\'url n\'est pas valide.',
+        ])
+    ]
     private ?string $path = null;
 
     #[ORM\Column(length: 255)]
+    #[
+        Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
+        Assert\Length([
+            'min' => 2,
+            'max' => 255,
+            'minMessage' => 'Veuiller entrer un titre contenant au minimum {{ limit }} caractères',
+            'maxMessage' => 'Veuiller entrer un titre contenant au maximum {{ limit }} caractères',
+        ]),
+    ]
     private ?string $title = null;
 
     #[ORM\Column]
+    #[
+        Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
+    ]
     private ?bool $isMain = null;
 
     #[ORM\ManyToOne(inversedBy: 'images')]
     #[ORM\JoinColumn(nullable: false)]
+    #[
+        Assert\NotBlank([
+            'message' => "Veuiller entrer un produit."
+        ]),
+    ]
     private ?Product $product = null;
 
     public function getId(): ?int
