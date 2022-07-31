@@ -45,6 +45,9 @@ class Promotion
         Assert\NotBlank([
             'message' => "Veuiller remplir tout les champs."
         ]),
+        Assert\Date([
+            'message' => 'Veuiller entrer une date valide.',
+        ])
     ]
     private ?\DateTimeInterface $expirationDate = null;
 

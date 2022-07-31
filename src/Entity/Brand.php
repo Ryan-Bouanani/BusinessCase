@@ -19,7 +19,9 @@ class Brand
 
     #[ORM\Column(length: 255)]
     #[
-        Assert\NotBlank,
+        Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
         Assert\Length([
             'min' => 2,
             'max' => 255,

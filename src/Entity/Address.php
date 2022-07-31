@@ -16,14 +16,15 @@ class Address
 
     #[ORM\Column (nullable : true)]
     #[
-        Assert\NotBlank,
         Assert\PositiveOrZero,
     ]
     private ?int $number = null;
 
     #[ORM\Column(length: 255)]
     #[
-        Assert\NotBlank,
+        Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
         Assert\Length([
             'min' => 2,
             'max' => 255,
@@ -44,7 +45,9 @@ class Address
 
     #[ORM\Column(length: 15)]
     #[
-        Assert\NotBlank,
+        Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
         Assert\Length([
             'min' => 2,
             'max' => 5,
@@ -56,7 +59,9 @@ class Address
 
     #[ORM\Column(length: 255)]
     #[
-        Assert\NotBlank,
+         Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
         Assert\Length([
             'min' => 2,
             'max' => 255,
@@ -66,12 +71,16 @@ class Address
     ]
     private ?string $city = null;
 
+
     #[ORM\ManyToOne(inversedBy: 'addresses')]
     #[ORM\JoinColumn(nullable: false)]
     #[
-        Assert\NotBlank,
+         Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
     ]
     private ?Customer $customer = null;
+
 
     public function getId(): ?int
     {
@@ -149,4 +158,5 @@ class Address
 
         return $this;
     }
+
 }

@@ -29,7 +29,9 @@ class ContentShoppingCart
     #[ORM\Column]
     #[Groups(['read:Basket:attributes'])]
     #[
-        Assert\NotBlank,
+         Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
         Assert\Positive
     ]
     private ?int $quantity = null;
@@ -37,7 +39,9 @@ class ContentShoppingCart
     #[Groups(['read:Basket:attributes'])]
     #[ORM\Column(type: Types::DECIMAL, precision: 7, scale: 2)]
     #[
-        Assert\NotBlank,
+         Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
         Assert\PositiveOrZero,
         Assert\Range(
             min: 0,
@@ -51,7 +55,9 @@ class ContentShoppingCart
     #[ORM\ManyToOne(inversedBy: 'contentShoppingCarts')]
     #[ORM\JoinColumn(nullable: false)]
     #[
-        Assert\NotBlank,
+         Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
     ]
     private ?Basket $basket = null;
 
@@ -59,7 +65,9 @@ class ContentShoppingCart
     #[ORM\ManyToOne(inversedBy: 'contentShoppingCarts')]
     #[ORM\JoinColumn(nullable: false)]
     #[
-        Assert\NotBlank,
+         Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
     ]
     private ?Product $product = null;
 

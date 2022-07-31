@@ -52,6 +52,7 @@ class Review
     ]
     private ?Product $product = null;
 
+
     #[ORM\ManyToOne(inversedBy: 'reviews')]
     #[ORM\JoinColumn(nullable: false)]
     #[
@@ -60,6 +61,7 @@ class Review
         ]),
     ]
     private ?Customer $customer = null;
+
 
     public function getId(): ?int
     {

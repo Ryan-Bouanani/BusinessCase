@@ -7,7 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 
-class AveragePriceBasketAction extends AbstractController
+class TurnoverAction extends AbstractController
 {
 
     public function __construct(
@@ -20,19 +20,19 @@ class AveragePriceBasketAction extends AbstractController
 
     public function __invoke(): JsonResponse
     {
-        $subQuery = $this->entityManager->createQuery(
-            'SELECT COUNT(b.id) FROM App\Entity\Basket b'
-        );
-        $resultSubQuery = $subQuery->getSingleScalarResult();
         $query = $this->entityManager->createQuery(
-            'SELECT SUM(c.price * c.quantity) / ('. $resultSubQuery .')
-            FROM App\Entity\ContentShoppingCart c'
+            'SELECT SUM(c.price * c.quantity)
+            FROM App\Entity\ContentShoppingCart c
+            JOIN App\Entity\Order o
+            WHERE o.basket = c.basket'
+
         );
         $products = $query->getSingleScalarResult();
         
         // return response
         return new JsonResponse($products);
     }
+ 
 }
 
 

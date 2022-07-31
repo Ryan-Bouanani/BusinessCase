@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\NbOrderAction;
+use App\Controller\TurnoverAction;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\OrderRepository;
 use Doctrine\DBAL\Types\Types;
@@ -20,6 +21,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ],
     collectionOperations: [
         'get',
+        // NB ORDERS
         'getNbOrder' => [
             'method' => 'GET',
             'path' => 'stats/nbOrders',
@@ -44,6 +46,31 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 ]
             ],
         ],
+        // TURNOVER
+        'turnover' => [
+            'method' => 'GET',
+            'path' => 'stats/turnover',
+            'controller' => TurnoverAction::class,
+            'read' => false,
+            'pagination_enabled' => false,
+            'openapi_context' => [
+                'summary' => 'Recupère le chiffre d\'affaire (total des produits vendues)',
+                'parameters' => [],
+                'responses' => [
+                    '200' => [
+                        'description' => 'Chiffre d\'affaire',
+                        'content' => [
+                            'application/json' => [
+                                'schema'=> [
+                                    'type' => 'float',
+                                    'example' => 1252.25
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+        ],
     ],
     itemOperations: [
         'get'
@@ -59,14 +86,18 @@ class Order
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[
-        Assert\NotBlank,
+        Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
     ]
     private ?\DateTimeInterface $billingDate = null;
 
     #[ORM\ManyToOne(inversedBy: 'orders')]
     #[ORM\JoinColumn(nullable: false)]
     #[
-        Assert\NotBlank,
+        Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
     ]
     private ?Status $status = null;
 
@@ -74,14 +105,18 @@ class Order
     #[ORM\JoinColumn(nullable: false)]
     #[Groups(['read:Order:attributes'])]
     #[
-        Assert\NotBlank,
+            Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
     ]
     private ?Basket $basket = null;
 
     #[ORM\ManyToOne(cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     #[
-        Assert\NotBlank,
+            Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
     ]
     private ?MeanOfPayment $meanOfPayment = null;
 

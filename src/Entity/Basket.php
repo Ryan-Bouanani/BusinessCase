@@ -3,7 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Controller\averagePriceBasketAction;
+use App\Controller\AveragePriceBasketAction;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Controller\NbBasketAction;
@@ -53,7 +53,8 @@ use Doctrine\ORM\Mapping as ORM;
         'averagePriceBasket' => [
             'method' => 'GET',
             'path' => 'statss/averagePriceBasket',
-            'controller' => averagePriceBasketAction::class,
+            'controller' => AveragePriceBasketAction::class,
+            'read' => false,
             'pagination_enabled' => false,
             'openapi_context' => [
                 'summary' => 'Recupère le prix d\'un panier moyen',
@@ -90,23 +91,31 @@ class Basket
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[Groups(['read:Basket:attributes'])]
     #[
-        Assert\NotBlank,
+        Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
     ]
     private ?\DateTimeInterface $dateCreated = null;
 
     #[ORM\OneToMany(mappedBy: 'basket', targetEntity: ContentShoppingCart::class)]
     #[Groups(['read:Basket:attributes'])]
     #[
-        Assert\NotBlank,
+          Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
     ]
     private Collection $contentShoppingCarts;
 
     #[ORM\ManyToOne(inversedBy: 'baskets')]
     #[Groups(['read:Basket:attributes'])]
     #[
-        Assert\NotBlank,
+          Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
     ]
     private ?Customer $customer = null;
+
+
 
     public function __construct()
     {
@@ -171,4 +180,6 @@ class Basket
 
         return $this;
     }
+
+   
 }
