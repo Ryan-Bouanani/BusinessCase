@@ -39,6 +39,39 @@ class OrderRepository extends ServiceEntityRepository
         }
     }
 
+
+    public function nbBasket(): int
+    {
+        return $this->count([]);
+
+    }
+
+    public function turnover() {
+        $query = $this->createQueryBuilder('order')
+        ->select('SUM(contentShoppingCart.price * contentShoppingCart.quantity)')
+        ->join('order.basket', 'basket')
+        ->join('basket.contentShoppingCarts', 'contentShoppingCart')
+        ->getQuery()
+        ->getResult();
+        return $query;
+    }
+
+    public function bestSellingProduct() {
+        $query = $this->createQueryBuilder('order')
+        ->select('p.title as NomProduit','i.path as Image' , 'SUM(c.quantity) as NbVendue', 'SUM(c.price * c.quantity) as MontantTotalVendues')
+        ->join('order.basket', 'basket')
+        ->join('basket.contentShoppingCarts', 'c')
+        ->join('c.product', 'p')
+        ->join('p.images', 'i')
+        ->groupBy('p')
+        ->orderBy('SUM(c.price * c.quantity)', 'DESC')
+        ->where('i.isMain = true')
+        ->getQuery()
+        ->getResult();
+        return $query;
+    }
+
+
 //    /**
 //     * @return Order[] Returns an array of Order objects
 //     */

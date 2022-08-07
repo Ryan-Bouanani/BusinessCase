@@ -13,3 +13,6 @@ App\Entity\Status:
 
   status5:
     name: 'En attente'
+
+  status6:
+    name: 'Valider'

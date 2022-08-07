@@ -2,30 +2,25 @@
 
 namespace App\Controller;
 
-use App\Repository\OrderRepository;
+use App\Repository\CustomerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-
-class TurnoverAction extends AbstractController
+class NbNewCustomer extends AbstractController
 {
 
     public function __construct(
-        private OrderRepository $orderRepository
+        private CustomerRepository $customerRepository
     )
-    {
-    }
+    {}
+
 
 
     public function __invoke(): JsonResponse
     {
-        $query = $this->orderRepository->turnover();
-        dump($query);
+        $query = $this->customerRepository->NbNewCustomer();
         return new JsonResponse($query);
     }
- 
 }
-
-
 
 ?>

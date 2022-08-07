@@ -3,6 +3,7 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
+use App\Controller\BestSellingProductAction;
 use App\Controller\NbOrderAction;
 use App\Controller\TurnoverAction;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -46,31 +47,56 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 ]
             ],
         ],
-        // TURNOVER
-        'turnover' => [
-            'method' => 'GET',
-            'path' => 'stats/turnover',
-            'controller' => TurnoverAction::class,
-            'read' => false,
-            'pagination_enabled' => false,
-            'openapi_context' => [
-                'summary' => 'Recupère le chiffre d\'affaire (total des produits vendues)',
-                'parameters' => [],
-                'responses' => [
-                    '200' => [
-                        'description' => 'Chiffre d\'affaire',
-                        'content' => [
-                            'application/json' => [
-                                'schema'=> [
-                                    'type' => 'float',
-                                    'example' => 1252.25
+            // TURNOVER
+            'turnover' => [
+                'method' => 'GET',
+                'path' => 'stats/turnover',
+                'controller' => TurnoverAction::class,
+                'read' => false,
+                'pagination_enabled' => false,
+                'openapi_context' => [
+                    'summary' => 'Recupère le chiffre d\'affaire (total des produits vendues)',
+                    'parameters' => [],
+                    'responses' => [
+                        '200' => [
+                            'description' => 'Chiffre d\'affaire',
+                            'content' => [
+                                'application/json' => [
+                                    'schema'=> [
+                                        'type' => 'float',
+                                        'example' => 1252.25
+                                    ]
                                 ]
                             ]
                         ]
                     ]
-                ]
+                ],
             ],
-        ],
+            // BEST SELLING PRODUCTS
+            'turnover' => [
+                'method' => 'GET',
+                'path' => 'stats/bestSellingProduct',
+                'controller' => BestSellingProductAction::class,
+                'read' => false,
+                'pagination_enabled' => false,
+                'openapi_context' => [
+                    'summary' => 'Recupère les produits les plus vendues',
+                    'parameters' => [],
+                    'responses' => [
+                        '200' => [
+                            'description' => 'Produits les plus vendues',
+                            'content' => [
+                                'application/json' => [
+                                    'schema'=> [
+                                        'type' => 'float',
+                                        'example' => 1252.25
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ],
+            ],
     ],
     itemOperations: [
         'get'
@@ -85,6 +111,7 @@ class Order
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
+    #[Groups(['read:Order:attributes'])]
     #[
         Assert\NotBlank([
             'message' => "Veuiller remplir tout les champs."
@@ -93,6 +120,7 @@ class Order
     private ?\DateTimeInterface $billingDate = null;
 
     #[ORM\ManyToOne(inversedBy: 'orders')]
+    #[Groups(['read:Order:attributes'])]
     #[ORM\JoinColumn(nullable: false)]
     #[
         Assert\NotBlank([

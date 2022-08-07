@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\CustomerRepository;
 use DateTime;
@@ -13,6 +14,45 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
+#[ApiResource(
+    
+    attributes: [
+        "security" => "is_granted('ROLE_ADMIN') or is_granted('ROLE_STATS')",
+        "security_message" => "Accès refusé",
+        'normalization_context' => ['groups' => ['read:Basket:attributes']],
+    ],
+    collectionOperations: [
+        'get',
+        // NB NEW CLIENT 
+        'getNbBasket' => [
+            'method' => 'GET',
+            'path' => 'stats/nbBaskets',
+            'controller' => NbNewCustomerAction::class,
+            'read' => false,
+            'pagination_enabled' => false,
+            'openapi_context' => [
+                'summary' => 'Recupère le nombre total de nouveaux clients',
+                'parameters' => [],
+                'responses' => [
+                    '200' => [
+                        'description' => 'Nombre de nouveaux clients',
+                        'content' => [
+                            'application/json' => [
+                                'schema'=> [
+                                    'type' => 'integer',
+                                    'example' => 200
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+        ],
+    ],
+    itemOperations: [
+        'get'
+    ],
+)]
 class Customer implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]

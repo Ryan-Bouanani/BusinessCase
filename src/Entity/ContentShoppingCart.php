@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
         'get'
     ],
     itemOperations: [
-        'get'
+        'get',
     ],
 )]
 class ContentShoppingCart

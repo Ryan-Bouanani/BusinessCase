@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Repository\BasketRepository;
+use App\Repository\ContentShoppingCartRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -11,27 +13,18 @@ class AveragePriceBasketAction extends AbstractController
 {
 
     public function __construct(
-        EntityManagerInterface $entityManager
+        private BasketRepository $basketRepository
     )
     {
-        $this->entityManager = $entityManager;
     }
 
 
     public function __invoke(): JsonResponse
     {
-        $subQuery = $this->entityManager->createQuery(
-            'SELECT COUNT(b.id) FROM App\Entity\Basket b'
-        );
-        $resultSubQuery = $subQuery->getSingleScalarResult();
-        $query = $this->entityManager->createQuery(
-            'SELECT SUM(c.price * c.quantity) / ('. $resultSubQuery .')
-            FROM App\Entity\ContentShoppingCart c'
-        );
-        $products = $query->getSingleScalarResult();
-        
-        // return response
-        return new JsonResponse($products);
+        $query = $this->basketRepository->averagePriceBasket();
+
+        return new JsonResponse($query);
+
     }
 }
 

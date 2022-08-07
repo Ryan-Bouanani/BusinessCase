@@ -8,7 +8,7 @@ App\Entity\Customer:
     email: '<email()>'
     password: '<{password}>'
     dateOfBirth: '<dateTimeBetween("-60 years", "-18 years")>'
-    registrationDate: '<dateTimeBetween("-10 years", "now")>'
+    registrationDate: '<dateTimeBetween("-3 years", "now")>'
 
   customers_stats (extends customer):
     email: 'stats@test.com'

@@ -17,7 +17,7 @@ class NbOrderAction extends AbstractController
 
     public function __invoke(): int
     {
-        return $this->orderRepository->count([]);
+        return $this->orderRepository->nbBasket();
 
     }
 }

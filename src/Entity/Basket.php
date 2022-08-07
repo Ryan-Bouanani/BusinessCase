@@ -7,6 +7,8 @@ use App\Controller\AveragePriceBasketAction;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Controller\NbBasketAction;
+use App\Controller\OrderConversionPercentageAction;
+use App\Controller\PercentageAbandonedBasketAction;
 use App\Repository\BasketRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -20,14 +22,88 @@ use Doctrine\ORM\Mapping as ORM;
         "security" => "is_granted('ROLE_ADMIN') or is_granted('ROLE_STATS')",
         "security_message" => "Accès refusé",
         'normalization_context' => ['groups' => ['read:Basket:attributes']],
-        'denormalization_context' => ['groups' => ['read:Basket:attributes']],
     ],
     collectionOperations: [
         'get',
-        // NB BASKET
+         // AVERAGE PRICE BASKET
+         'getNbBasket' => [
+            'method' => 'GET',
+            'path' => 'stats/averagePriceBasket',
+            'controller' => AveragePriceBasketAction::class,
+            'read' => false,
+            'pagination_enabled' => false,
+            'openapi_context' => [
+                'summary' => 'Recupère le prix d\'un panier moyen',
+                'parameters' => [],
+                'responses' => [
+                    '200' => [
+                        'description' => 'Prix d\'un panier moyen',
+                        'content' => [
+                            'application/json' => [
+                                'schema'=> [
+                                    'type' => 'float',
+                                    'example' => 35.50
+                                    ]
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+        // PERCENTAGE ABANDONED BASKET
+        'averagePriceBasket' => [
+            'method' => 'GET',
+            'path' => 'stats/percentageAbandonedBasket',
+            'controller' => PercentageAbandonedBasketAction::class,
+            'read' => false,
+            'pagination_enabled' => false,
+            'openapi_context' => [
+                'summary' => 'Recupère le pourcentage de paniers abandonnés',
+                'parameters' => [],
+                'responses' => [
+                    '200' => [
+                        'description' => 'Pourcentage de paniers abandonnés',
+                        'content' => [
+                            'application/json' => [
+                                'schema'=> [
+                                    'type' => 'float',
+                                    'example' => 43.5
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+        ],
+        // PERCENTAGE CONVERSION ORDER
+        'percentageConversionOrder' => [
+            'method' => 'GET',
+            'path' => 'stats/PercentageOrderConversion',
+            'controller' => OrderConversionPercentageAction::class,
+            'read' => false,
+            'pagination_enabled' => false,
+            'openapi_context' => [
+                'summary' => 'Recupère le pourcentage de paniers transformés en commande',
+                'parameters' => [],
+                'responses' => [
+                    '200' => [
+                        'description' => 'Pourcentage de paniers transformés en commande',
+                        'content' => [
+                            'application/json' => [
+                                'schema'=> [
+                                    'type' => 'float',
+                                    'example' => 43.5
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+        ],
+            // NB BASKET
         'getNbBasket' => [
             'method' => 'GET',
-            'path' => 'stats/nbBaskets',
+            'path' => 'stats/nbBasket',
             'controller' => NbBasketAction::class,
             'read' => false,
             'pagination_enabled' => false,
@@ -47,35 +123,10 @@ use Doctrine\ORM\Mapping as ORM;
                         ]
                     ]
                 ]
-            ],
+            ]
         ],
-        // AVERAGE PRICE BASKET
-        'averagePriceBasket' => [
-            'method' => 'GET',
-            'path' => 'statss/averagePriceBasket',
-            'controller' => AveragePriceBasketAction::class,
-            'read' => false,
-            'pagination_enabled' => false,
-            'openapi_context' => [
-                'summary' => 'Recupère le prix d\'un panier moyen',
-                'parameters' => [],
-                'responses' => [
-                    '200' => [
-                        'description' => 'Prix moyen d\'un panier',
-                        'content' => [
-                            'application/json' => [
-                                'schema'=> [
-                                    'type' => 'float',
-                                    'example' => 43.5
-                                ]
-                            ]
-                        ]
-                    ]
-                ]
-            ],
-        ],
+       
     ],
-    //modifier ce qu'il y'a dans la doc se termine par l'id
     itemOperations: [
         'get'
     ],

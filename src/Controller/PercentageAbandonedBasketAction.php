@@ -2,16 +2,16 @@
 
 namespace App\Controller;
 
-use App\Repository\OrderRepository;
+use App\Repository\BasketRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
 
-class TurnoverAction extends AbstractController
+class PercentageAbandonedBasketAction extends AbstractController
 {
 
     public function __construct(
-        private OrderRepository $orderRepository
+        private BasketRepository $basketRepository
     )
     {
     }
@@ -19,11 +19,10 @@ class TurnoverAction extends AbstractController
 
     public function __invoke(): JsonResponse
     {
-        $query = $this->orderRepository->turnover();
-        dump($query);
+        $query = $this->basketRepository->percentageAbandonedBasket();
+
         return new JsonResponse($query);
     }
- 
 }
 
 
