@@ -3,8 +3,6 @@
 namespace App\Controller;
 
 use App\Repository\BasketRepository;
-use App\Repository\ContentShoppingCartRepository;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 

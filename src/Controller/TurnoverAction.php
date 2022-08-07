@@ -20,7 +20,6 @@ class TurnoverAction extends AbstractController
     public function __invoke(): JsonResponse
     {
         $query = $this->orderRepository->turnover();
-        dump($query);
         return new JsonResponse($query);
     }
  

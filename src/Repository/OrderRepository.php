@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Order;
+use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -40,11 +41,32 @@ class OrderRepository extends ServiceEntityRepository
     }
 
 
-    public function nbBasket(): int
+    // public function nbOrder(): int
+    // {
+    //     return $this->count([]);
+
+    // }
+    public function nbOrder(?\DateTime $beginDate = null, ?\DateTime $endDate = null): int 
     {
-        return $this->count([]);
+        // return $this->count([]);
+        if ($beginDate === null || $endDate === null) {
+            $beginDate = new DateTime('2018-01-01');
+            $endDate = new DateTime('now');
+        }
+    
+        $nbOrder = $this->createQueryBuilder('o')
+            ->select('COUNT(o)')
+            ->join('o.basket', 'b')
+            ->where('b.dateCreated BETWEEN :beginDate AND :endDate')
+            ->setParameter('beginDate', $beginDate)
+            ->setParameter('endDate', $endDate)
+            ->getQuery()
+            ->getSingleScalarResult()
+            ;
+            return $nbOrder;
 
     }
+    
 
     public function turnover() {
         $query = $this->createQueryBuilder('order')
