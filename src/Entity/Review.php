@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\ReviewRepository;
+use DateTime;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -62,14 +63,11 @@ class Review
     ]
     private ?Customer $customer = null;
 
-    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[
-        Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
-        ]),
-    ]
-    private ?\DateTimeInterface $createdAt = null;
 
+    // public function __construct()
+    // {
+    //     $this->createdAt = new DateTime();
+    // }
 
     public function getId(): ?int
     {
@@ -120,18 +118,6 @@ class Review
     public function setCustomer(?Customer $customer): self
     {
         $this->customer = $customer;
-
-        return $this;
-    }
-
-    public function getCreatedAt(): ?\DateTimeInterface
-    {
-        return $this->createdAt;
-    }
-
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
-    {
-        $this->createdAt = $createdAt;
 
         return $this;
     }
