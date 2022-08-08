@@ -51,7 +51,7 @@ class Review
             'message' => "Veuiller remplir tout les champs."
         ]),
     ]
-    private ?Product $product = null;
+    private ?Product $product;
 
 
     #[ORM\ManyToOne(inversedBy: 'reviews')]
@@ -61,7 +61,7 @@ class Review
             'message' => "Veuiller remplir tout les champs."
         ]),
     ]
-    private ?Customer $customer = null;
+    private ?Customer $customer;
 
 
     // public function __construct()
