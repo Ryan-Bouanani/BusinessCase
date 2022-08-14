@@ -6,4 +6,4 @@ App\Entity\MeanOfPayment:
     designation: 'Paypal'
 
   meanOfPayment2:
-    designation: 'Cryptomonnaie'
+    designation: 'Virement Bancaire'

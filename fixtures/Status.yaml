@@ -1,9 +1,9 @@
 App\Entity\Status:
   status1:
-    name: 'Livré'
+    name: 'Livrer'
 
   status2:
-    name: 'Echouer'
+    name: 'En livraison'
 
   status3:
     name: 'En preparation'
@@ -12,7 +12,7 @@ App\Entity\Status:
     name: 'Annuler'
 
   status5:
-    name: 'En attente'
+    name: 'Rembourser'
 
   status6:
     name: 'Valider'

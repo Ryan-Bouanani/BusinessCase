@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\MeanOfPaymentRepository;
 use Doctrine\ORM\Mapping as ORM;
@@ -28,6 +30,14 @@ class MeanOfPayment
     ]
     private ?string $designation = null;
 
+    #[ORM\OneToMany(mappedBy: 'meanOfPayment', targetEntity: Basket::class)]
+    private Collection $baskets;
+
+    public function __construct()
+    {
+        $this->baskets = new ArrayCollection();
+    }
+
     public function getId(): ?int
     {
         return $this->id;
@@ -41,6 +51,36 @@ class MeanOfPayment
     public function setDesignation(string $designation): self
     {
         $this->designation = $designation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Basket>
+     */
+    public function getBaskets(): Collection
+    {
+        return $this->baskets;
+    }
+
+    public function addBasket(Basket $basket): self
+    {
+        if (!$this->baskets->contains($basket)) {
+            $this->baskets->add($basket);
+            $basket->setMeanOfPayment($this);
+        }
+
+        return $this;
+    }
+
+    public function removeBasket(Basket $basket): self
+    {
+        if ($this->baskets->removeElement($basket)) {
+            // set the owning side to null (unless already changed)
+            if ($basket->getMeanOfPayment() === $this) {
+                $basket->setMeanOfPayment(null);
+            }
+        }
 
         return $this;
     }

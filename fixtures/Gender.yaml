@@ -1,0 +1,9 @@
+App\Entity\Gender:
+  gender0:
+    name: 'Homme'
+
+  gender1:
+    name: 'Femme'
+    
+  gender2:
+    name: 'Autre'

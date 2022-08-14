@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Back\Stats;
 
-use App\Repository\CustomerRepository;
+use App\Repository\NbVisiteRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class NbNewCustomer extends AbstractController
+class NbVisiteAction extends AbstractController
 {
 
     public function __construct(
-        private CustomerRepository $customerRepository
+        private NbVisiteRepository $visiteRepository
     )
     {}
 
@@ -18,7 +18,7 @@ class NbNewCustomer extends AbstractController
 
     public function __invoke(): JsonResponse
     {
-        $query = $this->customerRepository->NbNewCustomer();
+        $query = $this->visiteRepository->nbVisit();
         return new JsonResponse($query);
     }
 }

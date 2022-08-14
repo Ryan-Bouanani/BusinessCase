@@ -1,6 +1,11 @@
 App\Entity\Image:
-  image{0..3000}:
+  image{0..200}:
     path: '<imageUrl()>'
     title: '<name()>'
-    isMain: '<boolean(25)>'
+    isMain: true
+    product: '@product*'
+  image{201..401}:
+    path: '<imageUrl()>'
+    title: '<name()>'
+    isMain: false
     product: '@product*'

@@ -1,16 +1,16 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Back\Stats;
 
-use App\Repository\OrderRepository;
+use App\Repository\CustomerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class BestSellingProductAction extends AbstractController
+class NbNewCustomerAction extends AbstractController
 {
 
     public function __construct(
-        private OrderRepository $orderRepository
+        private CustomerRepository $customerRepository
     )
     {}
 
@@ -18,7 +18,7 @@ class BestSellingProductAction extends AbstractController
 
     public function __invoke(): JsonResponse
     {
-        $query = $this->orderRepository->bestSellingProduct();
+        $query = $this->customerRepository->NbNewCustomer();
         return new JsonResponse($query);
     }
 }

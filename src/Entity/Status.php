@@ -50,12 +50,14 @@ class Status
     ]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'status', targetEntity: Order::class)]
-    private Collection $orders;
+    #[ORM\OneToMany(mappedBy: 'status', targetEntity: Basket::class)]
+    private Collection $baskets;
+
 
     public function __construct()
     {
         $this->orders = new ArrayCollection();
+        $this->baskets = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -76,29 +78,29 @@ class Status
     }
 
     /**
-     * @return Collection<int, Order>
+     * @return Collection<int, Basket>
      */
-    public function getOrders(): Collection
+    public function getBaskets(): Collection
     {
-        return $this->orders;
+        return $this->baskets;
     }
 
-    public function addOrder(Order $order): self
+    public function addBasket(Basket $basket): self
     {
-        if (!$this->orders->contains($order)) {
-            $this->orders->add($order);
-            $order->setStatus($this);
+        if (!$this->baskets->contains($basket)) {
+            $this->baskets->add($basket);
+            $basket->setStatus($this);
         }
 
         return $this;
     }
 
-    public function removeOrder(Order $order): self
+    public function removeBasket(Basket $basket): self
     {
-        if ($this->orders->removeElement($order)) {
+        if ($this->baskets->removeElement($basket)) {
             // set the owning side to null (unless already changed)
-            if ($order->getStatus() === $this) {
-                $order->setStatus(null);
+            if ($basket->getStatus() === $this) {
+                $basket->setStatus(null);
             }
         }
 

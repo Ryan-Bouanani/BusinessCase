@@ -4,3 +4,4 @@ App\Entity\Review:
     nbStar: '<numberBetween(0, 5)>'
     product: '@product*'
     customer: '@customer*'
+    createdAt: '<dateTimeBetween("-200 days", "now")>'

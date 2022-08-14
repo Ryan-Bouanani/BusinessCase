@@ -1,11 +1,11 @@
 App\Entity\Product:
-  product{0..800}:
+  product{0..100}:
     title: '<word()>'
     description: '<sentence(10, 70)>'
     priceExclVat: '<numberBetween(1, 100)>'
     priceVat: '<numberBetween(1, 100)>'
     active:  '<boolean(90)>'
-    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    dateAdded: "<dateTimeBetween('-5 years','now')>"
     brand: '@brand*'
     promotion: '10%? @promotion*'
     category: '@category*'

@@ -5,11 +5,11 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\CustomerRepository;
-use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Controller\Back\Stats\NbNewCustomerAction;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -19,14 +19,13 @@ use Symfony\Component\Security\Core\User\UserInterface;
     attributes: [
         "security" => "is_granted('ROLE_ADMIN') or is_granted('ROLE_STATS')",
         "security_message" => "Accès refusé",
-        'normalization_context' => ['groups' => ['read:Basket:attributes']],
     ],
     collectionOperations: [
         'get',
         // NB NEW CLIENT 
-        'getNbBasket' => [
+        'getNbNewCustomer' => [
             'method' => 'GET',
-            'path' => 'stats/nbBaskets',
+            'path' => 'stats/nbNewCustomer',
             'controller' => NbNewCustomerAction::class,
             'read' => false,
             'pagination_enabled' => false,
@@ -146,12 +145,16 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     ]
     private Collection $addresses;
 
+    #[ORM\ManyToOne(inversedBy: 'customers')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Gender $gender = null;
+
     public function __construct()
     {
         $this->reviews = new ArrayCollection();
         $this->baskets = new ArrayCollection();
         $this->addresses = new ArrayCollection();
-        $this->registrationDate = new DateTime();
+        $this->registrationDate = new \DateTime();
     }
 
     public function getId(): ?int
@@ -358,6 +361,18 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
                 $address->setCustomer(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getGender(): ?Gender
+    {
+        return $this->gender;
+    }
+
+    public function setGender(?Gender $gender): self
+    {
+        $this->gender = $gender;
 
         return $this;
     }

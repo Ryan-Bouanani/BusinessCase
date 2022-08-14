@@ -3,12 +3,16 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use App\Controller\AveragePriceBasketAction;
+use App\Controller\Back\Stats\AveragePriceBasketAction as StatsAveragePriceBasketAction;
+use App\Controller\Back\Stats\BasketConversionPercentageAction;
+use App\Controller\Back\Stats\BestSellingProductAction as StatsBestSellingProductAction;
+use App\Controller\Back\Stats\NbBasketAction as StatsNbBasketAction;
+use App\Controller\Back\Stats\NbOrderAction as StatsNbOrderAction;
+use App\Controller\Back\Stats\OrderConversionPercentageAction as StatsOrderConversionPercentageAction;
+use App\Controller\Back\Stats\PercentageAbandonedBasketAction as StatsPercentageAbandonedBasketAction;
+use App\Controller\Back\Stats\TurnoverAction as StatsTurnoverAction;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
-use App\Controller\NbBasketAction;
-use App\Controller\OrderConversionPercentageAction;
-use App\Controller\PercentageAbandonedBasketAction;
 use App\Repository\BasketRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -22,14 +26,90 @@ use Doctrine\ORM\Mapping as ORM;
         "security" => "is_granted('ROLE_ADMIN') or is_granted('ROLE_STATS')",
         "security_message" => "Accès refusé",
         'normalization_context' => ['groups' => ['read:Basket:attributes']],
+        'normalization_context' => ['groups' => ['read:Order:attributes']],
     ],
     collectionOperations: [
         'get',
+        // NB ORDERS
+        'getNbOrder' => [
+            'method' => 'GET',
+            'path' => 'stats/nbOrders',
+            'controller' => StatsNbOrderAction::class,
+            'read' => false,
+            'pagination_enabled' => false,
+            'openapi_context' => [
+                'summary' => 'Recupère le nombre total de commandes',
+                'parameters' => [],
+                'responses' => [
+                    '200' => [
+                        'description' => 'Nombre de commandes',
+                        'content' => [
+                            'application/json' => [
+                                'schema'=> [
+                                    'type' => 'integer',
+                                    'example' => 500
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+        ],
+        // TURNOVER
+        'getTurnover' => [
+            'method' => 'GET',
+            'path' => 'stats/turnover',
+            'controller' => StatsTurnoverAction::class,
+            'read' => false,
+            'pagination_enabled' => false,
+            'openapi_context' => [
+                'summary' => 'Recupère le chiffre d\'affaire (total des produits vendues)',
+                'parameters' => [],
+                'responses' => [
+                    '200' => [
+                        'description' => 'Chiffre d\'affaire',
+                        'content' => [
+                            'application/json' => [
+                                'schema'=> [
+                                    'type' => 'float',
+                                    'example' => 1252.25
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+        ],
+        // BEST SELLING PRODUCTS
+        'getBestSellingProduct' => [
+            'method' => 'GET',
+            'path' => 'stats/bestSellingProduct',
+            'controller' => StatsBestSellingProductAction::class,
+            'read' => false,
+            'pagination_enabled' => false,
+            'openapi_context' => [
+                'summary' => 'Recupère les produits les plus vendues',
+                'parameters' => [],
+                'responses' => [
+                    '200' => [
+                        'description' => 'Produits les plus vendues',
+                        'content' => [
+                            'application/json' => [
+                                'schema'=> [
+                                    'type' => 'float',
+                                    'example' => 1252.25
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+        ],
          // AVERAGE PRICE BASKET
-         'getNbBasket' => [
+         'getAveragePriceBasket' => [
             'method' => 'GET',
             'path' => 'stats/averagePriceBasket',
-            'controller' => AveragePriceBasketAction::class,
+            'controller' => StatsAveragePriceBasketAction::class,
             'read' => false,
             'pagination_enabled' => false,
             'openapi_context' => [
@@ -43,18 +123,18 @@ use Doctrine\ORM\Mapping as ORM;
                                 'schema'=> [
                                     'type' => 'float',
                                     'example' => 35.50
-                                    ]
                                 ]
                             ]
                         ]
                     ]
                 ]
-            ],
+            ]
+        ],
         // PERCENTAGE ABANDONED BASKET
-        'averagePriceBasket' => [
+        'getPercentageAbandonedBasket' => [
             'method' => 'GET',
             'path' => 'stats/percentageAbandonedBasket',
-            'controller' => PercentageAbandonedBasketAction::class,
+            'controller' => StatsPercentageAbandonedBasketAction::class,
             'read' => false,
             'pagination_enabled' => false,
             'openapi_context' => [
@@ -76,23 +156,23 @@ use Doctrine\ORM\Mapping as ORM;
             ],
         ],
         // PERCENTAGE CONVERSION ORDER
-        'percentageConversionOrder' => [
+        'getBasketConversionPercentage' => [
             'method' => 'GET',
-            'path' => 'stats/PercentageOrderConversion',
-            'controller' => OrderConversionPercentageAction::class,
+            'path' => 'stats/basketConversionPercentage',
+            'controller' => BasketConversionPercentageAction::class,
             'read' => false,
             'pagination_enabled' => false,
             'openapi_context' => [
-                'summary' => 'Recupère le pourcentage de paniers transformés en commande',
+                'summary' => 'Recupère le pourcentage de visites transformés en panier',
                 'parameters' => [],
                 'responses' => [
                     '200' => [
-                        'description' => 'Pourcentage de paniers transformés en commande',
+                        'description' => 'Pourcentage de visite transformés en panier',
                         'content' => [
                             'application/json' => [
                                 'schema'=> [
                                     'type' => 'float',
-                                    'example' => 43.5
+                                    'example' => 10.5
                                 ]
                             ]
                         ]
@@ -100,11 +180,11 @@ use Doctrine\ORM\Mapping as ORM;
                 ]
             ],
         ],
-            // NB BASKET
+        // NB BASKET
         'getNbBasket' => [
             'method' => 'GET',
             'path' => 'stats/nbBasket',
-            'controller' => NbBasketAction::class,
+            'controller' => StatsNbBasketAction::class,
             'read' => false,
             'pagination_enabled' => false,
             'openapi_context' => [
@@ -124,8 +204,32 @@ use Doctrine\ORM\Mapping as ORM;
                     ]
                 ]
             ]
-        ],
-       
+        ],     
+        // NB BASKET
+        'BasketConversionPercentageAction' => [
+            'method' => 'GET',
+            'path' => 'stats/nbBasket',
+            'controller' => StatsNbBasketAction::class,
+            'read' => false,
+            'pagination_enabled' => false,
+            'openapi_context' => [
+                'summary' => 'Recupère le nombre total de paniers',
+                'parameters' => [],
+                'responses' => [
+                    '200' => [
+                        'description' => 'Nombre de paniers',
+                        'content' => [
+                            'application/json' => [
+                                'schema'=> [
+                                    'type' => 'integer',
+                                    'example' => 400
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ]
+        ],     
     ],
     itemOperations: [
         'get'
@@ -148,6 +252,15 @@ class Basket
     ]
     private ?\DateTimeInterface $dateCreated = null;
 
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Groups(['read:Basket:attributes'])]
+    // #[
+    //     Assert\NotBlank([
+    //         'message' => "Veuiller remplir tout les champs."
+    //     ]),
+    // ]
+    private ?\DateTimeInterface $billingDate = null;
+
     #[ORM\OneToMany(mappedBy: 'basket', targetEntity: ContentShoppingCart::class)]
     #[Groups(['read:Basket:attributes'])]
     #[
@@ -165,6 +278,16 @@ class Basket
         ]),
     ]
     private ?Customer $customer = null;
+
+    #[ORM\ManyToOne(inversedBy: 'baskets')]
+    private ?MeanOfPayment $meanOfPayment = null;
+
+    #[ORM\ManyToOne(inversedBy: 'baskets')]
+    private ?Status $status = null;
+
+    #[ORM\ManyToOne(inversedBy: 'baskets')]
+    private ?Address $address = null;
+
 
 
 
@@ -186,6 +309,18 @@ class Basket
     public function setDateCreated(\DateTimeInterface $dateCreated): self
     {
         $this->dateCreated = $dateCreated;
+
+        return $this;
+    }
+
+    public function getBillingDate(): ?\DateTimeInterface
+    {
+        return $this->billingDate;
+    }
+
+    public function setBillingDate(\DateTimeInterface $billingDate): self
+    {
+        $this->billingDate = $billingDate;
 
         return $this;
     }
@@ -232,5 +367,40 @@ class Basket
         return $this;
     }
 
+    public function getMeanOfPayment(): ?MeanOfPayment
+    {
+        return $this->meanOfPayment;
+    }
+
+    public function setMeanOfPayment(?MeanOfPayment $meanOfPayment): self
+    {
+        $this->meanOfPayment = $meanOfPayment;
+
+        return $this;
+    }
+
+    public function getStatus(): ?Status
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?Status $status): self
+    {
+        $this->status = $status;
+
+        return $this;
+    }
+
+    public function getAddress(): ?Address
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?Address $address): self
+    {
+        $this->address = $address;
+
+        return $this;
+    }
    
 }

@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Controller;
+namespace App\Controller\Back\Stats;
 
 use App\Repository\BasketRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-
-class AveragePriceBasketAction extends AbstractController
+class PercentageAbandonedBasketAction extends AbstractController
 {
 
     public function __construct(
@@ -19,10 +18,9 @@ class AveragePriceBasketAction extends AbstractController
 
     public function __invoke(): JsonResponse
     {
-        $query = $this->basketRepository->averagePriceBasket();
+        $query = $this->basketRepository->percentageAbandonedBasket();
 
         return new JsonResponse($query);
-
     }
 }
 

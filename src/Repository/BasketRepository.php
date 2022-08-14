@@ -3,10 +3,8 @@
 namespace App\Repository;
 
 use App\Entity\Basket;
-use App\Entity\Order;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -42,88 +40,238 @@ class BasketRepository extends ServiceEntityRepository
             $this->getEntityManager()->flush();
         }
     }
-    // public function nbBaskeet(?\DateTime $startDate = null, ?\DateTime $endDate = null): int 
-    // {
-    //     if ($startDate === null || $endDate === null) {
-    //         $endDate = new DateTime('now');
-    //         $startDate = new DateTime('2020-01-01');
-    //     }
-    //     $qb = $this->createQueryBuilder('b');
-    //     $qb->select('count(b)')
-    //         ->where('b.status = :status')
-    //         ->setParameter('status', BasketStatusEnum::STATUS_CANCELED)
-    //         ->andWhere('basket.dateCreation BETWEEN :startDate AND :endDate')
-    //         ->setParameter('startDate', $startDate)
-    //         ->setParameter('endDate', $endDate);
-    //     $query = $qb->getQuery();
-    //     $nbBasket = $query->getSingleScalarResult();
-    //     return $nbBasket;
-    // }
 
-    public function nbBasket(?\DateTime $beginDate = null, ?\DateTime $endDate = null): int 
+// stats api
+    public function nbBasket(?\DateTime $beginDate = null, ?\DateTime $endDate = null): array 
     {
-        // return $this->count([]);
+
         if ($beginDate === null || $endDate === null) {
             $beginDate = new DateTime('2018-01-01');
             $endDate = new DateTime('now');
         }
     
-        $nbBasket = $this->createQueryBuilder('b')
-            ->select('COUNT(b)')
-            ->where('b.dateCreated BETWEEN :beginDate AND :endDate')
+        $nbBasket = $this->createQueryBuilder('basket')
+            ->select('COUNT(basket) AS NbBasket')
+            ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
             ->setParameter('beginDate', $beginDate)
             ->setParameter('endDate', $endDate)
             ->getQuery()
-            ->getSingleScalarResult()
+            ->getOneOrNullResult();
             ;
             return $nbBasket;
-
     }
 
-    public function averagePriceBasket()  {
-        $query = $this->createQueryBuilder('b')
-        ->select('SUM(c.price * c.quantity) / COUNT(DISTINCT b)')
-        ->join('b.contentShoppingCarts', 'c')  
+    public function averagePriceBasket(?\DateTime $beginDate = null, ?\DateTime $endDate = null): array  {
+
+        if ($beginDate === null || $endDate === null) {
+            $beginDate = new DateTime('2018-01-01');
+            $endDate = new DateTime('now');
+        }
+
+        $query = $this->createQueryBuilder('basket')
+        ->select('(SUM(contentSC.price * contentSC.quantity) / COUNT(DISTINCT basket)) AS prixMoyenPanier')
+        ->join('basket.contentShoppingCarts', 'contentSC')  
+        ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
+        ->setParameter('beginDate', $beginDate)
+        ->setParameter('endDate', $endDate)
         ->getQuery()
-        ->getResult();
-        dump($query);
+        ->getOneOrNullResult();
+
+        $query['prixMoyenPanier'] = round($query['prixMoyenPanier'], 2);
         return $query;
     }
     
-// WHERE command.created_at BETWEEN '2022-06-01' AND '2022-07-11'
-// AND command.status IN (200, 300)
-    public function percentageAbandonedBasket() {
-        $subQuery = $this->createQueryBuilder('b')
-        ->select('(COUNT(b))') 
-        ->join(Order::class, 'o')  
-        ->where('b != o')   
-        ->getQuery()
-        ->getResult();
-        $query = $this->createQueryBuilder('b')
-        ->select('(:subQuery / (COUNT(b))) * 100 AS PourcentagePanierAbandonnes') 
-        ->setParameter('subQuery', $subQuery) 
+    
+    public function percentageAbandonedBasket(?\DateTime $beginDate = null, ?\DateTime $endDate = null): array {
+
+        if ($beginDate === null || $endDate === null) {
+            $beginDate = new DateTime('2018-01-01');
+            $endDate = new DateTime('now');
+        }
+
+        $subQuery = $this->createQueryBuilder('basket')
+        ->select('COUNT(basket)') 
+        ->join("basket.status", "status")
+        ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
+        ->setParameter('beginDate', $beginDate)
+        ->setParameter('endDate', $endDate)
+        ->andWhere("status.name = 'Annuler'")
         ->getQuery()
         ->getResult();
 
+        $query = $this->createQueryBuilder('basket')
+        ->select('((:subQuery / COUNT(basket)) * 100) AS PourcentagePanierAbandonnes') 
+        ->setParameter('subQuery', $subQuery) 
+        ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
+        ->setParameter('beginDate', $beginDate)
+        ->setParameter('endDate', $endDate)
+        ->getQuery()
+        ->getOneOrNullResult();
+
+        $query['PourcentagePanierAbandonnes'] = round($query['PourcentagePanierAbandonnes'],2);
+        return $query;
+    }
+    
+    // todo faire un if pour chawue date et non les 2 en meme temps
+    public function orderConversionPercentage(?\DateTime $beginDate = null, ?\DateTime $endDate = null): array {
+
+        if ($beginDate === null || $endDate === null) {
+            $beginDate = new DateTime('2018-01-01');
+            $endDate = new DateTime('now');
+        }
+
+        $subQuery = $this->createQueryBuilder('basket')
+        ->select('COUNT(basket)')  
+        ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
+        ->setParameter('beginDate', $beginDate)
+        ->setParameter('endDate', $endDate)
+        ->getQuery()
+        ->getOneOrNullResult();
+
+        $query = $this->createQueryBuilder('basket')
+        ->select('((COUNT(basket) / :subQuery) * 100) AS PourcentagePanierTransformerEnCommande') 
+        ->setParameter('subQuery', $subQuery) 
+        ->join("basket.status", "status")
+        ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
+        ->setParameter('beginDate', $beginDate)
+        ->setParameter('endDate', $endDate)
+        ->andWhere("status.name = 'Valider'")
+        ->getQuery()
+        ->getOneOrNullResult();
+
+        $query['PourcentagePanierTransformerEnCommande'] = round($query['PourcentagePanierTransformerEnCommande'], 2);
         return $query;
     }
 
-    public function orderConversionPercentage() {
-        $subQuery = $this->createQueryBuilder('b')
-        ->select('(COUNT(o))') 
-        ->join(Order::class, 'o', Join::WITH, 'o.basket = b')   
-        ->where('b = o')  
-        ->getQuery()
-        ->getResult();
-        $query = $this->createQueryBuilder('b')
-        ->select('(:subQuery / (COUNT(b))) * 100 AS PourcentagePanierTransformerEnCommande') 
-        ->setParameter('subQuery', $subQuery) 
-        ->getQuery()
-        ->getResult();
+    public function nbOrder(?\DateTime $beginDate = null, ?\DateTime $endDate = null): array 
+    {
 
+        if ($beginDate === null || $endDate === null) {
+            $beginDate = new DateTime('2018-01-01');
+            $endDate = new DateTime('now');
+        }
+    
+        $nbOrder = $this->createQueryBuilder('basket')
+            ->select('COUNT(basket) AS NbOrder')
+            ->join("basket.status", "status")
+            ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
+            ->setParameter('beginDate', $beginDate)
+            ->setParameter('endDate', $endDate)
+            ->andWhere("status.name = 'Valider'")
+            ->getQuery()
+            ->getOneOrNullResult();
+            ;
+            return $nbOrder;     
+        ;
+
+    }
+    
+
+    public function turnover(?\DateTime $beginDate = null, ?\DateTime $endDate = null): array {
+
+        if ($beginDate === null || $endDate === null) {
+            $beginDate = new DateTime('2018-01-01');
+            $endDate = new DateTime('now');
+        }
+
+        $query = $this->createQueryBuilder('basket')
+        ->select('SUM(contentShoppingCart.price * contentShoppingCart.quantity) AS ChiffreAffaire')
+        ->join('basket.contentShoppingCarts', 'contentShoppingCart')
+        ->join("basket.status", "status")
+        ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
+        ->setParameter('beginDate', $beginDate)
+        ->setParameter('endDate', $endDate)
+        ->andWhere("status.name = 'Valider'")
+        ->getQuery()
+        ->getOneOrNullResult();
         return $query;
     }
 
+    public function bestSellingProduct(?\DateTime $beginDate = null, ?\DateTime $endDate = null): array {
+
+        if ($beginDate === null || $endDate === null) {
+            $beginDate = new DateTime('2018-01-01');
+            $endDate = new DateTime('now');
+        }
+
+        $query = $this->createQueryBuilder('basket')
+            // todo ya plusieurs image en main par produit sa fausse les stats il compte plusieurs fois du coup
+            ->select('product.title as NomProduit','image.path as Image' , 'SUM(contentSC.quantity) as NbVendue', 'SUM(contentSC.price * contentSC.quantity) as MontantTotalVendues')
+            ->join('basket.contentShoppingCarts', 'contentSC')
+            ->join('contentSC.product', 'product')
+            ->join("basket.status", "status")
+            ->join('product.images', 'image')
+            ->groupBy('product')
+            ->orderBy('MontantTotalVendues', 'DESC')
+            ->where('image.isMain = true')
+            ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
+            ->setParameter('beginDate', $beginDate)
+            ->setParameter('endDate', $endDate)
+            // todo voir si faire un join de status et plus performant que mettre le nb du status souhaitée
+            ->andWhere('status.name = "Valider"')
+            ->setMaxResults(8)
+            ->getQuery()
+            ->getResult()
+        ;
+        return $query;
+    }
+
+
+    public function recurrenceOrderCustomerAction(?\DateTime $beginDate = null, ?\DateTime $endDate = null): array {
+        
+        if ($beginDate === null || $endDate === null) {
+            $beginDate = new DateTime('2018-01-01');
+            $endDate = new DateTime('now');
+        }
+
+        $subQuery = $this->createQueryBuilder('basket')
+        ->select('COUNT(customer) AS NbNewCustomer')  
+        ->join('basket.customer', 'customer')
+        ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
+        ->setParameter('beginDate', $beginDate)
+        ->setParameter('endDate', $endDate)
+        ->andWhere("status.name = 'Valider'")
+        ->having('')
+        ->getQuery()
+        ->getOneOrNullResult();
+
+        $query = $this->createQueryBuilder('basket')
+        ->select('((COUNT(basket) / :subQuery) * 100) AS PourcentagePanierTransformerEnCommande') 
+        ->setParameter('subQuery', $subQuery) 
+        ->join("basket.status", "status")
+        ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
+        ->setParameter('beginDate', $beginDate)
+        ->setParameter('endDate', $endDate)
+        ->andWhere("status.name = 'Valider'")
+        ->getQuery()
+        ->getOneOrNullResult();
+
+        return $query;
+
+    }
+    // SELECT COUNT(*)
+
+    // FROM command
+
+    // JOIN user
+    // ON user.id = command.user_id
+
+    // WHERE user.id IN (
+    // -- une seule et unique commande
+    //     SELECT command.user_id
+    //     FROM command
+    //     WHERE command.status IN (200, 300)
+    //     GROUP BY command.user_id
+    //     HAVING COUNT(*) = 1
+    // )
+    // AND user.id IN (
+    // -- une commande sur la periode donnee
+    //     SELECT command.user_id
+    //     FROM command
+    //     WHERE command.status IN (200, 300)
+    //     AND command.created_at BETWEEN '2022-05-01' AND '2022-07-11'  
+    //     GROUP BY command.user_id
+    //     HAVING COUNT(*) = 1    
 
 //    /**
 //     * @return Basket[] Returns an array of Basket objects
