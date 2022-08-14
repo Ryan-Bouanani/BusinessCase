@@ -21,7 +21,7 @@ class OrderConversionPercentageAction extends AbstractController
         $nbBasket = $this->basketRepository->nbBasket();
         $nbOrder = $this->basketRepository->nbOrder();
 
-        $query['PourcentagePanierTransformerEnCommande'] = ROUND((($nbOrder['NbOrder'] / $nbBasket['NbBasket']  ) * 100), 2);
+        $query['PercentageBasketsConvertedIntoOrders'] = ROUND((($nbOrder['NbOrder'] / $nbBasket['NbBasket']  ) * 100), 2);
 
         return new JsonResponse($query);
     }

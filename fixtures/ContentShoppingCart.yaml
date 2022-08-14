@@ -1,5 +1,5 @@
 App\Entity\ContentShoppingCart:
-  contentShoppingCart{0..5}:
+  contentShoppingCart{0..200}:
     quantity: '<numberBetween(1, 3)>'
     price: '<numberBetween(1, 50)>'
     product: '@product*'

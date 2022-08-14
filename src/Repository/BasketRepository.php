@@ -69,7 +69,7 @@ class BasketRepository extends ServiceEntityRepository
         }
 
         $query = $this->createQueryBuilder('basket')
-        ->select('(SUM(contentSC.price * contentSC.quantity) / COUNT(DISTINCT basket)) AS prixMoyenPanier')
+        ->select('(SUM(contentSC.price * contentSC.quantity) / COUNT(DISTINCT basket)) AS AveragePriceBasket')
         ->join('basket.contentShoppingCarts', 'contentSC')  
         ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
         ->setParameter('beginDate', $beginDate)
@@ -77,72 +77,32 @@ class BasketRepository extends ServiceEntityRepository
         ->getQuery()
         ->getOneOrNullResult();
 
-        $query['prixMoyenPanier'] = round($query['prixMoyenPanier'], 2);
+        $query['AveragePriceBasket'] = round($query['AveragePriceBasket'], 2);
         return $query;
     }
     
     
-    public function percentageAbandonedBasket(?\DateTime $beginDate = null, ?\DateTime $endDate = null): array {
+    public function abandonedBasket(?\DateTime $beginDate = null, ?\DateTime $endDate = null): array {
 
         if ($beginDate === null || $endDate === null) {
             $beginDate = new DateTime('2018-01-01');
             $endDate = new DateTime('now');
         }
 
-        $subQuery = $this->createQueryBuilder('basket')
-        ->select('COUNT(basket)') 
+        $query = $this->createQueryBuilder('basket')
+        ->select('COUNT(basket) AS NbAbandonedBasket') 
         ->join("basket.status", "status")
         ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
         ->setParameter('beginDate', $beginDate)
         ->setParameter('endDate', $endDate)
         ->andWhere("status.name = 'Annuler'")
         ->getQuery()
-        ->getResult();
-
-        $query = $this->createQueryBuilder('basket')
-        ->select('((:subQuery / COUNT(basket)) * 100) AS PourcentagePanierAbandonnes') 
-        ->setParameter('subQuery', $subQuery) 
-        ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
-        ->setParameter('beginDate', $beginDate)
-        ->setParameter('endDate', $endDate)
-        ->getQuery()
         ->getOneOrNullResult();
 
-        $query['PourcentagePanierAbandonnes'] = round($query['PourcentagePanierAbandonnes'],2);
         return $query;
     }
     
     // todo faire un if pour chaque date et non les 2 en meme temps
-    // public function orderConversionPercentage(?\DateTime $beginDate = null, ?\DateTime $endDate = null): array {
-
-    //     if ($beginDate === null || $endDate === null) {
-    //         $beginDate = new DateTime('2018-01-01');
-    //         $endDate = new DateTime('now');
-    //     }
-
-    //     $subQuery = $this->createQueryBuilder('basket')
-    //     ->select('COUNT(basket)')  
-    //     ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
-    //     ->setParameter('beginDate', $beginDate)
-    //     ->setParameter('endDate', $endDate)
-    //     ->getQuery()
-    //     ->getOneOrNullResult();
-
-    //     $query = $this->createQueryBuilder('basket')
-    //     ->select('((COUNT(basket) / :subQuery) * 100) AS PourcentagePanierTransformerEnCommande') 
-    //     ->setParameter('subQuery', $subQuery) 
-    //     ->join("basket.status", "status")
-    //     ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
-    //     ->setParameter('beginDate', $beginDate)
-    //     ->setParameter('endDate', $endDate)
-    //     ->andWhere("status.name = 'Valider'")
-    //     ->getQuery()
-    //     ->getOneOrNullResult();
-
-    //     $query['PourcentagePanierTransformerEnCommande'] = round($query['PourcentagePanierTransformerEnCommande'], 2);
-    //     return $query;
-    // }
-
     public function nbOrder(?\DateTime $beginDate = null, ?\DateTime $endDate = null): array 
     {
 
@@ -175,7 +135,7 @@ class BasketRepository extends ServiceEntityRepository
         }
 
         $query = $this->createQueryBuilder('basket')
-        ->select('SUM(contentShoppingCart.price * contentShoppingCart.quantity) AS ChiffreAffaire')
+        ->select('SUM(contentShoppingCart.price * contentShoppingCart.quantity) AS Turnover')
         ->join('basket.contentShoppingCarts', 'contentShoppingCart')
         ->join("basket.status", "status")
         ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
@@ -196,19 +156,19 @@ class BasketRepository extends ServiceEntityRepository
 
         $query = $this->createQueryBuilder('basket')
             // todo ya plusieurs image en main par produit sa fausse les stats il compte plusieurs fois du coup
-            ->select('product.title as NomProduit','image.path as Image' , 'SUM(contentSC.quantity) as NbVendue', 'SUM(contentSC.price * contentSC.quantity) as MontantTotalVendues')
+            ->select('product.title AS NameProduct','image.path AS Image' , 'SUM(contentSC.quantity) AS NbSold', 'SUM(contentSC.price * contentSC.quantity) AS TotalAmountSold')
             ->join('basket.contentShoppingCarts', 'contentSC')
             ->join('contentSC.product', 'product')
             ->join("basket.status", "status")
             ->join('product.images', 'image')
             ->groupBy('product')
-            ->orderBy('MontantTotalVendues', 'DESC')
+            ->orderBy('TotalAmountSold', 'DESC')
             ->where('image.isMain = true')
-            ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
+            ->andWhere('basket.dateCreated BETWEEN :beginDate AND :endDate')
             ->setParameter('beginDate', $beginDate)
             ->setParameter('endDate', $endDate)
             // todo voir si faire un join de status et plus performant que mettre le nb du status souhaitée
-            ->andWhere('status.name = "Valider"')
+            ->andWhere("status.name = 'Valider'")
             ->setMaxResults(8)
             ->getQuery()
             ->getResult()
@@ -238,7 +198,7 @@ class BasketRepository extends ServiceEntityRepository
 
         // selectionne les commandes avec clients ayant commandés qu'une seule fois sur la periode selectionnée
         $newCustomerByDate = $this->createQueryBuilder('basket')
-            ->select('customer.id')  
+            ->select('customer.id AS IdNewClient')  
             ->join('basket.customer', 'customer')
             ->join('basket.status', 'status')
             ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')

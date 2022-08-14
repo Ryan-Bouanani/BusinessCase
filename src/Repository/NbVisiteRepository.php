@@ -39,7 +39,7 @@ class NbVisiteRepository extends ServiceEntityRepository
         }
     }
 
-    
+    // todo enlever le 'e' de visite
     public function nbVisit(?\DateTime $beginDate = null, ?\DateTime $endDate = null): array {
 
         if ($beginDate === null || $endDate === null) {
@@ -47,9 +47,9 @@ class NbVisiteRepository extends ServiceEntityRepository
             $endDate = new \DateTime('now');
         }
 
-        $query = $this->createQueryBuilder('visite')
-        ->select('COUNT(visite) AS NbVisite') 
-        ->where('visite.visitAt BETWEEN :beginDate AND :endDate')
+        $query = $this->createQueryBuilder('visit')
+        ->select('COUNT(visit) AS NbVisit') 
+        ->where('visit.visitAt BETWEEN :beginDate AND :endDate')
         ->setParameter('beginDate', $beginDate)
         ->setParameter('endDate', $endDate)
         ->getQuery()

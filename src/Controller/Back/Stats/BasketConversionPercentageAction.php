@@ -23,7 +23,7 @@ class BasketConversionPercentageAction extends AbstractController
         $nbVisit = $this->visiteRepository->nbVisit();
         $nbBasket = $this->basketRepository->nbBasket();
 
-        $query['PourcentageConversionPanier'] = round((($nbBasket['NbBasket'] / $nbVisit['NbVisite']) * 100), 2);
+        $query['PercentageVisitsConvertedIntoBasket'] = round((($nbBasket['NbBasket'] / $nbVisit['NbVisit']) * 100), 2);
         
         return new JsonResponse($query);
     }

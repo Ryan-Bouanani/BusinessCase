@@ -5,13 +5,13 @@ namespace App\Entity;
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\Back\Stats\AveragePriceBasketAction as StatsAveragePriceBasketAction;
 use App\Controller\Back\Stats\BasketConversionPercentageAction;
-use App\Controller\Back\Stats\BestSellingProductAction as StatsBestSellingProductAction;
-use App\Controller\Back\Stats\NbBasketAction as StatsNbBasketAction;
-use App\Controller\Back\Stats\NbOrderAction as StatsNbOrderAction;
+use App\Controller\Back\Stats\BestSellingProductAction;
+use App\Controller\Back\Stats\NbBasketAction;
+use App\Controller\Back\Stats\NbOrderAction;
 use App\Controller\Back\Stats\OrderConversionPercentageAction;
 use App\Controller\Back\Stats\PercentageAbandonedBasketAction as StatsPercentageAbandonedBasketAction;
 use App\Controller\Back\Stats\RecurrenceOrderCustomerAction;
-use App\Controller\Back\Stats\TurnoverAction as StatsTurnoverAction;
+use App\Controller\Back\Stats\TurnoverAction;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\BasketRepository;
@@ -35,7 +35,7 @@ use Doctrine\ORM\Mapping as ORM;
         'getNbOrder' => [
             'method' => 'GET',
             'path' => 'stats/nbOrders',
-            'controller' => StatsNbOrderAction::class,
+            'controller' => NbOrderAction::class,
             'read' => false,
             'pagination_enabled' => false,
             'openapi_context' => [
@@ -60,7 +60,7 @@ use Doctrine\ORM\Mapping as ORM;
         'getTurnover' => [
             'method' => 'GET',
             'path' => 'stats/turnover',
-            'controller' => StatsTurnoverAction::class,
+            'controller' => TurnoverAction::class,
             'read' => false,
             'pagination_enabled' => false,
             'openapi_context' => [
@@ -85,7 +85,7 @@ use Doctrine\ORM\Mapping as ORM;
         'getBestSellingProduct' => [
             'method' => 'GET',
             'path' => 'stats/bestSellingProduct',
-            'controller' => StatsBestSellingProductAction::class,
+            'controller' => BestSellingProductAction::class,
             'read' => false,
             'pagination_enabled' => false,
             'openapi_context' => [
@@ -189,11 +189,11 @@ use Doctrine\ORM\Mapping as ORM;
             'read' => false,
             'pagination_enabled' => false,
             'openapi_context' => [
-                'summary' => 'Recupère le pourcentage de visites transformées en paniers',
+                'summary' => 'Recupère le pourcentage de visites convertie en paniers',
                 'parameters' => [],
                 'responses' => [
                     '200' => [
-                        'description' => 'Pourcentage de visites transformées en paniers',
+                        'description' => 'Pourcentage de visites convertie en paniers',
                         'content' => [
                             'application/json' => [
                                 'schema'=> [
@@ -210,7 +210,7 @@ use Doctrine\ORM\Mapping as ORM;
         'getNbBasket' => [
             'method' => 'GET',
             'path' => 'stats/nbBasket',
-            'controller' => StatsNbBasketAction::class,
+            'controller' => NbBasketAction::class,
             'read' => false,
             'pagination_enabled' => false,
             'openapi_context' => [
