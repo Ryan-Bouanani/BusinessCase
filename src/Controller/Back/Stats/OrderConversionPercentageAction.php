@@ -18,7 +18,10 @@ class OrderConversionPercentageAction extends AbstractController
 
     public function __invoke(): JsonResponse
     {
-        $query = $this->basketRepository->orderConversionPercentage();
+        $nbBasket = $this->basketRepository->nbBasket();
+        $nbOrder = $this->basketRepository->nbOrder();
+
+        $query['PourcentagePanierTransformerEnCommande'] = ROUND((($nbOrder['NbOrder'] / $nbBasket['NbBasket']  ) * 100), 2);
 
         return new JsonResponse($query);
     }

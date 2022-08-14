@@ -8,8 +8,9 @@ use App\Controller\Back\Stats\BasketConversionPercentageAction;
 use App\Controller\Back\Stats\BestSellingProductAction as StatsBestSellingProductAction;
 use App\Controller\Back\Stats\NbBasketAction as StatsNbBasketAction;
 use App\Controller\Back\Stats\NbOrderAction as StatsNbOrderAction;
-use App\Controller\Back\Stats\OrderConversionPercentageAction as StatsOrderConversionPercentageAction;
+use App\Controller\Back\Stats\OrderConversionPercentageAction;
 use App\Controller\Back\Stats\PercentageAbandonedBasketAction as StatsPercentageAbandonedBasketAction;
+use App\Controller\Back\Stats\RecurrenceOrderCustomerAction;
 use App\Controller\Back\Stats\TurnoverAction as StatsTurnoverAction;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -156,6 +157,31 @@ use Doctrine\ORM\Mapping as ORM;
             ],
         ],
         // PERCENTAGE CONVERSION ORDER
+        'getOrderConversionPercentageAction' => [
+            'method' => 'GET',
+            'path' => 'stats/orderConversionPercentageAction',
+            'controller' => OrderConversionPercentageAction::class,
+            'read' => false,
+            'pagination_enabled' => false,
+            'openapi_context' => [
+                'summary' => 'Recupère le pourcentage de paniers transformés en commandes',
+                'parameters' => [],
+                'responses' => [
+                    '200' => [
+                        'description' => 'Pourcentage de paniers transformés en commandes',
+                        'content' => [
+                            'application/json' => [
+                                'schema'=> [
+                                    'type' => 'float',
+                                    'example' => 10.5
+                                ]
+                            ]
+                        ]
+                    ]
+                ]
+            ],
+        ],
+        // PERCENTAGE CONVERSION ORDER
         'getBasketConversionPercentage' => [
             'method' => 'GET',
             'path' => 'stats/basketConversionPercentage',
@@ -163,11 +189,11 @@ use Doctrine\ORM\Mapping as ORM;
             'read' => false,
             'pagination_enabled' => false,
             'openapi_context' => [
-                'summary' => 'Recupère le pourcentage de visites transformés en panier',
+                'summary' => 'Recupère le pourcentage de visites transformées en paniers',
                 'parameters' => [],
                 'responses' => [
                     '200' => [
-                        'description' => 'Pourcentage de visite transformés en panier',
+                        'description' => 'Pourcentage de visites transformées en paniers',
                         'content' => [
                             'application/json' => [
                                 'schema'=> [
@@ -205,24 +231,24 @@ use Doctrine\ORM\Mapping as ORM;
                 ]
             ]
         ],     
-        // NB BASKET
-        'BasketConversionPercentageAction' => [
+        // PERCENTAGE RECURRENCE ORDER CUSTOMER
+        'getPercentageRecurrenceOrderCustomer' => [
             'method' => 'GET',
-            'path' => 'stats/nbBasket',
-            'controller' => StatsNbBasketAction::class,
+            'path' => 'stats/percentageRecurrenceOrderCustomer',
+            'controller' => RecurrenceOrderCustomerAction::class,
             'read' => false,
             'pagination_enabled' => false,
             'openapi_context' => [
-                'summary' => 'Recupère le nombre total de paniers',
+                'summary' => 'Recupère le pourcentage de récurrence de commandes clients ',
                 'parameters' => [],
                 'responses' => [
                     '200' => [
-                        'description' => 'Nombre de paniers',
+                        'description' => 'Pourcentage de récurrence de commandes clients',
                         'content' => [
                             'application/json' => [
                                 'schema'=> [
-                                    'type' => 'integer',
-                                    'example' => 400
+                                    'type' => 'float',
+                                    'example' => 17.2
                                 ]
                             ]
                         ]

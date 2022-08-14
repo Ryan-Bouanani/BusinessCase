@@ -18,9 +18,10 @@ class RecurrenceOrderCustomerAction extends AbstractController
 
     public function __invoke(): JsonResponse
     {
-        $query = $this->basketRepository->recurrenceOrderCustomerAction();
+        $query = $this->basketRepository->recurrenceOrderCustomer();
 
         return new JsonResponse($query);
+        // return new JsonResponse(json_encode(['data' => $query]));
     }
 }
 

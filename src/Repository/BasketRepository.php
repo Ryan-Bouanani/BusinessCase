@@ -112,36 +112,36 @@ class BasketRepository extends ServiceEntityRepository
         return $query;
     }
     
-    // todo faire un if pour chawue date et non les 2 en meme temps
-    public function orderConversionPercentage(?\DateTime $beginDate = null, ?\DateTime $endDate = null): array {
+    // todo faire un if pour chaque date et non les 2 en meme temps
+    // public function orderConversionPercentage(?\DateTime $beginDate = null, ?\DateTime $endDate = null): array {
 
-        if ($beginDate === null || $endDate === null) {
-            $beginDate = new DateTime('2018-01-01');
-            $endDate = new DateTime('now');
-        }
+    //     if ($beginDate === null || $endDate === null) {
+    //         $beginDate = new DateTime('2018-01-01');
+    //         $endDate = new DateTime('now');
+    //     }
 
-        $subQuery = $this->createQueryBuilder('basket')
-        ->select('COUNT(basket)')  
-        ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
-        ->setParameter('beginDate', $beginDate)
-        ->setParameter('endDate', $endDate)
-        ->getQuery()
-        ->getOneOrNullResult();
+    //     $subQuery = $this->createQueryBuilder('basket')
+    //     ->select('COUNT(basket)')  
+    //     ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
+    //     ->setParameter('beginDate', $beginDate)
+    //     ->setParameter('endDate', $endDate)
+    //     ->getQuery()
+    //     ->getOneOrNullResult();
 
-        $query = $this->createQueryBuilder('basket')
-        ->select('((COUNT(basket) / :subQuery) * 100) AS PourcentagePanierTransformerEnCommande') 
-        ->setParameter('subQuery', $subQuery) 
-        ->join("basket.status", "status")
-        ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
-        ->setParameter('beginDate', $beginDate)
-        ->setParameter('endDate', $endDate)
-        ->andWhere("status.name = 'Valider'")
-        ->getQuery()
-        ->getOneOrNullResult();
+    //     $query = $this->createQueryBuilder('basket')
+    //     ->select('((COUNT(basket) / :subQuery) * 100) AS PourcentagePanierTransformerEnCommande') 
+    //     ->setParameter('subQuery', $subQuery) 
+    //     ->join("basket.status", "status")
+    //     ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
+    //     ->setParameter('beginDate', $beginDate)
+    //     ->setParameter('endDate', $endDate)
+    //     ->andWhere("status.name = 'Valider'")
+    //     ->getQuery()
+    //     ->getOneOrNullResult();
 
-        $query['PourcentagePanierTransformerEnCommande'] = round($query['PourcentagePanierTransformerEnCommande'], 2);
-        return $query;
-    }
+    //     $query['PourcentagePanierTransformerEnCommande'] = round($query['PourcentagePanierTransformerEnCommande'], 2);
+    //     return $query;
+    // }
 
     public function nbOrder(?\DateTime $beginDate = null, ?\DateTime $endDate = null): array 
     {
@@ -217,61 +217,80 @@ class BasketRepository extends ServiceEntityRepository
     }
 
 
-    public function recurrenceOrderCustomerAction(?\DateTime $beginDate = null, ?\DateTime $endDate = null): array {
+    public function recurrenceOrderCustomer(?\DateTime $beginDate = null, ?\DateTime $endDate = null): array {
         
         if ($beginDate === null || $endDate === null) {
             $beginDate = new DateTime('2018-01-01');
             $endDate = new DateTime('now');
         }
 
-        $subQuery = $this->createQueryBuilder('basket')
-        ->select('COUNT(customer) AS NbNewCustomer')  
-        ->join('basket.customer', 'customer')
-        ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
-        ->setParameter('beginDate', $beginDate)
-        ->setParameter('endDate', $endDate)
-        ->andWhere("status.name = 'Valider'")
-        ->having('')
-        ->getQuery()
-        ->getOneOrNullResult();
+        
+        // selectionne les nouveaux clients ayant commandés qu'une seule fois
+        $newCustomer = $this->createQueryBuilder('basket')
+            ->select('customer.id AS IdNewClient')  
+            ->join('basket.customer', 'customer')
+            ->join('basket.status', 'status')
+            ->where("status.name = 'Valider'")
+            ->groupBy('basket.customer')
+            ->having('COUNT(basket) = 1')
+            ->getQuery()
+            ->getResult();
 
-        $query = $this->createQueryBuilder('basket')
-        ->select('((COUNT(basket) / :subQuery) * 100) AS PourcentagePanierTransformerEnCommande') 
-        ->setParameter('subQuery', $subQuery) 
-        ->join("basket.status", "status")
-        ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
-        ->setParameter('beginDate', $beginDate)
-        ->setParameter('endDate', $endDate)
-        ->andWhere("status.name = 'Valider'")
-        ->getQuery()
-        ->getOneOrNullResult();
+        // selectionne les commandes avec clients ayant commandés qu'une seule fois sur la periode selectionnée
+        $newCustomerByDate = $this->createQueryBuilder('basket')
+            ->select('customer.id')  
+            ->join('basket.customer', 'customer')
+            ->join('basket.status', 'status')
+            ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
+            ->setParameter('beginDate', $beginDate)
+            ->setParameter('endDate', $endDate)
+            ->andWhere("status.name = 'Valider'")
+            ->groupBy('basket.customer')
+            ->having('COUNT(basket) = 1')
+            ->getQuery()
+            ->getResult();
+
+            // selectionne les commandes avec clients existant
+            // $existingCustomer = $this->createQueryBuilder('basket')
+            //     ->select('customer.id')  
+            //     ->join('basket.customer', 'customer')
+            //     ->join('basket.status', 'status')
+            //     ->andWhere("status.name = 'Valider'")
+            //     ->groupBy('basket.customer')
+            //     // ->having('COUNT(basket) > 1')
+            //     ->getQuery()
+            //     ->getResult();
+    
+        // selectionne le nombre de commande
+        $query2 = $this->createQueryBuilder('basket')
+            ->select('COUNT(basket) AS OrderWithExistingCustomer') 
+            ->join('basket.customer', 'customer') 
+            ->join("basket.status", "status")
+            ->andWhere("status.name = 'Valider'")
+            ->getQuery()
+            ->getOneOrNullResult();
+
+            $query = $this->createQueryBuilder('basket')
+            ->select('COUNT(basket) AS RecurrenceOrderCustomer') 
+            ->join('basket.customer', 'customer') 
+            ->join("basket.status", "status")
+            ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
+            ->setParameter('beginDate', $beginDate)
+            ->setParameter('endDate', $endDate)
+            // ->setParameter('query2', $query2) 
+            ->andWhere('customer IN (:newCustomer)')
+            ->andWhere('customer IN (:newCustomerByDate)')
+            ->setParameter('newCustomer', $newCustomer) 
+            ->setParameter('newCustomerByDate', $newCustomerByDate)
+            ->andWhere("status.name = 'Valider'")
+            ->getQuery()
+            ->getOneOrNullResult();
+
+        $query['RecurrenceOrderCustomer'] = round((($query['RecurrenceOrderCustomer'] / $query2['OrderWithExistingCustomer']) * 100), 2);
 
         return $query;
 
     }
-    // SELECT COUNT(*)
-
-    // FROM command
-
-    // JOIN user
-    // ON user.id = command.user_id
-
-    // WHERE user.id IN (
-    // -- une seule et unique commande
-    //     SELECT command.user_id
-    //     FROM command
-    //     WHERE command.status IN (200, 300)
-    //     GROUP BY command.user_id
-    //     HAVING COUNT(*) = 1
-    // )
-    // AND user.id IN (
-    // -- une commande sur la periode donnee
-    //     SELECT command.user_id
-    //     FROM command
-    //     WHERE command.status IN (200, 300)
-    //     AND command.created_at BETWEEN '2022-05-01' AND '2022-07-11'  
-    //     GROUP BY command.user_id
-    //     HAVING COUNT(*) = 1    
 
 //    /**
 //     * @return Basket[] Returns an array of Basket objects
