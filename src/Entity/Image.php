@@ -25,20 +25,6 @@ class Image
     ]
     private ?string $path = null;
 
-    #[ORM\Column(length: 255)]
-    #[
-        Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
-        ]),
-        Assert\Length([
-            'min' => 2,
-            'max' => 255,
-            'minMessage' => 'Veuiller entrer un titre contenant au minimum {{ limit }} caractères',
-            'maxMessage' => 'Veuiller entrer un titre contenant au maximum {{ limit }} caractères',
-        ]),
-    ]
-    private ?string $title = null;
-
     #[ORM\Column]
     #[
         Assert\NotBlank([
@@ -69,18 +55,6 @@ class Image
     public function setPath(string $path): self
     {
         $this->path = $path;
-
-        return $this;
-    }
-
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(string $title): self
-    {
-        $this->title = $title;
 
         return $this;
     }

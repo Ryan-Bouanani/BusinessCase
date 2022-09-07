@@ -1,43 +1,48 @@
 
-// .pagination {
+.pagination {
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
-//   .current {
-//     color: white;
-//     border-radius: 2.5rem;
-//     text-decoration: none;
-//     padding: 0.2rem 0.8rem;
-//     background-color: $card-game-price-color;
-//   }
+  .current {
+    color: white;
+    text-decoration: none;
+    padding: 0.2rem 0.8rem;
+    background: linear-gradient(90deg, rgba(255,183,0,1) 0%, rgba(255,123,0,1) 100%);
 
-//   .page, .first, .last, .previous, .next {
-//     > a {
-//       color: white;
-//       margin-left: 0.2rem;
-//       margin-right: 0.2rem;
-//       border-radius: 2.5rem;
-//       text-decoration: none;
-//       padding: 0.2rem 0.8rem;
-//       background-color: lighten($background-color, 10%);
+  }
 
-//       &:hover {
-//         background-color: $card-game-price-color;
-//       }
-//     }
-//   }
-// }
+  .page, .first, .last, .previous, .next {
+    > a {
+      color:  rgb(255,183,0);
+      font-weight: 600;
+      margin-left: 0.2rem;
+      margin-right: 0.2rem;
+      text-decoration: none;
+      padding: 0.2rem 0.8rem;
+      background: white;
+      border: solid 1px  rgb(255,183,0);
 
-// div.searchBar {
-//   display: flex;
-//   position: relative;
+      &:hover {
+        background: rgb(255,183,0);
+        color: white;
+      }
+    }
+  }
+}
 
-//   button.searchSubmit {
-//     border: none;
-//     background: transparent;
-//     color: black;
-//     border-right: none;
-//     position: absolute;
-//     right: 0;
-//     bottom: 50%;
-//     transform: translate(-50%, 50%);
-//   }
-// }
+div.searchBar {
+  display: flex;
+  position: relative;
+
+  button.searchSubmit {
+    border: none;
+    background: transparent;
+    color: black;
+    border-right: none;
+    position: absolute;
+    right: 0;
+    bottom: 50%;
+    transform: translate(-50%, 50%);
+  }
+}

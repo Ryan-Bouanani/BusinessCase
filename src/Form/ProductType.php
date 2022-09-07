@@ -2,26 +2,125 @@
 
 namespace App\Form;
 
+use App\Entity\Brand;
+use App\Entity\Category;
 use App\Entity\Product;
+use App\Entity\Promotion;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ButtonType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class ProductType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('title')
-            ->add('description')
-            ->add('priceExclVat')
-            ->add('priceVat')
-            ->add('active')
-            ->add('dateAdded')
-            ->add('brand')
-            ->add('promotion')
-            ->add('category')
-        ;
+            ->add('title', TextType::class, [
+                'label' => 'Nom',
+                'attr' => [
+                    'placeholder' => 'Entrer un nom'
+                ],
+            ])
+            ->add('description', TextType::class, [
+                'label' => 'Description',
+                'attr' => [
+                    'placeholder' => 'Entrer une description'
+                ],
+            ])
+            ->add('priceExclVat', NumberType::class, [
+                'label' => 'Prix',
+                'attr' => [
+                    'placeholder' => 'Entrer un prix hors taxe',
+                    'min' => 0
+                ],
+            ])
+            ->add('active', CheckboxType::class, [
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-check-input',
+                ],
+                'label' => 'Actif',
+                'label_attr' => [
+                    'class' => 'form-check-label'
+                ],
+            ])
+            // ->add('dateAdded', DateType::class, [
+            //     'label' => 'Date de sortie',
+            //     'widget' => 'single_text',
+            //     'attr' => [
+            //         'max' => date('Y-m-d')
+            //     ]
+            // ])
+            ->add('brand', EntityType::class, [
+                'class' => Brand::class,
+                'choice_label' => 'label',
+                'label' => 'Marque',
+                'placeholder' => 'Selectionner une marque',
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('brand')
+                        ->orderBy('brand.label', 'ASC')
+                    ;
+                }
+            ])
+            ->add('category', EntityType::class, [
+                'class' => Category::class,
+                'choice_label' => 'name',
+                'label' => 'Categorie',
+                'placeholder' => 'Selectionner une categorie',
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('promotion')
+                    ->orderBy('promotion.name', 'ASC')
+                    ;
+                }
+                ])
+            ->add('promotion', EntityType::class, [
+                'class' => Promotion::class,
+                'required' => false,
+                'placeholder' => 'Selectionner une promotion',
+                'choice_label' => 'name',
+                'query_builder' => function(EntityRepository $er) {
+                    return $er->createQueryBuilder('promotion')
+                        ->orderBy('promotion.name', 'ASC')
+                    ;
+                }
+            ])
+            ->add('images', FileType::class, [
+                'label' => false,
+                'data_class'=>null,
+                'multiple' => true,
+                'mapped' => false,
+                'required' => false,
+                // 'attr' => [
+                //     'data-list-selector' => 'images'
+                // ],
+                // 'constraints' => [
+                //     new File(
+                //         // maxSize: '2048k',
+                //         mimeTypes: ['image/png', 'image/jpeg'],
+                //         mimeTypesMessage: 'Ce format d\'image n\'est pas pris en compte',
+                //     )
+                // ]
+            ])
+            ->add('isMain', CheckboxType::class, [
+                'required' => false,
+                'mapped' => false,
+                'attr' => [
+                    'class' => 'form-check-input',
+                ],
+                'label' => 'Principale',
+                'label_attr' => [
+                    'class' => 'form-check-label'
+                ],
+            ])
+            ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
@@ -31,3 +130,4 @@ class ProductType extends AbstractType
         ]);
     }
 }
+

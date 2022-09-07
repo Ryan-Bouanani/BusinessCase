@@ -10,9 +10,11 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use App\Controller\Back\Stats\NbNewCustomerAction;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
+#[UniqueEntity('email')]
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
 #[ApiResource(
     
@@ -148,6 +150,7 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\ManyToOne(inversedBy: 'customers')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Gender $gender = null;
+
 
     public function __construct()
     {
@@ -376,5 +379,8 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
+
+
+  
 }
 

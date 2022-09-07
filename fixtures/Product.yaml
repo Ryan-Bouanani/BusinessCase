@@ -3,7 +3,6 @@ App\Entity\Product:
     title: '<word()>'
     description: '<sentence(10, 70)>'
     priceExclVat: '<numberBetween(1, 100)>'
-    priceVat: '<numberBetween(1, 100)>'
     active:  '<boolean(90)>'
     dateAdded: "<dateTimeBetween('-5 years','now')>"
     brand: '@brand*'

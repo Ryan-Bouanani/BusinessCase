@@ -63,13 +63,10 @@ class ContentShoppingCart
 
     #[Groups(['read:Basket:attributes'])]
     #[ORM\ManyToOne(inversedBy: 'contentShoppingCarts')]
-    #[ORM\JoinColumn(nullable: false)]
-    #[
-         Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
-        ]),
-    ]
     private ?Product $product = null;
+
+    // #[ORM\JoinColumn(nullable: true)]
+
 
     public function getId(): ?int
     {
@@ -112,6 +109,18 @@ class ContentShoppingCart
 
         return $this;
     }
+
+    // public function getProduct(): ?Product
+    // {
+    //     return $this->product;
+    // }
+
+    // public function setProduct(?Product $product): self
+    // {
+    //     $this->product = $product;
+
+    //     return $this;
+    // }
 
     public function getProduct(): ?Product
     {

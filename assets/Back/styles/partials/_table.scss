@@ -1,0 +1,83 @@
+
+
+div.container {
+    background: white;
+    padding: 0 1rem;
+}
+table {
+    thead:first-child {
+        border-bottom: solid 2.5px  rgb(255,183,0);
+    }
+    thead th:first-child {
+        margin-bottom: 0.3rem;
+    }
+    thead .colDescription {
+        width: 220px;
+    }
+    .btnAction:first-child {
+        margin-bottom: 0.2rem;
+    }
+}
+div.newBtnContainer {
+    text-align: center;
+    margin: 4rem 0;
+}
+.filterSearch {
+    width: 95%;
+    border-bottom: 1px solid gray;
+    margin-bottom: 0.5rem;
+}
+.filterSearchDate div {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+}
+.filterSearchDate div:first-child {
+    margin-bottom: 1rem;
+}
+.inputFilterDate {
+    display: inline-block;
+    background: $gray;
+    width: 125px;
+    border-radius: 0.4rem;
+    padding: 0.4rem 0.5rem;
+    border: none;
+}
+.filterSearchSelect {
+    background: $gray;
+    padding: 0.3rem 0.5rem;
+    border-radius: 0.4rem;
+}
+a.sortable {
+    display: block;
+}
+
+@media screen and (max-width: 1130px) {
+    table .colDescription {
+        display: none;
+    }
+    .filterSearch {
+        max-width: 140px;
+    }
+}
+@media screen and (max-width: 950px) {
+    table .colActive {
+        display: none;
+    }
+}
+@media screen and (max-width: 775px) {
+    table .colDateAdded {
+        display: none;
+    }
+    .btnAction {
+        max-width: 100px;
+    }
+}
+@media screen and (max-width: 640px) {
+    table .colCategory {
+        display: none;
+    }
+}
+
+

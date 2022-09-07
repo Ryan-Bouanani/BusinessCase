@@ -1,0 +1,27 @@
+{# {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }} #}
+
+
+    <div class="form">
+            {{ form_start(form) }}
+                    {# <div class='formChild'>
+                        {{ form_label(form.roles) }}
+                        {{ form_widget(form.roles) }}
+                    </div> #}
+                    <div class='formChild'>
+                        {{ form_label(form.firstName) }}
+                        {{ form_widget(form.firstName) }}
+                    </div>
+                    <div class='formChild'>
+                        {{ form_label(form.lastName) }}
+                        {{ form_widget(form.lastName) }}
+                    </div>
+                    <div class='formChild'>
+                        {{ form_label(form.dateOfBirth) }}
+                        {{ form_widget(form.dateOfBirth) }}
+                    </div>
+                      <button class="btn">{{ button_label|default('Sauvegarder') }}</button>
+            {{ form_end(form) }}
+        </div>

@@ -74,25 +74,9 @@ class Product
     ]
     private ?string $priceExclVat = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 7, scale: 2)]
-    #[
-        Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
-        ]),
-        Assert\PositiveOrZero,
-        Assert\Range(
-            min: 0,
-            max: 99000.99,
-            notInRangeMessage: 'Le prix TTC doit être plus grand que 0 et inferieur à 100 000',
-        )
-    ]
-    private ?string $priceVat = null;
-
     #[ORM\Column]
     #[
-        Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
-        ]),
+        Assert\NotNull(),
     ]
     private ?bool $active = null;
 
@@ -143,6 +127,7 @@ class Product
 
     public function __construct()
     {
+        $this->dateAdded = new \DateTime();
         $this->images = new ArrayCollection();
         $this->reviews = new ArrayCollection();
         $this->contentShoppingCarts = new ArrayCollection();
@@ -185,18 +170,6 @@ class Product
     public function setPriceExclVat(string $priceExclVat): self
     {
         $this->priceExclVat = $priceExclVat;
-
-        return $this;
-    }
-
-    public function getPriceVat(): ?string
-    {
-        return $this->priceVat;
-    }
-
-    public function setPriceVat(string $priceVat): self
-    {
-        $this->priceVat = $priceVat;
 
         return $this;
     }
@@ -320,6 +293,7 @@ class Product
 
         return $this;
     }
+
 
     /**
      * @return Collection<int, ContentShoppingCart>

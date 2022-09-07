@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+
+<title>New Customer</title>
+
+{% block body %}
+    <h1>Create new Customer</h1>
+
+    {{ include('back/customer/_form.html.twig') }}
+
+    <a href="{{ path('app_customer_index') }}">back to list</a>
+{% endblock %}

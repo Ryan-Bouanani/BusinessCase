@@ -1,0 +1,47 @@
+{# {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }} #}
+
+
+    <div class="form">
+            {{ form_start(form) }}
+                    <div class='formChild'>
+                        {{ form_label(form.title) }}
+                        {{ form_widget(form.title) }}
+                    </div>
+                    <div class='formChild'>
+                        {{ form_label(form.description) }}
+                        {{ form_widget(form.description) }}
+                    </div>
+                    <div class='formChild'>
+                        {{ form_label(form.priceExclVat) }}
+                        {{ form_widget(form.priceExclVat) }}
+                    </div>
+                    <div class='formChild'>
+                        {{ form_label(form.brand) }}
+                        {{ form_widget(form.brand) }}
+                    </div>
+                    <div class='formChild'>
+                        {{ form_label(form.category) }}
+                        {{ form_widget(form.category) }}
+                    </div>
+                    <div class='formChild'>
+                        {{ form_label(form.promotion) }}
+                        {{ form_widget(form.promotion) }}
+                    </div>
+                    <div class='formChild'>
+                        {{ form_row(form.images) }}
+                        {# {{ form_row(form.addImage) }} #}
+                    </div>
+                    <div class='formChild'>
+                        {{ form_label(form.isMain) }}
+                        {{ form_widget(form.isMain) }}
+                    </div>
+                    <div class='formChild'>
+                        {{ form_label(form.active) }}
+                        {{ form_widget(form.active) }}
+                    </div>
+                      <button class="button btnSubmitForm">{{ button_label|default('Save') }}</button>
+            {{ form_end(form) }}
+        </div>

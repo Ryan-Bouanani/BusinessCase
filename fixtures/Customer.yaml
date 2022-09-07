@@ -12,15 +12,15 @@ App\Entity\Customer:
     gender: '@gender*'
 
   customers_stats (extends customer):
-    email: 'stats@test.com'
     firstName: 'Admin'
+    email: 'stats@test.com'
     lastName: 'Admin'
     roles: ['ROLE_STATS']
     gender: '@gender*'
     
   customers_admin (extends customer):
-    email: 'admin@test.com'
     firstName: 'Admin'
+    email: 'admin@test.com'
     lastName: 'Admin'
     roles: ['ROLE_ADMIN']
     gender: '@gender*'

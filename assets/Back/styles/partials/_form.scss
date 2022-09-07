@@ -1,0 +1,32 @@
+div.form {
+    width: 70%;
+    max-width: 500px;
+    margin: 0 auto;
+    background: white ;
+    padding: 20px 40px;
+    margin-bottom: 2rem;
+}
+div.formChild {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1rem;
+}
+.formChild label {
+    font-weight: 600;
+}
+.formChild input:not([type='checkbox']) {
+    border-bottom: 2px solid gray;
+}
+.formChild select {
+    margin-top: 0.2rem;
+    background: $gray;
+    padding: 0.3rem 0.5rem;
+    border-radius: 0.4rem;
+}
+.form .btnAddItem {
+    margin-top: 0.2rem;
+    max-width: fit-content;
+}
+.form .btnSubmitForm {
+    width: 100%;
+}

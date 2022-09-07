@@ -1,1 +1,43 @@
+@import "variables";
 @import "../../shared/styles/main.scss";
+@import "partials/form";
+@import "partials/table";
+
+
+body {
+    background: #f7f7f9;
+}
+input, select {
+    outline: none;
+    border: none;
+}
+.sortable,
+.asc,
+.desc {
+    display: block;
+    &:after {
+        content: '⬍';
+        padding-left: 0.4rem;
+        font-weight: 900;
+      }
+ &.asc {
+    &:after {
+      padding-left: 0.4rem;
+      content: '▴';
+      position: relative;
+      top: -5px;
+    }
+  }
+  &.desc {
+    &:after {
+      padding-left: 0.4rem;
+      content: '▾';
+      position: relative;
+      top: 5px;
+    }
+  }
+}
+
+.btnBack {
+  margin-left: 2rem;
+}

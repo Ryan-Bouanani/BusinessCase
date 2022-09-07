@@ -40,6 +40,24 @@ class ProductRepository extends AbstractRepository
         }
     }
 
+    public function newProduct(): array {
+
+
+        $query =  $this->createQueryBuilder('product')
+            ->select('product.title, product.description, product.priceExclVat, product.brand, product.category, product.images, product.reviews')
+            ->join('product.images', 'image')
+            ->join('product.reviews', 'review')
+            ->where('product.dateAdded >= DATE(NOW()) - INTERVAL 30 DAY')
+            ->andWhere('image.isMain == true')
+            ->andWhere('produit.active == true')
+            ->setMaxResults(10)
+            ->getQuery()
+            ->getResult()
+        ;
+        
+        return $query;
+    }
+
     public function getQbAll(): QueryBuilder {
         $qb = parent::getQbAll();
         return $qb->select('product')

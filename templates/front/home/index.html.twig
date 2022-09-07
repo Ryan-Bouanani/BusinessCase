@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+
+<title>Hello ProductController!</title>
+
+{% block body %}
+    <!-- Barre de nav -->
+    <header>
+        <div class="top-nav">
+            <div class="search-menu-mobile">
+                <div class="menu"><span></span><span></span><span></span></div>
+
+                <!-- <img class="menu" src="img/accueil/menu-mobile.png" alt="Menu"> -->
+                <input class="search-submit search_mobile" type="submit" value="">
+            </div>
+            <img id="logo" src="img/accueil/La Nîmes'alerie-logos.png" alt="Logo La Nîmes'Alerie">
+            <form class="search-form none" action="#" method="">
+                <input class="search-bar" type="text" value="" />
+                <input class="search-submit" type="submit" value="">
+            </form>
+            <div class="account_basket">
+                <div class="account-p">
+                    <div class="account"></div>
+                    <p class="none">Connexion</p>
+                </div>
+                <div class="basket-p">
+                    <div class="basket"></div>
+                    <p class="none">Mon panier</p>
+                </div>
+            </div>
+
+        </div>
+        <nav class="bottom-nav">
+            <ul class="">
+                <li><a href="#">Chien<span class="arrow-bottom"></span></a></li>
+                <li><a href="#">Chat<span class="arrow-bottom"></span></a></li>
+                <li><a href="#">Rongueur<span class="arrow-bottom"></span></a></li>
+                <li><a href="#">Reptile<span class="arrow-bottom"></span></a></li>
+                <li><a href="#">Poisson<span class="arrow-bottom"></span></a></li>
+                <li><a href="#">Oiseau<span class="arrow-bottom"></span></a></li>
+                <li><a href="#">Ferme<span class="arrow-bottom"></span></a></li>
+            </ul>
+        </nav>
+        <!-- Home -->
+        <div class="bg_paw">
+            <div class="container1">
+                <div class="left">
+                    <h1>La Nîmes'alerie</h1>
+                    <p>Le bien être pour tous</p>
+                    <a href="#" class="btn btn-dark">Visiter notre site</a>
+                </div>
+                <div class="right none">
+                    <div class="cat-dog"></div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+
+        <!-- Nouveautés -->
+        <section id="new-products">
+            <div class="container-me">
+                <h2 class="h2">Nouveautés</h2>
+                <div class="swiper" style="height: 400px; width: 70%;">
+                    <div class="carrousel swiper-wrapper">
+                        <!-- <span class="arrow_left"></span>
+                    <span class="arrow_right"></span> -->
+                        <!-- Card 1 -->
+                        <div class="card swiper-slide">
+                            <img src="img/Produits carrousel/product-dog 1.png" alt="Pédigree">
+                            <h3 class="title-product">Pédigree ranchos original</h3>
+                            <span class="new"></span>
+                            <div class="stars-reviews">      
+                                <div class="stars">
+                                    <span class="star"></span>
+                                    <span class="star"></span>
+                                    <span class="star"></span>
+                                    <span class="star"></span>
+                                    <span class="star-grey"></span>
+                                </div>
+                                <p class="p-1">95 avis</p>
+                            </div>
+                            <p class="price">17€</p>
+                            <a href="" class="btn">Ajoutez au panier</a>
+                        </div>
+                    </div>
+                    <span class="arrow_left"></span>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                    <div class="swiper-pagination"></div>
+                    <a href="#" class="btn btn-dark">Tout voir</a>
+                </div>
+            </div>
+        </section>
+        <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+
+        <!-- Brand cover -->
+        <section class="container-me" id="brandtCover">
+            <div class="brandt-big-cover">
+                <img class="hills-big-brandt" src="img/big-brandt-cover/hills-brand-big.jpg" alt="">
+                <img class="wolf-big-brandt" src="img/big-brandt-cover/wolf-brand-big.jpg" alt="">
+            </div>
+        </section>
+
+
+        <!--  Nos Meileurs Ventes -->
+        <section id="best-sales">
+            <div class="container-me">
+                <h2 class="h2">Nos meilleurs ventes</h2>
+                <div class="carrousel row">
+                    <span class="arrow_left"></span>
+                    <span class="arrow_right"></span>
+                    <!-- Card 1 -->
+                    <div class="card col-sm-6 col-md-4 col-lg-3">
+                        <img src="img/Produits carrousel/product-dog 1.png" alt="Pédigree">
+                        <h3 class="title-product">Pédigree ranchos original</h3>
+                        <span class="new"></span>
+                         <div class="stars-reviews">
+                            <div class="stars">
+                                <span class="star"></span>
+                                <span class="star"></span>
+                                <span class="star"></span>
+                                <span class="star"></span>
+                                <span class="star-grey"></span>
+                            </div>
+                            <p class="p-1">95 avis</p>
+                        </div>
+                        <p class="price">17€</p>
+                        <a href="" class="btn">Ajoutez au panier</a>
+                    </div>
+                    
+                </div>
+                <a href="#" class="btn btn-dark">Tout voir</a>
+            </div>
+        </section>
+
+        <!-- A propos de nous -->
+        <!-- <section id="about">
+            <div class="container-me">
+                <div class="left_about">
+                    <h2 class="h2">A propos de nous</h2>
+                    <p>L’animalerie vous propose plus de 1000 références en alimentation, nourritures, produits et
+                        accéssoires
+                        pour animaux. Notre catalogue offres tout les produits et accessoires pour chiens, chats,
+                        rongueurs,
+                        poissons, reptiles, furets, cheveaux et même pour les animaux de ferme ou d’élevage.</p>
+                    <a href="#" class="btn">En savoir plus</a>
+                </div>
+                <div class="right_cat"></div>
+            </div>
+        </section> -->
+        <!--  Nos Meileurs Ventes -->
+
+        <!-- Marques populaires -->
+        <section id="bestBrandts" class="container-me">
+            <div class="bestBrandtsCarrousel">
+                <h2 class="h2">Marques populaires</h2>
+                <div class="carrouselContainer">
+                    <span class="arrow_left"></span>
+                    <span class="arrow_right"></span>
+                    <div class="carrouselBrandts">
+                        <img src="img/Marques/Hill's.png" alt="Logo marque Hill's">
+                        <img src="img/Marques/Pedigree.png" alt="Logo marque Pedigree">
+                        <img src="img/Marques/Royal Canin.png" alt="Logo marque Royal Canin">
+                        <img src="img/Marques/Taste of the wild .png" alt="Logo marque Taste of the wild">
+                        <img src="img/Marques/Tetra.png" alt="Logo marque Tetra">
+                        <img src="img/Marques/Vtacraft .png" alt="Logo marque Vtacraft">
+                        <img src="img/Marques/Whiskas .png" alt="Logo marque Whiskas">
+                        <img src="img/Marques/Yarrah .png" alt="Yarrah">
+                    </div>
+                </div>
+            </div>
+            <div class="dogContainer">
+                <div class="dog"></div>
+            </div>
+        </section>
+
+        <section id="blog" class="container-me">
+            <div class="article-blog">
+                <div class="image-date">
+                    <img src="img/blog/blog-1.png" alt="Photo article Apprenez à comprendre votre chien">
+                    <span class="date-article"><span>1</span>Avril</span>
+                </div>
+                <p>Apprenez à comprendre votre chien</p>
+            </div>
+            <div class="article-blog">
+                 <div class="image-date">
+                    <img src="img/blog/blog-2.png" alt="Photo article Apprenez à comprendre votre chien">
+                    <span class="date-article"><span>11</span>Decembre</span>
+                </div>
+                <p>Comment bien nourrir votre animal de compagnie</p>
+            </div>
+            <div class="article-blog">
+                <div class="image-date">
+                    <img src="img/blog/blog-3.png" alt="Photo article Apprenez à comprendre votre chien">
+                    <div class="date-article"><span>27</span>Mai</div>
+                </div>
+                <p>Les aliments naucif pour votre lapin de compagnie</p>
+            </div>
+
+        </section>
+
+        <!-- Avis clients -->
+        <section id="testimonials container-me">
+            <h2>Ce qu’en disent nos clients</h2>
+            <div class="testimonials-slider">
+                <div class="testimonials none">
+                    <span class="guillemet"></span>
+                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolor ipsum laboriosam, sed asperiores
+                        exercitationem eaque iusto. Quam placeat quod blanditiis est sit, quis ipsum dicta fugit
+                        accusamus
+                        cupiditate aperiam excepturi?</p>
+                    <div class="profil">
+                        <img src="img/Photo-de-profil/photo de profil avis 1.png" alt="Photo de profil">
+                        <p>Julien Fallois</p>
+                    </div>
+                </div>
+                <div class="testimonials main">
+                    <span class="guillemet"></span>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Enim, vestibulum viverra commodo aliquet.</p>
+                    <div class="profil">
+                        <img src="img/Photo-de-profil/photo de profil avis 1.png" alt="Photo de profil">
+                        <p>Julien Fallois</p>
+                    </div>
+                </div>
+                <div class="testimonials none">
+                    <span class="guillemet"></span>
+                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolor ipsum laboriosam, sed asperiores
+                        exercitationem eaque iusto. Quam placeat quod blanditiis est sit, quis ipsum dicta fugit
+                        accusamus
+                        cupiditate aperiam excepturi?</p>
+                    <div class="profil">
+                        <img src="img/Photo-de-profil/photo de profil avis 1.png" alt="Photo de profil">
+                        <p>Julien Fallois</p>
+                    </div>
+                </div>
+            </div>
+            <div class="newletter">
+                <h2>Abonnez-vous à notre newletter</h2>
+                <h3>ET beneficiez de -10% sur votre prochaine commande</h3>
+                <form action="#">
+                    <input class="search-bar" type="text" value="" />
+                    <input class="btn btn-dark" type="submit" value="">
+                </form>
+            </div>
+        </section>
+        <!-- Réassurances -->
+        <section id="reassurances">
+            <div class="reassurance">
+                <div class="livraison"></div>
+                <p>Livraison en 48H</p>
+            </div>
+            <div class="reassurance">
+                <div class="paiement-secu"></div>
+                <p>Paiement sécurisé</p>
+            </div>
+            <div class="reassurance">
+                <div class="service-client"></div>
+                <p>Service client 24/7 </p>
+            </div>
+            <div class="reassurance">
+                <div class="remboursement"></div>
+                <p>Remboursement 30j</p>
+            </div>
+        </section>
+
+    </main>
+    <!-- Footer -->
+    <footer>
+        <div class="about">
+            <h3>A propos</h3>
+            <a href="#">A propos de nous</a>
+            <a href="#">Moyens de paiement</a>
+            <a a href="#">Mentions légales </a>
+            <a href="#">Conditions générales de vente</a>
+            <a href="#">Confidentialité</a>
+            <a href="#"> Frais et délais de livraison</a>
+
+        </div>
+        <div class="entreprise">
+            <h3>Entreprise</h3>
+            <a href="#">Formulaire de rétractation</a>
+            <p>Code d'éthique</a>
+                <p>Commandites d'événements </a>
+                    <p>Code d'éthique</a>
+                        <p>Carrière</a>
+                            <p> Programme d'affiliation</a>
+        </div>
+        <div class="service-client">
+            <h3>Services Client</h3>
+            <a href="#">Suivie de commande</a>
+            <a href="#">Retour</a>
+            <a href="#">Informations d’expédition</a>
+            <a href="#">Ou somme nous</a>
+            <a href="#">Contacter nous</a>
+        </div>
+    </footer>
+
+{% endblock %}

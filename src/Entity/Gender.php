@@ -21,6 +21,7 @@ class Gender
     #[ORM\OneToMany(mappedBy: 'gender', targetEntity: Customer::class)]
     private Collection $customers;
 
+
     public function __construct()
     {
         $this->customers = new ArrayCollection();
@@ -72,4 +73,7 @@ class Gender
 
         return $this;
     }
+
+
+  
 }

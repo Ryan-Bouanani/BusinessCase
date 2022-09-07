@@ -1,0 +1,12 @@
+{% extends 'back/base.html.twig' %}
+
+{% block title %}Ajouter un nouveau produit{% endblock %}
+
+{% block body %}
+    <h1>Ajouter un nouveau produit</h1>
+
+    <a class="button btnBack" href="{{ path('app_product_index') }}">back to list</a>
+
+    {{ include('back/product/_form.html.twig') }}
+
+{% endblock %}

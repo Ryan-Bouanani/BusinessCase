@@ -69,14 +69,14 @@ class CustomerRepository extends ServiceEntityRepository implements PasswordUpgr
         $date = date('Y-m-d', strtotime($date->format('Y-m-d')));
 
         $query = $this->createQueryBuilder('customer')
-        ->select('COUNT(customer) AS NbNewCustomer')
-        ->where('customer.registrationDate >= :date')
-        ->setParameter('date', $date)
-        ->andWhere('customer.registrationDate BETWEEN :beginDate AND :endDate')
-        ->setParameter('beginDate', $beginDate)
-        ->setParameter('endDate', $endDate)
-        ->getQuery()
-        ->getOneOrNullResult();
+            ->select('COUNT(customer) AS NbNewCustomer')
+            ->where('customer.registrationDate >= :date')
+            ->setParameter('date', $date)
+            ->andWhere('customer.registrationDate BETWEEN :beginDate AND :endDate')
+            ->setParameter('beginDate', $beginDate)
+            ->setParameter('endDate', $endDate)
+            ->getQuery()
+            ->getOneOrNullResult();
         return $query;
     }
 
