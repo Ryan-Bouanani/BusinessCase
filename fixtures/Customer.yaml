@@ -5,7 +5,7 @@ App\Entity\Customer:
   customer (template):
     firstName: '<firstName()>'
     lastName: '<lastName()>'
-    email: '<email()>'
+    email (unique): '<email()>'
     password: '<{password}>'
     dateOfBirth: '<dateTimeBetween("-60 years", "-18 years")>'
     registrationDate: '<dateTimeBetween("-4 years", "now")>'
