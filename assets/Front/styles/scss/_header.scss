@@ -1,0 +1,650 @@
+
+@use './variables' as *;
+@use './mixins' as *;
+
+// * -------------Header-----------
+header {
+    position: relative;
+    @include gradient-bg(225deg);
+    height: 90vh;
+    width: 100%;
+    background-size: cover;
+    margin-bottom: 4.7rem;
+    margin-top: 4.7rem;
+
+    // Icones bg Header
+        span.bone, span.boneWhite, span.paw {
+            position: absolute;
+            content: "";
+        }
+        span.bone, span.boneWhite {
+            opacity: 70%;
+            width: 40px;
+            height: 40px;
+        }
+        span.bone {
+            background: url(/assets/img/bone.png) no-repeat;
+            background-size: contain;
+        }
+        span.boneWhite {
+            background: url(/assets/img/boneWhite.png) no-repeat;
+            background-size: contain;
+        }
+        span.paw {
+            opacity: 50%;
+            background: url(/assets/img/paw.png) no-repeat;
+            background-size: contain;
+        }
+        span.paw.paw1 {
+            @include icons-bgPaw(240px, 240px, 0, 3%);
+        }
+        span.paw.paw2 {
+            @include icons-bgPaw(80px, 80px, 6%, 60%, -65deg);
+        }
+        span.paw.paw3 {
+            @include icons-bgPaw(100px, 100px, 68%, 25%);
+        }
+        span.paw.paw4 {
+            @include icons-bgPaw(200px, 200px, 65%, 70%, -160deg);
+        }
+        span.boneWhite.b1 {
+            @include icons-bgPaw($left: 10%, $bottom: 40%, $rotate: -80deg);
+        }
+        span.boneWhite.b2 {
+            @include icons-bgPaw($left: 30%, $bottom: 85%);
+        }
+        span.boneWhite.b3 {
+            @include icons-bgPaw($left: 90%, $bottom: 50%, $rotate: -90deg);
+        }
+        span.boneWhite.b4 {
+            @include icons-bgPaw($left: 56%, $bottom: 20%);
+        }
+        span.bone.b5 {
+            @include icons-bgPaw($left: 56%, $bottom: 70%);
+        }
+        span.bone.b6 {
+            @include icons-bgPaw($left: 10%, $bottom: 75%);
+        }
+        span.bone.b7 {
+            @include icons-bgPaw($left: 40%, $bottom: 28%);
+        }
+    // 
+    div.menu, .search-submit, div.account, div.basket {
+        height: 30px;
+        width: 30px;
+    }
+    .top-nav {
+        box-shadow: 0 0.5rem 0.5rem rgba(132, 139, 200, 0.18);
+        width: 100%;
+        position: fixed;
+        top: 0;
+        background-color: #ffff;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: 4.7rem;
+        padding: 1.3rem;
+        margin-bottom: 5px;
+        z-index: 30;
+    }
+    .search-menu-mobile, .account_basket {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+    .menu {
+        display: flex;
+        background: transparent;
+        align-items: center;
+        position: relative;
+        span {
+            display: block;
+            width: 100%;
+            height: 2px;
+            background: #333;
+            position: absolute;
+            pointer-events: none;
+            transition: opacity 0.3s 0.15s ease-out;
+        }
+        // TRANSITION ET TRANSFORM DE CLOSE A OPEN
+        span:nth-child(1), span:nth-child(3) {
+            transition: transform 0.3s ease-out;
+        }
+        span:nth-child(1) {
+            width: 100%;
+            transform: translateY(-7px);
+        }
+        span:nth-child(2) {
+            width: 75%;
+        }
+        span:nth-child(3) {
+            width: 55%;
+            transform: translateY(7px);
+        }
+    }
+    .menu.open span {
+        width: 100%;
+    }
+    // TRANSITION ET TRANSFORM DE OPEN A CLOSE
+    .menu.open span:nth-child(1){
+        transform: translate(0) rotate(-135deg);
+    }
+    .menu.open span:nth-child(2){
+        opacity: 0;
+        transition:opacity 0s ease-out ;
+    }
+    .menu.open span:nth-child(3){
+        transform: translate(0) rotate(135deg);
+    }
+
+    .search-bar {
+        padding: 10px 10px 10px 50px;
+    }
+
+    .search-submit {
+        background: url(/assets/img/search.svg) no-repeat;
+        border: none;
+        background-position: center;
+        background-size: cover;
+    }
+
+    .search-form {
+        width: 90%;
+        max-width: 38rem;
+        position: absolute;
+        top: 5.5rem;
+        left: 50%;
+        right: 50%;
+        transform: translateX(-50%);
+    }
+    .search-bar {
+        position: relative;
+        height: 2.9rem;
+        width: 100%;
+        border: 1px solid #80808059;
+        border-radius: 5px;
+    }
+    .search-form .search-submit {
+        position: absolute;
+        left: 2%;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 100;
+        padding-right: 3px;
+        // border-right: 1px solid hsl(0, 0%, 83%);
+    }
+
+    // Logo
+    #logo {
+        width: 160px;
+        object-fit: cover;
+    }
+
+    // Icon Account-Basket
+    .account_basket { 
+        .account {
+            background: url(/assets/img/account.png) no-repeat;
+        }
+        .basket {
+            background: url(/assets/img/panier.png) no-repeat;
+
+           
+        }
+        .basket-p a {
+            position: relative;
+        }
+        a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        // ? METTRE UN SPAN A LA PLACE DE DIV  POUR LA DIV BASKET ET ACCOUNT
+        .account, .basket {
+            width: 25px;
+            height: 25px;
+            background-size: contain;
+            background-position: center;
+            display: inline-block;
+        }
+        .count {
+            position: absolute;
+            right: -15px;
+            top: -10px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            border-radius: 50%;
+            line-height: 1;
+            padding: 2px 4px;
+            color: $white;
+            background: rgb(255,123,0);     
+        }
+    }
+    // scroll bar
+    nav.bottom-nav::-webkit-scrollbar {
+        width: 12px;
+        height: 12px;
+    }
+
+    nav.bottom-nav:hover::-webkit-scrollbar-thumb {
+        background: hsl(0, 0%, 90%);
+    }
+    nav.bottom-nav::-webkit-scrollbar-thumb {
+        background: transparent;
+        border: 3px solid hsl(0, 100%, 100%);
+        border-radius: 20px;
+    }
+
+    nav.bottom-nav::-webkit-scrollbar-thumb:hover { background: hsl(0, 0%, 80%); }
+
+    // menu category
+    nav.bottom-nav {
+        display: flex;
+        flex-direction: column;
+        padding: 1.5rem 1rem;
+        height: 100vh;
+        position: fixed;
+        top: 4.7rem;
+        top: 0;
+        left: 0;
+        width: 20rem;
+        background: $white;
+        box-shadow: 1rem 3rem 4rem rgba(132, 139, 200, 0.18);
+        transform: translate(-100%);
+        z-index: 30;
+        overflow-y: scroll;
+
+        .top-nav-mobile {
+            margin-bottom: 0.8rem;
+            a {
+                font-size: 1.3rem;
+                color: $colorGradient;
+            }
+        }
+        ul.listCategories {
+            margin-bottom: 2.5rem;
+        }
+        ul li {
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            width: 100%;
+            a .arrow-bottom {
+                background: url(/assets/img/fleche-catégorie.png) no-repeat;
+                width: 15px;
+                height: 10px;
+                background-position: center;
+                background-size: contain;
+                display: inline-block;
+                margin-left: 7px;
+            }   
+            i {
+                color: black;
+                font-size: 0.9rem;
+                padding: 5px;
+            } 
+        }
+        .rotate {
+            transform: rotate(90deg);
+        }            
+        .linkCategory {
+            height: 3.4rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid hsl(0, 0%, 93%);
+            a {
+                font-weight: bold;
+            }
+            .close {
+                font-size: 1.4rem;
+            }
+        }
+        .sub-menu {
+            padding-left: 12px;
+            visibility: hidden;
+            max-height: 0;
+            overflow: hidden;
+            a {
+                padding: 6px 0;
+            }
+        }
+        .sub-menu-active {
+            max-height: fit-content;
+            visibility: visible;
+            -webkit-transition: 0.5s ease-in-out;
+            transition: 0.5s ease-in-out;
+        }
+    }
+    nav.bottom-nav.open {
+        transform: translate(0%);
+        transition: transform 0.3s ease-out;
+    }
+    nav.bottom-nav.close {
+        transition: transform 0.3s ease-out;
+    }
+    nav.bottom-nav .social-networks {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 80%;
+        margin: 0 auto;
+        li a i {
+            font-size: 1.3rem;
+            padding: 10px;
+            border-radius: 10px;
+            background-color: #EAEAEA;
+
+        }
+    }
+
+    // * ACCUEIL
+    .bg_paw {
+        height: 100%;
+        position: relative;
+    }
+    .container1 {
+        position: relative;
+        display: flex;
+        align-items: center;
+        width: 90%;
+        height: 100%;
+        margin: 0 auto;
+        padding: 0;
+
+        .left {
+            width: 100%;
+            text-align: center;
+            color: $white;
+            p {
+                font-family: $title-police;
+                font-size: 1.8rem;
+                letter-spacing: 3px;
+                margin-bottom: 1.2rem;
+            }
+        }
+    }
+}
+header::after, #best-sales::before, #best-sales::after  {
+    position: absolute;
+    content: "";
+    left: 0;
+    width: 100%;
+}
+header::after {
+    background: url(/assets/img/bgWaves.png) no-repeat;
+    background-size: cover;
+    bottom: 0;
+    height: 80px;
+}
+#best-sales::before {
+    background: url(/assets/img/bgWaves2.png) no-repeat;
+    background-size: cover;
+    top: 0;
+    height: 45px;
+}
+#best-sales::after {
+    background: url(/assets/img/bgWaves3.png) no-repeat;
+    background-size: cover;
+    bottom: 0;
+    height: 45px;
+}
+
+//* Header Desktop
+@media (max-width: 560px) {
+    header {
+        // Icones bg Header
+            span.paw.paw4 {
+                width: 150px;
+                height: 150px;
+                left: 50%;
+            }
+            span.boneWhite.b3 {
+                left: 85%;
+                bottom: 60%;
+            }
+    }
+}
+@media (min-width: 768px) {
+
+    header {
+        height: 42rem;
+        margin-top: 0;
+
+        .account_basket { 
+            .count {
+                background: #ed6436;
+            }
+        }
+        // Icones bg Header
+            span.bone, span.boneWhite, span.paw:not(.paw4) {
+                opacity: 1;
+            }
+            span.paw.paw1 {
+                opacity: 1;
+            }
+            span.paw.paw2 {
+                @include icons-bgPaw($left: 5%, $bottom: 57%);
+            }
+            span.paw.paw3 {
+                @include icons-bgPaw($left: 50%, $bottom: 47%);
+            }
+            span.paw.paw4 {
+                @include icons-bgPaw($left: 70%, $bottom: 52%);
+            }
+            span.boneWhite.b1 {
+                @include icons-bgPaw($left: 30%, $bottom: 25%);
+            }
+            span.boneWhite.b2 {
+                @include icons-bgPaw($left: 20%, $bottom: 70%);
+            }
+            span.boneWhite.b3 {
+                @include icons-bgPaw($left: 60%, $bottom: 73%);
+            }
+            span.boneWhite.b4 {
+                @include icons-bgPaw($left: 85%, $bottom: 43%);
+            }
+            span.bone.b5 {
+                @include icons-bgPaw($left: 45%, $bottom: 65%);
+            }
+            span.bone.b6 {
+                @include icons-bgPaw($left: 2%, $bottom: 53%);
+            }
+            span.bone.b7 {
+                @include icons-bgPaw($left: 88%, $bottom: 65%);
+            }
+        // 
+        .none {
+            display: inline-block;
+        }
+
+        // Nav top
+        .top-nav {
+            height: unset;
+            background: unset;
+            position: relative;
+            box-shadow: none;
+            width: 90%;
+            margin: 0 auto;
+            justify-content: center;
+            gap: 3rem;
+        }
+
+        .search-menu-mobile {
+            display: none;
+        }
+        .search-form {
+            all: unset;
+            position: relative;
+            width: 100%;
+            max-width: 27rem;
+        }
+        .search-bar {
+            width: 100%;
+            height: 2.3rem;
+            border: none;
+            border-radius: 5px;
+        }
+        .account_basket {
+            p {
+                width: max-content;
+            }
+        }
+        div.account-p,
+        div.basket-p {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        div.account-p .account {
+            height: 20px;
+        }
+
+        // Nav Catégories desktop
+        nav.bottom-nav {
+            all: unset;
+            position: relative;
+            display: flex;
+            width: fit-content;
+            margin: 0 auto;
+            margin: 0.5rem auto 2rem auto;
+            z-index: 100;
+
+            ul.listCategories {
+                margin-bottom: 0;
+            }
+            ul .category {
+                list-style-type: none;
+                display: inline-block;
+                align-items: unset;
+                height: auto;
+                width: auto;
+                text-align: unset;
+                padding: 15px 0;
+                i {
+                    display: none;
+                }
+            }
+            .linkCategory {
+                all: unset;
+                a {
+                    color: $white;
+                }
+            }
+            .sub-menu {
+                display: none;
+                background: $white;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                max-height: fit-content;
+                padding-left: 0;
+                // display: grid;
+                // grid-template-columns: repeat(4, 1fr);
+                gap: 30px;
+                padding: 30px;
+                border: 1px solid hsl(0, 0%, 93%);
+                a:hover {
+                    color: hsl(0, 0%, 33%);;
+                }
+            }
+            ul {
+                display: flex;
+                justify-content: center;
+            }
+            .social-networks {
+                display: none;
+            }
+            .top-nav-mobile {
+                display: none;
+            }
+        }
+        nav.bottom-nav .category:hover {
+            .sub-menu {
+                display: block;
+                visibility: visible;
+            }
+        } 
+
+        // * ACCUEIL CENTER         
+        .container1 {
+            height: auto;
+            width: 100%;
+            justify-content: center;
+            gap: 2rem;
+        }
+         .container1 .left {
+            width: auto;
+        }
+        .container1 .right {
+            width: 30%;
+            height: 30rem;
+        }         
+        .cat-dog {
+            background: url(/assets/img/dog&cat.png) no-repeat;
+            background-position: center;
+            background-size: contain;
+            height: 100%;
+            margin: 0 auto;
+        }
+    }
+}
+// * BOTTOM NAV RESPONSIVE  
+@media (min-width: 768px) and (max-width: 800px) {
+    header .bottom-nav ul {
+        gap: 1.1rem;
+    }
+}
+@media (min-width: 800px) and (max-width: 905px) {
+    header .bottom-nav ul {
+        gap: 2rem;
+    }
+}
+@media (min-width: 905px) {
+    header .bottom-nav ul {
+        gap: 3rem;
+    }
+}
+@media (min-width: 1100px) {
+    header {
+        .account_basket {
+            gap: 3.5rem;
+        }
+        // Icones bg Header
+            span.paw.paw1 {
+                @include icons-bgPaw(300px, 300px, 11%);
+            }
+            span.paw.paw2 {
+                @include icons-bgPaw($left: 17%);
+            }
+            span.paw.paw3 {
+                @include icons-bgPaw($left: 44%, $bottom: 49%);
+            }
+            span.paw.paw4 {
+                @include icons-bgPaw(250px, 250px, 67%, 47%);
+            }
+            span.boneWhite.b1 {
+                @include icons-bgPaw($left: 30%, $bottom: 25%);
+            }
+            span.boneWhite.b2 {
+                @include icons-bgPaw($left: 25%, $bottom: 67%);
+            }
+            span.boneWhite.b3 {
+                @include icons-bgPaw($left: 56%, $bottom: 73%);
+            }
+            span.boneWhite.b4 {
+                @include icons-bgPaw($left: 73%, $bottom: 39%);
+            }
+            span.bone.b5 {
+                @include icons-bgPaw($left: 45%, $bottom: 64%);
+            }
+            span.bone.b6 {
+                @include icons-bgPaw($left: 15%);
+            }
+            span.bone.b7 {
+                @include icons-bgPaw($left: 74%, $bottom: 61%);
+            }
+        // 
+    }
+}

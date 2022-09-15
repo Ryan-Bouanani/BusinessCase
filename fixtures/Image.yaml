@@ -1,9 +1,29 @@
 App\Entity\Image:
-  image{0..100}:
-    path: '<imageUrl()>'
+  image{0..25}:
+    path: 'product-hill-s.jpg'
     isMain: true
     product: '@product<current()>'
-  image{101..301}:
-    path: '<imageUrl()>'
+  image{26..50}:
+    path: 'product-dog 1.png'
+    isMain: true
+    product: '@product<current()>'
+  image{51..75}:
+    path: 'product-dog 2.png'
+    isMain: true
+    product: '@product<current()>'
+  image{76..100}:
+    path: 'product-dog 3.png'
+    isMain: true
+    product: '@product<current()>'
+  image{101..125}:
+    path: 'hill-s-science-plan-puppy-medium-chicken1.jpg'
+    isMain: true
+    product: '@product<current()>'
+  image{101..201}:
+    path: 'product-hill-s2.jpg'
+    isMain: false
+    product: '@product*'
+  image{201..301}:
+    path: 'hill-s-science-plan-puppy-medium-chicken2.jpg'
     isMain: false
     product: '@product*'

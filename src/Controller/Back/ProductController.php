@@ -68,7 +68,7 @@ class ProductController extends AbstractController
             // On boucle sur les images
             foreach ($images as $image) {
                  // On génère un nouveau nom de fichier
-                 $fichier = md5(uniqid()) . ' . ' . $image->guessExtension();
+                 $fichier = $image->guessExtension();
 
                 // On copie le fichier dans le dossier uploads
                 $image->move(

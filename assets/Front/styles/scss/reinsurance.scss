@@ -1,0 +1,86 @@
+@use './variables' as *;
+@use './mixins' as *;
+
+
+#reinsurance {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr);
+    place-items: center;
+    max-width: 960px;
+    margin: 0 auto;
+    width: 90%;
+    gap: 2rem;
+    .reassuranceBlob {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        gap: 0.3rem;
+        margin: 0 auto;
+
+        width: 150px;
+        height: 150px;
+
+        .delivery, .securePayment, .customerService, .repayment {
+            width: 60px;
+            height: 60px;
+            background-size: contain;
+        }
+        .delivery {
+            height: 45px;
+        }
+        .repayment {
+            height: 70px;
+        }
+        p {
+            font-weight: 700;
+            font-size: 0.8rem;
+        }
+    }
+        .reassuranceBlob:nth-child(1) {
+            background: url(/assets/img/blob\ livraison.png) no-repeat;     
+        }           
+        .reassuranceBlob:nth-child(2) {
+            background: url(/assets/img/blob\ paiement.png) no-repeat;      
+        }           
+        .reassuranceBlob:nth-child(3) {
+            background: url(/assets/img/blob\ service\ client.png) no-repeat;   
+        }
+        .reassuranceBlob:nth-child(4) {
+            background: url(/assets/img/blob\ remboursement.png) no-repeat;   
+        }
+
+        @for $i from 1 to 5 {
+            .reassuranceBlob:nth-child(#{$i}):hover {
+                background: $bgReinssurance;
+                border-radius: 1rem;
+                transition: 100ms ease-in;
+            }
+        }
+
+        .delivery {
+            background: url(/assets/img/fast-delivery.png) no-repeat;
+        }
+        .securePayment {
+            background: url(/assets/img/secure-payment.png) no-repeat;
+        }
+        .customerService {
+            background: url(/assets/img/Service-client.png) no-repeat;
+        }
+        .repayment {
+            background: url(/assets/img/remboursement\ .png) no-repeat;
+        }
+}
+
+@media screen and (min-width: 600px) {
+    #reinsurance {
+        grid-template-columns: repeat(2, 1fr);
+        width: 70%;
+    }
+}
+@media screen and (min-width: 900px) {
+    #reinsurance {
+        grid-template-columns: repeat(4, 1fr);
+        width: 90%;
+    }
+}

@@ -1,0 +1,33 @@
+
+@use './variables' as *;
+@use './mixins' as *;
+
+// * Brandts cover 
+#brandtCover {
+    img {
+        width: 100%;
+        object-fit: cover;
+        margin-bottom: 20px;
+    }
+
+}
+
+// Big image brandt cover tablette
+@media (min-width: 568px) {
+#brandtCover {
+    .brandt-big-cover{
+        display: flex;
+        justify-content: center;
+        gap: 0.1rem;
+    }
+        img {
+            width: 49%;
+            margin-bottom: 40px;
+        }
+
+        img.hills-big-brandt {
+            margin-right: 10px;
+        }
+}
+
+}

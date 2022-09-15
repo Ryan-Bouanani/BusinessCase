@@ -3,10 +3,10 @@ App\Entity\Brand:
     label: 'Royal Canin'
 
   brand1:
-    label: 'Pro Plan'
+    label: 'Taste of the Wild'
 
   brand2:
-    label: 'Frolic'
+    label: 'Vitakraft'
 
   brand3:
     label: 'Pedigree'
@@ -15,7 +15,7 @@ App\Entity\Brand:
     label: 'Whiskas'
 
   brand5:
-    label: 'Cunipic'
+    label: 'Yarrah'
 
   brand6:
     label: 'Dreambox'
@@ -27,7 +27,7 @@ App\Entity\Brand:
     label: 'Animalis'
 
   brand9:
-    label: 'JBL'
+    label: 'Hill's'
 
   brand10:
     label: 'Sera'
@@ -43,3 +43,6 @@ App\Entity\Brand:
 
   brand14:
     label: 'Exo Terra'
+
+  brand15:
+    label: 'Wolf of Wilderness'

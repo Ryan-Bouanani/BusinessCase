@@ -1,0 +1,20 @@
+@mixin icons-bgPaw($width: 0, $height: 0, $left: 0, $bottom: 0, $rotate: 0) {
+    @if $width != 0 {
+        width: $width;
+    }
+    @if $height != 0 {
+        height: $height;
+    }
+    @if $left != 0 {
+        left: $left;
+    }
+    @if $bottom != 0 {
+        bottom: $bottom;
+    }
+    @if $rotate != 0 {
+        transform: rotate($rotate);
+    }
+}
+@mixin gradient-bg($degres: 0deg, $pourcent1: 0%) {
+    background: linear-gradient($degres, rgba(255,183,0,1) $pourcent1, rgba(255,123,0,1) 100%)
+}

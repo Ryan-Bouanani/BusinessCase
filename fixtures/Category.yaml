@@ -1,30 +1,139 @@
 App\Entity\Category:
   category1:
-    name: 'Croquette'
-    categoryParent: '80%? @category1*'
-  
+    name: 'Chien'
   category2:
-    name: 'Litieres'
-    categoryParent: '80%? @category2*'
-  
+    name: 'Chat'
   category3:
-    name: 'Reptiles'
-    categoryParent: '80%? @category3*'
-  
+    name: 'Rongueur'
   category4:
-    name: 'Friandises'
-    categoryParent: '80%? @category4*'
-
+    name: 'Reptile'
   category5:
-    name: 'Chauffages'
-    categoryParent: '80%? @category5*'
-
+    name: 'Poisson'
   category6:
-    name: 'Pâtées'
-    categoryParent: '80%? @category6'
-
+    name: 'Oiseau'
   category7:
-    name: 'Os'
-    categoryParent: '80%? @category7*'
+    name: 'Ferme'
+
+  category8:
+    name: 'Alimentation'
+    categoryParent: '@category1*'
+  category9:
+    name: 'Friandises'
+    categoryParent: '@category1*'
+  category10:
+    name: 'Reptiles'
+    categoryParent: '@category1*'
+  category11:
+    name: 'Friandises'
+    categoryParent: '@category1*'
+  category12:
+    name: 'Accessoires'
+    categoryParent: '@category1*'
+  category13:
+    name: 'Jouets'
+    categoryParent: '@category1*'
+  category14:
+    name: 'Hygiène et Soins'
+    categoryParent: '@category1*'
+  category15:
+    name: 'Antiparasites'
+    categoryParent: '@category1*'
+
+  category16:
+    name: 'Alimentation'
+    categoryParent: '@category2*'
+  category17:
+    name: 'Litières'
+    categoryParent: '@category2*'
+  category18:
+    name: 'Accessoires'
+    categoryParent: '@category2*'
+  category19:
+    name: 'Antiparasites'
+    categoryParent: '@category2*'
+
+  category20:
+    name: 'Alimentation'
+    categoryParent: '@category3*'
+  category21:
+    name: 'Litières'
+    categoryParent: '@category3*'
+  category22:
+    name: 'Friandises et Compléments'
+    categoryParent: '@category3*'
+  category23:
+    name: 'Cages et clapiers'
+    categoryParent: '@category3*'
+  category24:
+    name: 'Accessoires et soins'
+    categoryParent: '@category3*'
+
+
+  category25:
+    name: 'Nourriture'
+    categoryParent: '@category4*'
+  category26:
+    name: 'Suppléments & Soins'
+    categoryParent: '@category4*'
+  category27:
+    name: 'Eclairages'
+    categoryParent: '@category4*'
+  category28:
+    name: 'Chauffages'
+    categoryParent: '@category4*'
+  category29:
+    name: 'Litières'
+    categoryParent: '@category4*'
+  category30:
+    name: 'Accessoires'
+    categoryParent: '@category4*'
+  category31:
+    name: 'Terrariums'
+    categoryParent: '@category4*'
+
+  category32:
+    name: 'Nourriture'
+    categoryParent: '@category5*'
+  category33:
+    name: 'Décoration'
+    categoryParent: '@category5*'
+  category34:
+    name: 'Filtration'
+    categoryParent: '@category5*'
+  category35:
+    name: 'Accessoires'
+    categoryParent: '@category5*'
+  category36:
+    name: 'Aquariums et Meubles'
+    categoryParent: '@category5*'
+  category37:
+    name: 'Traitements et tests d’eau'
+    categoryParent: '@category5*'
+
+  category38:
+    name: 'Nourriture'
+    categoryParent: '@category5*'
+  category39:
+    name: 'Cages et volières'
+    categoryParent: '@category5*'
+  category40:
+    name: 'Accessoires'
+    categoryParent: '@category5*'
+  category41:
+    name: 'Hygiène et soins'
+    categoryParent: '@category5*'
+
+  category42:
+    name: 'Alimentation'
+    categoryParent: '@category6*'
+  category43:
+    name: 'Basse-cour'
+    categoryParent: '@category6*'
+  category44:
+    name: 'Accessoires'
+    categoryParent: '@category6*'
+
+
+
 
   

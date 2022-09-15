@@ -35,6 +35,11 @@ Encore
     // but, you probably want this, unless you're building a single-page app
     .enableSingleRuntimeChunk()
 
+    .copyFiles({
+        from: './assets/img',
+        to: 'images/[name].[ext]'
+    })
+
     /*
      * FEATURE CONFIG
      *

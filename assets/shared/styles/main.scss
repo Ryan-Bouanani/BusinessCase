@@ -1,4 +1,4 @@
-@import "lib/bootstrap";
+// @import "lib/bootstrap";
 @import "lib/forteawsome";
 @import "lib/pagination";
 
@@ -16,10 +16,6 @@ a {
 }
 .btnAction {
     display: block;
-}
-a:hover {
-    color: unset;
-    
 }
 
 .container {

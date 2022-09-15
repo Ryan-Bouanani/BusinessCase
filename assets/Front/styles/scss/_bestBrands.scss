@@ -1,0 +1,69 @@
+
+@use './variables' as *;
+@use './mixins' as *;
+
+// * Best Brandts
+#bestBrandts {
+    position: relative;
+    text-align: center;
+    .bestBrandtsCarrousel {  
+        width: 90%;
+    }
+    div.dog {
+    background: url(/assets/img/dog.png);
+    width: 15rem;
+    height: 20rem;
+    background-size: cover;
+    background-position: bottom;
+    margin: 0 auto;
+    }
+    .carrouselContainer {
+        width: 90%;
+        height: 120px;
+        position: relative;
+        margin: 0 auto;
+
+        .arrow_left {
+            left: -15px;
+        }
+        .arrow_right {
+            right: -15px;
+        }
+    }
+    .carrouselBrandts {
+            width: 82%;
+            gap: 3rem;
+            img {
+                height: 5rem;
+                flex: 0 0 auto;
+                scroll-snap-align: center;
+            }
+    }
+
+    .carrouselBrandts::-webkit-scrollbar {
+        display: none;
+    } 
+        
+}
+
+@media (min-width: 1200px) {
+    #bestBrandts {
+        .carrouselContainer {
+            height: 200px;
+            .carrouselBrandts img {
+                height: 6rem;
+            }
+        }
+    }
+}
+@media (min-width: 800px) {
+    #bestBrandts {
+        flex-direction: row;
+        .bestBrandtsCarrousel {
+            width: 60%;
+        }
+        .dogContainer {
+            width: 40%;
+        }
+    }
+}

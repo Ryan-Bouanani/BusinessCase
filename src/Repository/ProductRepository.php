@@ -40,23 +40,54 @@ class ProductRepository extends AbstractRepository
         }
     }
 
-    public function newProduct(): array {
-
+    public function getNewAndTopRatedProduct(string $orderBy = null): array {
+dump($orderBy);
 
         $query =  $this->createQueryBuilder('product')
-            ->select('product.title, product.description, product.priceExclVat, product.brand, product.category, product.images, product.reviews')
+            ->select('product, image, AVG(review.nbStar) AS note, COUNT(review)')
+            ->join('product.brand', 'brand')
+            ->join('product.category', 'category')
+            ->leftJoin('product.promotion', 'promotion')
             ->join('product.images', 'image')
             ->join('product.reviews', 'review')
-            ->where('product.dateAdded >= DATE(NOW()) - INTERVAL 30 DAY')
-            ->andWhere('image.isMain == true')
-            ->andWhere('produit.active == true')
+            // ->leftJoin('product.promotion', 'promotion')
+            // ->where('product.dateAdded >= DATE(NOW()) - INTERVAL 30 DAY')
+            ->where('image.isMain = true')
+            ->andWhere('product.active = 1')
+            ->add('groupBy', ':orderBy')
+            ->groupBy('product')
+            // ->orderBy(':orderBy', 'DESC')
+            ->setParameter('orderBy', $orderBy)
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
         ;
-        
         return $query;
     }
+    // public function getTopRatedproduct(): array {
+
+
+    //     $query =  $this->createQueryBuilder('product')
+    //         ->select('product, image, AVG(review.nbStar) AS note, COUNT(review)')
+    //         ->join('product.brand', 'brand')
+    //         ->join('product.category', 'category')
+    //         ->leftJoin('product.promotion', 'promotion')
+    //         ->join('product.images', 'image')
+    //         ->join('product.reviews', 'review')
+    //         ->where('image.isMain = true')
+    //         ->andWhere('product.active = 1')
+    //         ->groupBy('product')
+    //         ->orderBy('note', 'DESC')
+    //         ->setMaxResults(10)
+    //         ->getQuery()
+    //         ->getResult()
+    //     ;
+    //     return $query;
+    // }
+
+
+
+    
 
     public function getQbAll(): QueryBuilder {
         $qb = parent::getQbAll();

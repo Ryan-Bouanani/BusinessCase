@@ -1,0 +1,46 @@
+@use './variables' as *;
+@use './mixins' as *;
+
+// * A propos 
+#about {
+    gap: 3rem;
+    text-align: center;
+
+    h2 {
+        margin-bottom: 25px;
+    }
+
+    p {
+        margin-bottom: 20px;
+        line-height: 23px;
+    }
+
+    .left_about {
+        margin-bottom: 20px;
+        max-width: 500px;
+        margin: 0 auto;
+    }
+    .right_cat {
+        width: 100%;
+    }
+    .right_cat .cat {
+        background: url(/assets/img/cat.png) no-repeat;
+        width: 80%;
+        margin: 0 auto;
+        height: 21rem;
+        background-position: center;
+        background-size: contain;
+    }
+}
+
+@media screen and (min-width: 768px) {
+    #about {
+        flex-direction: row;
+        .left_about {
+            width: 60%;
+        }
+        .right_cat {
+            width: 40%;
+        }
+    }
+}

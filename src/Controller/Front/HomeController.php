@@ -3,6 +3,7 @@
 namespace App\Controller\Front;
 
 use App\Form\Filter\ProductSearchFilterType;
+use App\Repository\BasketRepository;
 use App\Repository\ProductRepository;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,7 +15,8 @@ class HomeController extends AbstractController
 {
 
     public function __construct(
-        private ProductRepository $productRepository
+        private ProductRepository $productRepository,
+        private BasketRepository $basketRepository
     ) { }
 
     #[Route('/', name: 'app_home')]
@@ -36,10 +38,15 @@ class HomeController extends AbstractController
             $builderUpdater->addFilterConditions($filterForm, $qb);
         }
 
+        $newProducts = $this->productRepository->getNewAndTopRatedProduct('product.dateAdded');
+        // $topRatedProducts = $this->productRepository->getNewAndTopRatedProduct('note');
+
 ;
 
         return $this->render('front/home/index.html.twig', [
             'filterSearchForm' => $filterForm->createView(),
+            'newProducts' => $newProducts,
+            // 'topRatedProducts' => $topRatedProducts,
         ]);
     }
 }

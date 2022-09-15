@@ -1,47 +1,151 @@
-<!DOCTYPE html>
+{% extends 'front/base.html.twig' %}
 
-<title>Hello ProductController!</title>
+{% block title %}La Nîmes'alerie{% endblock %}
 
 {% block body %}
     <!-- Barre de nav -->
     <header>
+        <span class="boneWhite b1"></span>
+        <span class="boneWhite b2"></span>
+        <span class="boneWhite b3"></span>
+        <span class="boneWhite b4"></span>
+        <span class="bone b5"></span>
+        <span class="bone b6"></span>
+        <span class="bone b7"></span>
+        <span class="paw paw1"></span>
+        <span class="paw paw2"></span>
+        <span class="paw paw3"></span>
+        <span class="paw paw4"></span>
+
         <div class="top-nav">
             <div class="search-menu-mobile">
-                <div class="menu"><span></span><span></span><span></span></div>
+                <div class="menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
 
-                <!-- <img class="menu" src="img/accueil/menu-mobile.png" alt="Menu"> -->
-                <input class="search-submit search_mobile" type="submit" value="">
+                <div class="search-submit" type="submit" value=""></div>
             </div>
-            <img id="logo" src="img/accueil/La Nîmes'alerie-logos.png" alt="Logo La Nîmes'Alerie">
-            <form class="search-form none" action="#" method="">
-                <input class="search-bar" type="text" value="" />
+            <img id="logo" src="{{ asset("build/images/la-Nîmes'alerie-logos.png") }}" alt="Logo La Nîmes'Alerie">
+            <form class="search-form" action="#" method="">
+                <input class="search-bar" type="search" placeholder="Rechercher un produit">
                 <input class="search-submit" type="submit" value="">
             </form>
             <div class="account_basket">
                 <div class="account-p">
-                    <div class="account"></div>
+                    <a href="#"><div class="account"></div></a>
                     <p class="none">Connexion</p>
                 </div>
                 <div class="basket-p">
-                    <div class="basket"></div>
+                    <a href="#"><div class="basket"></div><span class="count">0</span></a>
                     <p class="none">Mon panier</p>
                 </div>
             </div>
-
         </div>
         <nav class="bottom-nav">
-            <ul class="">
-                <li><a href="#">Chien<span class="arrow-bottom"></span></a></li>
-                <li><a href="#">Chat<span class="arrow-bottom"></span></a></li>
-                <li><a href="#">Rongueur<span class="arrow-bottom"></span></a></li>
-                <li><a href="#">Reptile<span class="arrow-bottom"></span></a></li>
-                <li><a href="#">Poisson<span class="arrow-bottom"></span></a></li>
-                <li><a href="#">Oiseau<span class="arrow-bottom"></span></a></li>
-                <li><a href="#">Ferme<span class="arrow-bottom"></span></a></li>
+            <div class="category top-nav-mobile">
+                <div class="linkCategory">
+                    <a href="#">Accueil</a>
+                    <i class="fa-solid fa-xmark close"></i>
+                </div>
+            </div>
+            <ul class="listCategories">
+                <li class="category">
+                    <div class="linkCategory">
+                        <a href="#">Chien</a>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a href="#">Jouets</a></li>
+                        <li><a href="#">Jouets</a></li>
+                        <li><a href="#">Jouets</a></li>
+                    </ul>
+                </li>
+                <li class="category">
+                    <div class="linkCategory">
+                        <a href="#">Chat</a>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a href="#">Jouets</a></li>
+                        <li><a href="#">Jouets</a></li>
+                        <li><a href="#">Jouets</a></li>
+                    </ul>
+                </li>
+                <li class="category">
+                    <div class="linkCategory">
+                        <a href="#">Rongueur</a>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a href="#">Jouets</a></li>
+                        <li><a href="#">Jouets</a></li>
+                        <li><a href="#">Jouets</a></li>
+                    </ul>
+                </li>
+                <li class="category">
+                    <div class="linkCategory">
+                        <a href="#">Reptile</a>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a href="#">Jouets</a></li>
+                        <li><a href="#">Jouets</a></li>
+                        <li><a href="#">Jouets</a></li>
+                    </ul>
+                </li>
+                <li class="category">
+                    <div class="linkCategory">
+                        <a href="#">Poisson</a>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a href="#">Jouets</a></li>
+                        <li><a href="#">Jouets</a></li>
+                        <li><a href="#">Jouets</a></li>
+                    </ul>
+                </li>
+                <li class="category">
+                    <div class="linkCategory">
+                        <a href="#">Oiseau</a>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a href="#">Jouets</a></li>
+                        <li><a href="#">Jouets</a></li>
+                        <li><a href="#">Jouets</a></li>
+                    </ul>
+                </li>
+                <li class="category">
+                    <div class="linkCategory">
+                        <a href="#">Ferme</a>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                    <ul class="sub-menu">
+                        <li><a href="#">Jouets</a></li>
+                        <li><a href="#">Jouets</a></li>
+                        <li><a href="#">Jouets</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="social-networks">
+                <li>
+                    <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                </li>
             </ul>
         </nav>
         <!-- Home -->
-        <div class="bg_paw">
+        <!-- <div class="bg_paw"> -->
             <div class="container1">
                 <div class="left">
                     <h1>La Nîmes'alerie</h1>
@@ -52,121 +156,124 @@
                     <div class="cat-dog"></div>
                 </div>
             </div>
-        </div>
+        <!-- </div> -->
     </header>
     <main>
 
         <!-- Nouveautés -->
-        <section id="new-products">
-            <div class="container-me">
+        <section id="new-products" class="container-me">
                 <h2 class="h2">Nouveautés</h2>
-                <div class="swiper" style="height: 400px; width: 70%;">
-                    <div class="carrousel swiper-wrapper">
-                        <!-- <span class="arrow_left"></span>
-                    <span class="arrow_right"></span> -->
-                        <!-- Card 1 -->
-                        <div class="card swiper-slide">
-                            <img src="img/Produits carrousel/product-dog 1.png" alt="Pédigree">
-                            <h3 class="title-product">Pédigree ranchos original</h3>
-                            <span class="new"></span>
-                            <div class="stars-reviews">      
-                                <div class="stars">
-                                    <span class="star"></span>
-                                    <span class="star"></span>
-                                    <span class="star"></span>
-                                    <span class="star"></span>
-                                    <span class="star-grey"></span>
-                                </div>
-                                <p class="p-1">95 avis</p>
-                            </div>
-                            <p class="price">17€</p>
-                            <a href="" class="btn">Ajoutez au panier</a>
-                        </div>
-                    </div>
-                    <span class="arrow_left"></span>
-                    <div class="swiper-button-next"></div>
-                    <div class="swiper-button-prev"></div>
-                    <div class="swiper-pagination"></div>
-                    <a href="#" class="btn btn-dark">Tout voir</a>
-                </div>
-            </div>
-        </section>
-        <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-
-
-        <!-- Brand cover -->
-        <section class="container-me" id="brandtCover">
-            <div class="brandt-big-cover">
-                <img class="hills-big-brandt" src="img/big-brandt-cover/hills-brand-big.jpg" alt="">
-                <img class="wolf-big-brandt" src="img/big-brandt-cover/wolf-brand-big.jpg" alt="">
-            </div>
-        </section>
-
-
-        <!--  Nos Meileurs Ventes -->
-        <section id="best-sales">
-            <div class="container-me">
-                <h2 class="h2">Nos meilleurs ventes</h2>
-                <div class="carrousel row">
+                <div class="carrouselContainer">
                     <span class="arrow_left"></span>
                     <span class="arrow_right"></span>
-                    <!-- Card 1 -->
-                    <div class="card col-sm-6 col-md-4 col-lg-3">
-                        <img src="img/Produits carrousel/product-dog 1.png" alt="Pédigree">
-                        <h3 class="title-product">Pédigree ranchos original</h3>
-                        <span class="new"></span>
-                         <div class="stars-reviews">
-                            <div class="stars">
-                                <span class="star"></span>
-                                <span class="star"></span>
-                                <span class="star"></span>
-                                <span class="star"></span>
-                                <span class="star-grey"></span>
-                            </div>
-                            <p class="p-1">95 avis</p>
-                        </div>
-                        <p class="price">17€</p>
-                        <a href="" class="btn">Ajoutez au panier</a>
+                    <div class="carrousel carrouselProducts">
+                        {% for product in newProducts %}
+                            <div class="card">
+                            <a href="{{ path('app_detail_product', {'slug': product[0].title}) }}">
+                            
+                                <img src="{{ asset("build/images/" ~ product[0].images[0].path) }}" alt="Pédigree">
+                                <h3 class="title-product">{{ product[0].title }}</h3>
+                                <span class="new">NOUVEAU</span>
+                                    <div class="stars-reviews">
+                                    <div class="stars">
+                                    {{ product[1] | stars }}
+                                    </div>
+                                        {# {{ product[1] }} #}
+                                    <p class="p-1">({{ product[2] }} avis)</p>
+                                </div>
+                                <p class="price">{{ product[0].priceExclVat }}€</p>
+                                <a href="" class="btn btnAddBasket">Ajoutez au panier</a>
+                            </a>
+                            </div>            
+                        {% endfor %}
                     </div>
-                    
                 </div>
                 <a href="#" class="btn btn-dark">Tout voir</a>
             </div>
         </section>
 
-        <!-- A propos de nous -->
-        <!-- <section id="about">
-            <div class="container-me">
-                <div class="left_about">
-                    <h2 class="h2">A propos de nous</h2>
-                    <p>L’animalerie vous propose plus de 1000 références en alimentation, nourritures, produits et
-                        accéssoires
-                        pour animaux. Notre catalogue offres tout les produits et accessoires pour chiens, chats,
-                        rongueurs,
-                        poissons, reptiles, furets, cheveaux et même pour les animaux de ferme ou d’élevage.</p>
-                    <a href="#" class="btn">En savoir plus</a>
-                </div>
-                <div class="right_cat"></div>
+        <!-- Brand cover -->
+        <section class="container-me" id="brandtCover">
+            <div class="brandt-big-cover">
+                <img class="hills-big-brandt" src="{{ asset("build/images/hills-brand-big.jpg") }}" alt="">
+                <img class="wolf-big-brandt" src="{{ asset("build/images/wolf-brand-big.jpg") }}" alt="">
             </div>
-        </section> -->
+        </section>
+
         <!--  Nos Meileurs Ventes -->
 
         <!-- Marques populaires -->
+
+        <!--  Nos Meileurs Ventes -->
+        <section id="best-sales">
+            <div class="container-me">
+                <h2 class="h2">Nos meilleurs ventes</h2>
+                <div class="carrouselContainer">
+                    <!-- <span class="arrow_left"></span>
+                    <span class="arrow_right"></span> -->
+                    <i class="arrow_left fa-solid fa-circle-chevron-left"></i>
+                    <i class="arrow_right fa-solid fa-circle-chevron-right"></i>
+                    <div class="carrousel carrouselProducts">
+                        <!-- Card 1 -->
+                        <div class="card">
+                            <img src="{{ asset("build/images/product-dog 1.png") }}" alt="Pédigree">
+                            <h3 class="title-product">Pédigree ranchos original</h3>
+                            <span class="new">NOUVEAU</span>
+                                <div class="stars-reviews">
+                                <div class="stars">
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star"></i>
+                                    <i class="fa-solid fa-star-half"></i>
+                                </div>
+                                <p class="p-1">95 avis</p>
+                            </div>
+                            <p class="price">17€</p>
+                            <a href="" class="btn btnAddBasket">Ajoutez au panier</a>
+                        </div>            
+                          {% for product in bestSellingProduct %}
+                            <div class="card">
+                            <a href="{{ path('app_detail_product', {'slug': product[0].title}) }}">
+                            
+                                <img src="{{ asset("build/images/" ~ product[0].images[0].path) }}" alt="Pédigree">
+                                <h3 class="title-product">{{ product[0].title }}</h3>
+                                <span class="new">NOUVEAU</span>
+                                    <div class="stars-reviews">
+                                    <div class="stars">
+                                    {{ product[1] | stars }}
+                                    </div>
+                                        {# {{ product[1] }} #}
+                                    <p class="p-1">({{ product[2] }} avis)</p>
+                                </div>
+                                <p class="price">{{ product[0].priceExclVat }}€</p>
+                                <a href="" class="btn btnAddBasket">Ajoutez au panier</a>
+                            </a>
+                            </div>            
+                        {% endfor %}
+
+                    </div>
+                </div>
+                <a href="#" class="btn btn-dark">Tout voir</a>
+            </div>
+        </section>
+
+
         <section id="bestBrandts" class="container-me">
             <div class="bestBrandtsCarrousel">
                 <h2 class="h2">Marques populaires</h2>
                 <div class="carrouselContainer">
                     <span class="arrow_left"></span>
                     <span class="arrow_right"></span>
-                    <div class="carrouselBrandts">
-                        <img src="img/Marques/Hill's.png" alt="Logo marque Hill's">
-                        <img src="img/Marques/Pedigree.png" alt="Logo marque Pedigree">
-                        <img src="img/Marques/Royal Canin.png" alt="Logo marque Royal Canin">
-                        <img src="img/Marques/Taste of the wild .png" alt="Logo marque Taste of the wild">
-                        <img src="img/Marques/Tetra.png" alt="Logo marque Tetra">
-                        <img src="img/Marques/Vtacraft .png" alt="Logo marque Vtacraft">
-                        <img src="img/Marques/Whiskas .png" alt="Logo marque Whiskas">
-                        <img src="img/Marques/Yarrah .png" alt="Yarrah">
+                    <div class="carrousel carrouselBrandts">
+                        <img src="{{ asset("build/images/Hill's.png") }}" alt="Logo marque Hill's">
+                        <img src="{{ asset("build/images/Pedigree.png") }}" alt="Logo marque Pedigree">
+                        <img src="{{ asset("build/images/Royal Canin.png") }}" alt="Logo marque Royal Canin">
+                        <img src="{{ asset("build/images/Taste of the wild .png") }}" alt="Logo marque Taste of the wild">
+                        <img src="{{ asset("build/images/Tetra.png") }}" alt="Logo marque Tetra">
+                        <img src="{{ asset("build/images/Vtacraft .png") }}" alt="Logo marque Vtacraft">
+                        <img src="{{ asset("build/images/Whiskas .png") }}" alt="Logo marque Whiskas">
+                        <img src="{{ asset("build/images/Yarrah .png") }}" alt="Yarrah">
                     </div>
                 </div>
             </div>
@@ -176,90 +283,109 @@
         </section>
 
         <section id="blog" class="container-me">
-            <div class="article-blog">
-                <div class="image-date">
-                    <img src="img/blog/blog-1.png" alt="Photo article Apprenez à comprendre votre chien">
-                    <span class="date-article"><span>1</span>Avril</span>
+            <h2>Blog</h2>
+            <div class="containerBlog">
+                <div class="article-blog">
+                    <div class="image-date">
+                        <img src="{{ asset("build/images/blog-1.png") }}" alt="Photo article Apprenez à comprendre votre chien">
+                        <span class="date-article"><span>1</span>Avril</span>
+                    </div>
+                    <h3>Apprenez à comprendre votre chien</h3>
                 </div>
-                <p>Apprenez à comprendre votre chien</p>
-            </div>
-            <div class="article-blog">
-                 <div class="image-date">
-                    <img src="img/blog/blog-2.png" alt="Photo article Apprenez à comprendre votre chien">
-                    <span class="date-article"><span>11</span>Decembre</span>
+                <div class="article-blog">
+                     <div class="image-date">
+                        <img src="{{ asset("build/images/blog-2.png") }}" alt="Photo article Apprenez à comprendre votre chien">
+                        <span class="date-article"><span>11</span>Decembre</span>
+                    </div>
+                    <h3>Comment bien nourrir votre animal de compagnie</h3>
                 </div>
-                <p>Comment bien nourrir votre animal de compagnie</p>
-            </div>
-            <div class="article-blog">
-                <div class="image-date">
-                    <img src="img/blog/blog-3.png" alt="Photo article Apprenez à comprendre votre chien">
-                    <div class="date-article"><span>27</span>Mai</div>
+                <div class="article-blog">
+                    <div class="image-date">
+                        <img src="{{ asset("build/images/blog-3.png") }}" alt="Photo article Apprenez à comprendre votre chien">
+                        <div class="date-article"><span>27</span>Mai</div>
+                    </div>
+                    <h3>Les aliments naucif pour votre lapin de compagnie</h3>
                 </div>
-                <p>Les aliments naucif pour votre lapin de compagnie</p>
             </div>
-
+            <a href="" class="btn">Voir plus</a>
         </section>
 
         <!-- Avis clients -->
-        <section id="testimonials container-me">
-            <h2>Ce qu’en disent nos clients</h2>
-            <div class="testimonials-slider">
-                <div class="testimonials none">
-                    <span class="guillemet"></span>
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolor ipsum laboriosam, sed asperiores
-                        exercitationem eaque iusto. Quam placeat quod blanditiis est sit, quis ipsum dicta fugit
-                        accusamus
-                        cupiditate aperiam excepturi?</p>
-                    <div class="profil">
-                        <img src="img/Photo-de-profil/photo de profil avis 1.png" alt="Photo de profil">
-                        <p>Julien Fallois</p>
+        <section id="testimonials">
+            <h2 class="h2testimonials">Avis clients</h2>
+            <div class="testimonialsNewletter">
+                <div class="testimonials-slider">
+                    <span class="arrow_left"></span>
+                    <span class="arrow_right"></span>
+
+                    <div class="testimonials none">
+                        <span class="guillemet">❝</span>
+                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolor ipsum laboriosam, sed asperioresfugnqoreynht</p>
+                        <div class="profil">
+                            <img src="{{ asset("build/images/photo de profil avis 1.png") }}" alt="Photo de profil">
+                            <h3>Julien Fallois</h3>
+                        </div>
+                    </div>
+                    <div class="testimonials main">
+                        <span class="guillemet">❝</span>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Enim, vestibulum viverra commodo aliquet.</p>
+                        <div class="profil">
+                            <img src="{{ asset("build/images/photo de profil avis 1.png") }}" alt="Photo de profil">
+                            <h3>Julien Fallois</h3>
+                        </div>
+                    </div>
+                    <div class="testimonials none">
+                        <span class="guillemet">❝</span>
+                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolor ipsum laboriosam, sed asperiores</p>
+                        <div class="profil">
+                            <img src="{{ asset("build/images/photo de profil avis 1.png") }}" alt="Photo de profil">
+                            <h3>Julien Fallois</h3>
+                        </div>
                     </div>
                 </div>
-                <div class="testimonials main">
-                    <span class="guillemet"></span>
-                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Enim, vestibulum viverra commodo aliquet.</p>
-                    <div class="profil">
-                        <img src="img/Photo-de-profil/photo de profil avis 1.png" alt="Photo de profil">
-                        <p>Julien Fallois</p>
-                    </div>
+                <div class="newletter">
+                    <h2 class="h2Newletter">Abonnez-vous à notre newletter</h2>
+                    <p class="pNewletter">ET beneficiez de -10% sur votre prochaine commande</p>
+                    <form action="#">
+                        <input class="mailNewletter" type="text" value="" placeholder="Entrer votre email" />
+                        <input class="btn-dark btnSubmitNewletter" type="submit" value="S'ABONNER">
+                    </form>
                 </div>
-                <div class="testimonials none">
-                    <span class="guillemet"></span>
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolor ipsum laboriosam, sed asperiores
-                        exercitationem eaque iusto. Quam placeat quod blanditiis est sit, quis ipsum dicta fugit
-                        accusamus
-                        cupiditate aperiam excepturi?</p>
-                    <div class="profil">
-                        <img src="img/Photo-de-profil/photo de profil avis 1.png" alt="Photo de profil">
-                        <p>Julien Fallois</p>
-                    </div>
-                </div>
-            </div>
-            <div class="newletter">
-                <h2>Abonnez-vous à notre newletter</h2>
-                <h3>ET beneficiez de -10% sur votre prochaine commande</h3>
-                <form action="#">
-                    <input class="search-bar" type="text" value="" />
-                    <input class="btn btn-dark" type="submit" value="">
-                </form>
             </div>
         </section>
+
+        <!-- A propos de nous -->
+        <section id="about" class="container-me">
+                <div class="left_about">
+                    <h2 class="h2">A propos de nous</h2>
+                    <p>L’animalerie vous propose plus de 1000 références en alimentation, nourritures, produits et
+                        accéssoires
+                        pour animaux. Notre catalogue offres tout les produits et accessoires pour chiens, chats,
+                        rongueurs,
+                        poissons, reptiles, furets, cheveaux et même pour les animaux de ferme ou d’élevage.</p>
+                    <a href="#" class="btn">En savoir plus</a>
+                </div>
+                <div class="right_cat">
+                    <div class="cat"></div>
+                </div>
+        </section>
+
         <!-- Réassurances -->
-        <section id="reassurances">
-            <div class="reassurance">
-                <div class="livraison"></div>
+        <section id="reinsurance" class="">
+            <div class="reassuranceBlob">
+                <div class="delivery"></div>
                 <p>Livraison en 48H</p>
             </div>
-            <div class="reassurance">
-                <div class="paiement-secu"></div>
+            <div class="reassuranceBlob">
+                <div class="securePayment"></div>
                 <p>Paiement sécurisé</p>
             </div>
-            <div class="reassurance">
-                <div class="service-client"></div>
+            <div class="reassuranceBlob">
+                <div class="customerService"></div>
                 <p>Service client 24/7 </p>
             </div>
-            <div class="reassurance">
-                <div class="remboursement"></div>
+            <div class="reassuranceBlob">
+                <div class="repayment"></div>
                 <p>Remboursement 30j</p>
             </div>
         </section>

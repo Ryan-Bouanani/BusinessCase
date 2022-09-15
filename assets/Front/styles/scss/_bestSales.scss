@@ -1,0 +1,14 @@
+ 
+ 
+@use './variables' as *;
+@use './mixins' as *;
+
+ // * BEST VENTES
+ #best-sales {
+    position: relative;
+    @include gradient-bg(138deg);
+    padding: 7rem 0;
+    .container-me {
+        margin-bottom: 0;
+    }
+}
