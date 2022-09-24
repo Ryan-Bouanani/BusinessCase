@@ -39,6 +39,16 @@ class CategoryRepository extends ServiceEntityRepository
         }
     }
 
+    public function getCategory() {
+        $query = $this->createQueryBuilder('category') 
+        ->select('category')
+        ->where('category.categoryParent IS null')
+        ->getQuery()
+        ->getResult()
+        ;
+        return $query;
+    }
+
 //    /**
 //     * @return Category[] Returns an array of Category objects
 //     */

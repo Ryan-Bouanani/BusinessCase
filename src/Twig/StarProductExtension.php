@@ -17,13 +17,6 @@ class StarProductExtension extends AbstractExtension
         ];
     }
 
-    public function getFunctions(): array
-    {
-        return [
-            new TwigFilter('stars', [$this, 'stars']),
-        ];
-    }
-
     public function stars(float $note)
     {
         $stars = [

@@ -1,5 +1,5 @@
 App\Entity\Promotion:
   promotion{0..2}:
     name: '<word()>'
-    percentage: 10
+    percentage: '<numberBetween(10, 40)>'
     expirationDate: '<dateTimeBetween("now", "1 month")>'

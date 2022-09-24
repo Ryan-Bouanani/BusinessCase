@@ -69,7 +69,7 @@ class Product
         Assert\Range(
             min: 0,
             max: 99000.99,
-            notInRangeMessage: 'Le prix TTC doit être plus grand que 0 et inferieur à 100 000',
+            notInRangeMessage: 'Le prix HT doit être plus grand que 0 et inferieur à 100 000',
         )
     ]
     private ?string $priceExclVat = null;
@@ -88,12 +88,25 @@ class Product
     ]
     private ?\DateTimeInterface $dateAdded = null;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 4, scale: 2)]
+    #[
+        Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
+    ]
+    private ?string $tva = null;
+
     #[ORM\ManyToOne(inversedBy: 'products')]
     #[ORM\JoinColumn(nullable: false)]
     #[
         Assert\NotBlank([
             'message' => "Veuiller remplir tout les champs."
         ]),
+        Assert\range(
+            min: 0,
+            max: 99000.99,
+            notInRangeMessage: 'Veuillez entrer un tva compris entre 0 et 100',
+        )
     ]
     private ?Brand $brand = null;
 
@@ -123,6 +136,7 @@ class Product
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: ContentShoppingCart::class)]
     private Collection $contentShoppingCarts;
+
 
 
     public function __construct()
@@ -321,6 +335,18 @@ class Product
                 $contentShoppingCart->setProduct(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTva(): ?string
+    {
+        return $this->tva;
+    }
+
+    public function setTva(string $tva): self
+    {
+        $this->tva = $tva;
 
         return $this;
     }

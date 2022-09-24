@@ -42,7 +42,7 @@ class Review
             notInRangeMessage: 'La note doit être plus grand que 0 et inferieur à 5',
         )
     ]
-    private ?int $nbStar = null;
+    private ?int $note = null;
 
     #[ORM\ManyToOne(inversedBy: 'reviews')]
     #[ORM\JoinColumn(nullable: false)]
@@ -89,14 +89,14 @@ class Review
         return $this;
     }
 
-    public function getNbStar(): ?int
+    public function getNote(): ?int
     {
-        return $this->nbStar;
+        return $this->note;
     }
 
-    public function setNbStar(int $nbStar): self
+    public function setNote(int $note): self
     {
-        $this->nbStar = $nbStar;
+        $this->note = $note;
 
         return $this;
     }

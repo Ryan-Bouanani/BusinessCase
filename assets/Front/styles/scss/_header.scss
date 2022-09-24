@@ -45,7 +45,7 @@ header {
             @include icons-bgPaw(100px, 100px, 68%, 25%);
         }
         span.paw.paw4 {
-            @include icons-bgPaw(200px, 200px, 65%, 70%, -160deg);
+            @include icons-bgPaw(200px, 200px, 57%, 70%, -160deg);
         }
         span.boneWhite.b1 {
             @include icons-bgPaw($left: 10%, $bottom: 40%, $rotate: -80deg);

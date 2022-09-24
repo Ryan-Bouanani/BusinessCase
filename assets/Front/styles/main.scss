@@ -17,6 +17,7 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    scroll-behavior: smooth;
     font-family: $nunito, sans-serif;
 }
 body::-webkit-scrollbar {
@@ -167,7 +168,7 @@ main {
         text-align: center;
         padding: 2rem 0;
         width: 200px;
-        height: 22rem;
+        height: 21rem;
         background: hsl(0, 0%, 93%);
         border-radius: 5px;
         border: 1px solid hsl(0, 0%, 93%);
@@ -195,6 +196,8 @@ main {
         display: flex;
         align-items: center;
         justify-content: center;
+        gap: 0.3rem;
+        margin-bottom: 0.1rem;
     }
     div.stars {
         // width: 75%;
@@ -212,10 +215,16 @@ main {
         display: inline;
     }
     .price {
-        margin-top: 5px;
         font-weight: bold;
         font-size: 1.3rem;
         color: $redPrice;
+    }
+    .priceInline {
+        display: inline;
+    }
+    del {
+        display: inline;
+        color: hsl(0, 0%, 47%);
     }
     .btnAddBasket {
         width: 90%;
@@ -251,5 +260,24 @@ main {
     }
 }
 
+
+// Arrow scroll top
+
+.arrowScrollTop {
+    position: fixed;
+    right: -50px;
+    bottom: 40px;
+    background: url(/assets/img/arrowGoTop.svg) no-repeat;
+    width: 40px;
+    height: 40px;
+    background-size: cover;
+    opacity: 0;
+    cursor: pointer;
+}
+.arrowScrollTop.display {
+    opacity: 1;
+    transition: 0.4s ease-in-out;
+    right: 40px;
+}
 
 

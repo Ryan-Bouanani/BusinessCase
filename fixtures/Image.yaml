@@ -1,6 +1,6 @@
 App\Entity\Image:
   image{0..25}:
-    path: 'product-hill-s.jpg'
+    path: 'product-hill-s.png'
     isMain: true
     product: '@product<current()>'
   image{26..50}:
@@ -20,7 +20,7 @@ App\Entity\Image:
     isMain: true
     product: '@product<current()>'
   image{101..201}:
-    path: 'product-hill-s2.jpg'
+    path: 'product-hill-s2.png'
     isMain: false
     product: '@product*'
   image{201..301}:

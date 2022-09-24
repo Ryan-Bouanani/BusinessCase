@@ -39,6 +39,18 @@ class BrandRepository extends ServiceEntityRepository
         }
     }
 
+// todo modifier la requette pour avoir les marques des produits les plus vendues
+    public function getBrand() {
+        $query = $this->createQueryBuilder('brand')
+        ->select('brand')
+        ->setMaxResults('8')
+        ->getQuery()
+        ->getResult()
+        ;
+        return $query;
+    }
+
+
 //    /**
 //     * @return Brand[] Returns an array of Brand objects
 //     */

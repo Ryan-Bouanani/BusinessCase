@@ -34,9 +34,14 @@
             width: 82%;
             gap: 3rem;
             img {
-                height: 5rem;
+                // height: 7.5rem;
                 flex: 0 0 auto;
                 scroll-snap-align: center;
+                height: 110px;
+                width: 150px;
+                background: #EAEAEA;
+                padding: 10px 15px;
+                border-radius: 0.5rem;
             }
     }
 
@@ -46,16 +51,16 @@
         
 }
 
-@media (min-width: 1200px) {
-    #bestBrandts {
-        .carrouselContainer {
-            height: 200px;
-            .carrouselBrandts img {
-                height: 6rem;
-            }
-        }
-    }
-}
+// @media (min-width: 1200px) {
+//     #bestBrandts {
+//         .carrouselContainer {
+//             height: 200px;
+//             .carrouselBrandts img {
+//                 height: 6rem;
+//             }
+//         }
+//     }
+// }
 @media (min-width: 800px) {
     #bestBrandts {
         flex-direction: row;

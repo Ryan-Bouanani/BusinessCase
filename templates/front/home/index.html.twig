@@ -51,83 +51,20 @@
                 </div>
             </div>
             <ul class="listCategories">
+                {% for category in categoriesParent %}
+                    
                 <li class="category">
                     <div class="linkCategory">
-                        <a href="#">Chien</a>
+                        <a href="#">{{ category.name }}</a>
                         <i class="fa-solid fa-chevron-right"></i>
                     </div>
                     <ul class="sub-menu">
-                        <li><a href="#">Jouets</a></li>
-                        <li><a href="#">Jouets</a></li>
-                        <li><a href="#">Jouets</a></li>
+                        {% for subCategory in category.categoryChildren %}
+                            <li><a href="#">{{ subCategory.name }}</a></li>      
+                        {% endfor %}
                     </ul>
                 </li>
-                <li class="category">
-                    <div class="linkCategory">
-                        <a href="#">Chat</a>
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </div>
-                    <ul class="sub-menu">
-                        <li><a href="#">Jouets</a></li>
-                        <li><a href="#">Jouets</a></li>
-                        <li><a href="#">Jouets</a></li>
-                    </ul>
-                </li>
-                <li class="category">
-                    <div class="linkCategory">
-                        <a href="#">Rongueur</a>
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </div>
-                    <ul class="sub-menu">
-                        <li><a href="#">Jouets</a></li>
-                        <li><a href="#">Jouets</a></li>
-                        <li><a href="#">Jouets</a></li>
-                    </ul>
-                </li>
-                <li class="category">
-                    <div class="linkCategory">
-                        <a href="#">Reptile</a>
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </div>
-                    <ul class="sub-menu">
-                        <li><a href="#">Jouets</a></li>
-                        <li><a href="#">Jouets</a></li>
-                        <li><a href="#">Jouets</a></li>
-                    </ul>
-                </li>
-                <li class="category">
-                    <div class="linkCategory">
-                        <a href="#">Poisson</a>
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </div>
-                    <ul class="sub-menu">
-                        <li><a href="#">Jouets</a></li>
-                        <li><a href="#">Jouets</a></li>
-                        <li><a href="#">Jouets</a></li>
-                    </ul>
-                </li>
-                <li class="category">
-                    <div class="linkCategory">
-                        <a href="#">Oiseau</a>
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </div>
-                    <ul class="sub-menu">
-                        <li><a href="#">Jouets</a></li>
-                        <li><a href="#">Jouets</a></li>
-                        <li><a href="#">Jouets</a></li>
-                    </ul>
-                </li>
-                <li class="category">
-                    <div class="linkCategory">
-                        <a href="#">Ferme</a>
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </div>
-                    <ul class="sub-menu">
-                        <li><a href="#">Jouets</a></li>
-                        <li><a href="#">Jouets</a></li>
-                        <li><a href="#">Jouets</a></li>
-                    </ul>
-                </li>
+                {% endfor %}
             </ul>
             <ul class="social-networks">
                 <li>
@@ -171,17 +108,29 @@
                             <div class="card">
                             <a href="{{ path('app_detail_product', {'slug': product[0].title}) }}">
                             
-                                <img src="{{ asset("build/images/" ~ product[0].images[0].path) }}" alt="Pédigree">
+                                {% for image in product[0].images %}
+                                    <img src="{{ asset("build/images/" ~ image.path) }}" alt="Pédigree">
+                                {% endfor %}
                                 <h3 class="title-product">{{ product[0].title }}</h3>
-                                <span class="new">NOUVEAU</span>
+                                {# <span class="new">NOUVEAU</span> #}
+                                {% if product['percentage'] %}
+                                    <span class="new">{{ product['percentage']|  percentagePromo }}</span>
+                                {% endif %}
                                     <div class="stars-reviews">
                                     <div class="stars">
-                                    {{ product[1] | stars }}
+                                    {{ product['note'] | stars }}
                                     </div>
-                                        {# {{ product[1] }} #}
-                                    <p class="p-1">({{ product[2] }} avis)</p>
+                                    <p class="p-1">({{ product['Avis'] }} avis)</p>
                                 </div>
-                                <p class="price">{{ product[0].priceExclVat }}€</p>
+
+                                  {% set priceTaxIncl = product[0].priceExclVat +  (product[0].priceExclVat * (product[0].tva / 100)) | round(2,'floor') %}
+
+                                  {% if product['percentage'] %}
+                                    <p class="price priceInline">{{ priceTaxIncl -  (priceTaxIncl * (product['percentage'] / 100)) | round(2,'floor') }}€</p>
+                                    <del>{{ priceTaxIncl }}€</del>
+                                {% else %}
+                                    <p class="price">{{ priceTaxIncl}}€</p>
+                                {% endif %}
                                 <a href="" class="btn btnAddBasket">Ajoutez au panier</a>
                             </a>
                             </div>            
@@ -207,46 +156,41 @@
         <!--  Nos Meileurs Ventes -->
         <section id="best-sales">
             <div class="container-me">
-                <h2 class="h2">Nos meilleurs ventes</h2>
+                <h2 class="h2">Les mieux notés</h2>
                 <div class="carrouselContainer">
                     <!-- <span class="arrow_left"></span>
                     <span class="arrow_right"></span> -->
                     <i class="arrow_left fa-solid fa-circle-chevron-left"></i>
                     <i class="arrow_right fa-solid fa-circle-chevron-right"></i>
-                    <div class="carrousel carrouselProducts">
-                        <!-- Card 1 -->
-                        <div class="card">
-                            <img src="{{ asset("build/images/product-dog 1.png") }}" alt="Pédigree">
-                            <h3 class="title-product">Pédigree ranchos original</h3>
-                            <span class="new">NOUVEAU</span>
-                                <div class="stars-reviews">
-                                <div class="stars">
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star"></i>
-                                    <i class="fa-solid fa-star-half"></i>
-                                </div>
-                                <p class="p-1">95 avis</p>
-                            </div>
-                            <p class="price">17€</p>
-                            <a href="" class="btn btnAddBasket">Ajoutez au panier</a>
-                        </div>            
-                          {% for product in bestSellingProduct %}
+                    <div class="carrousel carrouselProducts">       
+                          {% for product in topRatedProducts %}
                             <div class="card">
                             <a href="{{ path('app_detail_product', {'slug': product[0].title}) }}">
                             
-                                <img src="{{ asset("build/images/" ~ product[0].images[0].path) }}" alt="Pédigree">
+                                {% for image in product[0].images %}
+                                    <img src="{{ asset("build/images/" ~ image.path) }}" alt="{{ product[0].title }}">
+                                {% endfor %}
                                 <h3 class="title-product">{{ product[0].title }}</h3>
-                                <span class="new">NOUVEAU</span>
+                                {# <span class="new">NEW</span> #}
+                                {% if product['percentage'] %}
+                                    <span class="new">{{ product['percentage'] | percentagePromo }}</span>
+                                {% endif %}
+                                
                                     <div class="stars-reviews">
                                     <div class="stars">
-                                    {{ product[1] | stars }}
+                                    {{ product['Avis'] | stars }}
                                     </div>
-                                        {# {{ product[1] }} #}
-                                    <p class="p-1">({{ product[2] }} avis)</p>
+                                    <p class="p-1">({{ product['Avis'] }} avis)</p>
                                 </div>
-                                <p class="price">{{ product[0].priceExclVat }}€</p>
+
+                                  {% set priceTaxIncl = product[0].priceExclVat +  (product[0].priceExclVat * (product[0].tva / 100)) | round(2,'floor') %}
+
+                                {% if product['percentage'] %}
+                                    <p class="price priceInline">{{ priceTaxIncl -  (priceTaxIncl * (product['percentage'] / 100)) | round(2,'floor') }}€</p>
+                                    <del>{{ priceTaxIncl }}€</del>
+                                {% else %}
+                                    <p class="price">{{ priceTaxIncl}}€</p>
+                                {% endif %}
                                 <a href="" class="btn btnAddBasket">Ajoutez au panier</a>
                             </a>
                             </div>            
@@ -266,14 +210,9 @@
                     <span class="arrow_left"></span>
                     <span class="arrow_right"></span>
                     <div class="carrousel carrouselBrandts">
-                        <img src="{{ asset("build/images/Hill's.png") }}" alt="Logo marque Hill's">
-                        <img src="{{ asset("build/images/Pedigree.png") }}" alt="Logo marque Pedigree">
-                        <img src="{{ asset("build/images/Royal Canin.png") }}" alt="Logo marque Royal Canin">
-                        <img src="{{ asset("build/images/Taste of the wild .png") }}" alt="Logo marque Taste of the wild">
-                        <img src="{{ asset("build/images/Tetra.png") }}" alt="Logo marque Tetra">
-                        <img src="{{ asset("build/images/Vtacraft .png") }}" alt="Logo marque Vtacraft">
-                        <img src="{{ asset("build/images/Whiskas .png") }}" alt="Logo marque Whiskas">
-                        <img src="{{ asset("build/images/Yarrah .png") }}" alt="Yarrah">
+                      {% for brand in brandts %}
+                        <img src="{{ asset("build/images/" ~ brand.pathImage) }}" alt="{{ brand.label }}">
+                      {% endfor %}
                     </div>
                 </div>
             </div>
@@ -315,33 +254,31 @@
             <h2 class="h2testimonials">Avis clients</h2>
             <div class="testimonialsNewletter">
                 <div class="testimonials-slider">
+                <div class="testimonialContainer">
                     <span class="arrow_left"></span>
                     <span class="arrow_right"></span>
-
-                    <div class="testimonials none">
-                        <span class="guillemet">❝</span>
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolor ipsum laboriosam, sed asperioresfugnqoreynht</p>
-                        <div class="profil">
-                            <img src="{{ asset("build/images/photo de profil avis 1.png") }}" alt="Photo de profil">
-                            <h3>Julien Fallois</h3>
+                    {% for review in reviews %}
+                    {# data-index='{{ loop.index }}' #}
+                        <div class="testimonial-item">
+                            <div class="testimonials">
+                                <span class="guillemet">❝</span>
+                                <p>{{ review.comment }}</p>
+                                <div class="profil">
+                                    <img src="{{ asset("build/images/photo de profil avis 1.png") }}" alt="Photo de profil">
+                                    <h3>{{ review.customer.firstName }} {{ review.customer.lastName }}</h3>
+                                </div>
+                            </div>                
                         </div>
-                    </div>
-                    <div class="testimonials main">
-                        <span class="guillemet">❝</span>
-                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Enim, vestibulum viverra commodo aliquet.</p>
-                        <div class="profil">
-                            <img src="{{ asset("build/images/photo de profil avis 1.png") }}" alt="Photo de profil">
-                            <h3>Julien Fallois</h3>
-                        </div>
-                    </div>
-                    <div class="testimonials none">
+                    {% endfor %}
+                    {# <div class="testimonials none">
                         <span class="guillemet">❝</span>
                         <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolor ipsum laboriosam, sed asperiores</p>
                         <div class="profil">
                             <img src="{{ asset("build/images/photo de profil avis 1.png") }}" alt="Photo de profil">
                             <h3>Julien Fallois</h3>
                         </div>
-                    </div>
+                    </div> #}
+                </div>
                 </div>
                 <div class="newletter">
                     <h2 class="h2Newletter">Abonnez-vous à notre newletter</h2>
@@ -391,6 +328,7 @@
         </section>
 
     </main>
+    <span class="arrowScrollTop"></span>
     <!-- Footer -->
     <footer>
         <div class="about">
