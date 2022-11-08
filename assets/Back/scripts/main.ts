@@ -1,2 +1,6 @@
+import "../../shared/scripts/main";
 import './collection_form/collection_form';
-console.log('lol');
+import './quantityListener';
+import './fetch/deleteContentShoppingCart';
+import './fetch/addProductToOrder';
+import './fetch/images';

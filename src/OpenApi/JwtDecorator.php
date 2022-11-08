@@ -32,13 +32,13 @@ final class JwtDecorator implements OpenApiFactoryInterface
         $schemas['Credentials'] = new \ArrayObject([
             'type' => 'object',
             'properties' => [
-                'email' => [
+                'username' => [
                     'type' => 'string',
-                    'example' => 'admin@test.com',
+                    'example' => 'LaFaceCachéeDeLaLune',
                 ],
                 'password' => [
                     'type' => 'string',
-                    'example' => 'ryan',
+                    'example' => 'Issou2021',
                 ],
             ],
         ]);
@@ -81,7 +81,7 @@ final class JwtDecorator implements OpenApiFactoryInterface
                 security: [],
             ),
         );
-        $openApi->getPaths()->addPath('/authentication_token', $pathItem);
+        $openApi->getPaths()->addPath('/api/authentication_token', $pathItem);
 
         return $openApi;
     }

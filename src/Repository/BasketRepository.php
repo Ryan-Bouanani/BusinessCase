@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Basket;
 use DateTime;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -16,7 +17,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
  * @method Basket[]    findAll()
  * @method Basket[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class BasketRepository extends ServiceEntityRepository
+class BasketRepository extends AbstractRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -41,7 +42,55 @@ class BasketRepository extends ServiceEntityRepository
         }
     }
 
+
+    public function findBasketWithCustomer(int $id): array 
+    {
+
+        $oldBasket = $this->createQueryBuilder('basket')
+            ->select('basket')
+            ->where('basket.status IS NULL')
+            ->andWhere('basket.customer = :id')
+            ->leftJoin('basket.customer', 'customer')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getResult();
+            ;
+            // dd($oldBasket);
+            return $oldBasket;
+    }
+
+
+
+
+
+
+
+
+
+
+
 // stats api
+
+    public function nbBasketAndOrders(?\DateTime $beginDate = null, ?\DateTime $endDate = null): array 
+    {
+
+        if ($beginDate === null || $endDate === null) {
+            $beginDate = new DateTime('2018-01-01');
+            $endDate = new DateTime('now');
+        }
+
+        $nbBasket = $this->createQueryBuilder('basket')
+            ->select('COUNT(basket) AS NbBasketAndOrders')
+            ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
+            ->leftJoin("basket.status", "status")
+            ->setParameter('beginDate', $beginDate)
+            ->setParameter('endDate', $endDate)
+            ->getQuery()
+            ->getOneOrNullResult();
+            ;
+            return $nbBasket;
+    }
+
     public function nbBasket(?\DateTime $beginDate = null, ?\DateTime $endDate = null): array 
     {
 
@@ -53,8 +102,10 @@ class BasketRepository extends ServiceEntityRepository
         $nbBasket = $this->createQueryBuilder('basket')
             ->select('COUNT(basket) AS NbBasket')
             ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
+            ->leftJoin("basket.status", "status")
             ->setParameter('beginDate', $beginDate)
             ->setParameter('endDate', $endDate)
+            ->andWhere("status IS NULL")
             ->getQuery()
             ->getOneOrNullResult();
             ;
@@ -75,13 +126,12 @@ class BasketRepository extends ServiceEntityRepository
         ->setParameter('beginDate', $beginDate)
         ->setParameter('endDate', $endDate)
         ->getQuery()
-        ->getOneOrNullResult();
-
-        $query['AveragePriceBasket'] = round($query['AveragePriceBasket'], 2);
+        ->getOneOrNullResult()
+        ;
         return $query;
     }
     
-    
+    // selectionne les paniers qui qui ont étés crée il y'a plus de 2 heures et qui n'ont toujours pas été convertis en commandes
     public function abandonedBasket(?\DateTime $beginDate = null, ?\DateTime $endDate = null): array {
 
         if ($beginDate === null || $endDate === null) {
@@ -91,11 +141,12 @@ class BasketRepository extends ServiceEntityRepository
 
         $query = $this->createQueryBuilder('basket')
         ->select('COUNT(basket) AS NbAbandonedBasket') 
-        ->join("basket.status", "status")
+        ->leftJoin("basket.status", "status")
         ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
         ->setParameter('beginDate', $beginDate)
         ->setParameter('endDate', $endDate)
-        ->andWhere("status.name = 'Annuler'")
+        ->andWhere("CURRENT_TIMESTAMP() > DATE_ADD(basket.dateCreated, 2, 'HOUR')")
+        ->andWhere("status IS NULL")
         ->getQuery()
         ->getOneOrNullResult();
 
@@ -113,17 +164,16 @@ class BasketRepository extends ServiceEntityRepository
     
         $nbOrder = $this->createQueryBuilder('basket')
             ->select('COUNT(basket) AS NbOrder')
-            ->join("basket.status", "status")
+            ->leftJoin("basket.status", "status")
             ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
             ->setParameter('beginDate', $beginDate)
             ->setParameter('endDate', $endDate)
-            ->andWhere("status.name = 'Valider'")
+            ->andWhere("status IS NOT NULL")
             ->getQuery()
             ->getOneOrNullResult();
             ;
             return $nbOrder;     
         ;
-
     }
     
 
@@ -137,11 +187,12 @@ class BasketRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('basket')
         ->select('SUM(contentShoppingCart.price * contentShoppingCart.quantity) AS Turnover')
         ->join('basket.contentShoppingCarts', 'contentShoppingCart')
-        ->join("basket.status", "status")
+        ->leftJoin("basket.status", "status")
         ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
         ->setParameter('beginDate', $beginDate)
         ->setParameter('endDate', $endDate)
-        ->andWhere("status.name = 'Valider'")
+        ->andWhere("status IS NOT NULL")
+        ->andWhere("status.name != 'Remboursée'")
         ->getQuery()
         ->getOneOrNullResult();
         return $query;
@@ -156,19 +207,21 @@ class BasketRepository extends ServiceEntityRepository
 
         $query = $this->createQueryBuilder('basket')
             // todo ya plusieurs image en main par produit sa fausse les stats il compte plusieurs fois du coup
-            ->select('product.title AS NameProduct','image.path AS Image' , 'SUM(contentSC.quantity) AS NbSold', 'SUM(contentSC.price * contentSC.quantity) AS TotalAmountSold')
+            ->select('product.title AS NameProduct','image.path AS Image', 'SUM(contentSC.quantity) AS NbSold', 'SUM(contentSC.price * contentSC.quantity) AS TotalAmountSold')
             ->join('basket.contentShoppingCarts', 'contentSC')
             ->join('contentSC.product', 'product')
-            ->join("basket.status", "status")
+            ->leftJoin("basket.status", "status")
             ->join('product.images', 'image')
             ->groupBy('product')
             ->orderBy('TotalAmountSold', 'DESC')
+            ->orderBy('NbSold', 'DESC')
             ->where('image.isMain = true')
             ->andWhere('basket.dateCreated BETWEEN :beginDate AND :endDate')
             ->setParameter('beginDate', $beginDate)
             ->setParameter('endDate', $endDate)
             // todo voir si faire un join de status et plus performant que mettre le nb du status souhaitée
-            ->andWhere("status.name = 'Valider'")
+            ->andWhere("status IS NOT NULL")
+            ->andWhere("status.name != 'Remboursée'")
             ->setMaxResults(8)
             ->getQuery()
             ->getResult()
@@ -189,8 +242,8 @@ class BasketRepository extends ServiceEntityRepository
         $newCustomer = $this->createQueryBuilder('basket')
             ->select('customer.id AS IdNewClient')  
             ->join('basket.customer', 'customer')
-            ->join('basket.status', 'status')
-            ->where("status.name = 'Valider'")
+            ->leftJoin('basket.status', 'status')
+            ->where("status IS NOT NULL")
             ->groupBy('basket.customer')
             ->having('COUNT(basket) = 1')
             ->getQuery()
@@ -200,40 +253,48 @@ class BasketRepository extends ServiceEntityRepository
         $newCustomerByDate = $this->createQueryBuilder('basket')
             ->select('customer.id AS IdNewClient')  
             ->join('basket.customer', 'customer')
-            ->join('basket.status', 'status')
+            ->leftJoin('basket.status', 'status')
             ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
             ->setParameter('beginDate', $beginDate)
             ->setParameter('endDate', $endDate)
-            ->andWhere("status.name = 'Valider'")
+            ->andWhere("status IS NOT NULL")
             ->groupBy('basket.customer')
             ->having('COUNT(basket) = 1')
             ->getQuery()
-            ->getResult();
+            ->getResult()
+        ;
 
-            // selectionne les commandes avec clients existant
-            // $existingCustomer = $this->createQueryBuilder('basket')
-            //     ->select('customer.id')  
-            //     ->join('basket.customer', 'customer')
-            //     ->join('basket.status', 'status')
-            //     ->andWhere("status.name = 'Valider'")
-            //     ->groupBy('basket.customer')
-            //     // ->having('COUNT(basket) > 1')
-            //     ->getQuery()
-            //     ->getResult();
+        // selectionne les commandes avec clients existant
+        $existingCustomer = $this->createQueryBuilder('basket')
+            ->select('customer.id')  
+            ->join('basket.customer', 'customer')
+            ->leftJoin('basket.status', 'status')
+            ->andWhere("status IS NOT NULL")
+            ->groupBy('basket.customer')
+            ->having('COUNT(basket) > 1')
+            ->getQuery()
+            ->getResult()
+        ;
     
-        // selectionne le nombre de commande
+        // selectionne le nombre de commandes
         $query2 = $this->createQueryBuilder('basket')
             ->select('COUNT(basket) AS OrderWithExistingCustomer') 
             ->join('basket.customer', 'customer') 
-            ->join("basket.status", "status")
-            ->andWhere("status.name = 'Valider'")
+            ->leftJoin("basket.status", "status")
+            ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
+            ->setParameter('beginDate', $beginDate)
+            ->setParameter('endDate', $endDate)
+            ->andWhere("status IS NOT NULL")
+            // ->andWhere('customer IN (:existingCustomer)')
+            // ->setParameter('existingCustomer', $existingCustomer)
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getOneOrNullResult()
+        ;
 
-            $query = $this->createQueryBuilder('basket')
+        $query = $this->createQueryBuilder('basket')
             ->select('COUNT(basket) AS RecurrenceOrderCustomer') 
             ->join('basket.customer', 'customer') 
-            ->join("basket.status", "status")
+            ->leftJoin("basket.status", "status")
             ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
             ->setParameter('beginDate', $beginDate)
             ->setParameter('endDate', $endDate)
@@ -242,15 +303,36 @@ class BasketRepository extends ServiceEntityRepository
             ->andWhere('customer IN (:newCustomerByDate)')
             ->setParameter('newCustomer', $newCustomer) 
             ->setParameter('newCustomerByDate', $newCustomerByDate)
-            ->andWhere("status.name = 'Valider'")
+            ->andWhere("status IS NOT NULL")
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getOneOrNullResult()
+        ;
 
-        $query['RecurrenceOrderCustomer'] = round((($query['RecurrenceOrderCustomer'] / $query2['OrderWithExistingCustomer']) * 100), 2);
-
+        if ($query2['OrderWithExistingCustomer'] == 0) {
+            $query['RecurrenceOrderCustomer'] = round(($query['RecurrenceOrderCustomer'] * 100), 2);
+        } else {
+            $query['RecurrenceOrderCustomer'] = round((($query['RecurrenceOrderCustomer'] / $query2['OrderWithExistingCustomer']) * 100), 2);
+        }
         return $query;
 
+
     }
+
+
+
+    public function getQbAll(): QueryBuilder {
+        $qb = parent::getQbAll();
+        return $qb->select('basket','status')
+        ->join('basket.status', 'status')
+        ->where('basket.status IS NOT NULL')
+        ->groupBy('basket')
+        ->orderBy('basket.id', 'ASC')
+        ;
+    }
+
+
+
+
 
 //    /**
 //     * @return Basket[] Returns an array of Basket objects

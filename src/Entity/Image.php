@@ -25,7 +25,7 @@ class Image
     ]
     private ?string $path = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     #[
         Assert\NotBlank([
             'message' => "Veuiller remplir tout les champs."
@@ -59,7 +59,7 @@ class Image
         return $this;
     }
 
-    public function isIsMain(): ?bool
+    public function getIsMain(): ?bool
     {
         return $this->isMain;
     }

@@ -1,3 +1,7 @@
+import "../../shared/scripts/main";
+import "./partials/imagesProductDetail";
+import "./partials/searchBar";
+
 
 // * navbar toggle
 const openMenuIcon = document.querySelector('.top-nav .search-menu-mobile .menu');
@@ -35,7 +39,7 @@ cardContainers.forEach((item, i) => {
 
 
 // * category sidebar
-const category = document.querySelectorAll('.category');
+// const category = document.querySelectorAll('.category');
 const linkCategory = [...document.querySelectorAll('.linkCategory i.fa-chevron-right')];
 const subMenu = document.querySelectorAll('.sub-menu');
 
@@ -90,12 +94,6 @@ class Carousel3d {
 
         this.carrouselArray.slice(0, 5).forEach((element, i) => {
             element.classList.add(`testimonial-item-${i+1}`);
-            // if (i == 2) {
-            //     console.log(reviewsItems[i]);
-                
-            //     reviewsItems[i].classList.add('main'); 
-            //     this.carrouselArray[i - 1].classList.remove('main');
-            // }
         });
     };
 
@@ -114,8 +112,7 @@ class Carousel3d {
 
     useControls() {
         const triggers = this.carrouselControls;
-        console.log(this.carrouselControls);
-        
+
         triggers.forEach(control => {
             control.addEventListener('click', () => {
                 this.setCurrentState(control);
@@ -124,25 +121,31 @@ class Carousel3d {
     }
 };
 
-const carrouselTestimonials  = new Carousel3d(reviewsContainer, reviewsItems, testimonialControls);
 
-carrouselTestimonials.updateGallery()
-carrouselTestimonials.useControls();
+if (reviewsContainer && reviewsItems && testimonialControls) {
+    const carrouselTestimonials  = new Carousel3d(reviewsContainer, reviewsItems, testimonialControls);
+    
+    carrouselTestimonials.updateGallery()
+    carrouselTestimonials.useControls();
+}
 
 
 
 // Arrow scroll top and appareance on scroll
 const arrowScrollTop = document.querySelector('.arrowScrollTop');
 
-window.onscroll = function() {
-    appareanceArrowScrollTop();
-};
 
 function scrollTop() {
     window.scrollTo(0, 0)
-    console.log(arrowScrollTop);
 }
-arrowScrollTop.addEventListener('click', scrollTop);
+if (arrowScrollTop) {
+    
+    window.onscroll = function() {
+        appareanceArrowScrollTop();
+    };
+    
+    arrowScrollTop.addEventListener('click', scrollTop);
+}
 
 function appareanceArrowScrollTop() {
     if (window.pageYOffset >= 1800) {
@@ -150,4 +153,4 @@ function appareanceArrowScrollTop() {
     } else {
       arrowScrollTop.classList.remove("display");
     }
-  }
+}

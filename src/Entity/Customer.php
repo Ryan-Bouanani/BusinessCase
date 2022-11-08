@@ -14,12 +14,12 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-#[UniqueEntity('email')]
+// #[UniqueEntity('email')]
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
 #[ApiResource(
     
     attributes: [
-        "security" => "is_granted('ROLE_ADMIN') or is_granted('ROLE_STATS')",
+        "security" => "is_granted('ROLE_STATS')",
         "security_message" => "Accès refusé",
     ],
     collectionOperations: [
@@ -54,12 +54,28 @@ use Symfony\Component\Security\Core\User\UserInterface;
         'get'
     ],
 )]
+#[UniqueEntity(fields: ['username'], message: 'Un compte existe déja avec ce nom d\'utilisateur')]
 class Customer implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+
+
+    #[ORM\Column(length: 255)]
+    #[
+        Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
+        Assert\Length([
+            'min' => 2,
+            'max' => 255,
+            'minMessage' => 'Veuiller entrer un username contenant au minimum {{ limit }} caractères',
+            'maxMessage' => 'Veuiller entrer un username contenant au maximum {{ limit }} caractères',
+        ]),
+    ]
+    private ?string $username = null;
 
     #[ORM\Column(length: 180, unique: true)]
     #[
@@ -75,15 +91,11 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private array $roles = [];
 
+
     /**
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[
-        Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
-        ]),
-    ]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
@@ -119,9 +131,7 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
         Assert\NotBlank([
             'message' => "Veuiller remplir tout les champs."
         ]),
-        Assert\Date([
-            'message' => 'Veuiller entrer une date valide.',
-        ])
+  
     ]
     private ?\DateTimeInterface $dateOfBirth = null;
 
@@ -139,24 +149,18 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Basket::class)]
     private Collection $baskets;
 
-    #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Address::class)]
-    #[
-        Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
-        ]),
-    ]
-    private Collection $addresses;
-
     #[ORM\ManyToOne(inversedBy: 'customers')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Gender $gender = null;
+
+    #[ORM\ManyToOne(inversedBy: 'customers')]
+    private ?Address $address = null;
 
 
     public function __construct()
     {
         $this->reviews = new ArrayCollection();
         $this->baskets = new ArrayCollection();
-        $this->addresses = new ArrayCollection();
         $this->registrationDate = new \DateTime();
     }
 
@@ -184,7 +188,7 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
      */
     public function getUserIdentifier(): string
     {
-        return (string) $this->email;
+        return (string) $this->username;
     }
 
     /**
@@ -338,36 +342,6 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Address>
-     */
-    public function getAddresses(): Collection
-    {
-        return $this->addresses;
-    }
-
-    public function addAddress(Address $address): self
-    {
-        if (!$this->addresses->contains($address)) {
-            $this->addresses->add($address);
-            $address->setCustomer($this);
-        }
-
-        return $this;
-    }
-
-    public function removeAddress(Address $address): self
-    {
-        if ($this->addresses->removeElement($address)) {
-            // set the owning side to null (unless already changed)
-            if ($address->getCustomer() === $this) {
-                $address->setCustomer(null);
-            }
-        }
-
-        return $this;
-    }
-
     public function getGender(): ?Gender
     {
         return $this->gender;
@@ -376,6 +350,30 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     public function setGender(?Gender $gender): self
     {
         $this->gender = $gender;
+
+        return $this;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
+    }
+
+    public function getAddress(): ?address
+    {
+        return $this->address;
+    }
+
+    public function setAddress(?address $address): self
+    {
+        $this->address = $address;
 
         return $this;
     }

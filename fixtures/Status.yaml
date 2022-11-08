@@ -1,18 +1,15 @@
 App\Entity\Status:
   status1:
-    name: 'Livrer'
+    name: 'Expédiée'
 
   status2:
-    name: 'En livraison'
+    name: 'Acceptée'
 
   status3:
-    name: 'En preparation'
+    name: 'En cours de preparation'
 
   status4:
-    name: 'Annuler'
+    name: 'Annulée'
 
   status5:
-    name: 'Rembourser'
-
-  status6:
-    name: 'Valider'
+    name: 'Remboursée'

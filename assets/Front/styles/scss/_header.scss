@@ -3,72 +3,75 @@
 @use './mixins' as *;
 
 // * -------------Header-----------
-header {
-    position: relative;
-    @include gradient-bg(225deg);
+header.home {
     height: 90vh;
-    width: 100%;
+
+     // Icones bg Header
+     span.bone, span.boneWhite, span.paw {
+        position: absolute;
+        content: "";
+    }
+    span.bone, span.boneWhite {
+        opacity: 70%;
+        width: 40px;
+        height: 40px;
+    }
+    span.bone {
+        background: url(/assets/img/bone.png) no-repeat;
+        background-size: contain;
+    }
+    span.boneWhite {
+        background: url(/assets/img/boneWhite.png) no-repeat;
+        background-size: contain;
+    }
+    span.paw {
+        opacity: 50%;
+        background: url(/assets/img/paw.png) no-repeat;
+        background-size: contain;
+    }
+    span.paw.paw1 {
+        @include icons-bgPaw(240px, 240px, 0, 3%);
+    }
+    span.paw.paw2 {
+        @include icons-bgPaw(80px, 80px, 6%, 60%, -65deg);
+    }
+    span.paw.paw3 {
+        @include icons-bgPaw(100px, 100px, 68%, 25%);
+    }
+    span.paw.paw4 {
+        @include icons-bgPaw(200px, 200px, 57%, 70%, -160deg);
+    }
+    span.boneWhite.b1 {
+        @include icons-bgPaw($left: 10%, $bottom: 40%, $rotate: -80deg);
+    }
+    span.boneWhite.b2 {
+        @include icons-bgPaw($left: 30%, $bottom: 85%);
+    }
+    span.boneWhite.b3 {
+        @include icons-bgPaw($left: 90%, $bottom: 50%, $rotate: -90deg);
+    }
+    span.boneWhite.b4 {
+        @include icons-bgPaw($left: 56%, $bottom: 20%);
+    }
+    span.bone.b5 {
+        @include icons-bgPaw($left: 56%, $bottom: 70%);
+    }
+    span.bone.b6 {
+        @include icons-bgPaw($left: 10%, $bottom: 75%);
+    }
+    span.bone.b7 {
+        @include icons-bgPaw($left: 40%, $bottom: 28%);
+    }
+    // 
+}
+header {
+    @include gradient-bg(225deg);
     background-size: cover;
-    margin-bottom: 4.7rem;
+    position: relative;
+    width: 100%;
+    margin-bottom: 6.7rem;
     margin-top: 4.7rem;
 
-    // Icones bg Header
-        span.bone, span.boneWhite, span.paw {
-            position: absolute;
-            content: "";
-        }
-        span.bone, span.boneWhite {
-            opacity: 70%;
-            width: 40px;
-            height: 40px;
-        }
-        span.bone {
-            background: url(/assets/img/bone.png) no-repeat;
-            background-size: contain;
-        }
-        span.boneWhite {
-            background: url(/assets/img/boneWhite.png) no-repeat;
-            background-size: contain;
-        }
-        span.paw {
-            opacity: 50%;
-            background: url(/assets/img/paw.png) no-repeat;
-            background-size: contain;
-        }
-        span.paw.paw1 {
-            @include icons-bgPaw(240px, 240px, 0, 3%);
-        }
-        span.paw.paw2 {
-            @include icons-bgPaw(80px, 80px, 6%, 60%, -65deg);
-        }
-        span.paw.paw3 {
-            @include icons-bgPaw(100px, 100px, 68%, 25%);
-        }
-        span.paw.paw4 {
-            @include icons-bgPaw(200px, 200px, 57%, 70%, -160deg);
-        }
-        span.boneWhite.b1 {
-            @include icons-bgPaw($left: 10%, $bottom: 40%, $rotate: -80deg);
-        }
-        span.boneWhite.b2 {
-            @include icons-bgPaw($left: 30%, $bottom: 85%);
-        }
-        span.boneWhite.b3 {
-            @include icons-bgPaw($left: 90%, $bottom: 50%, $rotate: -90deg);
-        }
-        span.boneWhite.b4 {
-            @include icons-bgPaw($left: 56%, $bottom: 20%);
-        }
-        span.bone.b5 {
-            @include icons-bgPaw($left: 56%, $bottom: 70%);
-        }
-        span.bone.b6 {
-            @include icons-bgPaw($left: 10%, $bottom: 75%);
-        }
-        span.bone.b7 {
-            @include icons-bgPaw($left: 40%, $bottom: 28%);
-        }
-    // 
     div.menu, .search-submit, div.account, div.basket {
         height: 30px;
         width: 30px;
@@ -149,13 +152,16 @@ header {
     }
 
     .search-form {
-        width: 90%;
+        width: 80%;
         max-width: 38rem;
         position: absolute;
         top: 5.5rem;
         left: 50%;
         right: 50%;
         transform: translateX(-50%);
+    }
+    .search {
+        position: relative;
     }
     .search-bar {
         position: relative;
@@ -172,6 +178,11 @@ header {
         z-index: 100;
         padding-right: 3px;
         // border-right: 1px solid hsl(0, 0%, 83%);
+    }
+    .resultProductSearch {
+        .product img {
+            width: 5rem;
+        }
     }
 
     // Logo
@@ -192,11 +203,6 @@ header {
         }
         .basket-p a {
             position: relative;
-        }
-        a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
         // ? METTRE UN SPAN A LA PLACE DE DIV  POUR LA DIV BASKET ET ACCOUNT
         .account, .basket {
@@ -314,6 +320,9 @@ header {
             -webkit-transition: 0.5s ease-in-out;
             transition: 0.5s ease-in-out;
         }
+        .sub-menu-active a:hover, .linkCategory a:hover {
+            color: rgb(255,123,0);
+        }
     }
     nav.bottom-nav.open {
         transform: translate(0%);
@@ -364,13 +373,13 @@ header {
         }
     }
 }
-header::after, #best-sales::before, #best-sales::after  {
+header.home::after, #best-sales::before, #best-sales::after  {
     position: absolute;
     content: "";
     left: 0;
     width: 100%;
 }
-header::after {
+header.home::after {
     background: url(/assets/img/bgWaves.png) no-repeat;
     background-size: cover;
     bottom: 0;
@@ -391,7 +400,7 @@ header::after {
 
 //* Header Desktop
 @media (max-width: 560px) {
-    header {
+    header.home {
         // Icones bg Header
             span.paw.paw4 {
                 width: 150px;
@@ -404,17 +413,12 @@ header::after {
             }
     }
 }
-@media (min-width: 768px) {
-
+@media (min-width: 868px) {
     header {
+        margin-bottom: 0;
+    }
+    header.home {
         height: 42rem;
-        margin-top: 0;
-
-        .account_basket { 
-            .count {
-                background: #ed6436;
-            }
-        }
         // Icones bg Header
             span.bone, span.boneWhite, span.paw:not(.paw4) {
                 opacity: 1;
@@ -453,7 +457,17 @@ header::after {
                 @include icons-bgPaw($left: 88%, $bottom: 65%);
             }
         // 
-        .none {
+
+    }
+    header {
+        margin-top: 0;
+
+        .account_basket { 
+            .count {
+                background: #ed6436;
+            }
+        }
+        .none:not(.error, .resultProductSearch ) {
             display: inline-block;
         }
 
@@ -478,6 +492,11 @@ header::after {
             width: 100%;
             max-width: 27rem;
         }
+        .resultProductSearch {
+            position: absolute;
+            width: 100%;
+            top: 100%;
+        }
         .search-bar {
             width: 100%;
             height: 2.3rem;
@@ -495,11 +514,6 @@ header::after {
             align-items: center;
             gap: 0.4rem;
         }
-
-        div.account-p .account {
-            height: 20px;
-        }
-
         // Nav Catégories desktop
         nav.bottom-nav {
             all: unset;

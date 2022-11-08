@@ -1,0 +1,108 @@
+{% extends 'back/base.html.twig' %}
+
+{% block title %}Basket index{% endblock %}
+
+{% block body %}
+
+    <div class="newBtnContainer">
+        <a class="button" href="{{ path('app_basket_new') }}">Create new</a>
+    </div>
+    <div class="container">
+        <div class="containerTable">
+            <table class="table table-hover">
+                {{ form_start(filters) }}
+                <thead>
+                    <tr>
+                        <th scope="col" class="colId">
+                            {# filtre par id #}
+                            {{ form_widget(filters.id)}}
+                            {{knp_pagination_sortable(
+                                orders,
+                                'Id',
+                                'basket.id'
+                            )|raw
+                            }}
+                        </th>
+                        <th scope="col" class="colCustomer">
+                            {# filtre par client #}
+                            {{ form_widget(filters.customer)}}
+                            {{knp_pagination_sortable(
+                                orders,
+                                'Client',
+                                'customer.username'
+                            )|raw
+                            }}
+                        </th>
+                        <th scope="col" class="colAddress">
+                            {# filtre par client #}
+                            {{ form_widget(filters.address)}}
+                            {{knp_pagination_sortable(
+                                orders,
+                                'Adresse',
+                                'address.country'
+                            )|raw
+                            }}
+                        </th>
+                        <th scope="col" class="colBillingDate">
+                            {# filtre par date de facturation #}
+                            {{ form_widget(filters.billingDate)}}
+                            {{knp_pagination_sortable(
+                                orders,
+                                'Date de facturation',
+                                'basket.billingDate'
+                            )|raw
+                            }}
+                        </th>
+                        <th scope="col" class="colMeanOfPayment">
+                            {# filtre par moyen de paiement #}
+                            {{ form_widget(filters.meanOfPayment)}}
+                            {{knp_pagination_sortable(
+                                orders,
+                                'Moyen de paiement',
+                                'meanOfPayment.designation'
+                            )|raw
+                            }}
+                        </th>
+                        <th scope="col" class="colStatus">
+                            {# filtre par status #}
+                            {{ form_widget(filters.status)}}
+                            {{knp_pagination_sortable(
+                                orders,
+                                'Status',
+                                'status.name'
+                            )|raw
+                            }}
+                        </th>
+                        <th scope="col">
+                            <a class="button btnAction" href=" {{ path('app_basket_index') }}">Reset</a>
+                            <button class="button btnAction" type="submit">Rechercher</button>
+                            Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for order in orders %}
+                    <tr>
+                        <th scope="row">{{ order.id }}</th>
+                        <td class="colCustomer">{{ order.customer.username ?  order.customer.username: '' }}</td>
+                        <td class="colAddress">{{ order.address.country ? order.address.country : '' }}</td>
+                        <td class="colBillingDate">{{ order.billingDate ? order.billingDate|date('d/m/Y') : '' }}</td>
+                        <td class="colMeanOfPayment">{{ order.meanOfPayment.designation ?  order.meanOfPayment.designation: '' }}</td>
+                        <td class="colStatus">{{ order.status.name ?  order.status.name: '' }}</td>
+                        <td>
+                            <a class="button btnAction" href="{{ path('app_basket_show', {'id': order.id}) }}">Detail</a>
+                            <a class="button btnAction" href="{{ path('app_basket_edit', {'id': order.id}) }}">Modifier</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="6">Aucune commande n'a été trouvé</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                {{ form_end(filters) }}
+            </table>
+        </div>
+        {{ knp_pagination_render(orders) }}
+    </div>
+{% endblock %}

@@ -1,29 +1,39 @@
 parameters:
-  password: '$2y$13$QG6i1mWJ9xBhk9AgmSvAWetxZAkaqTxk2uRdVNJyShn4hbYzGcT/S'
+  passwordAdmin: '$2y$13$UjlgDb2/uZSGh/UIi0mOx.eipN8k.dHovXGqC60i.aZ8.XZYCZbRq'
+  # password: Issou2021
+  passwordUser: '$2y$13$cune4QsrDkiZ5srbNjwuu.48vwxZJSSoN9zANH/Y/fNne5vssK.tO'
+  # password: test
 
 App\Entity\Customer:
   customer (template):
+    userName: '<username()>'
     firstName: '<firstName()>'
     lastName: '<lastName()>'
     email (unique): '<email()>'
-    password: '<{password}>'
+    password: '<{passwordUser}>'
     dateOfBirth: '<dateTimeBetween("-60 years", "-18 years")>'
     registrationDate: '<dateTimeBetween("-4 years", "now")>'
     gender: '@gender*'
+    address: '@address*'
+    roles: [ROLE_USER]
 
   customers_stats (extends customer):
-    firstName: 'Admin'
-    email: 'stats@test.com'
-    lastName: 'Admin'
+    userName: 'LaFaceCachéeDeLaLune'
+    firstName: 'Stats'
+    email: 'Capard@admin.com'
+    password: '<{passwordAdmin}>'
+    lastName: 'STats'
     roles: ['ROLE_STATS']
     gender: '@gender*'
     
   customers_admin (extends customer):
+    userName: 'LaTerreEstPlate'
     firstName: 'Admin'
-    email: 'admin@test.com'
     lastName: 'Admin'
+    email: 'admin@test.com'
+    password: '<{passwordAdmin}>'
     roles: ['ROLE_ADMIN']
     gender: '@gender*'
 
 
-  customer{0..500} (extends customer): ~
+  customer{0..200} (extends customer): ~

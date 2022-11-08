@@ -1,13 +1,20 @@
 App\Entity\Basket:
-  basket{0..20}:
-    dateCreated: '<dateTimeBetween("-3 years", "now")>'
+  basket{0..2}:
+    dateCreated: '<dateTimeBetween("-2 month", "now")>'
+    address: '@address*'
     billingDate: '<dateTimeBetween($dateCreated, "now")>'
     customer: '@customer*'
     meanOfPayment: '@meanOfPayment*'
     status: '@status*'
-    address: '@address*'
 
-  basket{20..40}:
-    dateCreated: '<dateTimeBetween("-3 years", "now")>'
-    billingDate: '<dateTimeBetween($dateCreated, "now")>'
+  basket{3..4}:
+    dateCreated: '<dateTimeBetween("-2 month", "now")>'
     customer: '@customer*'
+    
+  basket{5..6}:
+    dateCreated: '<dateTimeBetween("-2 month", "now")>'
+    address: '@address*'
+    billingDate: '<dateTimeBetween($dateCreated, "now")>'
+    customer: '@customer2'
+    meanOfPayment: '@meanOfPayment*'
+    status: '@status*'

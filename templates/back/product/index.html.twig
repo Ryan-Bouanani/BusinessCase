@@ -3,112 +3,121 @@
 {% block title %}Product index{% endblock %}
 
 {% block body %}
-{# <h1>Product index</h1> #}
 
 <div class="newBtnContainer">
     <a class="button" href="{{ path('app_product_new') }}">Create new</a>
 </div>
 
 <div class="container">
-    {{ form_start(filters) }}
+    <div class="containerTable">
+        <table class="table table-hover">
+        {{ form_start(filters) }}
+            <thead>
+                <tr>
+                    <th scope="col" class="colId">
+                        {# filtre par id #}
+                        {{ form_widget(filters.id)}}
+                        {{knp_pagination_sortable(
+                            products,
+                            'Id',
+                            'product.id'
+                        )|raw
+                        }}
+                    </th>
+                    <th scope="col" class="colImage">
+                        Image
+                    </th>
+                    <th scope="col" class="colTitle">
+                        {# filtre par title #}
+                        {{ form_widget(filters.title)}}
+                        {{knp_pagination_sortable(
+                            products,
+                            'Nom',
+                            'product.title'
+                        )|raw
+                        }}
+                    </th>
+                    <th scope="col"  class="colPriceExclVat">
+                        {# filtre par prix HT #}
+                        {{ form_widget(filters.priceExclVat)}}
+                        {{knp_pagination_sortable(
+                            products,
+                            'Prix HT',
+                            'product.priceExclVat'
+                        )|raw
+                        }}
+                    </th>
+                    <th scope="col"  class="colPriceInclVat">
+                        Prix TTC
+                    </th>
+                    <th scope="col" class="colActive">
+                        {# filtre par actif ou non #}
+                        {{ form_widget(filters.active)}}
+                        {{knp_pagination_sortable(
+                            products,
+                            'Actif',
+                            'product.active'
+                        )|raw
+                        }}
+                    </th>
+                    <th scope="col" class="colDateAdded">
+                        {# filtrer par date d'ajout #}
+                        {{ form_widget(filters.dateAdded)}}
+                        {{knp_pagination_sortable(
+                            products,
+                            'Date d\'ajout',
+                            'product.dateAdded'
+                        )|raw
+                        }}
+                    </th>
+                    <th scope="col" class="colCategory">
+                        {# filtrer par date d'ajout #}
+                        {{ form_widget(filters.category.parent)}}
+                        {{knp_pagination_sortable(
+                            products,
+                            'Categorie',
+                            'category.name'
+                        )|raw
+                        }}
+                    </th>
+                    <th scope="col">
+                        <a class="button btnAction" href=" {{ path('app_product_index') }}">Reset</a>
+                        <button class="button btnAction" type="submit">Rechercher</button>
+                        Actions
+                    </th>
+                </tr>
+            </thead>
 
-    <table class="table table-hover">
-        <thead>
-            <tr>
-                <th scope="col" class="colTitle">
-                    {# filtre par title #}
-                    {{ form_widget(filters.title)}}
-                    {{knp_pagination_sortable(
-                        products,
-                        'Nom',
-                        'product.title'
-                    )|raw
-                    }}
-                </th>
-                <th scope="col" class="colDescription"> 
-                    {# filtre par description #}
-                    {{ form_widget(filters.description)}}
-                    {{knp_pagination_sortable(
-                        products,
-                        'Description',
-                        'product.description'
-                    )|raw
-                    }}
-                </th>
-                <th scope="col"  class="colPriceExclVat">
-                    {# filtre par prix HT #}
-                    {{ form_widget(filters.priceExclVat)}}
-                    {{knp_pagination_sortable(
-                        products,
-                        'Prix HT',
-                        'product.priceExclVat'
-                    )|raw
-                    }}
-                </th>
-                <th scope="col" class="colActive">
-                    {# filtre par actif ou non #}
-                    {{ form_widget(filters.active)}}
-                    {{knp_pagination_sortable(
-                        products,
-                        'Actif',
-                        'product.active'
-                    )|raw
-                    }}
-                </th>
-                <th scope="col" class="colDateAdded">
-                    {# filtrer par date d'ajout #}
-                    {{ form_widget(filters.dateAdded)}}
-                    {{knp_pagination_sortable(
-                        products,
-                        'Date d\'ajout',
-                        'product.dateAdded'
-                    )|raw
-                    }}
-                </th>
-                <th scope="col" class="colCategory">
-                    {# filtrer par date d'ajout #}
-                    {{ form_widget(filters.category)}}
-                    {{knp_pagination_sortable(
-                        products,
-                        'Categorie',
-                        'category.name'
-                    )|raw
-                    }}
-                </th>
-                <th scope="col">
-                    <a class="button btnAction" href=" {{ path('app_product_index') }}">Reset</a>
-                    <button class="button btnAction" type="submit">Rechercher</button>
-                    Actions
-                </th>
-            </tr>
-        </thead>
-
-        <tbody>
-            {% for product in products %}
-            <tr>
-                <th scope="row">{{ product.title }}</th>
-                <td class="colDescription">{{ product.description }}</td>
-                <td>{{ product.priceExclVat }}€</td>
-                <td class="colActive">{{ product.active ? 'Yes' : 'No' }}</td>
-                <td class="colDateAdded">{{ product.dateAdded ? product.dateAdded|date('d/m/Y') : '' }}</td>
-                <td class="colCategory">{{ product.category.name ? product.category.name: '' }}</td>
-                <td>
-                    <a class="button btnAction" href="{{ path('app_product_show', {'id': product.id}) }}">Detail</a>
-                    <a class="button btnAction" href="{{ path('app_product_edit', {'id': product.id}) }}">Modifier</a>
-                </td>
-            </tr>
-            {% else %}
-            <tr>
-                <td colspan="8">Aucun produit n'a été trouvé</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    {{ form_end(filters) }}
-
-    <div class="">
-        {{ knp_pagination_render(products) }}
+            <tbody>
+                {% for product in products %}
+                <tr>
+                    <th scope="row">{{ product.id }}</th>
+                    <th scope="row">
+                    {% for image in product.images %}       
+                            <img src="{{ asset("build/images/" ~ image.path) }}" alt="{{ product.title }}">
+                        {% endfor %}
+                    </th>
+                    <th scope="row">{{ product.title }}</th>
+                    <td>{{ product.priceExclVat }}€</td>
+                    <td>{{ product.priceExclVat | priceTaxIncl(product.tva) }}€</td>
+                    <td class="colActive">{{ product.active ? 'Oui' : 'Non' }}</td>
+                    <td class="colDateAdded">{{ product.dateAdded ? product.dateAdded|date('d/m/Y') : '' }}</td>
+                    <td class="colCategory">{{ product.category.name ? product.category.name: '' }}</td>
+                    <td>
+                        <a class="button btnAction" href="{{ path('app_product_show', {'id': product.id}) }}">Detail</a>
+                        <a class="button btnAction" href="{{ path('app_product_edit', {'id': product.id}) }}">Modifier</a>
+                    </td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="8">Aucun produit n'a été trouvé</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        {{ form_end(filters) }}
+        </table>
     </div>
+    {{ knp_pagination_render(products) }}
 </div>
 
 

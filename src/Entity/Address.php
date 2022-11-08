@@ -16,34 +16,37 @@ class Address
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column (nullable : true)]
-    #[
-        Assert\PositiveOrZero,
-    ]
-    private ?int $number = null;
 
     #[ORM\Column(length: 255)]
     #[
         Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
-        ]),
-        Assert\Length([
-            'min' => 2,
-            'max' => 255,
-            'minMessage' => 'Veuiller entrer un produit contenant au minimum {{ limit }} caractères',
-            'maxMessage' => 'Veuiller entrer un produit contenant au maximum {{ limit }} caractères',
-        ]),
-    ]
-    private ?string $street = null;
+           'message' => "Veuiller remplir tout les champs."
+       ]),
+       Assert\Length([
+           'min' => 2,
+           'max' => 255,
+           'minMessage' => 'Veuiller entrer un prenom contenant au minimum {{ limit }} caractères',
+           'maxMessage' => 'Veuiller entrer un prenom contenant au maximum {{ limit }} caractères',
+       ]),
+   ]
+    private ?string $firstName = null;
+
+    #[ORM\Column(length: 255)]
+    #[
+        Assert\NotBlank([
+           'message' => "Veuiller remplir tout les champs."
+       ]),
+       Assert\Length([
+           'min' => 2,
+           'max' => 255,
+           'minMessage' => 'Veuiller entrer un nom contenant au minimum {{ limit }} caractères',
+           'maxMessage' => 'Veuiller entrer un nom contenant au maximum {{ limit }} caractères',
+       ]),
+   ]
+    private ?string $lastName = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[
-        Assert\Length([
-            'max' => 255,
-            'maxMessage' => 'Veuiller entrer une information contenant au maximum {{ limit }} caractères',
-        ]),
-    ]
-    private ?string $line3 = null;
+    private ?string $phoneNumber = null;
 
     #[ORM\Column(length: 15)]
     #[
@@ -70,25 +73,58 @@ class Address
             'minMessage' => 'Veuiller entrer une ville contenant au minimum {{ limit }} caractères',
             'maxMessage' => 'Veuiller entrer une ville contenant au maximum {{ limit }} caractères',
         ]),
-    ]
-    private ?string $city = null;
+        ]
+        private ?string $city = null;
 
 
-    #[ORM\ManyToOne(inversedBy: 'addresses')]
-    #[ORM\JoinColumn(nullable: false)]
+        #[ORM\Column(length: 255)]
+        #[
+            Assert\NotBlank([
+                'message' => "Veuiller remplir tout les champs."
+            ]),
+            Assert\Length([
+                'min' => 3,
+                'max' => 255,
+                'minMessage' => 'Veuiller entrer un pays contenant au minimum {{ limit }} caractères',
+                'maxMessage' => 'Veuiller entrer un pays contenant au maximum {{ limit }} caractères',
+            ]),
+        ]
+        private ?string $country = null;
+
+    #[ORM\Column(length: 255)]
     #[
-         Assert\NotBlank([
+        Assert\NotBlank([
             'message' => "Veuiller remplir tout les champs."
         ]),
+        Assert\Length([
+            'min' => 2,
+            'max' => 255,
+            'minMessage' => 'Veuiller entrer une rue contenant au minimum {{ limit }} caractères',
+            'maxMessage' => 'Veuiller entrer une rue contenant au maximum {{ limit }} caractères',
+        ]),
     ]
-    private ?Customer $customer = null;
+    private ?string $line1 = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[
+        Assert\Length([
+            'max' => 255,
+            'maxMessage' => 'Veuiller entrer une information contenant au maximum {{ limit }} caractères',
+        ]),
+    ]
+    private ?string $line2 = null;
 
     #[ORM\OneToMany(mappedBy: 'address', targetEntity: Basket::class)]
     private Collection $baskets;
 
+    #[ORM\OneToMany(mappedBy: 'address', targetEntity: Customer::class)]
+    private Collection $customers;
+
+
     public function __construct()
     {
         $this->baskets = new ArrayCollection();
+        $this->customers = new ArrayCollection();
     }
 
 
@@ -97,38 +133,62 @@ class Address
         return $this->id;
     }
 
-    public function getNumber(): ?int
+    public function getFirstName(): ?string
     {
-        return $this->number;
+        return $this->firstName;
     }
 
-    public function setNumber(? int $number): self
+    public function setFirstName(string $firstName): self
     {
-        $this->number = $number;
+        $this->firstName = $firstName;
 
         return $this;
     }
 
-    public function getStreet(): ?string
+    public function getLastName(): ?string
     {
-        return $this->street;
+        return $this->lastName;
     }
 
-    public function setStreet(string $street): self
+    public function setLastName(string $lastName): self
     {
-        $this->street = $street;
+        $this->lastName = $lastName;
 
         return $this;
     }
 
-    public function getLine3(): ?string
+    public function getPhoneNumber(): ?string
     {
-        return $this->line3;
+        return $this->phoneNumber;
     }
 
-    public function setLine3(string $line3): self
+    public function setPhoneNumber(?string $phoneNumber): self
     {
-        $this->line3 = $line3;
+        $this->phoneNumber = $phoneNumber;
+
+        return $this;
+    }
+
+    public function getLine1(): ?string
+    {
+        return $this->line1;
+    }
+
+    public function setLine1(? string $line1): self
+    {
+        $this->line1 = $line1;
+
+        return $this;
+    }
+
+    public function getLine2(): ?string
+    {
+        return $this->line2;
+    }
+
+    public function setLine2(?string $line2): self
+    {
+        $this->line2 = $line2;
 
         return $this;
     }
@@ -153,18 +213,6 @@ class Address
     public function setCity(string $city): self
     {
         $this->city = $city;
-
-        return $this;
-    }
-
-    public function getCustomer(): ?Customer
-    {
-        return $this->customer;
-    }
-
-    public function setCustomer(?Customer $customer): self
-    {
-        $this->customer = $customer;
 
         return $this;
     }
@@ -199,4 +247,45 @@ class Address
         return $this;
     }
 
+    /**
+     * @return Collection<int, Customer>
+     */
+    public function getCustomers(): Collection
+    {
+        return $this->customers;
+    }
+
+    public function addCustomer(Customer $customer): self
+    {
+        if (!$this->customers->contains($customer)) {
+            $this->customers->add($customer);
+            $customer->setAddress($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCustomer(Customer $customer): self
+    {
+        if ($this->customers->removeElement($customer)) {
+            // set the owning side to null (unless already changed)
+            if ($customer->getAddress() === $this) {
+                $customer->setAddress(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getCountry(): ?string
+    {
+        return $this->country;
+    }
+
+    public function setCountry(string $country): self
+    {
+        $this->country = $country;
+
+        return $this;
+    }
 }

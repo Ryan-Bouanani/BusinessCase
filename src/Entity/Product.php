@@ -10,9 +10,15 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
+#[UniqueEntity('title')]
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[ApiResource(
+    attributes: [
+        "security" => "is_granted('ROLE_STATS')",
+        "security_message" => "Accès refusé",
+    ],
     collectionOperations: [
         'get',
     ],
@@ -45,19 +51,18 @@ class Product
     #[Groups(['read:Basket:attributes'])]
     private ?string $title = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: Types::TEXT)]
     #[
         Assert\NotBlank([
             'message' => "Veuiller remplir tout les champs."
         ]),
         Assert\Length([
             'min' => 2,
-            'max' => 500,
+            'max' => 1000,
             'minMessage' => 'Veuiller entrer une description contenant au minimum {{ limit }} caractères',
             'maxMessage' => 'Veuiller entrer une description contenant au maximum {{ limit }} caractères',
         ]),
     ]
-
     private ?string $description = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 7, scale: 2)]
@@ -102,11 +107,6 @@ class Product
         Assert\NotBlank([
             'message' => "Veuiller remplir tout les champs."
         ]),
-        Assert\range(
-            min: 0,
-            max: 99000.99,
-            notInRangeMessage: 'Veuillez entrer un tva compris entre 0 et 100',
-        )
     ]
     private ?Brand $brand = null;
 
@@ -123,7 +123,10 @@ class Product
     ]
     private ?Category $category = null;
 
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Image::class)]
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Image::class, cascade: [
+        'persist',
+        'remove'
+    ])]
     #[
         Assert\NotBlank([
             'message' => "Veuiller remplir tout les champs."
@@ -131,7 +134,9 @@ class Product
     ]
     private Collection $images;
 
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Review::class)]
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: Review::class, cascade: [
+        'remove'
+    ])]
     private Collection $reviews;
 
     #[ORM\OneToMany(mappedBy: 'product', targetEntity: ContentShoppingCart::class)]

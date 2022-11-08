@@ -24,6 +24,7 @@ class CustomerController extends AbstractController
     #[Route('/new', name: 'app_customer_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CustomerRepository $customerRepository): Response
     {
+
         $customer = new Customer();
         $form = $this->createForm(CustomerType::class, $customer);
         $form->handleRequest($request);
@@ -43,6 +44,7 @@ class CustomerController extends AbstractController
     #[Route('/{id}', name: 'app_customer_show', methods: ['GET'])]
     public function show(Customer $customer): Response
     {
+
         return $this->render('back/customer/show.html.twig', [
             'customer' => $customer,
         ]);
@@ -51,6 +53,7 @@ class CustomerController extends AbstractController
     #[Route('/{id}/edit', name: 'app_customer_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Customer $customer, CustomerRepository $customerRepository): Response
     {
+
         $form = $this->createForm(CustomerType::class, $customer);
         $form->handleRequest($request);
 
@@ -69,6 +72,7 @@ class CustomerController extends AbstractController
     #[Route('/{id}', name: 'app_customer_delete', methods: ['POST'])]
     public function delete(Request $request, Customer $customer, CustomerRepository $customerRepository): Response
     {
+        
         if ($this->isCsrfTokenValid('delete'.$customer->getId(), $request->request->get('_token'))) {
             $customerRepository->remove($customer, true);
         }

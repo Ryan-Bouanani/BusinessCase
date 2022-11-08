@@ -1,3 +1,4 @@
+@import "lib/bootstrap.scss";
 @import "variables";
 @import "../../shared/styles/main.scss";
 @import "partials/form";
@@ -10,6 +11,16 @@ body {
 input, select {
     outline: none;
     border: none;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 0;
+  margin-bottom: 4.5rem;
+}
+.pagination {
+  padding: 3rem 0;
+  margin: 0 auto;
 }
 .sortable,
 .asc,
@@ -40,4 +51,9 @@ input, select {
 
 .btnBack {
   margin-left: 2rem;
+  margin-top: 2rem;
+  display: inline-block;
 }
+// button:hover {
+//   background-color: black;
+// }

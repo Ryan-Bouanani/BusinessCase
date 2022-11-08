@@ -24,7 +24,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ApiResource(
     
     attributes: [
-        "security" => "is_granted('ROLE_ADMIN') or is_granted('ROLE_STATS')",
+        "security" => "is_granted('ROLE_STATS')",
         "security_message" => "Accès refusé",
         'normalization_context' => ['groups' => ['read:Basket:attributes']],
         'normalization_context' => ['groups' => ['read:Order:attributes']],
@@ -34,7 +34,7 @@ use Doctrine\ORM\Mapping as ORM;
         // NB ORDERS
         'getNbOrder' => [
             'method' => 'GET',
-            'path' => 'stats/nbOrders',
+            'path' => 'stats/nbOrder',
             'controller' => NbOrderAction::class,
             'read' => false,
             'pagination_enabled' => false,
@@ -280,14 +280,12 @@ class Basket
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     #[Groups(['read:Basket:attributes'])]
-    // #[
-    //     Assert\NotBlank([
-    //         'message' => "Veuiller remplir tout les champs."
-    //     ]),
-    // ]
     private ?\DateTimeInterface $billingDate = null;
 
-    #[ORM\OneToMany(mappedBy: 'basket', targetEntity: ContentShoppingCart::class)]
+    #[ORM\OneToMany(mappedBy: 'basket', targetEntity: ContentShoppingCart::class, cascade: [
+        'persist',
+        'remove'
+    ])]
     #[Groups(['read:Basket:attributes'])]
     #[
           Assert\NotBlank([
@@ -298,14 +296,14 @@ class Basket
 
     #[ORM\ManyToOne(inversedBy: 'baskets')]
     #[Groups(['read:Basket:attributes'])]
-    #[
-          Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
-        ]),
-    ]
     private ?Customer $customer = null;
 
     #[ORM\ManyToOne(inversedBy: 'baskets')]
+    #[
+        Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
+    ]
     private ?MeanOfPayment $meanOfPayment = null;
 
     #[ORM\ManyToOne(inversedBy: 'baskets')]
@@ -319,6 +317,7 @@ class Basket
 
     public function __construct()
     {
+        $this->dateCreated = new \DateTime();
         $this->contentShoppingCarts = new ArrayCollection();
     }
 

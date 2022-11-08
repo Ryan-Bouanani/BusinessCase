@@ -1,29 +1,54 @@
 App\Entity\Image:
-  image{0..25}:
+  image{0..10}:
     path: 'product-hill-s.png'
     isMain: true
     product: '@product<current()>'
-  image{26..50}:
+  image{11..20}:
     path: 'product-dog 1.png'
     isMain: true
     product: '@product<current()>'
-  image{51..75}:
+  image{21..30}:
     path: 'product-dog 2.png'
     isMain: true
     product: '@product<current()>'
-  image{76..100}:
+  image{31..40}:
     path: 'product-dog 3.png'
     isMain: true
     product: '@product<current()>'
-  image{101..125}:
-    path: 'hill-s-science-plan-puppy-medium-chicken1.jpg'
+  image{41..50}:
+    path: 'product-dog 4.png'
     isMain: true
     product: '@product<current()>'
-  image{101..201}:
+  image{51..60}:
+    path: 'product-dog 5.png'
+    isMain: true
+    product: '@product<current()>'
+  image{61..70}:
+    path: 'product-dog 6.png'
+    isMain: true
+    product: '@product<current()>'
+  image{71..80}:
+    path: 'product-dog 7.png'
+    isMain: true
+    product: '@product<current()>'
+  image{81..90}:
+    path: 'product-dog 8.png'
+    isMain: true
+    product: '@product<current()>'
+  image{91..100}:
+    path: 'product-royalcanin.png'
+    isMain: true
+    product: '@product<current()>'
+  image{101..110}:
+    path: 'boites-hill-s-science-plan-no-grain-adult-chicken1.png'
+    isMain: true
+    product: '@product<current()>'
+  image{111..200}:
     path: 'product-hill-s2.png'
-    isMain: false
     product: '@product*'
-  image{201..301}:
-    path: 'hill-s-science-plan-puppy-medium-chicken2.jpg'
-    isMain: false
+  image{201..300}:
+    path: 'hill-s-science-plan-puppy-medium-chicken2.png'
+    product: '@product*'
+  image{301..400}:
+    path: 'boites-hill-s-science-plan-no-grain-adult-chicken2.png'
     product: '@product*'

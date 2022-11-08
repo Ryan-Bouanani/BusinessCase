@@ -1,0 +1,93 @@
+{% extends 'front/base.html.twig' %}
+
+{% block title %}Mon compte{% endblock %}
+
+{% block body %}
+
+<section class="container-me">
+<a class="btn" href=" {{ path('app_logout') }}">Déconnexion</a>
+<div class="form">
+    <h2>Modifier informations</h2>
+    {{ form_start(formUser) }}
+        <div class="formChild">
+            {{ form_label(formUser.firstName) }}
+            {{ form_widget(formUser.firstName) }}
+            {{ form_errors(formUser.firstName) }}
+        </div>
+        <div class="formChild">
+            {{ form_label(formUser.lastName) }}
+            {{ form_widget(formUser.lastName) }}
+            {{ form_errors(formUser.lastName) }}
+        </div>
+        {# <div class="formChild">
+            {{ form_label(formUser.password) }}
+            {{ form_widget(formUser.password) }}
+            {{ form_errors(formUser.password) }}
+        </div> #}
+        <div class="formChild">
+            {{ form_label(formUser.gender) }}
+            {{ form_widget(formUser.gender) }}
+            {{ form_errors(formUser.gender) }}
+        </div>
+        <div class="formChild">
+            {{ form_label(formUser.dateOfBirth) }}
+            {{ form_widget(formUser.dateOfBirth) }}
+            {{ form_errors(formUser.dateOfBirth) }}
+        </div>
+        <button class="button" type="submit">
+            Enregistrer
+        </button>
+    {{ form_end(formUser) }}
+</div>
+<div class="form">
+    <h2>Modifier adresse</h2>
+    {{ form_start(formAddress) }}
+        <div class="formChild">
+            {{ form_label(formAddress.line1) }}
+            {{ form_widget(formAddress.line1) }}
+            {{ form_errors(formAddress.line1) }}
+        </div>
+        <div class="formChild">
+            {{ form_label(formAddress.line2) }}
+            {{ form_widget(formAddress.line2) }}
+            {{ form_errors(formAddress.line2) }}
+        </div>
+        <div class="formChild">
+            {{ form_label(formAddress.postalCode) }}
+            {{ form_widget(formAddress.postalCode) }}
+            {{ form_errors(formAddress.postalCode) }}
+        </div>
+        <div class="formChild">
+            {{ form_label(formAddress.city) }}
+            {{ form_widget(formAddress.city) }}
+            {{ form_errors(formAddress.city) }}
+        </div>
+        <div class="formChild">
+            {{ form_label(formAddress.country) }}
+            {{ form_widget(formAddress.country) }}
+            {{ form_errors(formAddress.country) }}
+        </div>
+        <div class="formChild">
+            {{ form_label(formAddress.firstName) }}
+            {{ form_widget(formAddress.firstName) }}
+            {{ form_errors(formAddress.firstName) }}
+        </div>
+        <div class="formChild">
+            {{ form_label(formAddress.lastName) }}
+            {{ form_widget(formAddress.lastName) }}
+            {{ form_errors(formAddress.lastName) }}
+        </div>
+        <div class="formChild">
+            {{ form_label(formAddress.phoneNumber) }}
+            {{ form_widget(formAddress.phoneNumber) }}
+            {{ form_errors(formAddress.phoneNumber) }}
+        </div>
+        <button class="button" type="submit">
+            Enregistrer
+        </button>
+    {{ form_end(formAddress) }}
+</div>
+</section>
+
+
+{% endblock %}

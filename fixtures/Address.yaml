@@ -1,9 +1,11 @@
 
 App\Entity\Address:
   address{0..2000}:
-    number: '<numberBetween(0, 30)>'
-    street: '<streetAddress()>'
-    line3: '<buildingNumber()>'
-    postalCode: '<postcode()>'
+    firstName: '<firstName()>'
+    lastName: '<lastName()>'
+    phoneNumber: '30%? <phoneNumber()>'
+    country: '<country()>'
+    line1: '<buildingNumber()> <streetAddress()>'
+    line2: '20%? <buildingNumber()>'
     city: '<city()>'
-    customer: '@customer*'
+    postalCode: '<postcode()>'

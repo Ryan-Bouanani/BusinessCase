@@ -10,6 +10,8 @@
 @use './scss/about' as *;
 @use './scss/footer' as *;
 @use './scss/reinsurance' as *;
+@use './scss/product' as *;
+@use './scss/shoppingCart' as *;
 @import url('https://fonts.googleapis.com/css2?family=Aladin&family=Alatsi&family=Bangers&family=Nunito:wght@400;600;700;800&family=Puritan&display=swap');
 
 
@@ -35,10 +37,9 @@ input {
     display: none;
 }
 
-a {
+a, footer p {
     text-decoration: none;
-    // color: #ffff;
-    color: hsl(0, 0%, 33%);;
+    color: hsl(0, 0%, 13%);;
 }
 li {
     list-style-type: none;
@@ -48,7 +49,7 @@ li {
     background-color: $orange;
     padding: 10px 20px;
     border-radius: 50px;
-    font-family: $alatsi;
+    // font-family: $alatsi;
     color: $white;
     display: inline-block;
     text-align: center;
@@ -60,11 +61,6 @@ li {
     background-color: $black;
     color: $white;
 }
-.btn-dark:hover {
-    background-color: #ff4600;
-    color: $white;
-}
-
 .container-me {
     display: flex;
     justify-content: center;
@@ -80,24 +76,24 @@ section {
     margin-bottom: 7rem;
 }
 
-h1 {
+h1.h1Home {
     font-family: $title-police;
     font-size: $h1;
     letter-spacing: 5px;
     margin-bottom: 0.3rem;
     z-index: 100;
 }
-h2 {
+h2.h2 {
     font-size: $h2;
 }
-h2:not(.h2Newletter) {
+h2.h2:not(.h2Newletter) {
     margin-bottom: 4rem;
 }
 h3 {
     font-size: $h3;
 }
-h2:not(.h2Newletter)::after,
-h2:not(.h2Newletter)::before {
+h2.h2:not(.h2Newletter)::after,
+h2.h2:not(.h2Newletter)::before {
     content: "";
     display: inline-block;
     background: url(/assets/img/pawDog.png) no-repeat;
@@ -123,7 +119,7 @@ main {
         background: url(/assets/img/arrow-right-orange.svg);
     }
     .arrow_left, .arrow_right {
-        color: rgb(236, 236, 236);
+        color: $white;
         position: absolute;
         top: 50%;
         transform: translateY(-50%);
@@ -132,6 +128,7 @@ main {
         height: 30px;
         background-size: contain;
         cursor: pointer;
+        z-index: 10;
     }
 }
 
@@ -169,19 +166,21 @@ main {
         padding: 2rem 0;
         width: 200px;
         height: 21rem;
-        background: hsl(0, 0%, 93%);
+        box-shadow: 0 0 7px rgb(0 0 0 / 20%);
+        background: $white;
         border-radius: 5px;
         border: 1px solid hsl(0, 0%, 93%);
     }
-    span.new {
+    span.badge {
         position: absolute;
         top: 5px;
         right: 5px;
         padding: 0.3rem 0.6rem;
         font-size: 0.7rem;
-        color: white;
+        color: $white;
         @include gradient-bg(90deg);
         border-radius: 0.2rem;
+        font-weight: bold;
     }
     .card img {
         height: 160px;
@@ -210,7 +209,7 @@ main {
     .p-1 {
         // width: 35%;
         font-weight: bold;
-        color: $blueAvis;
+        color: $colorGradient;
         font-size: $paragraphe;
         display: inline;
     }
@@ -226,14 +225,17 @@ main {
         display: inline;
         color: hsl(0, 0%, 47%);
     }
-    .btnAddBasket {
+    .btnAddBasket.cover {
         width: 90%;
-        font-size: 0.8rem;
-        margin-bottom: 8px;
         position: absolute;
         left: 50%;
         transform: translateX(-50%);
         bottom: 0;
+    }
+    .btnAddBasket {
+        width: 100%;
+        font-size: 0.8rem;
+        margin-bottom: 8px;
         border-radius: 5px;
     }
 }
@@ -247,15 +249,15 @@ main {
             1.61rem;
         }
         .arrow_left {
-            left: -40px;
+            left: -35px;
         }
         .arrow_right {
-            right: -40px;
+            right: -35px;
         }
     }
 }
 @media screen and (min-width: 768px) {
-    h2 {
+    h2.h2 {
         font-size: 1.8rem;
     }
 }
@@ -280,4 +282,25 @@ main {
     right: 40px;
 }
 
+@media screen and (min-width: 868px) {
+    .btn-dark:hover {
+        background-color: #ff4600;
+        color: $white;
+    }    
+}
 
+@media screen and (max-width: 340px) {
+    body {
+        width: 110%;
+        main .arrow_left {
+            left: -20px;
+        }
+        main .arrow_right {
+            right: -20px;
+        }
+        .h1Home {
+            font-size: 3.2rem;
+        }
+    }
+
+}

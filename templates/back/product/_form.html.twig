@@ -3,45 +3,68 @@
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }} #}
 
+<div class="form">
+    <h1>{{ title }}</h1>
+    {{ form_start(form) }}
+            <div class='formChild'>
+                {{ form_label(form.title) }}
+                {{ form_widget(form.title) }}
+                {{ form_errors(form.title) }}
+            </div>
+            <div class='formChild'>
+                {{ form_label(form.description) }}
+                {{ form_widget(form.description) }}
+                {{ form_errors(form.description) }}
+            </div>
+            <div class='formChild'>
+                {{ form_label(form.priceExclVat) }}
+                {{ form_widget(form.priceExclVat) }}
+                {{ form_errors(form.priceExclVat) }}
+            </div>
+            <div class='formChild'>
+                {{ form_label(form.tva) }}
+                {{ form_widget(form.tva) }}
+                {{ form_errors(form.tva) }}
+            </div>
+            <div class='formChild'>
+                {{ form_label(form.brand) }}
+                {{ form_widget(form.brand) }}
+                {{ form_errors(form.brand) }}
+            </div>
+            <div class='formChild'>
+                {{ form_label(form.category) }}
+                {{ form_widget(form.category) }}
+                {{ form_errors(form.category) }}
+            </div>
+            <div class='formChild'>
+                {{ form_label(form.promotion) }}
+                {{ form_widget(form.promotion) }}
+                {{ form_errors(form.promotion) }}
+            </div>
 
-    <div class="form">
-            {{ form_start(form) }}
-                    <div class='formChild'>
-                        {{ form_label(form.title) }}
-                        {{ form_widget(form.title) }}
+            {# Vérifier si la route est "app_product_edit" on affiche les images #}
+            {% if app.request.attributes.get('_route') == 'app_product_edit' %}
+                <label>Images</label>
+                {# On affiche les images du produit actuelle #}
+                <div class="containerImages">
+                {% for image in product.images %}
+                    <div class='formImages'>
+                    <img src="{{ asset('/build/images/' ~ image.path) }}" alt="Image Produit">
+                    <button class="button btnAction" href="{{ path('app_product_deleteImage', {id: image.id}) }}" data-delete data-token="{{ csrf_token('delete' ~ image.id) }}" >Supprimer</button>  
                     </div>
-                    <div class='formChild'>
-                        {{ form_label(form.description) }}
-                        {{ form_widget(form.description) }}
-                    </div>
-                    <div class='formChild'>
-                        {{ form_label(form.priceExclVat) }}
-                        {{ form_widget(form.priceExclVat) }}
-                    </div>
-                    <div class='formChild'>
-                        {{ form_label(form.brand) }}
-                        {{ form_widget(form.brand) }}
-                    </div>
-                    <div class='formChild'>
-                        {{ form_label(form.category) }}
-                        {{ form_widget(form.category) }}
-                    </div>
-                    <div class='formChild'>
-                        {{ form_label(form.promotion) }}
-                        {{ form_widget(form.promotion) }}
-                    </div>
-                    <div class='formChild'>
-                        {{ form_row(form.images) }}
-                        {# {{ form_row(form.addImage) }} #}
-                    </div>
-                    <div class='formChild'>
-                        {{ form_label(form.isMain) }}
-                        {{ form_widget(form.isMain) }}
-                    </div>
-                    <div class='formChild'>
-                        {{ form_label(form.active) }}
-                        {{ form_widget(form.active) }}
-                    </div>
-                      <button class="button btnSubmitForm">{{ button_label|default('Save') }}</button>
-            {{ form_end(form) }}
-        </div>
+                {% endfor %}
+                </div>
+            {% endif %}
+
+            <div class='formChild'>
+                {{ form_row(form.images) }}
+                {{ form_errors(form.images) }}
+            </div>
+            <div class='formChild'>
+                {{ form_label(form.active) }}
+                {{ form_widget(form.active) }}
+                {{ form_errors(form.active) }}
+            </div>
+                <button class="button btnSubmitForm">{{ button_label|default('Save') }}</button>
+    {{ form_end(form) }}
+</div>

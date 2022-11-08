@@ -27,7 +27,6 @@
         height: 16rem;
         max-width: 16rem;
         min-width: 16rem;
-        // display: none;
         background: $testimonialsBg;
     }
     .testimonials {
@@ -60,17 +59,19 @@
         transition: all 0.3s ease-in-out;
     }
     .profil {
-        position: absolute;
-        bottom: 0;
-        left: 50%;
-        transform: translate(-50%, 70%);
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        margin-top: 2rem;
+        // position: absolute;
+        // bottom: 0;
+        // left: 50%;
+        // transform: translate(-50%, 70%);
+        // display: flex;
+        // flex-direction: column;
+        // align-items: center;
         img {
-            object-fit: cover;
-            border-radius: 50%;
-            width: 3rem;
+            display: none;
+            // object-fit: cover;
+            // border-radius: 50%;
+            // width: 3rem;
         }
         h3 {
             font-size: 1rem;
@@ -89,7 +90,8 @@
         width: 100%;
         @include gradient-bg(180deg, 50%);
         margin-top: 12rem;
-        padding: 14rem 1rem 4rem 1rem;
+        // padding: 14rem 1rem 4rem 1rem;
+        padding: 10rem 1rem 4rem 1rem;
 
         h2.h2Newletter, p.pNewletter {
             font-family: $h2Newletter;
@@ -175,8 +177,8 @@
 }
 @media screen and (min-width: 550px) {
     #testimonials {
-        .testimonials-slider {
-            // width: auto;
+        .testimonial-item:not(.main) {
+            display: block;
         }
     }
 }

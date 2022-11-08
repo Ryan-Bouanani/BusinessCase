@@ -6,9 +6,6 @@
     display: grid;
     grid-template-columns: repeat(1, 1fr);
     place-items: center;
-    max-width: 960px;
-    margin: 0 auto;
-    width: 90%;
     gap: 2rem;
     .reassuranceBlob {
         display: flex;

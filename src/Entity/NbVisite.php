@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ApiResource(
 
     attributes: [
-        "security" => "is_granted('ROLE_ADMIN') or is_granted('ROLE_STATS')",
+        "security" => "is_granted('ROLE_STATS')",
         "security_message" => "Accès refusé",
     ],
     collectionOperations: [

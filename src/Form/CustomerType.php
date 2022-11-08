@@ -3,6 +3,9 @@
 namespace App\Form;
 
 use App\Entity\Customer;
+use App\Entity\Gender;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -14,11 +17,8 @@ class CustomerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            // ->add('roles', 'text', array(
-            //     'property_path' => 'attribute[0]',
-            // ))
             ->add('firstName', TextType::class, [
-                'label' => 'Ryan',
+                'label' => 'Prenom',
                 'attr' => [
                     'placeholder' => 'Prenom'
                 ],
@@ -29,12 +29,29 @@ class CustomerType extends AbstractType
                     'placeholder' => 'Nom'
                 ],
             ])
+            // ->add('password', TextType::class, [
+            //     'label' => 'Mot de passe',
+            //     'attr' => [
+            //         'placeholder' => 'Nom'
+            //     ],
+            // ])
             ->add('dateOfBirth', DateType::class, [
                 'label' => 'Date de naissance',
                 'widget' => 'single_text',
                 'attr' => [
                     'max' => date('Y-m-d')
                 ]
+            ])
+            ->add('gender', EntityType::class, [
+                'required' => false,
+                'label' => 'Genre',
+                'class' => Gender::class,
+                'choice_label' => 'name',
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('gender')
+                        ->orderBy('gender.name', 'DESC')
+                        ;
+                }
             ])
         ;
     }

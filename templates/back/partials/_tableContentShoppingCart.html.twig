@@ -1,0 +1,35 @@
+
+
+    {% set count = 1 %}
+    {% for line in basket.contentShoppingCarts %}
+        <tr>
+        {% for image in line.product.images %}
+        {% if image.isMain == true %}
+
+            <td scope="row"> 
+                <img src="{{ asset('/build/images/' ~ image.path) }}" alt="Image du Produit">
+            </td>
+        {% endif %}
+        {% endfor %}                   
+        <td scope="row">{{ line.product.title }}</td>
+        <td class="lineQuantity" scope="row">
+            <button class="increment"><i class="fa-solid fa-plus"></i></button>
+            {% if formBasket is defined %}
+            {{ form_widget(formBasket['quantity' ~ count]) }}
+            {{ form_errors(formBasket['quantity' ~ count]) }}
+            {% endif %}
+            
+            <button class="decrement"><i class="fa-solid fa-minus"></i></button>
+            {% set count = count + 1 %}
+        </td>
+        <td scope="row" class="priceProduct">{{ line.product.priceExclVat| priceTaxIncl(line.product.tva) }}€</td>
+        <td class="priceTotalLine" scope="row"></td>
+        <td>
+            <button class="button btnAction" href="{{ path('app_basket_deleteLineContentShoppingCart', {id: line.id}) }}" data-delete data-token="{{ csrf_token('delete' ~ line.id) }}">Supprimer</button>  
+        </td>
+    {% else %}
+        <tr>
+            <td colspan="6">Votre panier est vide</td>
+        </tr>
+    {% endfor %}
+    </tr>

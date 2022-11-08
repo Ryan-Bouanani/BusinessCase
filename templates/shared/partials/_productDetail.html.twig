@@ -1,0 +1,50 @@
+
+<div class="topProduct">
+    <div class="imagesProduct">
+        <div class="imagesSecondary">
+            {% for image in product.images %}              
+                <img src="{{ asset("build/images/" ~ image.path) }}" alt="{{ product.title }}">
+            {% endfor %}
+        </div>
+        <div class="imageMain">
+            {% for image in product.images %}
+                {% if image.isMain == true %}                 
+                    <img src="{{ asset("build/images/" ~ image.path) }}" alt="{{ product.title }}">
+
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    <div class="productInfo">
+        <div class="starsAndReviews">
+            <div class="stars">
+                {{ product['Note'] | stars }}
+            </div>
+            <p class="p-1 nbReview">({{ product['Avis'] }} avis)</p>
+        </div>
+        <h1 class="title-product">{{ product.title }}</h1>
+        
+        {% set priceTaxIncl = product.priceExclVat |priceTaxIncl( product.tva) %}
+
+        {% if product.promotion %}
+
+            <div class="priceProduct">
+                <p class="price priceInline">{{product.priceExclVat | priceTaxIncl( product.tva, product.promotion.percentage) }}€</p> 
+                <del>{{ priceTaxIncl }}€</del>
+            </div>
+
+        {% else %}
+            <p class="price">{{ priceTaxIncl }}€</p>
+        {% endif %}
+
+        <input type="number" placeholder="Entrer une quantiter" value="1">
+
+        <a href=" {{ path('app_shoppingCart_add', {id: product.id} )}}" class="btn btnAddBasket">Ajoutez au panier</a>
+    </div>
+</div>
+<div class="descriptionContainer">
+    <h2>Description</h2>
+    <p class="productDescription">{{ product.description }}</p>
+</div>
+
+

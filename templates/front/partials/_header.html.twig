@@ -1,0 +1,124 @@
+    {% if app.request.attributes.get('_route') == 'app_home' %}
+    <header class="home">
+     {% else %}
+     <header>
+     {% endif %}
+
+        {% if app.request.attributes.get('_route') == 'app_home' %}
+            <span class="boneWhite b1"></span>
+            <span class="boneWhite b2"></span>
+            <span class="boneWhite b3"></span>
+            <span class="boneWhite b4"></span>
+            <span class="bone b5"></span>
+            <span class="bone b6"></span>
+            <span class="bone b7"></span>
+            <span class="paw paw1"></span>
+            <span class="paw paw2"></span>
+            <span class="paw paw3"></span>
+            <span class="paw paw4"></span>
+        {% endif %}
+
+        <div class="top-nav">
+            <div class="search-menu-mobile">
+                <div class="menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+
+                <div class="search-submit" type="submit" value=""></div>
+            </div>
+             <a href="{{ path('app_home') }}">
+                <img id="logo" src="{{ asset("build/images/la-Nîmes'alerie-logos.png") }}" alt="Logo La Nîmes'Alerie">
+            </a>
+            <div class="search-form" action="#">
+            <div class="search">
+                <input class="search-bar searchProduct" type="search" placeholder="Rechercher un produit">
+                <input class="search-submit" type="submit" value="">
+            </div>
+                {% set home = true %}
+                <div class="resultProductSearch none">
+                </div>
+                <div class="error none"></div>
+            </div>
+            <div class="account_basket">
+                 {% if app.user %}
+                    <a href="{{ path('app_user') }}">
+                        <div class="account-p">
+                            <div class="account"></div>
+                            <p class="none">{{ app.user.firstName }} {{ app.user.lastName }}</p>
+                        </div>
+                    </a>
+                  {% else %}
+                    <a href="{{ path('app_login') }}">
+                        <div class="account-p">
+                            <div class="account"></div>
+                            <p class="none">Connexion</p>
+                        </div>
+                    </a>
+                    {% endif %}
+                <div class="basket-p">
+                    <a href="{{ path('app_shoppingCart') }}">
+                    <div class="basket"></div>
+                    {% if  app.session.get('basket') %}
+                        <span class="count">{{ app.session.get('QTY') }}</span>
+                    {% endif %}
+                    </a>
+                    <p class="none">Mon panier</p>
+                </div>
+            </div>
+        </div>
+        <nav class="bottom-nav">
+            <div class="category top-nav-mobile">
+                <div class="linkCategory">
+                    <a href="#">Accueil</a>
+                    <i class="fa-solid fa-xmark close"></i>
+                </div>
+            </div>
+            <ul class="listCategories">
+                {% for category in categoriesParent() %}
+                    
+                <li class="category">
+                    <div class="linkCategory">
+                        <a href="#">{{ category.name }}</a>
+                        <i class="fa-solid fa-chevron-right"></i>
+                    </div>
+                    <ul class="sub-menu">
+                        {% for subCategory in category.categoryChildren %}
+                            <li><a href="#">{{ subCategory.name }}</a></li>      
+                        {% endfor %}
+                    </ul>
+                </li>
+                {% endfor %}
+            </ul>
+            <ul class="social-networks">
+                <li>
+                    <a href="#"><i class="fa-brands fa-facebook"></i></a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa-brands fa-linkedin"></i></a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
+                </li>
+                <li>
+                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
+                </li>
+            </ul>
+        </nav>
+        <!-- Home -->
+        <!-- <div class="bg_paw"> -->
+        {% if app.request.attributes.get('_route') == 'app_home' %}
+            <div class="container1">
+                <div class="left">
+                    <h1 class="h1Home">La Nîmes'alerie</h1>
+                    <p>Le bien être pour tous</p>
+                    <a href="#new-products" class="btn btn-dark">Visiter notre site</a>
+                </div>
+                <div class="right none">
+                    <div class="cat-dog"></div>
+                </div>
+            </div>
+        {% endif %}
+        <!-- </div> -->
+    </header>

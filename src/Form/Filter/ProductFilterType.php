@@ -25,18 +25,18 @@ class ProductFilterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('id', NumberFilterType::class, [
+                'condition_operator' => FilterOperands::OPERATOR_EQUAL ,
+                'attr' => [
+                    'class' => 'filterSearch',
+                    'placeholder' => 'Id d\'un produit'
+                ]
+            ])
             ->add('title', TextFilterType::class, [
                 'condition_pattern' => FilterOperands::STRING_CONTAINS,
                 'attr' => [
                     'class' => 'filterSearch',
                     'placeholder' => 'Nom d\'un produit'
-                ]
-            ])
-            ->add('description', TextFilterType::class, [
-                'condition_pattern' => FilterOperands::STRING_CONTAINS,
-                'attr' => [
-                    'class' => 'filterSearch',
-                    'placeholder' => 'Description d\'un produit'
                 ]
             ])
             ->add('priceExclVat', NumberFilterType::class, [

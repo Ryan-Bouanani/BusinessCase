@@ -3,98 +3,6 @@
 {% block title %}La Nîmes'alerie{% endblock %}
 
 {% block body %}
-    <!-- Barre de nav -->
-    <header>
-        <span class="boneWhite b1"></span>
-        <span class="boneWhite b2"></span>
-        <span class="boneWhite b3"></span>
-        <span class="boneWhite b4"></span>
-        <span class="bone b5"></span>
-        <span class="bone b6"></span>
-        <span class="bone b7"></span>
-        <span class="paw paw1"></span>
-        <span class="paw paw2"></span>
-        <span class="paw paw3"></span>
-        <span class="paw paw4"></span>
-
-        <div class="top-nav">
-            <div class="search-menu-mobile">
-                <div class="menu">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-
-                <div class="search-submit" type="submit" value=""></div>
-            </div>
-            <img id="logo" src="{{ asset("build/images/la-Nîmes'alerie-logos.png") }}" alt="Logo La Nîmes'Alerie">
-            <form class="search-form" action="#" method="">
-                <input class="search-bar" type="search" placeholder="Rechercher un produit">
-                <input class="search-submit" type="submit" value="">
-            </form>
-            <div class="account_basket">
-                <div class="account-p">
-                    <a href="#"><div class="account"></div></a>
-                    <p class="none">Connexion</p>
-                </div>
-                <div class="basket-p">
-                    <a href="#"><div class="basket"></div><span class="count">0</span></a>
-                    <p class="none">Mon panier</p>
-                </div>
-            </div>
-        </div>
-        <nav class="bottom-nav">
-            <div class="category top-nav-mobile">
-                <div class="linkCategory">
-                    <a href="#">Accueil</a>
-                    <i class="fa-solid fa-xmark close"></i>
-                </div>
-            </div>
-            <ul class="listCategories">
-                {% for category in categoriesParent %}
-                    
-                <li class="category">
-                    <div class="linkCategory">
-                        <a href="#">{{ category.name }}</a>
-                        <i class="fa-solid fa-chevron-right"></i>
-                    </div>
-                    <ul class="sub-menu">
-                        {% for subCategory in category.categoryChildren %}
-                            <li><a href="#">{{ subCategory.name }}</a></li>      
-                        {% endfor %}
-                    </ul>
-                </li>
-                {% endfor %}
-            </ul>
-            <ul class="social-networks">
-                <li>
-                    <a href="#"><i class="fa-brands fa-facebook"></i></a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa-brands fa-linkedin"></i></a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa-brands fa-instagram"></i></a>
-                </li>
-                <li>
-                    <a href="#"><i class="fa-brands fa-twitter"></i></a>
-                </li>
-            </ul>
-        </nav>
-        <!-- Home -->
-        <!-- <div class="bg_paw"> -->
-            <div class="container1">
-                <div class="left">
-                    <h1>La Nîmes'alerie</h1>
-                    <p>Le bien être pour tous</p>
-                    <a href="#" class="btn btn-dark">Visiter notre site</a>
-                </div>
-                <div class="right none">
-                    <div class="cat-dog"></div>
-                </div>
-            </div>
-        <!-- </div> -->
-    </header>
     <main>
 
         <!-- Nouveautés -->
@@ -103,42 +11,14 @@
                 <div class="carrouselContainer">
                     <span class="arrow_left"></span>
                     <span class="arrow_right"></span>
-                    <div class="carrousel carrouselProducts">
-                        {% for product in newProducts %}
-                            <div class="card">
-                            <a href="{{ path('app_detail_product', {'slug': product[0].title}) }}">
-                            
-                                {% for image in product[0].images %}
-                                    <img src="{{ asset("build/images/" ~ image.path) }}" alt="Pédigree">
-                                {% endfor %}
-                                <h3 class="title-product">{{ product[0].title }}</h3>
-                                {# <span class="new">NOUVEAU</span> #}
-                                {% if product['percentage'] %}
-                                    <span class="new">{{ product['percentage']|  percentagePromo }}</span>
-                                {% endif %}
-                                    <div class="stars-reviews">
-                                    <div class="stars">
-                                    {{ product['note'] | stars }}
-                                    </div>
-                                    <p class="p-1">({{ product['Avis'] }} avis)</p>
-                                </div>
-
-                                  {% set priceTaxIncl = product[0].priceExclVat +  (product[0].priceExclVat * (product[0].tva / 100)) | round(2,'floor') %}
-
-                                  {% if product['percentage'] %}
-                                    <p class="price priceInline">{{ priceTaxIncl -  (priceTaxIncl * (product['percentage'] / 100)) | round(2,'floor') }}€</p>
-                                    <del>{{ priceTaxIncl }}€</del>
-                                {% else %}
-                                    <p class="price">{{ priceTaxIncl}}€</p>
-                                {% endif %}
-                                <a href="" class="btn btnAddBasket">Ajoutez au panier</a>
-                            </a>
-                            </div>            
-                        {% endfor %}
+                    <div class="carrousel carrouselProducts">          
+                        {% include 'front/partials/_product.html.twig' with {
+                            'products': newProducts,
+                        } %}
                     </div>
                 </div>
-                <a href="#" class="btn btn-dark">Tout voir</a>
             </div>
+                {# <a href="#" class="btn btn-dark">Tout voir</a> #}
         </section>
 
         <!-- Brand cover -->
@@ -150,10 +30,7 @@
         </section>
 
         <!--  Nos Meileurs Ventes -->
-
-        <!-- Marques populaires -->
-
-        <!--  Nos Meileurs Ventes -->
+        {# Les mieux notés #}
         <section id="best-sales">
             <div class="container-me">
                 <h2 class="h2">Les mieux notés</h2>
@@ -162,43 +39,13 @@
                     <span class="arrow_right"></span> -->
                     <i class="arrow_left fa-solid fa-circle-chevron-left"></i>
                     <i class="arrow_right fa-solid fa-circle-chevron-right"></i>
-                    <div class="carrousel carrouselProducts">       
-                          {% for product in topRatedProducts %}
-                            <div class="card">
-                            <a href="{{ path('app_detail_product', {'slug': product[0].title}) }}">
-                            
-                                {% for image in product[0].images %}
-                                    <img src="{{ asset("build/images/" ~ image.path) }}" alt="{{ product[0].title }}">
-                                {% endfor %}
-                                <h3 class="title-product">{{ product[0].title }}</h3>
-                                {# <span class="new">NEW</span> #}
-                                {% if product['percentage'] %}
-                                    <span class="new">{{ product['percentage'] | percentagePromo }}</span>
-                                {% endif %}
-                                
-                                    <div class="stars-reviews">
-                                    <div class="stars">
-                                    {{ product['Avis'] | stars }}
-                                    </div>
-                                    <p class="p-1">({{ product['Avis'] }} avis)</p>
-                                </div>
-
-                                  {% set priceTaxIncl = product[0].priceExclVat +  (product[0].priceExclVat * (product[0].tva / 100)) | round(2,'floor') %}
-
-                                {% if product['percentage'] %}
-                                    <p class="price priceInline">{{ priceTaxIncl -  (priceTaxIncl * (product['percentage'] / 100)) | round(2,'floor') }}€</p>
-                                    <del>{{ priceTaxIncl }}€</del>
-                                {% else %}
-                                    <p class="price">{{ priceTaxIncl}}€</p>
-                                {% endif %}
-                                <a href="" class="btn btnAddBasket">Ajoutez au panier</a>
-                            </a>
-                            </div>            
-                        {% endfor %}
-
+                    <div class="carrousel carrouselProducts">                       
+                        {% include 'front/partials/_product.html.twig' with {
+                            'products': topRatedProducts,
+                        } %}
                     </div>
                 </div>
-                <a href="#" class="btn btn-dark">Tout voir</a>
+                {# <a href="#" class="btn btn-dark">Tout voir</a> #}
             </div>
         </section>
 
@@ -221,8 +68,8 @@
             </div>
         </section>
 
-        <section id="blog" class="container-me">
-            <h2>Blog</h2>
+        {# <section id="blog" class="container-me">
+            <h2 class="h2">Blog</h2>
             <div class="containerBlog">
                 <div class="article-blog">
                     <div class="image-date">
@@ -247,11 +94,11 @@
                 </div>
             </div>
             <a href="" class="btn">Voir plus</a>
-        </section>
+        </section> #}
 
         <!-- Avis clients -->
         <section id="testimonials">
-            <h2 class="h2testimonials">Avis clients</h2>
+            <h2 class="h2 h2testimonials">Avis clients</h2>
             <div class="testimonialsNewletter">
                 <div class="testimonials-slider">
                 <div class="testimonialContainer">
@@ -262,7 +109,11 @@
                         <div class="testimonial-item">
                             <div class="testimonials">
                                 <span class="guillemet">❝</span>
-                                <p>{{ review.comment }}</p>
+                                {% if review.comment|length < 140 %}
+                                    <p>{{ review.comment }}</p>
+                                {% else %}
+                                    <p>{{ review.comment | slice(0, 140) }} ...</p>
+                                {% endif %}
                                 <div class="profil">
                                     <img src="{{ asset("build/images/photo de profil avis 1.png") }}" alt="Photo de profil">
                                     <h3>{{ review.customer.firstName }} {{ review.customer.lastName }}</h3>
@@ -270,24 +121,16 @@
                             </div>                
                         </div>
                     {% endfor %}
-                    {# <div class="testimonials none">
-                        <span class="guillemet">❝</span>
-                        <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolor ipsum laboriosam, sed asperiores</p>
-                        <div class="profil">
-                            <img src="{{ asset("build/images/photo de profil avis 1.png") }}" alt="Photo de profil">
-                            <h3>Julien Fallois</h3>
-                        </div>
-                    </div> #}
                 </div>
                 </div>
-                <div class="newletter">
+                {# <div class="newletter">
                     <h2 class="h2Newletter">Abonnez-vous à notre newletter</h2>
                     <p class="pNewletter">ET beneficiez de -10% sur votre prochaine commande</p>
                     <form action="#">
                         <input class="mailNewletter" type="text" value="" placeholder="Entrer votre email" />
                         <input class="btn-dark btnSubmitNewletter" type="submit" value="S'ABONNER">
                     </form>
-                </div>
+                </div> #}
             </div>
         </section>
 
@@ -300,7 +143,7 @@
                         pour animaux. Notre catalogue offres tout les produits et accessoires pour chiens, chats,
                         rongueurs,
                         poissons, reptiles, furets, cheveaux et même pour les animaux de ferme ou d’élevage.</p>
-                    <a href="#" class="btn">En savoir plus</a>
+                    {# <a href="#" class="btn">En savoir plus</a> #}
                 </div>
                 <div class="right_cat">
                     <div class="cat"></div>
@@ -308,7 +151,7 @@
         </section>
 
         <!-- Réassurances -->
-        <section id="reinsurance" class="">
+        <section id="reinsurance" class="container-me">
             <div class="reassuranceBlob">
                 <div class="delivery"></div>
                 <p>Livraison en 48H</p>
@@ -329,35 +172,5 @@
 
     </main>
     <span class="arrowScrollTop"></span>
-    <!-- Footer -->
-    <footer>
-        <div class="about">
-            <h3>A propos</h3>
-            <a href="#">A propos de nous</a>
-            <a href="#">Moyens de paiement</a>
-            <a a href="#">Mentions légales </a>
-            <a href="#">Conditions générales de vente</a>
-            <a href="#">Confidentialité</a>
-            <a href="#"> Frais et délais de livraison</a>
-
-        </div>
-        <div class="entreprise">
-            <h3>Entreprise</h3>
-            <a href="#">Formulaire de rétractation</a>
-            <p>Code d'éthique</a>
-                <p>Commandites d'événements </a>
-                    <p>Code d'éthique</a>
-                        <p>Carrière</a>
-                            <p> Programme d'affiliation</a>
-        </div>
-        <div class="service-client">
-            <h3>Services Client</h3>
-            <a href="#">Suivie de commande</a>
-            <a href="#">Retour</a>
-            <a href="#">Informations d’expédition</a>
-            <a href="#">Ou somme nous</a>
-            <a href="#">Contacter nous</a>
-        </div>
-    </footer>
 
 {% endblock %}

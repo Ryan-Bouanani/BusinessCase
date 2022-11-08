@@ -1,0 +1,56 @@
+{% extends 'front/base.html.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block body %}
+    <div class="form">
+        <h1>Inscription</h1>
+
+        {{ form_start(registrationForm) }}
+            <div class="formChild">
+                {{ form_label(registrationForm.username) }}
+                {{ form_widget(registrationForm.username) }}
+                {{ form_errors(registrationForm.username) }}
+            </div>
+            <div class="formChild">
+                {{ form_label(registrationForm.plainPassword) }}
+                {{ form_widget(registrationForm.plainPassword) }}
+                {{ form_errors(registrationForm.plainPassword) }}
+            </div>
+            <div class="formChild">
+                {{ form_label(registrationForm.email) }}
+                {{ form_widget(registrationForm.email) }}
+                {{ form_errors(registrationForm.email) }}
+            </div>
+            <div class="formChild">
+                {{ form_label(registrationForm.firstName) }}
+                {{ form_widget(registrationForm.firstName) }}
+                {{ form_errors(registrationForm.firstName) }}
+            </div>
+            <div class="formChild">
+                {{ form_label(registrationForm.lastName) }}
+                {{ form_widget(registrationForm.lastName) }}
+                {{ form_errors(registrationForm.lastName) }}
+            </div>
+            <div class="formChild">
+                {{ form_label(registrationForm.dateOfBirth) }}
+                {{ form_widget(registrationForm.dateOfBirth) }}
+                {{ form_errors(registrationForm.dateOfBirth) }}
+            </div>
+            <div class="formChild">
+                {{ form_label(registrationForm.gender) }}
+                {{ form_widget(registrationForm.gender) }}
+                {{ form_errors(registrationForm.gender) }}
+            </div>
+            <div class="formChild">
+                {{ form_label(registrationForm.RGPDConsent) }}
+                {{ form_widget(registrationForm.RGPDConsent) }}
+                {{ form_errors(registrationForm.RGPDConsent) }}
+            </div>
+
+            <button type="submit" class="button">Register</button>
+        {{ form_end(registrationForm) }}
+
+        <p>Si vous avez déjà un compte : <a href="{{ path('app_login') }}">Connectez-vous</a></p>
+    </div>
+{% endblock %}

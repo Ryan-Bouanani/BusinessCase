@@ -9,7 +9,6 @@ use App\Entity\Promotion;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ButtonType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -36,9 +35,16 @@ class ProductType extends AbstractType
                 ],
             ])
             ->add('priceExclVat', NumberType::class, [
-                'label' => 'Prix',
+                'label' => 'Prix (en €)',
                 'attr' => [
                     'placeholder' => 'Entrer un prix hors taxe',
+                    'min' => 0
+                ],
+            ])
+            ->add('tva', NumberType::class, [
+                'label' => 'TVA (en %)',
+                'attr' => [
+                    'placeholder' => 'Entrer une tva',
                     'min' => 0
                 ],
             ])
@@ -93,11 +99,12 @@ class ProductType extends AbstractType
                 }
             ])
             ->add('images', FileType::class, [
+                'help' => 'La première image choisie est la principale',
                 'label' => false,
                 'data_class'=>null,
                 'multiple' => true,
                 'mapped' => false,
-                'required' => false,
+                'required' => true,
                 // 'attr' => [
                 //     'data-list-selector' => 'images'
                 // ],
@@ -109,17 +116,17 @@ class ProductType extends AbstractType
                 //     )
                 // ]
             ])
-            ->add('isMain', CheckboxType::class, [
-                'required' => false,
-                'mapped' => false,
-                'attr' => [
-                    'class' => 'form-check-input',
-                ],
-                'label' => 'Principale',
-                'label_attr' => [
-                    'class' => 'form-check-label'
-                ],
-            ])
+            // ->add('isMain', CheckboxType::class, [
+            //     'required' => false,
+            //     'mapped' => false,
+            //     'attr' => [
+            //         'class' => 'form-check-input',
+            //     ],
+            //     'label' => 'Principale',
+            //     'label_attr' => [
+            //         'class' => 'form-check-label'
+            //     ],
+            // ])
             ;
     }
 

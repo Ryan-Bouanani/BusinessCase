@@ -11,6 +11,10 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ContentShoppingCartRepository::class)]
 #[ApiResource(
+    attributes: [
+        "security" => "is_granted('ROLE_STATS')",
+        "security_message" => "Accès refusé",
+    ],
     collectionOperations: [
         'get'
     ],
@@ -51,6 +55,13 @@ class ContentShoppingCart
     ]
     private ?string $price = null;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 4, scale: 2)]
+    #[
+        Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
+        ]),
+    ]
+    private ?string $tva = null;
 
     #[ORM\ManyToOne(inversedBy: 'contentShoppingCarts')]
     #[ORM\JoinColumn(nullable: false)]
@@ -97,6 +108,19 @@ class ContentShoppingCart
         return $this;
     }
 
+    
+    public function getTva(): ?string
+    {
+        return $this->tva;
+    }
+
+    public function setTva(string $tva): self
+    {
+        $this->tva = $tva;
+
+        return $this;
+    }
+
 
     public function getBasket(): ?Basket
     {
@@ -109,18 +133,6 @@ class ContentShoppingCart
 
         return $this;
     }
-
-    // public function getProduct(): ?Product
-    // {
-    //     return $this->product;
-    // }
-
-    // public function setProduct(?Product $product): self
-    // {
-    //     $this->product = $product;
-
-    //     return $this;
-    // }
 
     public function getProduct(): ?Product
     {

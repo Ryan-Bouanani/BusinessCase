@@ -21,9 +21,9 @@ class BasketConversionPercentageAction extends AbstractController
     public function __invoke(): JsonResponse
     {
         $nbVisit = $this->visiteRepository->nbVisit();
-        $nbBasket = $this->basketRepository->nbBasket();
+        $nbBasketAndOrders = $this->basketRepository->nbBasketAndOrders();
 
-        $query['PercentageVisitsConvertedIntoBasket'] = round((($nbBasket['NbBasket'] / $nbVisit['NbVisit']) * 100), 2);
+        $query['PercentageVisitsConvertedIntoBasket'] = round((($nbBasketAndOrders['NbBasketAndOrders'] / $nbVisit['NbVisit']) * 100), 2);
         
         return new JsonResponse($query);
     }

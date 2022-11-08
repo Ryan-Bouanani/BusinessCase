@@ -13,7 +13,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: StatusRepository::class)]
 #[ApiResource(
     attributes: [
-        "security" => "is_granted('ROLE_ADMIN')  or is_granted('ROLE_STATS')",
+        "security" => "is_granted('ROLE_STATS')",
         "security_message" => "Accès refusé",
     ],
     collectionOperations: [

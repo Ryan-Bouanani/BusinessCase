@@ -1,0 +1,158 @@
+{# {{ form_start(form) }}
+    {{ form_widget(form) }}
+    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }} #}
+
+ <div class="form displayTable">
+    <h1>{{ title }}</h1>
+            {# <div class="overlay overlayClose" data-modal-overlay>
+                <div class="modalContainer" data-modal>
+                    <button type="button" class="closeModal" data-modal-close-open><i class="fa-solid fa-rectangle-xmark"></i></button>
+                    <h2>Adresse</h2>
+                    <div class="modalContent">
+                        {{ form_start(formAddress) }}
+                        <div class='formChild'>
+                            {{ form_label(formAddress.line1) }}
+                            {{ form_widget(formAddress.line1) }}
+                            {{ form_errors(formAddress.line1) }}
+                        </div>
+                        <div class='formChild'>
+                            {{ form_label(formAddress.line2) }}
+                            {{ form_widget(formAddress.line2) }}
+                            {{ form_errors(formAddress.line2) }}
+                        </div>
+                        <div class='formChild'>
+                            {{ form_label(formAddress.city) }}
+                            {{ form_widget(formAddress.city) }}
+                            {{ form_errors(formAddress.city) }}
+                        </div>
+                        <div class='formChild'>
+                            {{ form_label(formAddress.country) }}
+                            {{ form_widget(formAddress.country) }}
+                            {{ form_errors(formAddress.country) }}
+                        </div>
+                        <div class='formChild'>
+                            {{ form_label(formAddress.postalCode) }}
+                            {{ form_widget(formAddress.postalCode) }}
+                            {{ form_errors(formAddress.postalCode) }}
+                        </div>
+                        <div class='formChild'>
+                            {{ form_label(formAddress.firstName) }}
+                            {{ form_widget(formAddress.firstName) }}
+                            {{ form_errors(formAddress.firstName) }}
+                        </div>
+                        <div class='formChild'>
+                            {{ form_label(formAddress.lastName) }}
+                            {{ form_widget(formAddress.lastName) }}
+                            {{ form_errors(formAddress.lastName) }}
+                        </div>
+                        <div class='formChild'>
+                            {{ form_label(formAddress.phoneNumber) }}
+                            {{ form_widget(formAddress.phoneNumber) }}
+                            {{ form_errors(formAddress.phoneNumber) }}
+                        </div>
+                        {{ form_end(formAddress) }}
+                    </div>
+                </div>
+            </div> #}
+    {{ form_start(formBasket) }}
+            <div class='formChild'>
+                {{ form_label(formBasket.customer) }}
+                {{ form_widget(formBasket.customer) }}
+                {{ form_errors(formBasket.customer) }}
+            </div>
+            <div class='formChild'>
+                {{ form_label(formBasket.meanOfPayment) }}
+                {{ form_widget(formBasket.meanOfPayment) }}
+                {{ form_errors(formBasket.meanOfPayment) }}
+            </div>
+            <div class='formChild'>
+                {{ form_label(formBasket.status) }}
+                {{ form_widget(formBasket.status) }}
+                {{ form_errors(formBasket.status) }}
+            </div>
+            <div class='formChild'>
+                {{ form_label(formBasket.address) }}
+                {{ form_widget(formBasket.address) }}
+                {{ form_errors(formBasket.address) }}
+            </div>
+
+            {# Vérifier si la route est "app_basket_edit" on affiche le panier #}
+            {% if app.request.attributes.get('_route') == ('app_basket_edit')%}
+            
+            <button type="button" class="button addAddress"  data-active-modal>Ajouter une adresse</button>
+
+            
+
+                <h2>Contenue commande</h2>
+                    
+                {# On affiche les ligne de la commande actuelle #}
+                <table class="table table-hover contentShoppingCart">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Nom</th>
+                            <th>Quantité</th>
+                            <th>Prix TTC</th>
+                            <th>Total</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% include "back/partials/_tableContentShoppingCart.html.twig" with {
+                        'basket': basket,
+                    } %}
+                    </tbody>
+                </table>
+
+                <div class="containerPriceTotalOrder">
+                    <h2>Total</h2>
+                    <p class="priceTotalOrder"></p>
+                </div>
+
+            {# Vérifier si la route est "app_basket_edit" on affiche le button d'ajout #}
+            {% if app.request.attributes.get('_route') == ('app_basket_edit') %}
+                <h2>Ajouter un produit</h2>
+                <div class="newProduct">
+                    <div class='formChild'>
+                        {{ form_label(formBasket.product) }}
+                        {{ form_widget(formBasket.product) }}
+                        {{ form_errors(formBasket.product) }}
+                        <div class="resultProductSearch none">
+                        </div>
+                        <div class="error none"></div>
+                    </div>
+
+                    <div class="newProductInfo">
+                        <div class='formChild'>
+                            {{ form_label(formBasket.quantityNewProduct) }}
+                            <div class="lineQuantity">
+                                <button class="increment">
+                                    <i class="fa-solid fa-plus"></i>
+                                </button>
+                                {{ form_widget(formBasket.quantityNewProduct) }}
+                                {{ form_errors(formBasket.quantityNewProduct) }}
+                                <button class="decrement">
+                                    <i class="fa-solid fa-minus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class='formChild'>
+                            <h3>Prix Produit</h3>
+                            <p class='priceProduct'>0,00€</p>
+                        </div>
+                        <div class='formChild'>
+                            <h3>Total</h3>
+                            <p class='priceTotalLine'>0,00€</p>
+                        </div>
+                    </div>
+
+                    <button class="button btnAction btnAddProduct" href="{{ path('app_basket_addContentShoppingCart', {'id': basket.id}) }}" data-token="{{ csrf_token('addContentShoppingCart' ~ basket.id) }}">Ajouter le produit</button>  
+                {% endif %}
+            </div>
+
+            {% endif %}
+
+            <button class="button btnSubmitForm">{{ button_label|default('Save') }}</button>
+    {{ form_end(formBasket) }}
+</div>

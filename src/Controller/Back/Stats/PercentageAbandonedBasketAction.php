@@ -19,9 +19,9 @@ class PercentageAbandonedBasketAction extends AbstractController
     public function __invoke(): JsonResponse
     {
         $nbAbandonedBasket = $this->basketRepository->abandonedBasket();
-        $nbBasket = $this->basketRepository->nbBasket();
+        $NbBasketAndOrders = $this->basketRepository->nbBasketAndOrders();
 
-        $query['PercentageAbandonedBaskets'] = ROUND((($nbAbandonedBasket['NbAbandonedBasket'] / $nbBasket['NbBasket']) * 100), 2);
+        $query['PercentageAbandonedBaskets'] = ROUND((($nbAbandonedBasket['NbAbandonedBasket'] / $NbBasketAndOrders['NbBasketAndOrders']) * 100), 2);
 
         return new JsonResponse($query);
     }

@@ -1,6 +1,9 @@
 // @import "lib/bootstrap";
 @import "lib/forteawsome";
 @import "lib/pagination";
+@import "partials/form";
+@import "partials/searchResultProduct";
+@import "partials/modal";
 
 a {
     text-decoration: none;
@@ -13,20 +16,31 @@ a {
     border-radius: 3px;
     text-align: center;
     border: none;
+    font-size: 1rem;
 }
 .btnAction {
     display: block;
 }
-
-.container {
-    width: 90%;
-    max-width: 1160px;
-    margin: 0 auto;
-    padding: 0;
-    margin-bottom: 4.5rem;
+.error {
+    background: #f8d7da;
+    padding: 1rem;
+    margin-bottom: 1rem;
+    color: 220, 53, 69;
 }
-@media screen and (max-width: 615px) {
-    .container {
-        width: 95%;
+
+// BTN DE QUANTITITE
+.lineQuantity {
+    min-width: 6rem;
+    a, button {
+        width: fit-content;
+        padding: 5px;
+        background: rgb(255,183,0);
+        font-size: 0.7rem;
+        border: none;
+    }
+    .quantity {
+        display: inline;
+        text-align: center;
+        width: 1.5rem;
     }
 }

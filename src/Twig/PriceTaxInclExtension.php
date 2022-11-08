@@ -2,12 +2,16 @@
 
 namespace App\Twig;
 
+use App\Service\PriceTaxInclService;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFilter;
-use Twig\TwigFunction;
 
 class PriceTaxInclExtension extends AbstractExtension
 {
+    public function __construct(
+        private PriceTaxInclService $priceTaxInclService,
+    ) { }
+
     public function getFilters(): array
     {
         return [
@@ -18,13 +22,9 @@ class PriceTaxInclExtension extends AbstractExtension
         ];
     }
 
+// Calcule le prix ttc et ajouter une promo si il y'en a
+    public function calcPriceTaxIncl( float $priceExclVat, float $tva, $promoPercentage = null): float {
 
-    public function calcPriceTaxIncl(float $priceExclVat, float $tva) {
-        $priceTaxIncl = round($priceExclVat * ($tva / 100),2);
-
-        dump($tva);
-        dump($priceExclVat);
-        // dump($tva);
-        return $priceTaxIncl;
+        return $this->priceTaxInclService->calcPriceTaxIncl($priceExclVat, $tva, $promoPercentage);
     }
 }

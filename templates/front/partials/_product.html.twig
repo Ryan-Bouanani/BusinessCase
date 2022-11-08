@@ -1,0 +1,33 @@
+   {% for product in products %}
+        <div class="card">
+        <a href="{{ path('app_detail_product', {'id': product[0].id}) }}">
+        
+            {% for image in product[0].images %}
+                <img src="{{ asset("build/images/" ~ image.path) }}" alt="{{ product[0].title }}">
+            {% endfor %}
+            <h3 class="title-product">{{ product[0].title }}</h3>
+            {# <span class="new">NEW</span> #}
+            {% if product[0].promotion %}
+                <span class="badge">{{ product[0].promotion.percentage | percentagePromo }}</span>
+            {% endif %}
+                <div class="stars-reviews">
+                <div class="stars">
+                {{ product['Note'] | stars }}
+                </div>
+                <p class="p-1">({{ product['Avis'] }} avis)</p>
+            </div>
+
+            {% set priceTaxIncl = product[0].priceExclVat |priceTaxIncl( product[0].tva) %}
+
+            {% if product[0].promotion %}
+
+                <p class="price priceInline">{{product[0].priceExclVat | priceTaxIncl( product[0].tva, product[0].promotion.percentage) }}€</p> 
+                <del>{{ priceTaxIncl }}€</del>
+
+            {% else %}
+                <p class="price">{{ priceTaxIncl }}€</p>
+            {% endif %}
+            <a href=" {{ path('app_shoppingCart_add', {id: product[0].id} )}}" class="btn btnAddBasket cover">Ajoutez au panier</a>
+        </a>
+        </div>            
+    {% endfor %}

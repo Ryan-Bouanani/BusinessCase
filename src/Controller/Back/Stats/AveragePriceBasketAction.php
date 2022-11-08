@@ -19,7 +19,8 @@ class AveragePriceBasketAction extends AbstractController
     public function __invoke(): JsonResponse
     {
         $query = $this->basketRepository->averagePriceBasket();
-
+        
+        $query['AveragePriceBasket'] = round($query['AveragePriceBasket'], 2);
         return new JsonResponse($query);
 
     }

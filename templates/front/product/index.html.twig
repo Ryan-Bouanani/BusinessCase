@@ -1,20 +1,59 @@
-<!DOCTYPE html>
+{% extends 'front/base.html.twig' %}
 
-<title>Hello ProductController!</title>
+{% block title %} product[0].title{% endblock %}
 
 {% block body %}
-<style>
-    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
-    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
-</style>
 
-<div class="example-wrapper">
-    <h1>Hello {{ controller_name }}! ✅</h1>
+ <section class="container-me">
 
-    This friendly message is coming from:
-    <ul>
-        <li>Your controller at <code><a href="{{ 'C:/Users/HB/Desktop/BusinessCase/src/Controller/ProductController.php'|file_link(0) }}">src/Controller/ProductController.php</a></code></li>
-        <li>Your template at <code><a href="{{ 'C:/Users/HB/Desktop/BusinessCase/templates/product/index.html.twig'|file_link(0) }}">templates/product/index.html.twig</a></code></li>
-    </ul>
-</div>
+    <div class="topProduct">
+        <div class="imagesProduct">
+            <div class="imagesSecondary">
+                {% for image in product[0].images %}              
+                    <img src="{{ asset("build/images/" ~ image.path) }}" alt="{{ product[0].title }}">
+                {% endfor %}
+            </div>
+            <div class="imageMain">
+                {% for image in product[0].images %}
+                    {% if image.isMain == true %}                 
+                        <img src="{{ asset("build/images/" ~ image.path) }}" alt="{{ product[0].title }}">
+
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="productInfo">
+            <div class="starsAndReviews">
+                <div class="stars">
+                    {{ product['Note'] | stars }}
+                </div>
+                <p class="p-1 nbReview">({{ product['Avis'] }} avis)</p>
+            </div>
+            <div class="productTitleAndBrandLabel">
+                <h1 class="title-product">{{ product[0].title }}</h1>
+                <p>{{ product[0].brand.label }}</p>
+            </div>
+            
+            {% set priceTaxIncl = product[0].priceExclVat |priceTaxIncl( product[0].tva) %}
+
+            {% if product[0].promotion %}
+
+                <div class="priceProduct">
+                    <p class="price priceInline">{{product[0].priceExclVat | priceTaxIncl( product[0].tva, product[0].promotion.percentage) }}€</p> 
+                    <del>{{ priceTaxIncl }}€</del>
+                </div>
+
+            {% else %}
+                <p class="price">{{ priceTaxIncl }}€</p>
+            {% endif %}
+
+            <a href=" {{ path('app_shoppingCart_add', {id: product[0].id} )}}" class="btn btnAddBasket">Ajoutez au panier</a>
+        </div>
+    </div>
+    <div class="descriptionContainer">
+        <h2>Description</h2>
+        <p class="productDescription">{{ product[0].description }}</p>
+    </div>
+ </section>
+
 {% endblock %}

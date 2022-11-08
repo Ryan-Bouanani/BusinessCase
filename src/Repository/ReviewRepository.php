@@ -48,7 +48,6 @@ class ReviewRepository extends ServiceEntityRepository
         ->getQuery()
         ->getResult()
         ;
-        dump($query);
         return $query;
     }
 
