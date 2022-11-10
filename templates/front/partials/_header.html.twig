@@ -71,7 +71,7 @@
         <nav class="bottom-nav">
             <div class="category top-nav-mobile">
                 <div class="linkCategory">
-                    <a href="#">Accueil</a>
+                    <a href="{{ path('app_home') }}">Accueil</a>
                     <i class="fa-solid fa-xmark close"></i>
                 </div>
             </div>
@@ -80,12 +80,12 @@
                     
                 <li class="category">
                     <div class="linkCategory">
-                        <a href="#">{{ category.name }}</a>
+                        <a href="{{ path('app_category', {id: category.id}) }}">{{ category.name }}</a>
                         <i class="fa-solid fa-chevron-right"></i>
                     </div>
                     <ul class="sub-menu">
                         {% for subCategory in category.categoryChildren %}
-                            <li><a href="#">{{ subCategory.name }}</a></li>      
+                            <li><a href="{{ path('app_category', {id: subCategory.id}) }}">{{ subCategory.name }}</a></li>      
                         {% endfor %}
                     </ul>
                 </li>
