@@ -15,7 +15,8 @@
         align-items: center;
         width: 80%;
         position: absolute;
-        top: 0;
+        // top: 0;
+        top: -15%;
         left: 50%;
         transform: translate(-50%, -65%);
     }
@@ -28,6 +29,7 @@
         max-width: 16rem;
         min-width: 16rem;
         background: $testimonialsBg;
+        // background: $bgReinssurance;
     }
     .testimonials {
         width: 100%;

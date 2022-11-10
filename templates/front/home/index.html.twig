@@ -109,10 +109,10 @@
                         <div class="testimonial-item">
                             <div class="testimonials">
                                 <span class="guillemet">❝</span>
-                                {% if review.comment|length < 140 %}
+                                {% if review.comment|length < 110 %}
                                     <p>{{ review.comment }}</p>
                                 {% else %}
-                                    <p>{{ review.comment | slice(0, 140) }} ...</p>
+                                    <p>{{ review.comment | slice(0, 110) }} ...</p>
                                 {% endif %}
                                 <div class="profil">
                                     <img src="{{ asset("build/images/photo de profil avis 1.png") }}" alt="Photo de profil">

@@ -216,7 +216,8 @@ main {
     .price {
         font-weight: bold;
         font-size: 1.3rem;
-        color: $redPrice;
+        // color: $redPrice;
+        color: $colorGradient;
     }
     .priceInline {
         display: inline;
@@ -284,7 +285,7 @@ main {
 
 @media screen and (min-width: 868px) {
     .btn-dark:hover {
-        background-color: #ff4600;
+        background-color: $orange;
         color: $white;
     }    
 }

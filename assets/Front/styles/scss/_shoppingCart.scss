@@ -61,7 +61,7 @@
             display: flex;
             flex-direction: column;
             gap: 0.5rem;
-            color: #FF7B00;
+            color: $orange;
             .price {
                 font-size: 1.1rem;
             }
@@ -73,7 +73,7 @@
         .percentagePromo {
             padding: 0.3rem 0.6rem;
             font-size: 0.7rem;
-            color: white;
+            color: $white;
             @include gradient-bg(90deg);
             border-radius: 0.2rem;
             font-weight: bold;

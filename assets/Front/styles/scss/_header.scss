@@ -81,7 +81,7 @@ header {
         width: 100%;
         position: fixed;
         top: 0;
-        background-color: #ffff;
+        background-color: $white;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -222,7 +222,7 @@ header {
             line-height: 1;
             padding: 2px 4px;
             color: $white;
-            background: rgb(255,123,0);     
+            background: $colorGradient;     
         }
     }
     // scroll bar
@@ -284,7 +284,7 @@ header {
                 margin-left: 7px;
             }   
             i {
-                color: black;
+                color: $black;
                 font-size: 0.9rem;
                 padding: 5px;
             } 
@@ -321,7 +321,7 @@ header {
             transition: 0.5s ease-in-out;
         }
         .sub-menu-active a:hover, .linkCategory a:hover {
-            color: rgb(255,123,0);
+            color: $colorGradient;
         }
     }
     nav.bottom-nav.open {
@@ -341,7 +341,7 @@ header {
             font-size: 1.3rem;
             padding: 10px;
             border-radius: 10px;
-            background-color: #EAEAEA;
+            background-color: $bgReinssurance;
 
         }
     }
@@ -414,9 +414,6 @@ header.home::after {
     }
 }
 @media (min-width: 868px) {
-    header {
-        margin-bottom: 0;
-    }
     header.home {
         height: 42rem;
         // Icones bg Header
@@ -460,6 +457,7 @@ header.home::after {
 
     }
     header {
+        margin-bottom: 0;
         margin-top: 0;
 
         .account_basket { 
@@ -543,6 +541,9 @@ header.home::after {
                 all: unset;
                 a {
                     color: $white;
+                    &:hover {
+                        color: $white;
+                    }
                 }
             }
             .sub-menu {
