@@ -4,7 +4,8 @@
 
 {% block body %}
 <div class="form">
-        <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
+    <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
+    {% include "front/partials/_flash.html.twig" %}
     <form method="post">
         {% if error %}
             <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -45,5 +46,6 @@
         </button>
     </form>
      <p>Si vous n'avez pas de compte : <a href="{{ path('app_register') }}">Inscrivez-vous</a></p>
+     <a href="{{ path('forgotten_password') }}">Mot de passe oublié ?</a>
 </div>
 {% endblock %}

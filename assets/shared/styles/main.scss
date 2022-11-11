@@ -23,9 +23,15 @@ a {
 }
 .error {
     background: #f8d7da;
+    color: #842029;
     padding: 1rem;
     margin-bottom: 1rem;
-    color: 220, 53, 69;
+}
+.succes {
+    color: #0f5132;
+    background: #d1e7dd;
+    padding: 1rem;
+    margin-bottom: 1rem;
 }
 
 // BTN DE QUANTITITE

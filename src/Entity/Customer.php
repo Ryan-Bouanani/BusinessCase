@@ -96,6 +96,14 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[
+        Assert\Length([
+            'min' => 6,
+            'max' => 255,
+            'minMessage' => 'Veuiller entrer un username contenant au minimum {{ limit }} caractères',
+            'maxMessage' => 'Veuiller entrer un username contenant au maximum {{ limit }} caractères',
+        ]),
+    ]
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
@@ -125,6 +133,11 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
         ]),
     ]
     private ?string $lastName = null;
+
+    
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $resetToken = null;
+
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[
@@ -254,6 +267,17 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastName(string $lastName): self
     {
         $this->lastName = $lastName;
+
+        return $this;
+    }
+    public function getResetToken(): ?string
+    {
+        return $this->resetToken;
+    }
+
+    public function setResetToken(?string $resetToken): self
+    {
+        $this->resetToken = $resetToken;
 
         return $this;
     }

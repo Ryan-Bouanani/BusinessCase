@@ -14,55 +14,55 @@ class AddressType extends AbstractType
     {
         $builder
             ->add('line1', TextType::class, [
-                'label' => false,
+                'label' => 'Rue et numero de rue',
                 'required' => true,
                 'attr' => [
                     'placeholder' => 'Rue et numero de rue'
                 ]
             ])
             ->add('line2', TextType::class, [
-                'label' => false,
+                'label' => 'Complément d\'adresse',
                 'required' => true,
                 'attr' => [
                     'placeholder' => 'Complément d\'adresse'
                 ]
             ])
             ->add('postalCode', TextType::class, [
-                'label' => false,
+                'label' => 'Code postal',
                 'required' => true,
                 'attr' => [
                     'placeholder' => 'Code postal'
                 ]
             ])
             ->add('country', TextType::class, [
-                'label' => false,
+                'label' => 'Pays',
                 'required' => true,
                 'attr' => [
                     'placeholder' => 'Pays'
                 ]
             ])
             ->add('city', TextType::class, [
-                'label' => false,
+                'label' => 'Ville',
                 'required' => true,
                 'attr' => [
                     'placeholder' => 'Ville'
                 ]
             ])
             ->add('firstName', TextType::class, [
-                'label' => false,
+                'label' => 'Prénom',
                 'required' => true,
                 'attr' => [
                     'placeholder' => 'Prénom'
                 ]
             ])
             ->add('lastName', TextType::class, [
-                'label' => false,
+                'label' => 'Nom',
                 'required' => true,'attr' => [
                     'placeholder' => 'Nom'
                 ]
             ])
             ->add('phoneNumber', TextType::class, [
-                'label' => false,
+                'label' => 'Numéro de téléphone',
                 'required' => false,
                 'attr' => [
                     'placeholder' => 'Numéro de téléphone'

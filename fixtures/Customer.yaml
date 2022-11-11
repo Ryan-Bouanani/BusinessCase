@@ -1,7 +1,7 @@
 parameters:
   passwordAdmin: '$2y$13$UjlgDb2/uZSGh/UIi0mOx.eipN8k.dHovXGqC60i.aZ8.XZYCZbRq'
   # password: Issou2021
-  passwordUser: '$2y$13$cune4QsrDkiZ5srbNjwuu.48vwxZJSSoN9zANH/Y/fNne5vssK.tO'
+  passwordUser: '$2y$13$zUUxup6uhFhRlv8c55Xm8eZEGLHE8srdqMk7er2BgIbGYrPpSQPk2'
   # password: test
 
 App\Entity\Customer:
