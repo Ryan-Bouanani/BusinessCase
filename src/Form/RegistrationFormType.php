@@ -17,6 +17,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\IsTrue;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\Regex;
 
 class RegistrationFormType extends AbstractType
 {
@@ -73,15 +74,16 @@ class RegistrationFormType extends AbstractType
                 'label' => 'Mot de passe',
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Merci d\'entrer un mot de passe',
-                    ]),
-                    new Length([
-                        'min' => 6,
-                        'minMessage' => 'Votre mot de passe doit contenir au minimum {{ limit }} caractères',
-                        // max length allowed by Symfony for security reasons
-                        'max' => 4096,
-                    ]),
+                    // new NotBlank([
+                    //     'message' => 'Merci d\'entrer un mot de passe',
+                    // ]),
+                    // new Length([
+                    //     'min' => 6,
+                    //     'minMessage' => 'Votre mot de passe doit contenir au minimum {{ limit }} caractères',
+                    //     // max length allowed by Symfony for security reasons
+                    //     'max' => 4096,
+                    // ]),
+                    new Regex('/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{14,}$/', 'Votre mot de passe doit contenir au minimum 14 caractères avec une 1 majuscule, 1 minuscule, 1 chiffre et1caractère spécial '),
                 ],
             ])
         ;

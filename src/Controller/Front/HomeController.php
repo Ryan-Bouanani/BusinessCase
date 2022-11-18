@@ -122,7 +122,6 @@ class HomeController extends AbstractController
             'filterSearchForm' => $filterForm->createView(),
             'newProducts' => $newProducts,
             'topRatedProducts' => $topRatedProducts,
-            // 'categoriesParent' => $categoriesParent,
             'brandts' => $brandts,
             'reviews' => $reviews,
         ]);
@@ -151,7 +150,7 @@ class HomeController extends AbstractController
         }  
     }
 
-    #[Route('/filterSearchFront/{searchValue}', name: 'app_basket_productFilterSearchFront', methods: ['GET'])]
+    #[Route('/filterSearchFront/{searchValue}', name: 'app_productFilterSearchFront', methods: ['GET'])]
     public function getProductBySearchFront(
         string $searchValue, 
         ProductRepository $productRepository,

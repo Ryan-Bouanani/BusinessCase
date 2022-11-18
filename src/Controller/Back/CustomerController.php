@@ -5,12 +5,14 @@ namespace App\Controller\Back;
 use App\Entity\Customer;
 use App\Form\CustomerType;
 use App\Repository\CustomerRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/admin/customer')]
+#[IsGranted('ROLE_ADMIN')]
 class CustomerController extends AbstractController
 {
     #[Route('/', name: 'app_customer_index', methods: ['GET'])]

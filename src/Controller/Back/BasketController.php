@@ -14,6 +14,7 @@ use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,6 +22,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('admin/basket')]
+#[IsGranted('ROLE_ADMIN')]
 class BasketController extends AbstractController
 {
     #[Route('/', name: 'app_basket_index', methods: ['GET'])]

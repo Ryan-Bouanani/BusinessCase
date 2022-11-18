@@ -112,7 +112,7 @@ class ProductRepository extends AbstractRepository
         public function getProductShoppingCart(int $id): Product {
             return $this->createQueryBuilder('product')
                 ->select('product', 'image')
-                ->join('product.images', 'image')
+                ->leftjoin('product.images', 'image')
                 ->where('product.id = :id')
                 ->andWhere('image.isMain = true')
                 ->setParameter('id', $id)

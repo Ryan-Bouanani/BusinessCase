@@ -88,7 +88,7 @@ header {
         height: 4.7rem;
         padding: 1.3rem;
         margin-bottom: 5px;
-        z-index: 30;
+        z-index: 50;
     }
     .search-menu-mobile, .account_basket {
         display: flex;
@@ -256,7 +256,7 @@ header {
         background: $white;
         box-shadow: 1rem 3rem 4rem rgba(132, 139, 200, 0.18);
         transform: translate(-100%);
-        z-index: 30;
+        z-index: 100;
         overflow-y: scroll;
 
         .top-nav-mobile {
@@ -520,7 +520,6 @@ header.home::after {
             width: fit-content;
             margin: 0 auto;
             margin: 0.5rem auto 2rem auto;
-            z-index: 100;
 
             ul.listCategories {
                 margin-bottom: 0;

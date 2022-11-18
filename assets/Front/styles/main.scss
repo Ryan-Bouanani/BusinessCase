@@ -75,6 +75,15 @@ li {
 section {
     margin-bottom: 7rem;
 }
+.percentagePromo {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.7rem;
+    color: $white;
+    @include gradient-bg(90deg);
+    border-radius: 0.2rem;
+    font-weight: bold;
+    max-width: 3rem;
+}
 
 h1.h1Home {
     font-family: $title-police;

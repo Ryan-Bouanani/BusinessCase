@@ -2,13 +2,12 @@
 
 {% if products is not empty %}
     {% for product in products %}   
-        <div class="product">
-            <a href="{{ path('app_detail_product', {id: product.id})}}">
+        <a href="{{ path('app_detail_product', {id: product.id})}}">
+            <div class="product">
                 {% for image in product.images %}
                     <img src="{{ asset('/build/images/' ~ image.path) }}" alt="Image du Produit" alt="{{ product.title }}"> 
                 {% endfor %}
                 <p class="productTitle">{{ product.title }}</p>
-
                 {% set priceTaxIncl = product.priceExclVat |priceTaxIncl( product.tva) %}
 
                 {% if product.promotion %}
@@ -17,7 +16,7 @@
                 {% else %}
                     <p class="priceProduct">{{ product.priceExclVat |priceTaxIncl( product.tva) }}€</p>
                 {% endif %}
-            </a>
-        </div>
+            </div>
+        </a>
     {% endfor %}
 {% endif %}

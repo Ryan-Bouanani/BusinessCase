@@ -32,14 +32,13 @@
                 <img id="logo" src="{{ asset("build/images/la-Nîmes'alerie-logos.png") }}" alt="Logo La Nîmes'Alerie">
             </a>
             <div class="search-form" action="#">
-            <div class="search">
+            <form method="GET" class="search">
                 <input class="search-bar searchProduct" type="search" placeholder="Rechercher un produit">
                 <input class="search-submit" type="submit" value="">
+            </form>
+            <div class="resultProductSearch none">
             </div>
-                {% set home = true %}
-                <div class="resultProductSearch none">
-                </div>
-                <div class="error none"></div>
+            {# <div class="error none"></div> #}
             </div>
             <div class="account_basket">
                  {% if app.user %}

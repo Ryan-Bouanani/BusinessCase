@@ -10,6 +10,7 @@ use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,6 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/admin/product')]
+#[IsGranted('ROLE_ADMIN')]
 class ProductController extends AbstractController
 {
     #[Route('/', name: 'app_product_index', methods: ['GET'])]
@@ -39,7 +41,6 @@ class ProductController extends AbstractController
             $builderUpdater->addFilterConditions($filterForm, $qb);
         }
 
-
         $products = $paginator->paginate(
             $qb,
             $request->query->getInt('page', 1),
@@ -56,18 +57,20 @@ class ProductController extends AbstractController
     public function new(
         Request $request, 
         ProductRepository $productRepository,
-        EntityManagerInterface $entityManager
+        EntityManagerInterface $entityManager,
     ): Response
     {
 
+        // Création d'un nouveau produit
         $product = new Product();
+
         $form = $this->createForm(ProductType::class, $product);
         $form->handleRequest($request);
 
+        // Si le form est envoyé et valide
         if ($form->isSubmitted() && $form->isValid()) {
             // On récupère les images transmises
             $images = $form->get('images')->getData();
-            // $isMain = $form->get('isMain')->getData();
 
             // On boucle sur les images
             foreach ($images as $key => $image) {
@@ -82,21 +85,20 @@ class ProductController extends AbstractController
                 
                 // On crée et stocke l'image dans la base de données
                 $img = new Image();
-                // $img->setName($fichier);
                 $img->setPath($fichier);
-                   // $img->setName($fichier);
+
+                // On rend la première image principale
                 if ($key == 0) {
                     $img->setIsMain(true);
                 }
+                // On ajoute nos images au produit
                 $product->addImage($img);
-
-                dump($image);
-                
             }
-            // $entityManager->persist($product);
+            // On ajoute notre produit en bdd 
+            $entityManager->persist($product);
             $productRepository->add($product, true);
-            $entityManager->flush();
 
+            // On redirige l'administrateur vers la liste des produits
             return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -147,9 +149,7 @@ class ProductController extends AbstractController
                     $img->setIsMain(true);
                 }
                 $product->addImage($img);
- 
-                 dump($image);
-                 
+
              }
 
             $productRepository->add($product, true);
@@ -168,6 +168,7 @@ class ProductController extends AbstractController
     {
 
         if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->request->get('_token'))) {
+            
             // $productImages = $product->getImages();
             // foreach ($productImages as $key => $image) {
             // // On récupere le nom de l'image
@@ -194,20 +195,19 @@ class ProductController extends AbstractController
         
         // On vérifie si le token est valide
         if ($this->isCsrfTokenValid('delete' . $image->getId(), $data['_token'])) {
-            // // On récupere le nom de l'image
-            // $path = $image->getPath();
-            // // Puis on supprime l'image en local
-            // unlink($this->getParameter('images_directory').'/'.$path);
+            // On récupere le nom de l'image
+            $path = $image->getPath();
+            // Puis on supprime l'image en local
+            unlink($this->getParameter('images_directory').'/'.$path);
 
             // On supprime l'image en BDD
             $entityManager->remove($image);
             $entityManager->flush();
-            // On répond en JSOn
+
+            // On répond en JSON
             return new JsonResponse(['success' => 1]);
         } else {
             return new JsonResponse(['error' => 'Token Invalide'], 400);
         }
-
-        // return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
     }
 }

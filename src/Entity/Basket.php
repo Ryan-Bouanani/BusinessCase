@@ -30,7 +30,7 @@ use Doctrine\ORM\Mapping as ORM;
         'normalization_context' => ['groups' => ['read:Order:attributes']],
     ],
     collectionOperations: [
-        'get',
+        // 'get',
         // NB ORDERS
         'getNbOrder' => [
             'method' => 'GET',

@@ -24,7 +24,7 @@ class SecurityController extends AbstractController
         if ($this->getUser()) {
             return $this->redirectToRoute('app_home');
         }
-
+        
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
 
@@ -49,10 +49,13 @@ class SecurityController extends AbstractController
         SendMailService $mail,
     ): Response
     {
+        // On crée le formulaire de demande du mail du compte de l'utilisateur
         $form = $this->createForm(ResetPasswordRequestFormType::class);
 
+        // On inspecte les requettes du formulaire
         $form->handleRequest($request);
 
+        // Si le formulaire est envoyé et valide
         if ($form->isSubmitted() && $form->isValid()) {
             // On va chercher l'utilisateur par son email
             $user = $customerRepository->findOneByEmail($form->get('email')->getData());
@@ -62,7 +65,8 @@ class SecurityController extends AbstractController
                 // On génère un token  de réinitialisation
                 $token = $tokenGenerator->generateToken();
                 $user->setResetToken($token);
-                $entityManager->persist($user);
+
+                // On envoie en bdd le token  de réinitialisation de l'utilisateur
                 $entityManager->flush();
 
                 // On génere un lien de réinitialisation du mot de passe
@@ -73,22 +77,22 @@ class SecurityController extends AbstractController
 
                 // Envoi du mail
                 $mail->send(
-                    'rushwars4222@exemple.com',
+                    'LaNimesAlerie@gmail.com',
                     $user->getEmail(),
                     'Réinitialisation de mot de passe',
                     'password_reset',
                     $context
                 );
 
+                // On renvoie un message de succès
                 $this->addFlash('succes', 'Un email vous a été envoyé, sur votre boite mail');
                 return $this->redirectToRoute('app_login');
             }
-            // Si ûser est null
+            // Si user est null, on renvoie un message d'erreur
             $this->addFlash('error', 'Un problème est survenue');
             return $this->redirectToRoute('app_login');
         }
-
-
+        // On envoie le form pour qu'il soit affiché
         return $this->render('front/security/reset_password_request.html.twig', [
             'requestPassForm' => $form->createView(),
         ]);
@@ -103,37 +107,44 @@ class SecurityController extends AbstractController
         UserPasswordHasherInterface $passwordHasher,
         ): Response
     {
-        // Vérifier si on a ce token dans la bdd
+        // On vérifier si on a ce token dans la bdd
         $user = $customerRepository->findOneByResetToken($token);
 
+        // Si le token appartient à un utilisateur
         if ($user) {
+            // On crée le formulaire du nouveau mot de passe
             $form = $this->createForm(ResetPasswordFormType::class);
 
+            // On inspecte les requettes du formulaire
             $form->handleRequest($request);
 
+              // Si le formulaire est envoyé et valide
             if ($form->isSubmitted() && $form->isValid()) {
+
                 // On éfface le token
                 $user->setResetToken('');
+
+                // Et on set le nouveau mot de passe en le hachant
                 $user->setPassword(
                     $passwordHasher->hashPassword(
                         $user,
                         $form->get('password')->getData()
                     )
                 );
-                $entityManager->persist($user);
+                // Puis on met à jour le reset du token et le nouveau mot de passe en bdd
                 $entityManager->flush();
-                // dd($user->getPassword());
 
-                // Si mot de passe changé alors on renvoi un message de succes
+                // Si mot de passe changé alors on renvoie un message de succes
                 $this->addFlash('succes', 'Mot de passe mis à jour avec succès');
                 return $this->redirectToRoute('app_login');
             }
 
+            // On envoie le form pour qu'il soit affiché
             return $this->render('front/security/reset_password.html.twig', [
                 'passForm' => $form->createView(),
             ]);
         }
-        // Si le jeton n'est pas valide
+        // Si le jeton n'est pas valide, on renvoie une erreur
         $this->addFlash('error', 'Jeton invalide');
         return $this->redirectToRoute('app_login');
     }

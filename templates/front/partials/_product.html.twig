@@ -6,8 +6,8 @@
                 <img src="{{ asset("build/images/" ~ image.path) }}" alt="{{ product[0].title }}">
             {% endfor %}
             <h3 class="title-product">{{ product[0].title }}</h3>
-            {# <span class="new">NEW</span> #}
-            {% if product[0].promotion %}
+
+            {% if product[0].promotion and product[0].promotion.expirationDate > 'now' | date('d/m/Y') %}
                 <span class="badge">{{ product[0].promotion.percentage | percentagePromo }}</span>
             {% endif %}
                 <div class="stars-reviews">
@@ -19,7 +19,7 @@
 
             {% set priceTaxIncl = product[0].priceExclVat |priceTaxIncl( product[0].tva) %}
 
-            {% if product[0].promotion %}
+            {% if product[0].promotion and product[0].promotion.expirationDate > 'now' | date('d/m/Y') %}
 
                 <p class="price priceInline">{{product[0].priceExclVat | priceTaxIncl( product[0].tva, product[0].promotion.percentage) }}€</p> 
                 <del>{{ priceTaxIncl }}€</del>

@@ -28,7 +28,7 @@
                         <p>{{ item.product.brand.label |slice(0, 20) }}</p>
                     
                         {% set priceTaxIncl = item.product.priceExclVat |priceTaxIncl( item.product.tva) %}
-                        {% if item.product.promotion %}
+                        {% if item.product.promotion  and item.product.promotion.expirationDate > 'now' | date('d/m/Y') %}
 
                             <div class="productPrice">
                             <div class="promoInfo">

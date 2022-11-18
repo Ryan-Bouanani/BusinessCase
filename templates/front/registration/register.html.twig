@@ -10,42 +10,74 @@
             <div class="formChild">
                 {{ form_label(registrationForm.username) }}
                 {{ form_widget(registrationForm.username) }}
-                {{ form_errors(registrationForm.username) }}
+                {% if  form_errors(registrationForm.username) %}
+                    <div class="error">
+                        {{ form_errors(registrationForm.username) }}
+                    </div>     
+                {% endif %}   
             </div>
             <div class="formChild">
                 {{ form_label(registrationForm.plainPassword) }}
                 {{ form_widget(registrationForm.plainPassword) }}
-                {{ form_errors(registrationForm.plainPassword) }}
+                {% if  form_errors(registrationForm.plainPassword) %}
+                    <div class="error">
+                        {{ form_errors(registrationForm.plainPassword) }}
+                    </div>
+                {% endif %}
             </div>
             <div class="formChild">
                 {{ form_label(registrationForm.email) }}
                 {{ form_widget(registrationForm.email) }}
-                {{ form_errors(registrationForm.email) }}
+                {% if form_errors(registrationForm.email) %}
+                    <div class="error">
+                        {{ form_errors(registrationForm.email) }}
+                    </div>     
+                {% endif %}
             </div>
             <div class="formChild">
                 {{ form_label(registrationForm.firstName) }}
                 {{ form_widget(registrationForm.firstName) }}
-                {{ form_errors(registrationForm.firstName) }}
+                {% if form_errors(registrationForm.firstName) %}
+                    <div class="error">
+                        {{ form_errors(registrationForm.firstName) }}
+                    </div>      
+                {% endif %}  
             </div>
             <div class="formChild">
                 {{ form_label(registrationForm.lastName) }}
                 {{ form_widget(registrationForm.lastName) }}
-                {{ form_errors(registrationForm.lastName) }}
-            </div>
+                {% if form_errors(registrationForm.lastName) %}
+                    <div class="error">
+                        {{ form_errors(registrationForm.lastName) }}
+                    </div>
+                {% endif %}
+            </div> 
             <div class="formChild">
                 {{ form_label(registrationForm.dateOfBirth) }}
                 {{ form_widget(registrationForm.dateOfBirth) }}
-                {{ form_errors(registrationForm.dateOfBirth) }}
+                {% if form_errors(registrationForm.dateOfBirth) %}
+                    <div class="error">
+                        {{ form_errors(registrationForm.dateOfBirth) }}
+                    </div>   
+                {% endif %}        
             </div>
             <div class="formChild">
                 {{ form_label(registrationForm.gender) }}
                 {{ form_widget(registrationForm.gender) }}
-                {{ form_errors(registrationForm.gender) }}
+                {% if form_errors(registrationForm.gender) %}
+                    <div class="error">
+                        {{ form_errors(registrationForm.gender) }}
+                    </div>   
+                {% endif %}   
             </div>
             <div class="formChild">
                 {{ form_label(registrationForm.RGPDConsent) }}
                 {{ form_widget(registrationForm.RGPDConsent) }}
-                {{ form_errors(registrationForm.RGPDConsent) }}
+                {% if form_errors(registrationForm.RGPDConsent) %}
+                    <div class="error">
+                        {{ form_errors(registrationForm.RGPDConsent) }}
+                    </div>    
+                {% endif %}       
             </div>
 
             <button type="submit" class="button">Register</button>

@@ -28,27 +28,31 @@ export function updateNodeListInputBtnQuantity() {
     priceTotalLine = document.querySelectorAll(' .priceTotalLine');
     priceTotalOrder = document.querySelector(' .priceTotalOrder');
     btnsDelete = document.querySelectorAll("[data-delete]");
-    console.log(btnsDelete);
+
+    if (quantityArray.length !== 0) {
+        console.log(quantityArray);
+        
+        
+        arrayBtnQuantity = [addQuantity, substractQuantity];
     
-    arrayBtnQuantity = [addQuantity, substractQuantity];
-
-    // Je met à jour ma fonction delete de ligne de panier
-    deletContentShoppingCart(btnsDelete);
-
-    // Je récupère la value de chaque inputs de quantité et les stockent dans un tableau
-    quantityArray.forEach((quantity : HTMLInputElement, key) => {
-
-        let quantityValue = parseInt(quantity.value);
-        updateBtnQuantity(quantityValue, key);
-
-        // Met à jour les buttons et la valeur de l'input en fonction de la quantité entrer par l'utilisateur
-        inputQuantityListener(quantity, key);
-    });
-
-    // Pour chacun des tableaux de buttons (increment et décrement) je lance la fonction quantityListener()
-    arrayBtnQuantity.forEach((element: NodeListOf<HTMLButtonElement>) => {
-        quantityListener(element);
-    }); 
+        // Je met à jour ma fonction delete de ligne de panier
+        deletContentShoppingCart(btnsDelete);
+    
+        // Je récupère la value de chaque inputs de quantité et les stockent dans un tableau
+        quantityArray.forEach((quantity : HTMLInputElement, key) => {
+    
+            let quantityValue = parseInt(quantity.value);
+            updateBtnQuantity(quantityValue, key);
+    
+            // Met à jour les buttons et la valeur de l'input en fonction de la quantité entrer par l'utilisateur
+            inputQuantityListener(quantity, key);
+        });
+    
+        // Pour chacun des tableaux de buttons (increment et décrement) je lance la fonction quantityListener()
+        arrayBtnQuantity.forEach((element: NodeListOf<HTMLButtonElement>) => {
+            quantityListener(element);
+        }); 
+    }
 }
 
 

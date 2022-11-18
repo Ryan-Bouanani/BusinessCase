@@ -1,19 +1,16 @@
-console.log(('lol'));
 
 window.addEventListener('load', () => {
     // Gestion des boutons "Supprimer"
-    let links = document.querySelectorAll("[data-delete]")
+    let links = document.querySelectorAll(".containerImages [data-delete]")
     let link: Element;
     
-
     if (links) {
-        // On boucle sur les links
+        // On boucle sur les buttons supprimés : links
         for(link of links){
             // On écoute le click
             link.addEventListener("click", function(e){
                 // On empêche la navigation
-                e.preventDefault()
-    
+                e.preventDefault();
                 // On demande confirmation
                 if(confirm("Voulez-vous vraiment supprimer cette image ?")){
                     // On envoie une requête Ajax vers le href du lien avec la méthode DELETE

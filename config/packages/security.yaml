@@ -13,9 +13,8 @@ security:
     
     role_hierarchy:
         ROLE_STATS: ROLE_USER
-        ROLE_ADMIN: 
-            - ROLE_USER
-            - ROLE_STATS
+        ROLE_ADMIN: ROLE_USER
+
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -51,7 +50,7 @@ security:
     access_control:
         - { path: ^/api/docs, roles: PUBLIC_ACCESS } # Allows accessing the Swagger UI
         - { path: ^/api/authentication_token, roles: PUBLIC_ACCESS }
-        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/api, roles: ROLE_STATS }
         - { path: ^/admin, roles: ROLE_ADMIN }
 
 when@test:

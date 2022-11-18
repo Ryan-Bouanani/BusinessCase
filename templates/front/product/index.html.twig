@@ -17,8 +17,9 @@
                 {% for image in product[0].images %}
                     {% if image.isMain == true %}                 
                         <img src="{{ asset("build/images/" ~ image.path) }}" alt="{{ product[0].title }}">
-
                     {% endif %}
+                {% else %}
+                    <p>Image indisponible</p>
                 {% endfor %}
             </div>
         </div>
@@ -36,8 +37,9 @@
             
             {% set priceTaxIncl = product[0].priceExclVat |priceTaxIncl( product[0].tva) %}
 
-            {% if product[0].promotion %}
+            {% if product[0].promotion and product[0].promotion.expirationDate > 'now' | date('d/m/Y') %}
 
+                <span class="percentagePromo">{{ product[0].promotion.percentage | percentagePromo }}</span>
                 <div class="priceProduct">
                     <p class="price priceInline">{{product[0].priceExclVat | priceTaxIncl( product[0].tva, product[0].promotion.percentage) }}€</p> 
                     <del>{{ priceTaxIncl }}€</del>

@@ -6,12 +6,9 @@ export function deletContentShoppingCart(btnsDelete: NodeListOf<HTMLButtonElemen
     btnsDelete.forEach((btn : HTMLButtonElement, key) => {
         // On écoute le click
         btn.addEventListener("click", function(e){
-            console.log(btn);
+
             // On empêche la navigation
             e.preventDefault();
-            console.log(btn);
-            
-
 
             // On demande confirmation
             if (confirm("Voulez-vous vraiment supprimer ce produit de votre panier ?")){

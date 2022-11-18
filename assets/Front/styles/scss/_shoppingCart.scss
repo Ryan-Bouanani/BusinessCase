@@ -49,7 +49,6 @@
             .promoInfo {
                 display: flex;
                 gap: 0.5rem;
-                justify-content: center;
                 align-items: center;
             }
         }
@@ -69,14 +68,6 @@
         .lineQuantity {
             gap: 0.5rem;
             min-width: unset;
-        }
-        .percentagePromo {
-            padding: 0.3rem 0.6rem;
-            font-size: 0.7rem;
-            color: $white;
-            @include gradient-bg(90deg);
-            border-radius: 0.2rem;
-            font-weight: bold;
         }
         .quantityAndTotalLineAndDelete {
             width: 100%;

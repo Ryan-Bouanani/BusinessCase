@@ -58,13 +58,6 @@ class ProductType extends AbstractType
                     'class' => 'form-check-label'
                 ],
             ])
-            // ->add('dateAdded', DateType::class, [
-            //     'label' => 'Date de sortie',
-            //     'widget' => 'single_text',
-            //     'attr' => [
-            //         'max' => date('Y-m-d')
-            //     ]
-            // ])
             ->add('brand', EntityType::class, [
                 'class' => Brand::class,
                 'choice_label' => 'label',
@@ -99,15 +92,15 @@ class ProductType extends AbstractType
                 }
             ])
             ->add('images', FileType::class, [
-                'help' => 'La première image choisie est la principale',
-                'label' => false,
-                'data_class'=>null,
+                'help' => 'La première image choisie sera l\'image principale',
+                'label' => 'Ajouter une image',
                 'multiple' => true,
                 'mapped' => false,
-                'required' => true,
-                // 'attr' => [
-                //     'data-list-selector' => 'images'
-                // ],
+                'required' => false,
+                'attr' => [
+                    'class' => 'form-control mb-2 mt-2'
+                    // 'data-list-selector' => 'images'
+                ],
                 // 'constraints' => [
                 //     new File(
                 //         // maxSize: '2048k',
@@ -116,17 +109,6 @@ class ProductType extends AbstractType
                 //     )
                 // ]
             ])
-            // ->add('isMain', CheckboxType::class, [
-            //     'required' => false,
-            //     'mapped' => false,
-            //     'attr' => [
-            //         'class' => 'form-check-input',
-            //     ],
-            //     'label' => 'Principale',
-            //     'label_attr' => [
-            //         'class' => 'form-check-label'
-            //     ],
-            // ])
             ;
     }
 

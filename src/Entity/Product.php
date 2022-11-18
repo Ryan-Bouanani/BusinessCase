@@ -18,12 +18,13 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
     attributes: [
         "security" => "is_granted('ROLE_STATS')",
         "security_message" => "Accès refusé",
+        'normalization_context' => ['groups' => ['read:Product:attributes']],
     ],
     collectionOperations: [
-        'get',
+        // 'get',
     ],
     itemOperations: [
-        'get',
+        // 'get',
     
     ],
 )]
@@ -32,7 +33,7 @@ class Product
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['read:Basket:attributes'])]
+    #[Groups(['read:Basket:attributes'],['read:Product:attributes'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
@@ -47,7 +48,6 @@ class Product
             'maxMessage' => 'Veuiller entrer un produict contenant au maximum {{ limit }} caractères',
         ]),
     ]
-
     #[Groups(['read:Basket:attributes'])]
     private ?string $title = null;
 
@@ -102,6 +102,7 @@ class Product
     private ?string $tva = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
+    #[Groups(['read:Product:attributes'])]
     #[ORM\JoinColumn(nullable: false)]
     #[
         Assert\NotBlank([
