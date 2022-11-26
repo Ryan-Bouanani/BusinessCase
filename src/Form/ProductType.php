@@ -16,11 +16,18 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Validator\Constraints\NotNull;
 
 class ProductType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        /** @var Product|null $product */
+        $product = $options['data'] ?? null;
+        $isEdit = $product && $product->getId();
+
         $builder
             ->add('title', TextType::class, [
                 'label' => 'Nom',
@@ -75,8 +82,9 @@ class ProductType extends AbstractType
                 'label' => 'Categorie',
                 'placeholder' => 'Selectionner une categorie',
                 'query_builder' => function(EntityRepository $er) {
-                    return $er->createQueryBuilder('promotion')
-                    ->orderBy('promotion.name', 'ASC')
+                    return $er->createQueryBuilder('category')
+                        ->where('category.categoryParent IS NOT NULL')
+                        ->orderBy('category.name', 'ASC')
                     ;
                 }
                 ])
@@ -91,6 +99,18 @@ class ProductType extends AbstractType
                     ;
                 }
             ])
+        ;
+
+  
+        $imageConstraints = [];
+
+        if (!$isEdit || !$product->getImages()) {
+            $imageConstraints[] = new NotBlank([
+                'message' => 'Merci d\'entrer une image',
+            ]);
+        }
+
+        $builder
             ->add('images', FileType::class, [
                 'help' => 'La première image choisie sera l\'image principale',
                 'label' => 'Ajouter une image',
@@ -99,15 +119,8 @@ class ProductType extends AbstractType
                 'required' => false,
                 'attr' => [
                     'class' => 'form-control mb-2 mt-2'
-                    // 'data-list-selector' => 'images'
                 ],
-                // 'constraints' => [
-                //     new File(
-                //         // maxSize: '2048k',
-                //         mimeTypes: ['image/png', 'image/jpeg'],
-                //         mimeTypesMessage: 'Ce format d\'image n\'est pas pris en compte',
-                //     )
-                // ]
+                'constraints' => $imageConstraints,
             ])
             ;
     }

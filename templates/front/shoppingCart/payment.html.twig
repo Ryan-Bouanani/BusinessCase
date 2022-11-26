@@ -1,0 +1,16 @@
+{% extends 'front/base.html.twig' %}
+
+{% block title %}Paiement{% endblock %}
+{% block body %}
+<section id="payment" class="container-me">
+    {% include "front/partials/_processBar.html.twig" with {
+        active: 3,
+    } %}
+    <h1>Moyen de paiement</h1>
+    <div class="meanOfPayment">
+        <input type="checkbox" name="" id="">
+    </div>
+</section>
+
+
+{% endblock %}

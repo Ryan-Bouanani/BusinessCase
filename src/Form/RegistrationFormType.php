@@ -41,13 +41,6 @@ class RegistrationFormType extends AbstractType
                     'max' => date('Y-m-d'),
                 ]
             ])
-            ->add('dateOfBirth', DateType::class, [
-                'label' => 'Date de naissance',
-                'widget' => 'single_text',
-                'attr' => [
-                    'max' => date('Y-m-d'),
-                ]
-            ])
             ->add('gender', EntityType::class, [
                 'label' => 'Genre',
                 'class' => Gender::class,
@@ -74,16 +67,7 @@ class RegistrationFormType extends AbstractType
                 'label' => 'Mot de passe',
                 'attr' => ['autocomplete' => 'new-password'],
                 'constraints' => [
-                    // new NotBlank([
-                    //     'message' => 'Merci d\'entrer un mot de passe',
-                    // ]),
-                    // new Length([
-                    //     'min' => 6,
-                    //     'minMessage' => 'Votre mot de passe doit contenir au minimum {{ limit }} caractères',
-                    //     // max length allowed by Symfony for security reasons
-                    //     'max' => 4096,
-                    // ]),
-                    new Regex('/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{14,}$/', 'Votre mot de passe doit contenir au minimum 14 caractères avec une 1 majuscule, 1 minuscule, 1 chiffre et1caractère spécial '),
+                    new Regex('/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{14,}$/', 'Votre mot de passe doit contenir au minimum 14 caractères avec une 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial '),
                 ],
             ])
         ;

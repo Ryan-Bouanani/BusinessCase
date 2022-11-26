@@ -1,0 +1,89 @@
+{% extends 'back/base.html.twig' %}
+
+{% block title %}Promotion{% endblock %}
+
+{% block body %}
+
+<div class="container">
+    <div class="containerTable">
+        <table class="table table-hover">
+        {{ form_start(filters) }}
+            <thead>
+                <tr>
+                    <th scope="col" class="colId">
+                        {# filtre par id #}
+                        {{ form_widget(filters.id)}}
+                        {{knp_pagination_sortable(
+                            promotions,
+                            'Id',
+                            'promotion.id'
+                        )|raw
+                        }}
+                    </th>
+                    <th scope="col" class="colId">
+                        {# filtre par id #}
+                        {{ form_widget(filters.name)}}
+                        {{knp_pagination_sortable(
+                            promotions,
+                            'Nom',
+                            'promotion.name'
+                        )|raw
+                        }}
+                    </th>
+                    <th scope="col" class="colId">
+                        {# filtre par id #}
+                        {{ form_widget(filters.percentage)}}
+                        {{knp_pagination_sortable(
+                            promotions,
+                            'Pourcentage',
+                            'promotion.percentage'
+                        )|raw
+                        }}
+                    </th>
+                    <th scope="col" class="colId">
+                        {# filtre par le nb de produits de la promotion #}
+                        {{knp_pagination_sortable(
+                            promotions,
+                            'Produits',
+                            'NbProduct'
+                        )|raw
+                        }}
+                    </th>
+                    <th scope="col" class="colId">
+                        {# filtre par id #}
+                        {{ form_widget(filters.expirationDate)}}
+                        {{knp_pagination_sortable(
+                            promotions,
+                            'Date d\'expiration',
+                            'promotion.expirationDate'
+                        )|raw
+                    }}
+                    </th>
+                    <th scope="col">
+                        <a class="button btnAction" href=" {{ path('app_promotion_index') }}">Reset</a>
+                        <button class="button btnAction" type="submit">Rechercher</button>
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for promotion in promotions %}
+                <tr>
+                    <td scope="row">{{ promotion[0].id }}</td>
+                    <td scope="row">{{ promotion[0].name }}</td>
+                    <td>{{ promotion[0].percentage }}%</td>
+                    <td>{{ promotion['NbProduct'] }}</td>
+                    <td>{{ promotion[0].expirationDate ? promotion[0].expirationDate|date('d/m/Y H:i') : '' }}</td>
+                    <td>
+                        <a class="button btnAction" href="{{ path('app_promotion_show', {'id': promotion[0].id}) }}">Ajouter</a>
+                        <a class="button btnAction" href="{{ path('app_promotion_edit', {'id': promotion[0].id}) }}">Modifier</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6">Aucune promotion n'a été trouvé</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endblock %}

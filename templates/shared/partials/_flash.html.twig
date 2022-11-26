@@ -1,0 +1,11 @@
+
+    {% for label, messages in app.flashes %}
+    
+        {% for message in messages %}     
+            {% if message|trim is not empty and label is not empty %}
+                <div class="{{ label }}">
+                    {{ message|raw }}
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endfor %}

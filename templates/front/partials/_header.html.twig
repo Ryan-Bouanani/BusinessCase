@@ -31,7 +31,7 @@
              <a href="{{ path('app_home') }}">
                 <img id="logo" src="{{ asset("build/images/la-Nîmes'alerie-logos.png") }}" alt="Logo La Nîmes'Alerie">
             </a>
-            <div class="search-form" action="#">
+            <div class="search-form none" action="#">
             <form method="GET" class="search">
                 <input class="search-bar searchProduct" type="search" placeholder="Rechercher un produit">
                 <input class="search-submit" type="submit" value="">
@@ -42,7 +42,7 @@
             </div>
             <div class="account_basket">
                  {% if app.user %}
-                    <a href="{{ path('app_user') }}">
+                    <a href="{{ path('app_customer') }}">
                         <div class="account-p">
                             <div class="account"></div>
                             <p class="none">{{ app.user.firstName }} {{ app.user.lastName }}</p>
@@ -79,12 +79,12 @@
                     
                 <li class="category">
                     <div class="linkCategory">
-                        <a href="{{ path('app_category', {id: category.id}) }}">{{ category.name }}</a>
+                        <a href="{{ path('app_category_detail', {id: category.id}) }}">{{ category.name }}</a>
                         <i class="fa-solid fa-chevron-right"></i>
                     </div>
                     <ul class="sub-menu">
                         {% for subCategory in category.categoryChildren %}
-                            <li><a href="{{ path('app_category', {id: subCategory.id}) }}">{{ subCategory.name }}</a></li>      
+                            <li><a href="{{ path('app_category_detail', {id: subCategory.id}) }}">{{ subCategory.name }}</a></li>      
                         {% endfor %}
                     </ul>
                 </li>

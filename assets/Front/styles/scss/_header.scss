@@ -152,7 +152,7 @@ header {
     }
 
     .search-form {
-        width: 80%;
+        width: 100%;
         max-width: 38rem;
         position: absolute;
         top: 5.5rem;
@@ -181,7 +181,7 @@ header {
     }
     .resultProductSearch {
         .product img {
-            width: 5rem;
+            width: 2rem;
         }
     }
 
@@ -413,6 +413,22 @@ header.home::after {
             }
     }
 }
+
+@media screen and (max-width: 310px) {
+    header {
+        #logo {
+            width: 120px;
+        }
+        .search-form del {
+            display: none;
+        }
+    }
+}
+@media screen and (min-width: 450px) {
+    header .search-form {
+        width: 80%;
+    }
+}
 @media (min-width: 868px) {
     header.home {
         height: 42rem;
@@ -578,6 +594,7 @@ header.home::after {
             .sub-menu {
                 display: block;
                 visibility: visible;
+                z-index: 20;
             }
         } 
 

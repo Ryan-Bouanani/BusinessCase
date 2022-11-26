@@ -206,15 +206,14 @@ class BasketRepository extends AbstractRepository
         }
 
         $query = $this->createQueryBuilder('basket')
-            // todo ya plusieurs image en main par produit sa fausse les stats il compte plusieurs fois du coup
             ->select('product.title AS NameProduct','image.path AS Image', 'SUM(contentSC.quantity) AS NbSold', 'SUM(contentSC.price * contentSC.quantity) AS TotalAmountSold')
             ->join('basket.contentShoppingCarts', 'contentSC')
             ->join('contentSC.product', 'product')
             ->leftJoin("basket.status", "status")
             ->join('product.images', 'image')
             ->groupBy('product')
-            ->orderBy('TotalAmountSold', 'DESC')
             ->orderBy('NbSold', 'DESC')
+            ->addOrderBy('TotalAmountSold', 'DESC')
             ->where('image.isMain = true')
             ->andWhere('basket.dateCreated BETWEEN :beginDate AND :endDate')
             ->setParameter('beginDate', $beginDate)
@@ -222,7 +221,7 @@ class BasketRepository extends AbstractRepository
             // todo voir si faire un join de status et plus performant que mettre le nb du status souhaitée
             ->andWhere("status IS NOT NULL")
             ->andWhere("status.name != 'Remboursée'")
-            ->setMaxResults(8)
+            ->setMaxResults(7)
             ->getQuery()
             ->getResult()
         ;
@@ -324,6 +323,8 @@ class BasketRepository extends AbstractRepository
         $qb = parent::getQbAll();
         return $qb->select('basket','status')
         ->join('basket.status', 'status')
+        ->leftJoin('basket.address', 'address')
+        ->join('basket.meanOfPayment', 'meanOfPayment')
         ->where('basket.status IS NOT NULL')
         ->groupBy('basket')
         ->orderBy('basket.id', 'ASC')

@@ -1,12 +1,9 @@
 {% extends 'back/base.html.twig' %}
 
-{% block title %}Basket index{% endblock %}
+{% block title %}Liste des commandes{% endblock %}
 
 {% block body %}
 
-    <div class="newBtnContainer">
-        <a class="button" href="{{ path('app_basket_new') }}">Create new</a>
-    </div>
     <div class="container">
         <div class="containerTable">
             <table class="table table-hover">
@@ -17,7 +14,7 @@
                             {# filtre par id #}
                             {{ form_widget(filters.id)}}
                             {{knp_pagination_sortable(
-                                orders,
+                                baskets,
                                 'Id',
                                 'basket.id'
                             )|raw
@@ -27,7 +24,7 @@
                             {# filtre par client #}
                             {{ form_widget(filters.customer)}}
                             {{knp_pagination_sortable(
-                                orders,
+                                baskets,
                                 'Client',
                                 'customer.username'
                             )|raw
@@ -37,7 +34,7 @@
                             {# filtre par client #}
                             {{ form_widget(filters.address)}}
                             {{knp_pagination_sortable(
-                                orders,
+                                baskets,
                                 'Adresse',
                                 'address.country'
                             )|raw
@@ -47,7 +44,7 @@
                             {# filtre par date de facturation #}
                             {{ form_widget(filters.billingDate)}}
                             {{knp_pagination_sortable(
-                                orders,
+                                baskets,
                                 'Date de facturation',
                                 'basket.billingDate'
                             )|raw
@@ -57,7 +54,7 @@
                             {# filtre par moyen de paiement #}
                             {{ form_widget(filters.meanOfPayment)}}
                             {{knp_pagination_sortable(
-                                orders,
+                                baskets,
                                 'Moyen de paiement',
                                 'meanOfPayment.designation'
                             )|raw
@@ -67,7 +64,7 @@
                             {# filtre par status #}
                             {{ form_widget(filters.status)}}
                             {{knp_pagination_sortable(
-                                orders,
+                                baskets,
                                 'Status',
                                 'status.name'
                             )|raw
@@ -81,17 +78,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                {% for order in orders %}
+                {% for basket in baskets %}
                     <tr>
-                        <th scope="row">{{ order.id }}</th>
-                        <td class="colCustomer">{{ order.customer.username ?  order.customer.username: '' }}</td>
-                        <td class="colAddress">{{ order.address.country ? order.address.country : '' }}</td>
-                        <td class="colBillingDate">{{ order.billingDate ? order.billingDate|date('d/m/Y') : '' }}</td>
-                        <td class="colMeanOfPayment">{{ order.meanOfPayment.designation ?  order.meanOfPayment.designation: '' }}</td>
-                        <td class="colStatus">{{ order.status.name ?  order.status.name: '' }}</td>
+                        <th scope="row">{{ basket.id }}</th>
+                        <td class="colCustomer">{{ basket.customer.username ?  basket.customer.username: '' }}</td>
+                        <td class="colAddress">{{ basket.address.country ? basket.address.country : '' }}</td>
+                        <td class="colBillingDate">{{ basket.billingDate ? basket.billingDate|date('d/m/Y') : '' }}</td>
+                        <td class="colMeanOfPayment">{{ basket.meanOfPayment.designation ?  basket.meanOfPayment.designation: '' }}</td>
+                        <td class="colStatus">{{ basket.status.name ?  basket.status.name: '' }}</td>
                         <td>
-                            <a class="button btnAction" href="{{ path('app_basket_show', {'id': order.id}) }}">Detail</a>
-                            <a class="button btnAction" href="{{ path('app_basket_edit', {'id': order.id}) }}">Modifier</a>
+                            <a class="button btnAction" href="{{ path('app_basket_show', {'id': basket.id}) }}">Detail</a>
+                            <a class="button btnAction" href="{{ path('app_basket_edit', {'id': basket.id}) }}">Modifier</a>
                         </td>
                     </tr>
                 {% else %}
@@ -103,6 +100,6 @@
                 {{ form_end(filters) }}
             </table>
         </div>
-        {{ knp_pagination_render(orders) }}
+        {{ knp_pagination_render(baskets) }}
     </div>
 {% endblock %}

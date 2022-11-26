@@ -1,6 +1,6 @@
 {% extends 'back/base.html.twig' %}
 
-<title>Basket</title>
+{% block title %}Commande{% endblock %}
 
 {% block body %}
     <h1>Basket</h1>
@@ -26,5 +26,5 @@
 
     <a href="{{ path('app_basket_edit', {'id': basket.id}) }}">edit</a>
 
-    {{ include('basket/_delete_form.html.twig') }}
+    {{ include('back/basket/_delete_form.html.twig') }}
 {% endblock %}

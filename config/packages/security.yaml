@@ -31,6 +31,7 @@ security:
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
             jwt: ~            
         main:
+            # anonymous: true
             lazy: true
             provider: app_user_provider            
             custom_authenticator: App\Security\CustomerAuthenticator

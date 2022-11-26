@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Promotion;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,7 +15,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Promotion[]    findAll()
  * @method Promotion[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class PromotionRepository extends ServiceEntityRepository
+class PromotionRepository extends AbstractRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -37,6 +38,16 @@ class PromotionRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    // Récupere toutes les marques 
+    public function getQbAll(): QueryBuilder {
+        $qb = parent::getQbAll();
+        return $qb->select('promotion', 'count(product) AS NbProduct')
+            ->leftjoin('promotion.products', 'product')
+            ->groupBy('promotion')
+            ->orderBy('promotion.name', 'ASC')
+        ;
     }
 
 //    /**

@@ -4,4 +4,5 @@ import './quantityListener';
 import './fetch/deleteContentShoppingCart';
 import './fetch/addProductToOrder';
 import './fetch/images';
+import './partials/sidebar.ts';
 

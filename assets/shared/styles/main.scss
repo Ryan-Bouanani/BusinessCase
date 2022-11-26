@@ -4,6 +4,7 @@
 @import "partials/form";
 @import "partials/searchResultProduct";
 @import "partials/modal";
+@import "partials/filterSearch";
 
 a {
     text-decoration: none;
@@ -27,7 +28,7 @@ a {
     padding: 1rem;
     margin-bottom: 1rem;
 }
-.succes {
+.success {
     color: #0f5132;
     background: #d1e7dd;
     padding: 1rem;

@@ -1,0 +1,72 @@
+{% extends 'back/base.html.twig' %}
+
+{% block title %}Liste des marques{% endblock %}
+
+{% block body %}
+
+    <div class="container">
+        <div class="containerTable">
+            <table class="table table-hover">
+                {{ form_start(filters) }}
+                <thead>
+                    <tr>
+                        <th scope="col" class="colId">
+                            {# filtre par id #}
+                            {{ form_widget(filters.id)}}
+                            {{knp_pagination_sortable(
+                                brands,
+                                'Id',
+                                'basket.id'
+                            )|raw
+                        }}
+                        </th>
+                        <th class="colLogo">Logo</th>
+                        <th scope="col" class="col">
+                            {# filtre par label de marque #}
+                            {{ form_widget(filters.label)}}
+                            {{knp_pagination_sortable(
+                                brands,
+                                'Nom',
+                                'basket.label'
+                            )|raw
+                        }}
+                        </th>
+                        <th scope="col" class="colId">
+                            {# filtrer par le nb de produits de la marque #}
+                            {{knp_pagination_sortable(
+                                brands,
+                                'Produits',
+                                'NbProduct'
+                            )|raw
+                        }}
+                        </th>
+                         <th scope="col">
+                            <a class="button btnAction" href=" {{ path('app_brand_index') }}">Reset</a>
+                            <button class="button btnAction" type="submit">Rechercher</button>
+                        Actions
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for brand in brands %}
+                    <tr>
+                        <td>{{ brand[0].id }}</td>
+                        <td><img src="{{ asset("build/images/" ~ brand[0].pathImage) }}" alt="{{ brand[0].label }}"></td>
+                        <td>{{ brand[0].label }}</td>
+                        <td>{{ brand['NbProduct'] }}</td>
+                        <td>
+                            <a class="button btnAction" href="{{ path('app_brand_edit', {'id': brand[0].id}) }}">Modifier</a>
+                        </td>
+                    </tr>
+                {% else %}
+                    <tr>
+                        <td colspan="5">Aucune marque n'a été trouvé</td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+                {{ form_end(filters) }}
+            </table>
+        </div>
+        {{ knp_pagination_render(brands) }}
+    </div>
+{% endblock %}

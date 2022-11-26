@@ -45,14 +45,14 @@ class BasketController extends AbstractController
             $builderUpdater->addFilterConditions($filterForm, $qb);
         }
 
-        $orders = $paginator->paginate(
+        $baskets = $paginator->paginate(
             $qb,
             $request->query->getInt('page', 1),
             10
         );
 
         return $this->render('back/basket/index.html.twig', [
-            'orders' => $orders,
+            'baskets' => $baskets,
             'filters' => $filterForm->createView(),
         ]);
     }
@@ -63,18 +63,33 @@ class BasketController extends AbstractController
         $basket = new Basket();
         // $address = new Address();
 
+        // Creation du formulaire de commande
         $formBasket = $this->createForm(BasketType::class, $basket);
         // $formAddress = $this->createForm(AddressType::class, $address);
+
+        // On inspecte les requettes du formulaire
         $formBasket->handleRequest($request);
 
+        // Si le form est envoyé et valide
         if ($formBasket->isSubmitted() && $formBasket->isValid()) {
 
             // $basket->setAddress($address);
             // $addressRepository->add($address, true);
+
+             // On met la commande en bdd
             $basketRepository->add($basket, true);
 
+            $this->addFlash(
+                'success',
+                'Votre commande a été ajoutée avec succès !'
+            );
 
             return $this->redirectToRoute('app_basket_index', [], Response::HTTP_SEE_OTHER);
+        } else {
+            $this->addFlash(
+                'error',
+                $formBasket->getErrors()
+            );
         }
 
         return $this->renderForm('back/basket/new.html.twig', [
@@ -100,13 +115,14 @@ class BasketController extends AbstractController
         // On récupere le contenue de chaques paniers
         $contentShoppingCarts = $basket->getContentShoppingCarts();
 
-        // On crée le formulaire et on lui envoie les lignes de chaque paniers
+        // Creation des formulaires de commandes et d'adresses
         $formBasket = $this->createForm(BasketType::class, $basket, ['contentShoppingCarts' => $contentShoppingCarts]);
-
         $formAddress = $this->createForm(AddressType::class, $address);
+        
         // Et on écoute le formulaire
         $formBasket->handleRequest($request);
 
+        // Si le form est envoyé et valide
         if ($formBasket->isSubmitted() && $formBasket->isValid()) {
 
             $count = 1;
@@ -116,6 +132,12 @@ class BasketController extends AbstractController
                 $count++;
             }
 
+            $this->addFlash(
+                'success',
+                'Votre commande a été modifié avec succès !'
+            );
+
+            // On met la commande à jour en bdd
             $basketRepository->add($basket, true);
             // if (empty($contentShoppingCarts)) {
             //     // Si commande vide on supprime la commande
@@ -123,6 +145,11 @@ class BasketController extends AbstractController
             // };
 
             return $this->redirectToRoute('app_basket_index', [], Response::HTTP_SEE_OTHER);
+        } else {
+            $this->addFlash(
+                'error',
+                $formBasket->getErrors()
+            );
         }
 
         return $this->renderForm('back/basket/edit.html.twig', [
@@ -132,7 +159,7 @@ class BasketController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_basket_delete', methods: ['POST'])]
+    #[Route('/{id}/delete', name: 'app_basket_delete', methods: ['POST'])]
     public function delete(Request $request, Basket $basket, BasketRepository $basketRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$basket->getId(), $request->request->get('_token'))) {

@@ -35,8 +35,6 @@
             <div class="container-me">
                 <h2 class="h2">Les mieux notés</h2>
                 <div class="carrouselContainer">
-                    <!-- <span class="arrow_left"></span>
-                    <span class="arrow_right"></span> -->
                     <i class="arrow_left fa-solid fa-circle-chevron-left"></i>
                     <i class="arrow_right fa-solid fa-circle-chevron-right"></i>
                     <div class="carrousel carrouselProducts">                       
@@ -58,7 +56,7 @@
                     <span class="arrow_right"></span>
                     <div class="carrousel carrouselBrandts">
                       {% for brand in brandts %}
-                        <img src="{{ asset("build/images/" ~ brand.pathImage) }}" alt="{{ brand.label }}">
+                        <a href="{{ path('app_brand_detail', {id: brand.id}) }}"><img src="{{ asset("build/images/" ~ brand.pathImage) }}" alt="{{ brand.label }}"></a>
                       {% endfor %}
                     </div>
                 </div>

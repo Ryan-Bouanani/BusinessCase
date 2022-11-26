@@ -5,7 +5,7 @@
 {% block body %}
 <div class="form">
     <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
-    {% include "front/partials/_flash.html.twig" %}
+    {% include "shared/partials/_flash.html.twig" %}
     <form method="post">
         {% if error %}
             <div class="alert alert-danger error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>

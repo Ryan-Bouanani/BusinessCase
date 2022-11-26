@@ -1,0 +1,34 @@
+
+   <section id="categorie" class="container-me">
+        <div class="filter">
+            <button class="btnFilter" data-active-modal><i class="fa-solid fa-sliders"></i></button>
+        </div>
+        
+        {% set content %} 
+            {{ form_start(filters) }}            
+                <legend>Par prix :</legend>
+                {{ form_widget(filters.priceExclVat)}}  
+                {{ form_widget(filters[filterBy])}}
+                <button class="button" type="submit">Rechercher</button>
+            {{ form_end(filters) }}
+
+            <a href="{{ path(route, {id: entity.id}) }}" class="button">Reset les filtres</a>
+        {% endset %}
+
+        {% include "/shared/partials/_modal.html.twig" with {
+            title: "Filtrer",
+            content: content
+        } %}
+
+        {% if products is not empty %}
+            <div class="containerProductCategorie">
+                {% include 'front/partials/_product.html.twig' with {
+                    'products': products,
+                } %}
+            </div>
+        {{ knp_pagination_render(products) }}
+        {% else %}
+            <p>Aucun produits n'a été trouvés</p>
+        {% endif %}
+
+   </section>

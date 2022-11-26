@@ -18,7 +18,7 @@ class NbNewCustomerAction extends AbstractController
 
     public function __invoke(): JsonResponse
     {
-        $query = $this->customerRepository->NbNewCustomer();
+        $query = $this->customerRepository->NbNewCustomerArray();
         return new JsonResponse($query);
     }
 }

@@ -18,7 +18,7 @@ class NbVisiteAction extends AbstractController
 
     public function __invoke(): JsonResponse
     {
-        $query = $this->visiteRepository->nbVisit();
+        $query = $this->visiteRepository->nbVisitArray();
         return new JsonResponse($query);
     }
 }

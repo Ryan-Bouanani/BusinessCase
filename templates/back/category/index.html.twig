@@ -1,0 +1,76 @@
+{% extends 'back/base.html.twig' %}
+
+{% block title %}Catégories{% endblock %}
+
+{% block body %}
+
+    {# <div class="newBtnContainer">
+        <a class="button" href="{{ path('app_category_new') }}">Créer une nouvelle catégorie</a>
+    </div> #}
+
+<div class="container">
+    <div class="containerTable">
+        <table class="table table-hover">
+        {{ form_start(filters) }}
+            <thead>
+                <tr>
+                    <th scope="col">
+                        {# filtre par id #}
+                        {{ form_widget(filters.id)}}
+                        {{knp_pagination_sortable(
+                            categories,
+                            'Id',
+                            'category.id'
+                        )|raw
+                        }}
+                    </th>
+                    <th scope="col" class="colCategory">
+                        {# filtre par id #}
+                        {{ form_widget(filters.categoryParent)}}
+                        {# {{knp_pagination_sortable(
+                            categories,
+                            'Catégorie parent',
+                            'category.categoryParent.name'
+                        )|raw
+                        }} #}
+                    </th>
+                    <th scope="col" class="colCategory">
+                        {# filtre par id #}
+                        {{ form_widget(filters.name)}}
+                        {{knp_pagination_sortable(
+                            categories,
+                            'Sous catégorie',
+                            'category.name'
+                        )|raw
+                        }}
+                    </th>
+                    <th scope="col">
+                        <a class="button btnAction" href=" {{ path('app_category_index') }}">Reset</a>
+                        <button class="button btnAction" type="submit">Rechercher</button>
+                        Actions
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for category in categories %}
+                <tr>
+                    <td>{{ category.id }}</td>
+                    <td>{{ category.categoryParent.name }}</td>
+                    <td>{{ category.name }}</td>
+                    <td>
+                        <a class="button btnAction" href="{{ path('app_category_edit', {'id': category.id}) }}">Modifier</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">Aucune catégorie n'a été trouvée</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        {{ form_end(filters) }}
+        </table>
+    </div>
+    {{ knp_pagination_render(categories) }}
+</div>
+
+{% endblock %}

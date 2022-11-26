@@ -3,6 +3,7 @@
 @import "../../shared/styles/main.scss";
 @import "partials/form";
 @import "partials/table";
+@import "partials/aside";
 
 
 body {
@@ -53,6 +54,9 @@ input, select {
   margin-left: 2rem;
   margin-top: 2rem;
   display: inline-block;
+}
+div ul li {
+  list-style-type: none;
 }
 // button:hover {
 //   background-color: black;

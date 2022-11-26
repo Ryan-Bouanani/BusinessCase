@@ -12,6 +12,9 @@
 @use './scss/reinsurance' as *;
 @use './scss/product' as *;
 @use './scss/shoppingCart' as *;
+@use './scss/category' as *;
+@use './scss/processBar' as *;
+@use './scss/customer' as *;
 @import url('https://fonts.googleapis.com/css2?family=Aladin&family=Alatsi&family=Bangers&family=Nunito:wght@400;600;700;800&family=Puritan&display=swap');
 
 
@@ -173,8 +176,10 @@ main {
         scroll-snap-align: center;
         text-align: center;
         padding: 2rem 0;
-        width: 200px;
-        height: 21rem;
+        width: 150px;
+        height: 17rem;
+        // width: 200px;
+        // height: 21rem;
         box-shadow: 0 0 7px rgb(0 0 0 / 20%);
         background: $white;
         border-radius: 5px;
@@ -192,7 +197,8 @@ main {
         font-weight: bold;
     }
     .card img {
-        height: 160px;
+        height: 100px;
+        // height: 160px;
     }
 
     h3.title-product {
@@ -212,6 +218,9 @@ main {
         margin: 0;
         display: inline;
     }
+    div.stars i {
+        font-size: 0.9rem;
+    }
     div.stars i.yellow {
         color: #FFE600;
     }
@@ -219,12 +228,12 @@ main {
         // width: 35%;
         font-weight: bold;
         color: $colorGradient;
-        font-size: $paragraphe;
+        font-size: 0.7rem;
         display: inline;
     }
     .price {
         font-weight: bold;
-        font-size: 1.3rem;
+        font-size: 1rem;
         // color: $redPrice;
         color: $colorGradient;
     }
@@ -244,31 +253,52 @@ main {
     }
     .btnAddBasket {
         width: 100%;
-        font-size: 0.8rem;
+        font-size: 0.7rem;
         margin-bottom: 8px;
         border-radius: 5px;
     }
-}
-@media screen and (max-width: 500px) {
-    main {
-        .container-me .carrouselContainer {
-            width: 250px;
-        }
-        .container-me .carrousel {
-            gap: 
-            1.61rem;
-        }
-        .arrow_left {
-            left: -35px;
-        }
-        .arrow_right {
-            right: -35px;
+
+    @media screen and (max-width: 500px) {
+        main {
+            .carrouselContainer {
+                width: 250px;
+            }
+            .carrousel {
+                gap: 
+                1.61rem;
+            }
+            .arrow_left {
+                left: -35px;
+            }
+            .arrow_right {
+                right: -35px;
+            }
         }
     }
-}
-@media screen and (min-width: 768px) {
-    h2.h2 {
-        font-size: 1.8rem;
+
+    @media screen and (min-width: 668px) {
+        h2.h2 {
+            font-size: 1.8rem;
+        }
+        .card {
+            width: 180px;
+            height: 18rem;
+            img {
+                height: 120px;
+            }
+        }
+        div.stars i {
+            font-size: 1rem;
+        }
+        .p-1 {
+            font-size: 0.9rem;
+        }
+        .price {
+            font-size: 1.3rem;
+        }
+        .btnAddBasket {
+            font-size: 0.8rem;
+        }
     }
 }
 

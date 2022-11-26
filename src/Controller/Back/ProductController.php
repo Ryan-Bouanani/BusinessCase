@@ -7,6 +7,7 @@ use App\Entity\Product;
 use App\Form\Filter\ProductFilterType;
 use App\Form\ProductType;
 use App\Repository\ProductRepository;
+use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
@@ -30,17 +31,21 @@ class ProductController extends AbstractController
         ): Response
     {
 
+        // on récupère tout les produits
         $qb = $productRepository->getQbAll();
 
+        // on crée nos filtres de recherche
         $filterForm = $this->createForm(ProductFilterType::class, null, [
             'method' => 'GET',
         ]);
 
+        // on vérifie si la query a un paramètre du formFilter en cours.Si oui, on l’ajoute dans le queryBuilder
         if ($request->query->has($filterForm->getName())) {
             $filterForm->submit($request->query->all($filterForm->getName()));
             $builderUpdater->addFilterConditions($filterForm, $qb);
         }
 
+        // Pagination
         $products = $paginator->paginate(
             $qb,
             $request->query->getInt('page', 1),
@@ -57,14 +62,16 @@ class ProductController extends AbstractController
     public function new(
         Request $request, 
         ProductRepository $productRepository,
-        EntityManagerInterface $entityManager,
+        FileUploader $fileUploader,
     ): Response
     {
-
         // Création d'un nouveau produit
         $product = new Product();
 
+        // Creation du formulaire de produit
         $form = $this->createForm(ProductType::class, $product);
+        
+        // On inspecte les requettes du formulaire
         $form->handleRequest($request);
 
         // Si le form est envoyé et valide
@@ -72,34 +79,62 @@ class ProductController extends AbstractController
             // On récupère les images transmises
             $images = $form->get('images')->getData();
 
-            // On boucle sur les images
-            foreach ($images as $key => $image) {
-                 // On génère un nouveau nom de fichier
-                 $fichier = md5(uniqid()) . '.' . $image->guessExtension();
-
-                // On copie le fichier dans le dossier "build/images"
-                $image->move(
-                    $this->getParameter('images_directory'),
-                    $fichier
-                );
-                
-                // On crée et stocke l'image dans la base de données
-                $img = new Image();
-                $img->setPath($fichier);
-
-                // On rend la première image principale
-                if ($key == 0) {
-                    $img->setIsMain(true);
-                }
-                // On ajoute nos images au produit
-                $product->addImage($img);
+             // On boucle sur les images
+             foreach ($images as $key => $image) {
+                if ($images !== null) {
+                    $file = $fileUploader->uploadFile(
+                    $image
+                    );
+                    // On crée et stocke l'image dans la base de données
+                    $img = new Image();
+                    $img->setPath($file);
+                    if ($key == 1) {
+                        $img->setIsMain(true);
+                    }
+                    $product->addImage($img);
+                }                          
             }
-            // On ajoute notre produit en bdd 
-            $entityManager->persist($product);
-            $productRepository->add($product, true);
+            // On met le produit en bdd
+            $productRepository->add($product, false);
+
+            $this->addFlash(
+                'success',
+                'Votre produit a été ajouté avec succès !'
+            );
+
+            // // On boucle sur les images
+            // foreach ($images as $key => $image) {
+            //      // On génère un nouveau nom de fichier
+            //      $fichier = md5(uniqid()) . '.' . $image->guessExtension();
+
+            //     // On copie le fichier dans le dossier "build/images"
+            //     $image->move(
+            //         $this->getParameter('images_directory'),
+            //         $fichier
+            //     );
+                
+            //     // On crée et stocke l'image dans la base de données
+            //     $img = new Image();
+            //     $img->setPath($fichier);
+
+            //     // On rend la première image principale
+            //     if ($key == 0) {
+            //         $img->setIsMain(true);
+            //     }
+            //     // On ajoute nos images au produit
+            //     $product->addImage($img);
+            // }
+            // // On ajoute notre produit en bdd 
+            // $entityManager->persist($product);
+            // $productRepository->add($product, true);
 
             // On redirige l'administrateur vers la liste des produits
             return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
+        } else {
+            $this->addFlash(
+                'error',
+                $form->getErrors()
+            );
         }
 
         return $this->renderForm('back/product/new.html.twig', [
@@ -118,43 +153,54 @@ class ProductController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_product_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Product $product, ProductRepository $productRepository): Response
+    public function edit(
+        Request $request, 
+        Product $product, 
+        ProductRepository $productRepository,
+        FileUploader $fileUploader,
+        ): Response
     {
-
+        // Creation du formulaire de produit
         $form = $this->createForm(ProductType::class, $product);
+        
+        // On inspecte les requettes du formulaire
         $form->handleRequest($request);
 
+        // Si le form est envoyé et valide
         if ($form->isSubmitted() && $form->isValid()) {
 
              // On récupère les images transmises
              $images = $form->get('images')->getData();
-            //  $isMain = $form->get('isMain')->getData();
 
-             // On boucle sur les images
-             foreach ($images as $key => $image) {
-                // On génère un nouveau nom de fichier
-                $fichier = md5(uniqid()) . '.' . $image->guessExtension();
- 
-                 // On copie le fichier dans le dossier "build/images"
-                $image->move(
-                    $this->getParameter('images_directory'),
-                    $fichier
-                );
-                 
-                // On crée et stocke l'image dans la base de données
-                $img = new Image();
-                // $img->setName($fichier);
-                $img->setPath($fichier);
-                if ($key == 1) {
-                    $img->setIsMain(true);
-                }
-                $product->addImage($img);
-
-             }
-
+            // On boucle sur les images
+            foreach ($images as $key => $image) {
+                if ($images !== null) {
+                    $file = $fileUploader->uploadFile(
+                    $image
+                    );
+                    // On crée et stocke l'image dans la base de données
+                    $img = new Image();
+                    $img->setPath($file);
+                    if ($key == 1) {
+                        $img->setIsMain(true);
+                    }
+                    $product->addImage($img);
+                }                          
+            }
+            // On met le produit à jour en bdd
             $productRepository->add($product, true);
 
+            $this->addFlash(
+                'success',
+                'Votre produit a été modifié avec succès !'
+            );
+
             return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
+        } else {
+            $this->addFlash(
+                'error',
+                $form->getErrors()
+            );
         }
 
         return $this->renderForm('back/product/edit.html.twig', [
@@ -196,10 +242,20 @@ class ProductController extends AbstractController
         // On vérifie si le token est valide
         if ($this->isCsrfTokenValid('delete' . $image->getId(), $data['_token'])) {
             // On récupere le nom de l'image
-            $path = $image->getPath();
+            // $path = $image->getPath();
             // Puis on supprime l'image en local
-            unlink($this->getParameter('images_directory').'/'.$path);
+            // unlink($this->getParameter('images_directory').'/'.$path);
 
+            // Si on supprime l'image principal alors on la remplace
+            if ($image->getIsMain() == true) {
+                $product = $image->getProduct();
+                foreach ($product->getImages() as $newImageIsMain) {
+                    if ($newImageIsMain->getIsMain() !== true) { 
+                        $newImageIsMain->setIsMain(true);
+                        break;
+                    }
+                }
+            }
             // On supprime l'image en BDD
             $entityManager->remove($image);
             $entityManager->flush();

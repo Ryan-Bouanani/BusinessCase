@@ -1,0 +1,68 @@
+
+  <aside>
+    <div class="top">
+      <div class="logo">
+          <a href="{{ path('app_home') }}">
+                <img id="logo" src="{{ asset("build/images/la-Nîmes'alerie-logos.png") }}" alt="Logo La Nîmes'Alerie">
+        </a>
+      </div>
+      <div class="close">
+        <span class="material-icons">close</span>
+      </div>
+    </div>
+
+    <div class="sidebar">
+      <a href="{{ path('app_basket_index') }}"  class="{% if app.request.pathinfo == path('app_basket_index') %}active{% endif %}">
+        <span class="material-icons">shopping_bag</span>
+        <h3>Commande</h3>
+      </a>
+      <a href="{{ path('app_basket_new') }}"  class="{% if app.request.pathinfo == path('app_basket_new') %}active{% endif %}">
+        <span class="material-icons">add</span>
+        <h3>Ajouter commande</h3>
+      </a>
+      <a href="{{ path('app_product_index') }}"  class="{% if app.request.pathinfo == path('app_product_index') %}active{% endif %}">
+        <span class="material-icons">shopping_cart</span>
+        <h3>Produits</h3>
+      </a>
+      <a href="{{ path('app_product_new') }}"  class="{% if app.request.pathinfo == path('app_product_new') %}active{% endif %}">
+        <span class="material-icons">add</span>
+        <h3>Ajouter produit</h3>
+      </a>
+      <a href="{{ path('app_category_index') }}"  class="{% if app.request.pathinfo == path('app_category_index') %}active{% endif %}">
+        <span class="material-icons">category</span>
+        <h3>Catégorie</h3>
+      </a>
+      <a href="{{ path('app_category_new') }}"  class="{% if app.request.pathinfo == path('app_category_new') %}active{% endif %}">
+        <span class="material-icons">add</span>
+        <h3>Ajouter catégorie</h3>
+      </a>
+      <a href="{{ path('app_brand_index') }}"  class="{% if app.request.pathinfo == path('app_brand_index') %}active{% endif %}">
+        <span class="material-icons">new_releases</span>
+        <h3>Marque</h3>
+      </a>
+      <a href="{{ path('app_brand_new') }}"  class="{% if app.request.pathinfo == path('app_brand_new') %}active{% endif %}">
+        <span class="material-icons">add</span>
+        <h3>Ajouter marque</h3>
+      </a>
+      <a href="{{ path('app_promotion_index') }}"  class="{% if app.request.pathinfo == path('app_promotion_index') %}active{% endif %}">
+        <span class="material-icons">card_giftcard</span>
+        <h3>Promotion</h3>
+      </a>
+      <a href="{{ path('app_promotion_new') }}"  class="{% if app.request.pathinfo == path('app_promotion_new') %}active{% endif %}">
+        <span class="material-icons">add</span>
+        <h3>Ajouter promotion</h3>
+      </a>
+      <a href="{{ path('app_customer_index') }}"  class="{% if app.request.pathinfo == path('app_customer_index') %}active{% endif %}">
+        <span class="material-icons">person_outline</span>
+        <h3>Clients</h3>
+      </a>
+      <a href="{{ path('app_customer_new') }}"  class="{% if app.request.pathinfo == path('app_customer_new') %}active{% endif %}">
+        <span class="material-icons">add</span>
+        <h3>Ajouter client</h3>
+      </a>
+      <a href="{{ path('app_home') }}"  class="{% if app.request.pathinfo == path('app_home') %}active{% endif %}">
+        <span class="material-icons">logout</span>
+        <h3>Retour au site</h3>
+      </a>
+    </div>
+  </aside>

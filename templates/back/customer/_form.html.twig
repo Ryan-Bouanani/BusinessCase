@@ -1,8 +1,3 @@
-{# {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
-{{ form_end(form) }} #}
-
 
     <div class="form">
             {{ form_start(form) }}
@@ -11,17 +6,46 @@
                         {{ form_widget(form.roles) }}
                     </div> #}
                     <div class='formChild'>
+                        {{ form_label(form.gender) }}
+                        {{ form_widget(form.gender) }}
+
+                        {% if form_errors(form.gender) %}
+                            <div class="error">
+                                {{ form_errors(form.gender) }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class='formChild'>
                         {{ form_label(form.firstName) }}
                         {{ form_widget(form.firstName) }}
+
+                        {% if form_errors(form.firstName) %}
+                            <div class="error">
+                                {{ form_errors(form.firstName) }}
+                            </div>
+                        {% endif %}
                     </div>
                     <div class='formChild'>
                         {{ form_label(form.lastName) }}
                         {{ form_widget(form.lastName) }}
+
+                        {% if form_errors(form.lastName) %}
+                            <div class="error">
+                                {{ form_errors(form.lastName) }}
+                            </div>
+                        {% endif %}
                     </div>
                     <div class='formChild'>
                         {{ form_label(form.dateOfBirth) }}
                         {{ form_widget(form.dateOfBirth) }}
+
+                        {% if form_errors(form.dateOfBirth) %}
+                            <div class="error">
+                                {{ form_errors(form.dateOfBirth) }}
+                            </div>
+                        {% endif %}
                     </div>
-                      <button class="btn">{{ button_label|default('Sauvegarder') }}</button>
+    
+                      <button class="button btnSubmitForm">{{ button_label|default('Sauvegarder') }}</button>
             {{ form_end(form) }}
         </div>

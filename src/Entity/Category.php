@@ -22,7 +22,7 @@ class Category
             'message' => "Veuiller remplir tout les champs."
         ]),
         Assert\Length([
-            'min' => 2,
+            'min' => 3,
             'max' => 255,
             'minMessage' => 'Veuiller entrer une categorie contenant au minimum {{ limit }} caractères',
             'maxMessage' => 'Veuiller entrer une categorie contenant au maximum {{ limit }} caractères',

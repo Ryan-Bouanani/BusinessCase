@@ -1,0 +1,14 @@
+{% extends 'back/base.html.twig' %}
+
+{% block title %}Ajouter une marque{% endblock %}
+
+{% block body %}
+
+    <a class="button btnBack" href="{{ path('app_product_index') }}">Retour à la liste</a>
+
+    {{ include('back/brand/_form.html.twig', {
+        'button_label': 'Ajouter', 'title': 'Ajouter une marque'
+        }) 
+    }}
+
+{% endblock %}

@@ -4,7 +4,7 @@ namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
 use App\Controller\Back\Stats\AveragePriceBasketAction as StatsAveragePriceBasketAction;
-use App\Controller\Back\Stats\BasketConversionPercentageAction;
+use App\Controller\Back\Stats\VisiteConversionBasketPercentage;
 use App\Controller\Back\Stats\BestSellingProductAction;
 use App\Controller\Back\Stats\NbBasketAction;
 use App\Controller\Back\Stats\NbOrderAction;
@@ -157,9 +157,9 @@ use Doctrine\ORM\Mapping as ORM;
             ],
         ],
         // PERCENTAGE CONVERSION ORDER
-        'getOrderConversionPercentageAction' => [
+        'percentageBasketsConvertedIntoOrders' => [
             'method' => 'GET',
-            'path' => 'stats/orderConversionPercentageAction',
+            'path' => 'stats/percentageBasketsConvertedIntoOrders',
             'controller' => OrderConversionPercentageAction::class,
             'read' => false,
             'pagination_enabled' => false,
@@ -182,18 +182,18 @@ use Doctrine\ORM\Mapping as ORM;
             ],
         ],
         // PERCENTAGE CONVERSION ORDER
-        'getBasketConversionPercentage' => [
+        'getVisiteConversionBasketPercentage' => [
             'method' => 'GET',
-            'path' => 'stats/basketConversionPercentage',
-            'controller' => BasketConversionPercentageAction::class,
+            'path' => 'stats/visiteConversionBasketPercentage',
+            'controller' => VisiteConversionBasketPercentage::class,
             'read' => false,
             'pagination_enabled' => false,
             'openapi_context' => [
-                'summary' => 'Recupère le pourcentage de visites convertie en paniers',
+                'summary' => 'Recupère le pourcentage de visites converti en paniers',
                 'parameters' => [],
                 'responses' => [
                     '200' => [
-                        'description' => 'Pourcentage de visites convertie en paniers',
+                        'description' => 'Pourcentage de visites converti en paniers',
                         'content' => [
                             'application/json' => [
                                 'schema'=> [

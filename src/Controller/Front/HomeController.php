@@ -84,33 +84,14 @@ class HomeController extends AbstractController
         } 
         // dd($session->get('shoppingCart', []), $session->get('basket', []));
 
-        $qb = $this->productRepository->getQbAll();
-
-        // Barre de recherche de produits
-        $filterForm = $this->createForm(
-            ProductSearchFilterType::class,
-            null,
-            ['method' => 'GET']
-        );
-
-        if ($request->query->has($filterForm->getName())) {
-            $filterForm->submit($request->query->get($filterForm->getName()));
-            $builderUpdater->addFilterConditions($filterForm, $qb);
-        }
-
         // Récupere les nouveaux produits
         $newProducts = $this->productRepository->getNewProduct();
-
         // Récupere les produits les mieux notés
         $topRatedProducts = $this->productRepository->getTopRatedproduct();
-
         // Récupère les marques
         $brandts = $this->brandRepository->getBrand();
-
         // Récupère les derniers avis
         $reviews = $this->reviewRepository->getReview();
-
-;
 
         // Ajouter une ligne date dans la table nbVisites
         $nbVisite = new NbVisite();
@@ -119,7 +100,6 @@ class HomeController extends AbstractController
         $this->entityManager->flush();
 
         return $this->render('front/home/index.html.twig', [
-            'filterSearchForm' => $filterForm->createView(),
             'newProducts' => $newProducts,
             'topRatedProducts' => $topRatedProducts,
             'brandts' => $brandts,

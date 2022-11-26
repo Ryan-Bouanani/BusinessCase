@@ -1,12 +1,8 @@
 {% extends 'back/base.html.twig' %}
 
-{% block title %}Product index{% endblock %}
+{% block title %}Produits{% endblock %}
 
 {% block body %}
-
-<div class="newBtnContainer">
-    <a class="button" href="{{ path('app_product_new') }}">Create new</a>
-</div>
 
 <div class="container">
     <div class="containerTable">
@@ -72,7 +68,7 @@
                     </th>
                     <th scope="col" class="colCategory">
                         {# filtrer par date d'ajout #}
-                        {{ form_widget(filters.category.parent)}}
+                        {{ form_widget(filters.category)}}
                         {{knp_pagination_sortable(
                             products,
                             'Categorie',
@@ -87,7 +83,6 @@
                     </th>
                 </tr>
             </thead>
-
             <tbody>
                 {% for product in products %}
                 <tr>

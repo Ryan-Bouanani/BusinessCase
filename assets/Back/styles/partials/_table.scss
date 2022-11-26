@@ -17,12 +17,15 @@ table {
     thead .colPriceExclVat, thead .colPriceInclVat {
         min-width: 6rem;
     }
+    thead .colCategory {
+        min-width: 10rem;
+    }
     .btnAction:first-child {
         margin-bottom: 0.2rem;
     }
 
     img {
-        width: 2rem;
+        width: 4rem;
         background-size: contain;
     }
 }
@@ -30,16 +33,11 @@ div.newBtnContainer {
     text-align: center;
     margin: 4rem 0;
 }
-.filterSearch {
-    width: 95%;
-    border-bottom: 1px solid gray;
-    margin-bottom: 0.5rem;
-}
 .filterSearchDate div {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.3rem;
+    gap: 0.5rem;
 }
 .filterSearchDate div:first-child {
     margin-bottom: 1rem;
@@ -52,12 +50,6 @@ div.newBtnContainer {
     padding: 0.4rem 0.5rem;
     border: none;
 }
-.filterSearchSelect {
-    background: $gray;
-    padding: 0.3rem 0.5rem;
-    border-radius: 0.4rem;
-    max-width: 6rem;
-}
 .filterSearchSelect option {
     max-width: 5rem;
 }
@@ -66,6 +58,6 @@ a.sortable {
 }
 
 table .colId {
-    width: 5rem;
+    width: 11rem;
 }
 

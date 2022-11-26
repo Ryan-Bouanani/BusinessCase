@@ -1,0 +1,39 @@
+
+    <div class="processBar">
+
+        {% if active == 1 %}
+        <div class="circleInfo active">
+        {% else %}
+        <div class="circleInfo">
+        {% endif %}       
+            <span class="circle">1</span>  
+            <p class="info">Connection</p> 
+        </div>
+
+        {% if active == 2 %}
+        <div class="circleInfo active">
+        {% else %}
+        <div class="circleInfo">
+        {% endif %} 
+            <span class="circle">2</span>  
+            <p class="info">Adresse</p> 
+        </div>
+
+        {% if active == 3 %}
+        <div class="circleInfo active">
+        {% else %}
+        <div class="circleInfo">
+        {% endif %} 
+            <span class="circle">3</span>  
+            <p class="info">Paiement</p> 
+        </div>
+
+        {% if active == 4 %}
+        <div class="circleInfo active">
+        {% else %}
+        <div class="circleInfo">
+        {% endif %} 
+            <span class="circle">4</span>  
+            <p class="info">Commande</p> 
+        </div>
+    </div>

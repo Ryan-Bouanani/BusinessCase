@@ -2,17 +2,17 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
-use Symfony\Component\Validator\Constraints as Assert;
-use App\Repository\CustomerRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\CustomerRepository;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Doctrine\Common\Collections\ArrayCollection;
 use App\Controller\Back\Stats\NbNewCustomerAction;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 // #[UniqueEntity('email')]
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
@@ -97,12 +97,13 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     #[
-        Assert\Length([
-            'min' => 6,
-            'max' => 255,
-            'minMessage' => 'Veuiller entrer un username contenant au minimum {{ limit }} caractères',
-            'maxMessage' => 'Veuiller entrer un username contenant au maximum {{ limit }} caractères',
+        Assert\NotBlank([
+            'message' => "Veuiller remplir tout les champs."
         ]),
+        Assert\Regex([
+            'pattern' => '/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{14,}$/',
+            'message' => 'Votre mot de passe doit contenir au minimum 14 caractères avec une 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial ',
+        ])
     ]
     private ?string $password = null;
 
@@ -112,7 +113,7 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
             'message' => "Veuiller remplir tout les champs."
         ]),
         Assert\Length([
-            'min' => 2,
+            'min' => 3,
             'max' => 255,
             'minMessage' => 'Veuiller entrer un prenom contenant au minimum {{ limit }} caractères',
             'maxMessage' => 'Veuiller entrer un prenom contenant au maximum {{ limit }} caractères',
@@ -126,7 +127,7 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
             'message' => "Veuiller remplir tout les champs."
         ]),
         Assert\Length([
-            'min' => 2,
+            'min' => 3,
             'max' => 255,
             'minMessage' => 'Veuiller entrer un nom contenant au minimum {{ limit }} caractères',
             'maxMessage' => 'Veuiller entrer un nom contenant au maximum {{ limit }} caractères',

@@ -7,7 +7,7 @@ use App\Repository\NbVisiteRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
-class BasketConversionPercentageAction extends AbstractController
+class VisiteConversionBasketPercentage extends AbstractController
 {
 
     public function __construct(

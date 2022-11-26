@@ -20,7 +20,7 @@ class ProductController extends AbstractController
 
         $product = $productRepository->getProductInfo($id);
     
-        $productSamecategory = $productRepository->getProductSameCategory($product[0]->getCategory()->getId());
+        $productSamecategory = $productRepository->getProductSameCategory($product[0]->getCategory()->getId(), 6);
         // $samemark = $productRepository->findSameMark($product[0][0]->getMark()->getId());
 
         // $comments = $commentRepository->findAllCommentWithUser($product[0][0]);

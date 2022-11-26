@@ -1,0 +1,82 @@
+{% extends 'front/base.html.twig' %}
+
+{% block title %}Adresse de la commande{% endblock %}
+
+{% block body %}
+
+
+<section class="container-me" id="chekoutAddress">
+    {% include "front/partials/_processBar.html.twig" with {
+        active: 2,
+    } %}
+    <div class="form">
+        <h1>Adresse</h1>
+        {% set content %}
+            {{ form_start(formAddress) }}
+            <div class='formChild'>
+                {{ form_label(formAddress.firstName) }}
+                {{ form_widget(formAddress.firstName) }}
+                {{ form_errors(formAddress.firstName) }}
+            </div>
+            <div class='formChild'>
+                {{ form_label(formAddress.lastName) }}
+                {{ form_widget(formAddress.lastName) }}
+                {{ form_errors(formAddress.lastName) }}
+            </div>
+            <div class='formChild'>
+                {{ form_label(formAddress.line1) }}
+                {{ form_widget(formAddress.line1) }}
+                {{ form_errors(formAddress.line1) }}
+            </div>
+            <div class='formChild'>
+                {{ form_label(formAddress.line2) }}
+                {{ form_widget(formAddress.line2) }}
+                {{ form_errors(formAddress.line2) }}
+            </div>
+            <div class='formChild'>
+                {{ form_label(formAddress.city) }}
+                {{ form_widget(formAddress.city) }}
+                {{ form_errors(formAddress.city) }}
+            </div>
+            <div class='formChild'>
+                {{ form_label(formAddress.country) }}
+                {{ form_widget(formAddress.country) }}
+                {{ form_errors(formAddress.country) }}
+            </div>
+            <div class='formChild'>
+                {{ form_label(formAddress.postalCode) }}
+                {{ form_widget(formAddress.postalCode) }}
+                {{ form_errors(formAddress.postalCode) }}
+            </div>
+            <div class='formChild'>
+                {{ form_label(formAddress.phoneNumber) }}
+                {{ form_widget(formAddress.phoneNumber) }}
+                {{ form_errors(formAddress.phoneNumber) }}
+            </div>
+            <button class="button" type="submit">Rechercher</button>
+            {{ form_end(formAddress) }}
+        {% endset %}
+
+        {% if address %}
+            <div class="ShippingAddress">
+                <h3>Adresse de livraison</h3>
+                <p>{{ address.firstName }} {{ address.lastName }}</p>
+                <p>{{ address.line1 }}</p>
+                <p>{{ address.city }}, {{ address.postalCode }}</p>
+                <button class="btnFilter" data-active-modal><i class="fa-solid fa-pen-to-square"></i></button>
+            </div>
+            
+            {% include "/shared/partials/_modal.html.twig" with {
+                title: "Addresse",
+                content: content,
+            } %}
+        {% else %}
+            {{ content }}
+        {% endif %}
+        <a href="{{ path('app_checkout_payment') }}" class="button">Valider</a>
+        
+
+    </div>
+
+</section>
+{% endblock %}

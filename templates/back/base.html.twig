@@ -4,6 +4,8 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
@@ -16,6 +18,26 @@
         {% endblock %}
     </head>
     <body>
-        {% block body %}{% endblock %}
+        <div class="containerBack">
+
+            {% include "back/partials/_header.html.twig" %}
+            
+            <main>
+                <div class="top-h1_profile">
+                <h1>Administration du site</h1>
+                    <div class="right-profile">
+                        <button class="menu">
+                            <span class="material-icons">menu</span>
+                        </button>
+                        <div class="theme_color">
+                        <span class="active material-icons">light_mode</span>
+                        <span class="material-icons">dark_mode</span>
+                        </div>
+                    </div>
+                </div>
+                {% include "shared/partials/_flash.html.twig" %}
+                {% block body %}{% endblock %}
+            </main>
+        </div>
     </body>
 </html>

@@ -5,23 +5,21 @@ const btnModalActive: HTMLButtonElement = document.querySelector('[data-active-m
 const btnModalClose: Element = document.querySelector('[data-modal-close-open]');
 const modalOverlay = document.querySelector('[data-modal-overlay]');
 
-console.log('lol');
 
 // modal close function
 function modalCloseFunction(e: Event) { 
     e.preventDefault,
-    modalOverlay.classList.add('overlayClose');
+    modalElem.classList.add('overlayClose');
     
 }
 // modal  open function
 function modalOpenFunction(e: Event) { 
     e.preventDefault,
-    console.log(e);
+    console.log(modalOverlay);
     
-    modalOverlay.classList.remove('close');
+    modalElem.classList.remove('overlayClose');
     
 }
-console.log();
 
 if (modalOverlay && btnModalClose && btnModalActive) {
     

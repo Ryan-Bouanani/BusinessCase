@@ -39,6 +39,21 @@ class SecurityController extends AbstractController
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
+    #[Route(path: 'checkout/connexion', name: 'app_checkout_login')]
+    public function loginChecko🤲 (AuthenticationUtils $authenticationUtils): Response
+    {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('app_checkout_address');
+        }
+        
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
+
+        return $this->render('front/security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+    }
 
     #[Route(path: '/oubli-pass', name: 'forgotten_password')]
     public function forgottenPassword(
@@ -85,7 +100,7 @@ class SecurityController extends AbstractController
                 );
 
                 // On renvoie un message de succès
-                $this->addFlash('succes', 'Un email vous a été envoyé, sur votre boite mail');
+                $this->addFlash('success', 'Un email vous a été envoyé, sur votre boite mail');
                 return $this->redirectToRoute('app_login');
             }
             // Si user est null, on renvoie un message d'erreur
@@ -118,7 +133,7 @@ class SecurityController extends AbstractController
             // On inspecte les requettes du formulaire
             $form->handleRequest($request);
 
-              // Si le formulaire est envoyé et valide
+            // Si le formulaire est envoyé et valide
             if ($form->isSubmitted() && $form->isValid()) {
 
                 // On éfface le token

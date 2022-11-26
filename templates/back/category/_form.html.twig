@@ -1,0 +1,30 @@
+
+<div class="form">
+     <h1>{{ title }}</h1>
+    {{ form_start(form) }}
+
+        <div class='formChild'>
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name) }}
+
+            {% if form_errors(form.name) %}
+                <div class="error">
+                    {{ form_errors(form.name) }}
+                </div>
+            {% endif %}
+            
+        </div>
+
+        <div class='formChild'>
+            {{ form_label(form.categoryParent) }}
+            {{ form_widget(form.categoryParent) }}
+
+            {% if form_errors(form.name) %}
+                <div class="error">
+                    {{ form_errors(form.categoryParent) }}
+                </div>
+            {% endif %}
+        </div>
+        <button class="button btnSubmitForm">{{ button_label|default('Sauvegarder') }}</button>
+    {{ form_end(form) }}
+</div>

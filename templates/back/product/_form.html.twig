@@ -6,37 +6,66 @@
             <div class='formChild'>
                 {{ form_label(form.title) }}
                 {{ form_widget(form.title) }}
-                {{ form_errors(form.title) }}
+                {% if form_errors(form.title) %}
+                    <div class="error">
+                        {{ form_errors(form.title) }}
+                    </div>
+                {% endif %}       
             </div>
             <div class='formChild'>
                 {{ form_label(form.description) }}
                 {{ form_widget(form.description) }}
-                {{ form_errors(form.description) }}
+                {% if form_errors(form.description) %}
+                    <div class="error">
+                        {{ form_errors(form.description) }}
+                    </div>
+                {% endif %}         
             </div>
             <div class='formChild'>
                 {{ form_label(form.priceExclVat) }}
                 {{ form_widget(form.priceExclVat) }}
-                {{ form_errors(form.priceExclVat) }}
+                {% if form_errors(form.priceExclVat) %}
+                    <div class="error">
+                        {{ form_errors(form.priceExclVat) }}
+                    </div>
+                {% endif %}
             </div>
             <div class='formChild'>
                 {{ form_label(form.tva) }}
                 {{ form_widget(form.tva) }}
-                {{ form_errors(form.tva) }}
+                {% if form_errors(form.tva) %}
+                    <div class="error">
+                        {{ form_errors(form.tva) }}
+                    </div>
+                {% endif %}
             </div>
             <div class='formChild'>
                 {{ form_label(form.brand) }}
                 {{ form_widget(form.brand) }}
-                {{ form_errors(form.brand) }}
+                {% if form_errors(form.brand) %}
+                    <div class="error">
+                        {{ form_errors(form.brand) }}
+                    </div>
+                {% endif %}
+               
             </div>
             <div class='formChild'>
                 {{ form_label(form.category) }}
-                {{ form_widget(form.category) }}
-                {{ form_errors(form.category) }}
+                {{ form_widget(form.category) }}          
+                {% if form_errors(form.category) %}
+                    <div class="error">
+                        {{ form_errors(form.category) }}
+                    </div>
+                {% endif %}
             </div>
             <div class='formChild'>
                 {{ form_label(form.promotion) }}
-                {{ form_widget(form.promotion) }}
-                {{ form_errors(form.promotion) }}
+                {{ form_widget(form.promotion) }}             
+                {% if form_errors(form.promotion) %}
+                    <div class="error">
+                        {{ form_errors(form.promotion) }}
+                    </div>
+                {% endif %}
             </div>
 
             {# Vérifier si la route est "app_product_edit" on affiche les images #}
@@ -55,12 +84,20 @@
 
             <div class='formChild'>
                 {{ form_row(form.images) }}
-                {{ form_errors(form.images) }}
+                {% if form_errors(form.images) %}
+                    <div class="error">
+                        {{ form_errors(form.images) }}
+                    </div>
+                {% endif %}
             </div>
             <div class='formChild'>
                 {{ form_label(form.active) }}
-                {{ form_widget(form.active) }}
-                {{ form_errors(form.active) }}
+                {{ form_widget(form.active) }}         
+                {% if form_errors(form.active) %}
+                    <div class="error">
+                        {{ form_errors(form.active) }}
+                    </div>
+            {% endif %}
             </div>
                 <button class="button btnSubmitForm">{{ button_label|default('Save') }}</button>
     {{ form_end(form) }}

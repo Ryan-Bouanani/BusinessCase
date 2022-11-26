@@ -2,8 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Customer;
 use App\Entity\NbVisite;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -54,6 +56,25 @@ class NbVisiteRepository extends ServiceEntityRepository
         ->setParameter('endDate', $endDate)
         ->getQuery()
         ->getOneOrNullResult();
+
+        return $query;
+    }
+    public function nbVisitArray(?\DateTime $beginDate = null, ?\DateTime $endDate = null): array {
+
+        if ($beginDate === null || $endDate === null) {
+            $beginDate = new \DateTime('2018-01-01');
+            $endDate = new \DateTime('now');
+        }
+
+        $query = $this->createQueryBuilder('visit')
+        ->select('COUNT(visit) AS NbVisit', 'visit.visitAt AS VisiteDate', 'SUBSTRING(visit.visitAt, 1, 7) as Date') 
+        ->where('visit.visitAt BETWEEN :beginDate AND :endDate')
+        ->setParameter('beginDate', $beginDate)
+        ->setParameter('endDate', $endDate)
+        ->groupBy("Date")
+        ->orderBy("VisiteDate", "ASC")
+        ->getQuery()
+        ->getResult();
 
         return $query;
     }

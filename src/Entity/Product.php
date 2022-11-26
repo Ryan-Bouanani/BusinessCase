@@ -42,7 +42,7 @@ class Product
             'message' => "Veuiller remplir tout les champs."
         ]),
         Assert\Length([
-            'min' => 2,
+            'min' => 3,
             'max'=> 255,
             'minMessage' => 'Veuiller entrer un produict contenant au minimum {{ limit }} caractères',
             'maxMessage' => 'Veuiller entrer un produict contenant au maximum {{ limit }} caractères',
@@ -57,7 +57,7 @@ class Product
             'message' => "Veuiller remplir tout les champs."
         ]),
         Assert\Length([
-            'min' => 2,
+            'min' => 10,
             'max' => 1000,
             'minMessage' => 'Veuiller entrer une description contenant au minimum {{ limit }} caractères',
             'maxMessage' => 'Veuiller entrer une description contenant au maximum {{ limit }} caractères',

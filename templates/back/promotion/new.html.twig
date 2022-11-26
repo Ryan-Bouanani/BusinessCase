@@ -1,0 +1,14 @@
+{% extends 'back/base.html.twig' %}
+
+{% block title %}Ajouter une promotion{% endblock %}
+
+{% block body %}
+
+    <a class="button btnBack" href="{{ path('app_promotion_index') }}">Retour à la liste</a>
+
+    {{ include('back/promotion/_form.html.twig', {
+        'button_label': 'Ajouter', 'title': 'Ajouter une promotion'
+        }) 
+    }}
+
+{% endblock %}

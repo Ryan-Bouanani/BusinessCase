@@ -81,7 +81,6 @@ class ShoppingCartService {
         // On vérifie si le produit entré n'est pas déja dans la panier
         if (!empty($basket[$id])) {
             $basket[$id]++;
-            
             $contentShoppingCarts = $shoppingCart->getContentShoppingCarts();
             
             foreach ($contentShoppingCarts as $oldContentShoppingCart) {                

@@ -1,12 +1,10 @@
 .resultProductSearch {
     display: flex;
     flex-direction: column;
-    // gap: 0.5rem;
     background: white;
     overflow-y: scroll;
     box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
     max-height: 9rem;
-    // z-index: 60;
     margin-bottom: 2rem;
     &::-webkit-scrollbar {
         width: 8px;
@@ -45,4 +43,13 @@
 }
 .product:hover {
     background: rgba(132, 139, 200, 0.18);
+}
+
+
+@media screen and (max-width: 500px) {
+    .resultProductSearch {
+        .product {
+            justify-content: unset;
+        }
+    }
 }

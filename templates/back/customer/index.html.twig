@@ -1,44 +1,112 @@
 {% extends 'back/base.html.twig' %}
 
-{% block title %}Customer index{% endblock %}
+{% block title %}Clients{% endblock %}
 
 {% block body %}
-    <h1>Customer index</h1>
 
-    <a href="{{ path('app_customer_new') }}">Create new</a>
-<div class="container-fluid my-2">
-    <table class="table table-hover table-dark table-striped">
+<div class="container">
+    <div class="containerTable">
+        <table class="table table-hover">
+        {{ form_start(filters) }}
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Email</th>
-                <th>Roles</th>
-                <th>FirstName</th>
-                <th>LastName</th>
-                <th>RegistrationDate</th>
-                <th>actions</th>
+                <th scope="col" class="colId">
+                    {# filtre par id #}
+                    {{ form_widget(filters.id)}}
+                    {{knp_pagination_sortable(
+                        customers,
+                        'Id',
+                        'customer.id'
+                    )|raw
+                    }}
+                </th>
+                <th scope="col" class="colEmail">
+                    {# filtre par email #}
+                    {{ form_widget(filters.email)}}
+                    {{knp_pagination_sortable(
+                        customers,
+                        'Email',
+                        'customer.email'
+                    )|raw
+                    }}
+                </th>
+                {# <th scope="col" class="colId">Roles</th> #}
+                <th scope="col" class="">
+                    {# filtre par email #}
+                    {{ form_widget(filters.gender)}}
+                    {{knp_pagination_sortable(
+                        customers,
+                        'Genre',
+                        'gender.name'
+                    )|raw
+                    }}
+                </th>
+                <th scope="col" class="colUserame">                    {# filtre par nom d'utilisateur #}
+                    {{ form_widget(filters.username)}}
+                    {{knp_pagination_sortable(
+                        customers,
+                        'Nom d\'utilisateur',
+                        'customer.username'
+                    )|raw
+                    }}
+                </th>
+                <th scope="col" class="colFistName">                    
+                    {# filtre par prenom #}
+                    {{ form_widget(filters.firstName)}}
+                    {{knp_pagination_sortable(
+                        customers,
+                        'Prenom',
+                        'customer.firstName'
+                    )|raw
+                    }}
+                </th>
+                <th scope="col" class="">
+                    {# filtre par nom #}
+                    {{ form_widget(filters.lastName)}}
+                    {{knp_pagination_sortable(
+                        customers,
+                        'Nom',
+                        'customer.lastName'
+                    )|raw
+                    }}
+                </th>
+                <th scope="col" class="">
+                    {# filtre par date d'inscription #}
+                    {{ form_widget(filters.registrationDate)}}
+                    {{knp_pagination_sortable(
+                        customers,
+                        'Date d\' inscription',
+                        'customer.registrationDate'
+                    )|raw
+                    }}
+                </th>
+                <th scope="col">
+                    <a class="button btnAction" href=" {{ path('app_customer_index') }}">Reset</a>
+                    <button class="button btnAction" type="submit">Rechercher</button>
+                </th>
             </tr>
         </thead>
         <tbody>
-        {% for customer in customers %}
+            {% for customer in customers %}
             <tr>
-                <td>{{ customer.id }}</td>
-                <td>{{ customer.email }}</td>
-                <td>{{ customer.roles ? customer.roles|json_encode : '' }}</td>
+                <td scope="row">{{ customer.id }}</td>
+                <td scope="row">{{ customer.email }}</td>
+                <td scope="row">{{ customer.gender.name }}</td>
+                <td scope="row">{{ customer.username }}</td>
+                {# <td>{{ customer.roles ? customer.roles|json_encode : '' }}</td> #}
                 <td>{{ customer.firstName }}</td>
                 <td>{{ customer.lastName }}</td>
-                <td>{{ customer.registrationDate ? customer.registrationDate|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_customer_show', {'id': customer.id}) }}">show</a>
-                    <a href="{{ path('app_customer_edit', {'id': customer.id}) }}">edit</a>
-                </td>
+                <td>{{ customer.registrationDate ? customer.registrationDate|date('d/m/Y') : '' }}</td>
             </tr>
-        {% else %}
-            <tr>
-                <td colspan="9">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            {% else %}
+                <tr>
+                    <td colspan="9">Aucun client n'a été trouvé</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        {{ form_end(filters) }}
+        </table>
+    </div>
+    {{ knp_pagination_render(customers) }}
 </div>
 {% endblock %}

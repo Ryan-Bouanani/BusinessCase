@@ -1,0 +1,13 @@
+{% extends 'front/base.html.twig' %}
+
+{% block title %} Marque : {{ brand.label }}{% endblock %}
+
+{% block body %}
+
+    {% include "/front/partials/_allProducts.html.twig" with {
+        filterBy: 'category',
+        entity: brand,
+        route: 'app_brand_detail',
+    } %}
+
+{% endblock %}

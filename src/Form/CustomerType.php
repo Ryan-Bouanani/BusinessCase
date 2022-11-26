@@ -17,6 +17,10 @@ class CustomerType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            // ->add('username')
+            // ->add('email', EmailType::class, [
+            //     'label' => 'Adresse mail',
+            // ])
             ->add('firstName', TextType::class, [
                 'label' => 'Prenom',
                 'attr' => [
@@ -29,12 +33,6 @@ class CustomerType extends AbstractType
                     'placeholder' => 'Nom'
                 ],
             ])
-            // ->add('password', TextType::class, [
-            //     'label' => 'Mot de passe',
-            //     'attr' => [
-            //         'placeholder' => 'Nom'
-            //     ],
-            // ])
             ->add('dateOfBirth', DateType::class, [
                 'label' => 'Date de naissance',
                 'widget' => 'single_text',
@@ -43,7 +41,6 @@ class CustomerType extends AbstractType
                 ]
             ])
             ->add('gender', EntityType::class, [
-                'required' => false,
                 'label' => 'Genre',
                 'class' => Gender::class,
                 'choice_label' => 'name',

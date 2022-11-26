@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Brand;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -14,7 +15,7 @@ use Doctrine\Persistence\ManagerRegistry;
  * @method Brand[]    findAll()
  * @method Brand[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class BrandRepository extends ServiceEntityRepository
+class BrandRepository extends AbstractRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
@@ -37,6 +38,16 @@ class BrandRepository extends ServiceEntityRepository
         if ($flush) {
             $this->getEntityManager()->flush();
         }
+    }
+
+    // Récupere toutes les marques 
+    public function getQbAll(): QueryBuilder {
+        $qb = parent::getQbAll();
+        return $qb->select('brand', 'count(product) AS NbProduct')
+            ->leftjoin('brand.products', 'product')
+            ->groupBy('brand')
+            ->orderBy('brand.label', 'ASC')
+        ;
     }
 
 // todo modifier la requette pour avoir les marques des produits les plus vendues

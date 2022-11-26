@@ -63,7 +63,6 @@ class ProductRepository extends AbstractRepository
     // Récupere les produits les mieux notés
     public function getTopRatedproduct(): array {
 
-
         $query =  $this->createQueryBuilder('product')
             ->select('product, image, AVG(review.note) AS Note, COUNT(review) AS Avis')
             ->join('product.images', 'image')
@@ -92,42 +91,75 @@ class ProductRepository extends AbstractRepository
             ->getOneOrNullResult();
         ;
     }
+
     // Récupère les produits de la même catégorie
-    public function getProductSameCategory(int $id): array {
+    public function getProductSameCategory(int $id, $limit = null, $categorieParent = null): QueryBuilder {
+        $query =  $this->createQueryBuilder('product')
+            ->select('product, image, AVG(review.note) AS Note, COUNT(review) AS Avis')
+            ->leftJoin('product.images', 'image')
+            ->leftJoin('product.reviews', 'review')
+            ->join('product.category', 'category')
+            ->where('image.isMain = true')
+            ->andWhere('product.active = 1');
+            // Si catégorie parent on récupère les produits des catégories qui l'ont comme catégorieParent
+            if (isset($categorieParent)) {
+                $query = $query
+                ->andWhere('category.categoryParent is not null')
+                ->andWhere('category.categoryParent = :id');
+            } else {
+                $query = $query
+                    ->andWhere('category.id = :id');
+                ;
+            }        
+            $query->setParameter('id', $id)
+            ->groupBy('product');
+
+            if (isset($limit)) {
+                $query = $query
+                ->setMaxResults(6);
+            }
+            $query->getQuery()
+            ->getResult();
+        ;
+        return $query;
+    }
+
+    // Récupère les produits de la même catégorie
+    public function getProductByBrand(int $id): QueryBuilder {
         return $this->createQueryBuilder('product')
             ->select('product, image, AVG(review.note) AS Note, COUNT(review) AS Avis')
-            ->join('product.reviews', 'review')
-            ->join('product.images', 'image')
-            ->join('product.category', 'category')
-            ->where('category.id = :id')
-            ->andWhere('image.isMain = true')
+            ->leftJoin('product.images', 'image')
+            ->leftJoin('product.reviews', 'review')
+            // ->join('product.brand', 'brand')
+            ->where('image.isMain = true')
+            ->andWhere('product.active = 1')
+            ->andWhere('product.brand = :id')
             ->setParameter('id', $id)
-            ->setMaxResults(6)
-            ->getQuery()
-            ->getResult()
+            ->groupBy('product')
         ;
     }
 
-        // Récupère la produit correspondant au bon id
-        public function getProductShoppingCart(int $id): Product {
-            return $this->createQueryBuilder('product')
-                ->select('product', 'image')
-                ->leftjoin('product.images', 'image')
-                ->where('product.id = :id')
-                ->andWhere('image.isMain = true')
-                ->setParameter('id', $id)
-                ->getQuery()
-                ->getOneOrNullResult();
-            ;
-        }
+    // Récupère la produit correspondant au bon id
+    public function getProductShoppingCart(int $id): Product {
+        return $this->createQueryBuilder('product')
+            ->select('product', 'image')
+            ->leftjoin('product.images', 'image')
+            ->where('product.id = :id')
+            ->andWhere('image.isMain = true')
+            ->setParameter('id', $id)
+            ->getQuery()
+            ->getOneOrNullResult();
+        ;
+    }
     
     // Récupere tout les produits avec leurs image principale
     public function getQbAll(): QueryBuilder {
         $qb = parent::getQbAll();
         return $qb->select('product', 'image')
-        ->join('product.images', 'image')
-        ->where('image.isMain = true')
-        ->orderBy('product.id', 'ASC')
+            ->join('product.images', 'image')
+            ->join('product.category', 'category')
+            ->where('image.isMain = true')
+            ->orderBy('product.id', 'ASC')
         ;
     }
 
@@ -135,12 +167,13 @@ class ProductRepository extends AbstractRepository
     public function getProductBySearch(string $searchValue): array {
         return $this->createQueryBuilder('p')
             ->select('p', 'image')
-            ->join('p.images', 'image')
+            ->leftjoin('p.images', 'image')
             ->join('p.brand', 'b')
             ->where('p.title LIKE :searchValue OR b.label LIKE :searchValue')
             ->andWhere('image.isMain = true')
             ->andWhere('p.active = 1')
             ->setParameter('searchValue', '%'.$searchValue.'%')
+            ->groupBy('p')
             ->getQuery()
             ->getResult()
         ;

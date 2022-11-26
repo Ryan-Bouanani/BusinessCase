@@ -1,0 +1,43 @@
+#categorie {
+    .btnFilter {
+        border: 2px solid #000;
+        background: white;
+        border-radius: 5px;
+        padding: 3px 7px;
+        font-size: 1rem;
+        margin-bottom: 2rem;
+    }
+    .containerProductCategorie {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.5rem;
+        // gap: 2rem;
+        margin-bottom: 5rem;
+    }
+    .filterSearchSelect {
+        max-width: 100%;
+        margin: 0.5rem 0;
+    }
+    .filterRangeInput div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    @media screen and (max-width: 300px) {
+        .containerProductCategorie {
+            grid-template-columns: repeat(1, 1fr);
+        }
+    }
+    @media screen and (min-width: 600px) {
+        .containerProductCategorie {
+            grid-template-columns: repeat(3, 1fr);
+        }
+    }
+    @media screen and (min-width: 900px) {
+        .containerProductCategorie {
+            grid-template-columns: repeat(4, 1fr);
+        }
+    }
+}

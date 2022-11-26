@@ -1,0 +1,38 @@
+
+
+<div class="form">
+    <h1>{{ title }}</h1>
+    {{ form_start(form) }}
+        <div class='formChild'>
+            {{ form_label(form.label) }}
+            {{ form_widget(form.label) }}
+            {% if form_errors(form.label) %}
+                <div class="error">
+                    {{ form_errors(form.label) }}
+                </div>
+            {% endif %}       
+        </div>
+
+            {# Vérifier si la route est "app_product_edit" on affiche les images #}
+        {% if app.request.attributes.get('_route') == 'app_brand_edit' %}
+            <label>Logo</label>
+            {# On affiche les images du produit actuelle #}
+            <div class="containerImages">
+                <div class='formImages'>
+                    <img src="{{ asset('/build/images/' ~ brand.pathImage) }}" alt="Image Produit">  
+                </div>
+            </div>
+        {% endif %}
+
+        <div class='formChild'>
+            {{ form_label(form.pathImage) }}
+            {{ form_widget(form.pathImage) }}
+            {% if form_errors(form.pathImage) %}
+                <div class="error">
+                    {{ form_errors(form.pathImage) }}
+                </div>
+            {% endif %}       
+        </div>
+        <button class="button btnSubmitForm">{{ button_label|default('Sauvegarder') }}</button>
+        {{ form_end(form) }}
+</div>
