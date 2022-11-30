@@ -20,6 +20,7 @@ class CustomerAuthenticator extends AbstractLoginFormAuthenticator
     use TargetPathTrait;
 
     public const LOGIN_ROUTE = 'app_login';
+    public const LOGIN_CHECKOUT_ROUTE = 'app_checkout_login';
 
     public function __construct(private UrlGeneratorInterface $urlGenerator)
     {
@@ -47,12 +48,21 @@ class CustomerAuthenticator extends AbstractLoginFormAuthenticator
         }
 
         // For example:
-        return new RedirectResponse($this->urlGenerator->generate('app_login'));
+        if($_SERVER['REQUEST_URI'] === '/checkout/connexion'){
+            return new RedirectResponse($this->urlGenerator->generate('app_checkout_login'));
+        } else {
+            return new RedirectResponse($this->urlGenerator->generate('app_login'));
+        }
         // throw new \Exception('TODO: provide a valid redirect inside '.__FILE__);
     }
 
     protected function getLoginUrl(Request $request): string
     {
-        return $this->urlGenerator->generate(self::LOGIN_ROUTE);
+        if($_SERVER['REQUEST_URI'] === '/checkout/connexion'){
+            return $this->urlGenerator->generate(self::LOGIN_CHECKOUT_ROUTE);
+
+        } else {
+            return $this->urlGenerator->generate(self::LOGIN_ROUTE);
+        }
     }
 }

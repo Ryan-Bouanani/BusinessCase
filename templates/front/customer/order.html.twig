@@ -1,0 +1,38 @@
+{% extends 'front/base.html.twig' %}
+
+{% block title %}Mon compte{% endblock %}
+
+{% block body %}
+
+    <section class="container-me" id="shoppingCartSection">
+
+        <h1>Commandes</h1>
+        <div class="ordersContainer">
+            {% for key, order in orders %}
+                <div class="orderContainer">
+                    <h2>Commande n°{{ order.id }}</h2>       
+                    <div class="left">
+                        <div class="infoContainer">
+                            <p>Date :</p>
+                            <p class="date">{{ order.dateCreated | date('d/m/Y', "Europe/Paris")  }}</p>             
+                        </div>
+                        <div class="infoContainer">
+                            <p>Total :</p>
+                            <p class="totalOrder">{{ total[key] }}€</p>
+                        </div>
+                        <div class="infoContainer">
+                            <p>Status de la commande:</p>
+                            <p>{{ order.status.name }}</p>
+                        </div>
+                    </div>
+                    <div class="right">
+                        {% include "front/partials/_contentShoppingCart.html.twig" with {
+                            'items': order.contentShoppingCarts
+                        } %} 
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </section>
+
+{% endblock %}

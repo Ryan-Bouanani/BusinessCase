@@ -4,66 +4,122 @@
 
 {% block body %}
 
-
-<section class="container-me" id="chekoutAddress">
+<section class="container-me" id="shoppingCartSection">
     {% include "front/partials/_processBar.html.twig" with {
         active: 2,
     } %}
-    <div class="form">
-        <h1>Adresse</h1>
+    <h1>Adresse</h1>
+    {% include "shared/partials/_flash.html.twig" %}
+    {% set contentCheckout %} 
         {% set content %}
-            {{ form_start(formAddress) }}
-            <div class='formChild'>
-                {{ form_label(formAddress.firstName) }}
-                {{ form_widget(formAddress.firstName) }}
-                {{ form_errors(formAddress.firstName) }}
+            <div class="form">
+                {{ form_start(formAddress) }}
+                    <div class='formChild'>
+                        {{ form_label(formAddress.firstName) }}
+                        {{ form_widget(formAddress.firstName) }}
+                        {% if form_errors(formAddress.firstName) %}
+                            <div class="error">
+                                {{ form_errors(formAddress.firstName) }}
+                            </div>
+                        {% endif %} 
+                        {{ form_errors(formAddress.firstName) }}
+                    </div>
+                    <div class='formChild'>
+                        {{ form_label(formAddress.lastName) }}
+                        {{ form_widget(formAddress.lastName) }}
+                        {% if form_errors(formAddress.lastName) %}
+                            <div class="error">
+                                {{ form_errors(formAddress.lastName) }}
+                            </div>
+                        {% endif %} 
+                    </div>
+                    <div class='formChild'>
+                        {{ form_label(formAddress.line1) }}
+                        {{ form_widget(formAddress.line1) }}
+                        {% if form_errors(formAddress.line1) %}
+                            <div class="error">
+                                {{ form_errors(formAddress.line1) }}
+                            </div>
+                        {% endif %} 
+                    </div>
+                    <div class='formChild'>
+                        {{ form_label(formAddress.line2) }}
+                        {{ form_widget(formAddress.line2) }}
+                        {% if form_errors(formAddress.line2) %}
+                            <div class="error">
+                                {{ form_errors(formAddress.line2) }}
+                            </div>
+                        {% endif %} 
+                    </div>
+                    <div class='formChild'>
+                        {{ form_label(formAddress.city) }}
+                        {{ form_widget(formAddress.city) }}
+                        {% if form_errors(formAddress.city) %}
+                            <div class="error">
+                                {{ form_errors(formAddress.city) }}
+                            </div>
+                        {% endif %} 
+                    </div>
+                    <div class='formChild'>
+                        {{ form_label(formAddress.country) }}
+                        {{ form_widget(formAddress.country) }}
+                        {{ form_errors(formAddress.country) }}
+                        {% if form_errors(formAddress.country) %}
+                            <div class="error">
+                                {{ form_errors(formAddress.country) }}
+                            </div>
+                        {% endif %} 
+                    </div>
+                    <div class='formChild'>
+                        {{ form_label(formAddress.postalCode) }}
+                        {{ form_widget(formAddress.postalCode) }}
+                        {% if form_errors(formAddress.postalCode) %}
+                            <div class="error">
+                                {{ form_errors(formAddress.postalCode) }}
+                            </div>
+                        {% endif %} 
+                    </div>
+                    <div class='formChild'>
+                        {{ form_label(formAddress.phoneNumber) }}
+                        {{ form_widget(formAddress.phoneNumber) }}
+                        {% if form_errors(formAddress.phoneNumber) %}
+                            <div class="error">
+                                {{ form_errors(formAddress.phoneNumber) }}
+                            </div>
+                        {% endif %} 
+                    </div>
+                    {% if address is defined %}
+                        <button class="button btnSubmitForm" type="submit">VALIDER</button>
+                        {{ form_end(formAddress) }}
+                        {% set btn = false %}
             </div>
-            <div class='formChild'>
-                {{ form_label(formAddress.lastName) }}
-                {{ form_widget(formAddress.lastName) }}
-                {{ form_errors(formAddress.lastName) }}
-            </div>
-            <div class='formChild'>
-                {{ form_label(formAddress.line1) }}
-                {{ form_widget(formAddress.line1) }}
-                {{ form_errors(formAddress.line1) }}
-            </div>
-            <div class='formChild'>
-                {{ form_label(formAddress.line2) }}
-                {{ form_widget(formAddress.line2) }}
-                {{ form_errors(formAddress.line2) }}
-            </div>
-            <div class='formChild'>
-                {{ form_label(formAddress.city) }}
-                {{ form_widget(formAddress.city) }}
-                {{ form_errors(formAddress.city) }}
-            </div>
-            <div class='formChild'>
-                {{ form_label(formAddress.country) }}
-                {{ form_widget(formAddress.country) }}
-                {{ form_errors(formAddress.country) }}
-            </div>
-            <div class='formChild'>
-                {{ form_label(formAddress.postalCode) }}
-                {{ form_widget(formAddress.postalCode) }}
-                {{ form_errors(formAddress.postalCode) }}
-            </div>
-            <div class='formChild'>
-                {{ form_label(formAddress.phoneNumber) }}
-                {{ form_widget(formAddress.phoneNumber) }}
-                {{ form_errors(formAddress.phoneNumber) }}
-            </div>
-            <button class="button" type="submit">Rechercher</button>
-            {{ form_end(formAddress) }}
+                    {% else %}
+                        {% set btn = true %}
+                    {% endif %}
+
         {% endset %}
 
-        {% if address %}
-            <div class="ShippingAddress">
-                <h3>Adresse de livraison</h3>
-                <p>{{ address.firstName }} {{ address.lastName }}</p>
-                <p>{{ address.line1 }}</p>
-                <p>{{ address.city }}, {{ address.postalCode }}</p>
-                <button class="btnFilter" data-active-modal><i class="fa-solid fa-pen-to-square"></i></button>
+        {% if address is defined %}
+            <div class="formChild">
+                    <h2>ADRESSE DE LIVRAISON</h2>
+                <div class="addressContainer shippingAddress">
+                    <div class="left">
+                        <p>{{ address.firstName }} {{ address.lastName }}</p>
+                        <p>{{ address.line1 }}</p>
+                        <p>{{ address.city }}, {{ address.postalCode }}</p>
+                    </div>
+                    <div class="right">
+                        <button class="btnUpdate" data-active-modal><i class="fa-solid fa-pencil"></i></a></button>
+                    </div>
+                </div>
+            </div>
+            <div class="formChild">
+                <h2>Adresse de facturation</h3>
+                 <div class="addressContainer">
+                    <p>{{ address.firstName }} {{ address.lastName }}</p>
+                    <p>{{ address.line1 }}</p>
+                    <p>{{ address.city }}, {{ address.postalCode }}</p>
+                </div>
             </div>
             
             {% include "/shared/partials/_modal.html.twig" with {
@@ -73,10 +129,16 @@
         {% else %}
             {{ content }}
         {% endif %}
-        <a href="{{ path('app_checkout_payment') }}" class="button">Valider</a>
-        
+    {% endset %} 
 
-    </div>
-
+    {% include "front/partials/_shoppingCart.html.twig" with {
+        contentCheckout: contentCheckout,
+        path: 'app_checkout_payment',
+        btn: btn,
+    } %}
+        {% if address is not defined %}
+            {{ form_end(formAddress) }}
+            </div>
+        {% endif %}
 </section>
 {% endblock %}

@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 
-// #[UniqueEntity('email')]
+
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
 #[ApiResource(
     
@@ -54,7 +54,9 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
         'get'
     ],
 )]
-#[UniqueEntity(fields: ['username'], message: 'Un compte existe déja avec ce nom d\'utilisateur')]
+#[UniqueEntity(fields: ['username'], message: 'Un compte utilise déja ce nom d\'utilisateur')]
+#[UniqueEntity(fields: ['email'], message: 'Un compte utilise déja cette adresse email')]
+
 class Customer implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -63,14 +65,14 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     private ?int $id = null;
 
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 180, unique: true)]
     #[
         Assert\NotBlank([
             'message' => "Veuiller remplir tout les champs."
         ]),
         Assert\Length([
             'min' => 2,
-            'max' => 255,
+            'max' => 180,
             'minMessage' => 'Veuiller entrer un username contenant au minimum {{ limit }} caractères',
             'maxMessage' => 'Veuiller entrer un username contenant au maximum {{ limit }} caractères',
         ]),
@@ -97,9 +99,6 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     #[
-        Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
-        ]),
         Assert\Regex([
             'pattern' => '/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{14,}$/',
             'message' => 'Votre mot de passe doit contenir au minimum 14 caractères avec une 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial ',

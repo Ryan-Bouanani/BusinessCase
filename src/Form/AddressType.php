@@ -22,7 +22,6 @@ class AddressType extends AbstractType
             ])
             ->add('line2', TextType::class, [
                 'label' => 'Complément d\'adresse',
-                'required' => true,
                 'attr' => [
                     'placeholder' => 'Complément d\'adresse'
                 ]
@@ -57,7 +56,8 @@ class AddressType extends AbstractType
             ])
             ->add('lastName', TextType::class, [
                 'label' => 'Nom',
-                'required' => true,'attr' => [
+                'required' => true,
+                'attr' => [
                     'placeholder' => 'Nom'
                 ]
             ])

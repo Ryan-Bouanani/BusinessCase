@@ -4,12 +4,15 @@ namespace App\Controller\Front;
 
 use App\Form\ResetPasswordFormType;
 use App\Form\ResetPasswordRequestFormType;
+use App\Repository\BasketRepository;
 use App\Repository\CustomerRepository;
 use App\Service\SendMailService;
+use App\Service\ShoppingCart\ShoppingCartService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -39,20 +42,53 @@ class SecurityController extends AbstractController
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
-    #[Route(path: 'checkout/connexion', name: 'app_checkout_login')]
-    public function loginChecko🤲 (AuthenticationUtils $authenticationUtils): Response
+    #[Route(path: '/checkout/connexion', name: 'app_checkout_login')]
+    public function loginCheckout (
+        AuthenticationUtils $authenticationUtils, 
+        BasketRepository $basketRepository,
+        ShoppingCartService $shoppingCartService,
+        SessionInterface $session,
+        ): Response
     {
-        if ($this->getUser()) {
-            return $this->redirectToRoute('app_checkout_address');
+        // /** @var Customer $user*/
+        $user = $this->getUser();
+        if ($user) {          
+            // On recupere le panier de la session 
+            if ($session->has('shoppingCart')) {
+
+                 /** @var Basket $shoppingCart*/
+               $shoppingCart = $session->get('shoppingCart', []);
+               $shoppingCart = $basketRepository->find($shoppingCart->getId());
+               $shoppingCart->setCustomer($user);
+               $basketRepository->add($shoppingCart, true);
+           } else {
+                return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
+           }
+           
+           if ($shoppingCart) {
+                // Si la commande possède une adresse et/ou un moyen de paiement alors on redirige 
+               if ($shoppingCart->getAddress() !== null) {           
+                   if ($shoppingCart->getMeanOfPayment() !== null) {           
+                       return $this->redirectToRoute('app_checkout_resume', [], Response::HTTP_SEE_OTHER);
+                   } 
+                   return $this->redirectToRoute('app_checkout_payment', [], Response::HTTP_SEE_OTHER);
+               } 
+               // Sinon on redrige vers formulaire d'ajout d'adresse
+               return $this->redirectToRoute('app_checkout_address');
+           }
         }
-        
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
 
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
-        return $this->render('front/security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+        return $this->render('front/shoppingCart/login.html.twig', [
+            'last_username' => $lastUsername, 
+            'error' => $error,
+            // On calcul le montant du panier
+            'total' => $shoppingCartService->getTotal(),
+        ]);
     }
 
     #[Route(path: '/oubli-pass', name: 'forgotten_password')]

@@ -6,8 +6,6 @@
     height: 100vh;
     background: hsla(0, 0%, 0%, 0.5);
     z-index: 50;
-    -webkit-animation: popup 1s ease-in-out 5s forwards;
-    animation: popup 1s ease-in-out 5s forwards;
 }
 .modalContainer {
     position: fixed;
@@ -18,6 +16,17 @@
     transform: translate(50%, -50%);
     padding: 10px 30px;
     z-index: 51;
+    max-height: 90vh;
+    overflow-y: scroll;
+
+    &::-webkit-scrollbar {
+        width: 8px;
+        background-color: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+        background: rgba(255,183,0,1);
+    }
+
     h2 {
         text-align: center;
     }

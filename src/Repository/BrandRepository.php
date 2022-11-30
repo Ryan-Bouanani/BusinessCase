@@ -50,7 +50,6 @@ class BrandRepository extends AbstractRepository
         ;
     }
 
-// todo modifier la requette pour avoir les marques des produits les plus vendues
     public function getBrand() {
         $query = $this->createQueryBuilder('brand')
         ->select('brand')

@@ -43,19 +43,32 @@ class BasketRepository extends AbstractRepository
     }
 
 
-    public function findBasketWithCustomer(int $id): array 
+    public function findBasketWithCustomer(int $id): Basket|null
     {
-
-        $oldBasket = $this->createQueryBuilder('basket')
+        return $this->createQueryBuilder('basket')
             ->select('basket')
             ->where('basket.status IS NULL')
             ->andWhere('basket.customer = :id')
             ->leftJoin('basket.customer', 'customer')
             ->setParameter('id', $id)
             ->getQuery()
+            ->getOneOrNullResult();
+            ;
+    }
+
+    public function findLastBasketWithCustomer(int $id, $limit = null): array|null
+    {
+        $oldBasket = $this->createQueryBuilder('basket')
+            ->select('basket')
+            ->where('basket.status IS NOT NULL')
+            ->andWhere('basket.customer = :id')
+            ->leftJoin('basket.customer', 'customer')
+            ->orderBy('basket.dateCreated', 'ASC')
+            ->setParameter('id', $id)
+            ->setMaxResults($limit)
+            ->getQuery()
             ->getResult();
             ;
-            // dd($oldBasket);
             return $oldBasket;
     }
 

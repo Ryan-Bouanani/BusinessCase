@@ -1,0 +1,67 @@
+{% extends 'front/base.html.twig' %}
+
+{% block title %}Résumer de la commande{% endblock %}
+
+{% block body %}
+
+<section class="container-me" id="shoppingCartSection">
+    {% include "front/partials/_processBar.html.twig" with {
+        active: 4,
+    } %}
+    <h1>Résumer de la commande</h1>
+        {% set contentCheckout %}          
+            <div class="formChild">
+                <h2>COMMANDE</h2>
+            {% include "front/partials/_contentShoppingCart.html.twig" %}   
+            </div>
+            <div class="formChild">
+                <div class="titleAndUpdateContainer">
+                    <h2>ADRESSE DE LIVRAISON</h2><a href="{{ path('app_checkout_address') }}"><i class="fa-solid fa-pencil"></i></a>
+                </div>
+                <p>{{ order.address.firstName }} {{ order.address.lastName }}</p>
+                <p>{{ order.address.line1 }}</p>
+                <p>{{ order.address.line2 ? order.address.line2: '' }}</p>
+                <p>{{ order.address.postalCode }} {{ order.address.city }}</p>
+                <p>{{ order.address.country }}</p>
+            </div>
+            <div class="formChild">
+                <div class="titleAndUpdateContainer">
+                    <h2>ADRESSE DE FACTURATION</h2>
+                </div>
+                <p>{{ order.address.firstName }} {{ order.address.lastName }}</p>
+                <p>{{ order.address.line1 }}</p>
+                <p>{{ order.address.line2 ? order.address.line2: '' }}</p>
+                <p>{{ order.address.postalCode }} {{ order.address.city }}</p>
+                <p>{{ order.address.country }}</p>
+            </div>
+            <div class="formChild">
+                <div class="titleAndUpdateContainer">
+                    <h2>MOYEN DE PAIEMENT</h2><a href="{{ path('app_checkout_payment') }}"><i class="fa-solid fa-pencil"></i></a>
+                </div>
+                <div class="meanOfPayment">
+                    <p>{{ order.meanOfPayment.designation }} </p>
+                    {% if order.meanOfPayment.designation == 'Carte bancaire' %}
+                        <div class="imagesMeanOfPayment">
+                            <img class="meanOfPaymentImg" src="{{ asset("build/images/logoVisa.png") }}" alt="Logo Visa">
+                            <img class="meanOfPaymentImg" src="{{ asset("build/images/logoMastercard.png") }}" alt="Logo Mastercard">
+                            <img class="meanOfPaymentImg" src="{{ asset("build/images/logoCB.jpg") }}" alt="Logo carte bancaire">
+                        </div>
+                        {% elseif order.meanOfPayment.designation == 'Paypal' %}
+                        <div class="imagesMeanOfPayment">
+                            <img class="meanOfPaymentImg" src="{{ asset("build/images/logoPaypal.png") }}" alt="Logo Visa">
+                        </div>
+                    {% endif %}  
+                </div>
+            </div>
+        {% endset %}
+
+        {% include "front/partials/_shoppingCart.html.twig" with {
+            contentCheckout: contentCheckout,
+            path: 'app_validate_order',
+            btnContent: 'COMMANDER',
+            btn: false,
+        } %}
+
+</section>
+
+{% endblock %}

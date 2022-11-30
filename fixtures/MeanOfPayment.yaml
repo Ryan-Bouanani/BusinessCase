@@ -1,9 +1,6 @@
 App\Entity\MeanOfPayment:
   meanOfPayment0:
-    designation: 'CB'
+    designation: 'Carte bancaire'
 
   meanOfPayment1:
     designation: 'Paypal'
-
-  meanOfPayment2:
-    designation: 'Virement Bancaire'

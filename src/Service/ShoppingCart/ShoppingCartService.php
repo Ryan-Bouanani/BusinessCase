@@ -175,20 +175,32 @@ class ShoppingCartService {
 
         return $basketWithData;
     }
-    public function getTotal(): float {
+    public function getTotal(Basket $order = null): float {
 
         $total = 0;
 
-        foreach ($this->getFullCart() as $item) {
+        if ($order) {
+            $items = $order->getContentShoppingCarts();
+        } else {
+            $items = $this->getFullCart();
+        }
+        foreach ($items as $item) {
 
-            if ($item['product']->getPromotion()) {
+            if (gettype($items) !== 'array') {
+                $product = $item->getProduct();
+                $quantity = $item->getQuantity();
+            } else {
+                $product = $item['product'];
+                $quantity = $item['quantity'];
+            }
+            if ($product->getPromotion()) {
 
                 // On multiplie le prix du produit par sa quantité
-                $totalItem = ($this->priceTaxInclService->calcPriceTaxIncl($item['product']->getPriceExclVat(), $item['product']->getTva(), $item['product']->getPromotion()->getPercentage())) * $item['quantity'];
+                $totalItem = ($this->priceTaxInclService->calcPriceTaxIncl($product->getPriceExclVat(), $product->getTva(), $product->getPromotion()->getPercentage())) * $quantity;
 
             } else {
                  // On multiplie le prix du produit par sa quantité
-                 $totalItem = ($this->priceTaxInclService->calcPriceTaxIncl($item['product']->getPriceExclVat(), $item['product']->getTva())) * $item['quantity'];
+                 $totalItem = ($this->priceTaxInclService->calcPriceTaxIncl($product->getPriceExclVat(), $product->getTva())) * $quantity;
             }
             // On additione le total de chaque ligne
             $total+= $totalItem;

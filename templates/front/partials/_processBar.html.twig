@@ -1,15 +1,20 @@
 
     <div class="processBar">
 
-        {% if active == 1 %}
-        <div class="circleInfo active">
-        {% else %}
-        <div class="circleInfo">
-        {% endif %}       
-            <span class="circle">1</span>  
-            <p class="info">Connection</p> 
-        </div>
+        <a  href="{{ path('app_checkout_login') }}">
+            {% if active == 1 %}
+            <div class="circleInfo active">
+            {% else %}
+            <div class="circleInfo">
+            {% endif %}       
+                <span class="circle">1</span>  
+                <p class="info">Connection</p> 
+            </div>
+        </a>
 
+        {% if active >= 2 %}
+            <a href="{{ path('app_checkout_address') }}">
+        {% endif %}
         {% if active == 2 %}
         <div class="circleInfo active">
         {% else %}
@@ -18,7 +23,13 @@
             <span class="circle">2</span>  
             <p class="info">Adresse</p> 
         </div>
+        {% if active >= 2 %}
+            </a>
+        {% endif %} 
 
+        {% if active >= 3 or (order is defined and order.address) %}
+            <a href="{{ path('app_checkout_payment') }}">
+        {% endif %}
         {% if active == 3 %}
         <div class="circleInfo active">
         {% else %}
@@ -27,13 +38,38 @@
             <span class="circle">3</span>  
             <p class="info">Paiement</p> 
         </div>
+        {% if active >= 3 or (order is defined and order.address) %}
+            </a>
+        {% endif %}
 
+        {% if active >= 4 or (order is defined and order.address and order.meanOfPayment) %}
+            <a href="{{ path('app_checkout_resume') }}">
+        {% endif %}
         {% if active == 4 %}
         <div class="circleInfo active">
         {% else %}
         <div class="circleInfo">
         {% endif %} 
             <span class="circle">4</span>  
-            <p class="info">Commande</p> 
+            <p class="info">Validation</p> 
         </div>
+        {% if active >= 4 or (order is defined and order.address and order.meanOfPayment) %}
+            </a>
+        {% endif %}
+
+
+        {% if active >= 5 or (order is defined and order.address and order.meanOfPayment and order.status) %}
+            <a href="{{ path('app_checkout_resume') }}">
+        {% endif %}
+        {% if active == 5 %}
+        <div class="circleInfo active">
+        {% else %}
+        <div class="circleInfo">
+        {% endif %} 
+            <span class="circle">5</span>  
+            <p class="info">C'est fait !</p> 
+        </div>
+        {% if active >= 5 or (order is defined and order.address and order.meanOfPayment and order.status) %}
+            </a>
+        {% endif %}
     </div>

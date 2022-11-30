@@ -1,0 +1,25 @@
+{% extends 'front/base.html.twig' %}
+
+{% block title %}Adresse de la commande{% endblock %}
+
+{% block body %}
+
+<section class="container-me" id="shoppingCartSection">
+    {% include "front/partials/_processBar.html.twig" with {
+        active: 5,
+    } %}
+    <h1>Merci pour votre confiance</h1>
+    <p class="orderValid">Votre commande à bien été enregistrée</p>
+    {% set contentCheckout %}
+           {% include "front/partials/_contentShoppingCart.html.twig" %} 
+    {% endset %}
+
+    {% include "front/partials/_shoppingCart.html.twig" with {
+        contentCheckout: contentCheckout,
+        path: 'app_home',
+        btnContent: 'ACCUEIL',
+        btn: false,
+    } %}
+</section>
+
+{% endblock %}

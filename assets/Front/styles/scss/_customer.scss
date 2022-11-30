@@ -1,5 +1,114 @@
-#user_password_password div {
+
+#user_password_password div, #user_email_email div {
     display: flex;
     flex-direction: column;
     margin-bottom: 1rem;
+}
+.container-me {
+    .h1Account {
+        margin-top: 0.5rem;
+    }
+    .linkAccount {
+        width: 100%;
+        margin: 0 auto;
+        max-width: 450px;
+    }
+    .h1Account, .linkAccount {
+        margin-bottom: 3rem;
+    }
+    .addressContainer {
+        border: 1px solid #d3d2cd;
+        padding: 16px;
+        border-radius: 5px;
+    }
+    .shippingAddress {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .divAccount {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+        // border: 1px solid #d3d2cd;
+        box-shadow: rgb(0 0 0 / 15%) 0px 5px 15px 0px;
+        padding: 18px;
+        border-radius: 5px;
+        font-size: 1.1rem;
+        font-weight: 600;
+        max-width: 450px;
+        
+        .left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            justify-content: space-between;
+        }
+    }
+    .ordersContainer {
+        background: #f6f6f6;
+        padding: 30px 40px;
+        width: 100%;
+        max-width: 830px;
+    }
+    .btnUpdate, .linkAccount i, .leftIcon i {
+        font-size: 1.3rem;
+        border: none;
+        background: none;
+    }
+    div.orderContainer {
+        width: 100%;
+        margin-bottom: 3rem;
+        h2 {
+            border-bottom: 1px solid #b5b4ae;
+            padding-bottom: 7px;
+            font-weight: 600;
+        }
+        .right {
+            border: 1px solid #d3d2cd;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .lineShoppingCart {
+            margin-bottom: 1rem;
+        }
+        div.left p {
+            font-size: 1.2rem;
+        } 
+    }
+    .infoContainer {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+    }
+    .leftContainer {
+        font-size: 1rem;
+        font-weight: 500;
+    }
+
+
+    @media screen and (min-width: 450px) {
+        .divAccount {
+            padding: 25px;
+        }
+        .btnUpdate, .linkAccount i, .leftIcon i {
+            font-size: 1.6rem;
+        }
+    }
+    @media screen and (min-width: 550px) {
+        .divAccount{           
+            .left {
+                gap: 1.5rem;
+            }
+        }
+    }
+    @media screen and (min-width: 750px) {
+        // div.orderContainer{           
+        //     display: flex;
+        //     justify-content: space-between;
+        // }
+    }
 }

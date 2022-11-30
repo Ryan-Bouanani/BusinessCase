@@ -1,16 +1,46 @@
 {% extends 'front/base.html.twig' %}
 
 {% block title %}Paiement{% endblock %}
+
 {% block body %}
-<section id="payment" class="container-me">
+
+<section id="shoppingCartSection" class="container-me">
     {% include "front/partials/_processBar.html.twig" with {
         active: 3,
     } %}
     <h1>Moyen de paiement</h1>
-    <div class="meanOfPayment">
-        <input type="checkbox" name="" id="">
-    </div>
-</section>
+    {% include "shared/partials/_flash.html.twig" %}
+            {{ form_start(form) }}
+    {% set contentCheckout %} 
+        <div class='form'>
+                {% form_theme form _self %}
+                {% block choice_widget %}
+                    {% for child in form.children.meanOfPayment %}
+                        <div class="fieldMeanOfPayment">
+                            {{- form_widget(child) -}}
+                        {{- form_label(child, null) -}}
+                            {% if child.vars.label == 'Carte bancaire' %}
+                            <div class="imagesMeanOfPayment">
+                                <img class="meanOfPaymentImg" src="{{ asset("build/images/logoVisa.png") }}" alt="Logo Visa">
+                                <img class="meanOfPaymentImg" src="{{ asset("build/images/logoMastercard.png") }}" alt="Logo Mastercard">
+                                <img class="meanOfPaymentImg" src="{{ asset("build/images/logoCB.jpg") }}" alt="Logo carte bancaire">
+                            </div>
+                            {% elseif  child.vars.label == 'Paypal' %}
+                            <div class="imagesMeanOfPayment">
+                                <img class="meanOfPaymentImg" src="{{ asset("build/images/logoPaypal.png") }}" alt="Logo Visa">
+                            </div>
+                            {% endif %}               
+                        </div>
+                    {% endfor %}
+                {% endblock choice_widget %}
+        </div>
+    {% endset %}    
 
+    {% include "front/partials/_shoppingCart.html.twig" with {
+        contentCheckout: contentCheckout,
+        btn: true,
+    } %}
+    {{ form_end(form) }}    
+</section>
 
 {% endblock %}

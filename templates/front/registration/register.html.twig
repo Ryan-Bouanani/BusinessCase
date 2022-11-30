@@ -3,7 +3,8 @@
 {% block title %}Inscription{% endblock %}
 
 {% block body %}
-    <div class="form">
+<section class="container-me">
+    <div class="authentication">    
         <h1>Inscription</h1>
 
         {{ form_start(registrationForm) }}
@@ -80,9 +81,10 @@
                 {% endif %}       
             </div>
 
-            <button type="submit" class="button">Register</button>
+            <button type="submit" class="button btnSubmitForm">Register</button>
         {{ form_end(registrationForm) }}
 
         <p>Si vous avez déjà un compte : <a href="{{ path('app_login') }}">Connectez-vous</a></p>
     </div>
+</section
 {% endblock %}

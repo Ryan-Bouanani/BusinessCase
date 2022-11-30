@@ -1,30 +1,42 @@
 
 // modal variables
-const modalElem: Element = document.querySelector('[data-modal]');
-const btnModalActive: HTMLButtonElement = document.querySelector('[data-active-modal]');
-const btnModalClose: Element = document.querySelector('[data-modal-close-open]');
-const modalOverlay = document.querySelector('[data-modal-overlay]');
+const modalElem: NodeListOf<Element> = document.querySelectorAll('[data-modal]');
+const btnModalActive: NodeListOf<HTMLButtonElement> = document.querySelectorAll('[data-active-modal]');
+const btnModalClose: NodeListOf<Element> = document.querySelectorAll('[data-modal-close-open]');
+const modalOverlay = document.querySelectorAll('[data-modal-overlay]');
 
 
 // modal close function
-function modalCloseFunction(e: Event) { 
+function modalCloseFunction(key: number, e: Event) { 
     e.preventDefault,
-    modalElem.classList.add('overlayClose');
+    modalElem[key].classList.add('overlayClose');
     
 }
 // modal  open function
-function modalOpenFunction(e: Event) { 
+function modalOpenFunction(key: number, e: Event): void { 
     e.preventDefault,
     console.log(modalOverlay);
     
-    modalElem.classList.remove('overlayClose');
-    
+    modalElem[key].classList.remove('overlayClose');
 }
 
 if (modalOverlay && btnModalClose && btnModalActive) {
     
     // modal eventListener
-    modalOverlay.addEventListener('click', modalCloseFunction);
-    btnModalClose.addEventListener('click', modalCloseFunction);
-    btnModalActive.addEventListener('click', modalOpenFunction);
+    modalOverlay.forEach((overlay, key) => {    
+        overlay.addEventListener('click', (e: Event) => {
+            modalCloseFunction(key, e);      
+        })
+    });
+    btnModalClose.forEach((btnClose, key) => {    
+        btnClose.addEventListener('click', (e: Event) => {
+            modalCloseFunction(key, e);      
+        })
+    });
+    btnModalActive.forEach((btnActive, key) => {    
+        btnActive.addEventListener('click', (e: Event) => {
+            modalOpenFunction(key, e);      
+        })
+    });
+
 }

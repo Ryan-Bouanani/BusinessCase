@@ -22,7 +22,7 @@ a {
 .btnAction {
     display: block;
 }
-.error {
+.error, #user_password_password li,  #user_email_email li {
     background: #f8d7da;
     color: #842029;
     padding: 1rem;

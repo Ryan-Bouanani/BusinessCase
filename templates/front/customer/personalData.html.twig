@@ -1,0 +1,291 @@
+
+{% extends 'front/base.html.twig' %}
+
+{% block title %}Mesinformations{% endblock %}
+
+{% block body %}
+    <section class="container-me">
+
+        <h1 class="h1Account">Modifier informations</h1>
+
+         {% include "shared/partials/_flash.html.twig" %}
+
+        {# *COORDONEES #}
+            {% set content %}
+                {{ form_start(formUser) }}
+                    <div class="formChild">
+                        {{ form_label(formUser.firstName) }}
+                        {{ form_widget(formUser.firstName) }}
+
+                        {% if (form_errors(formUser.firstName)) %}
+                            <div class="error">
+                                {{ form_errors(formUser.firstName) }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="formChild">
+                        {{ form_label(formUser.lastName) }}
+                        {{ form_widget(formUser.lastName) }}
+
+                        {% if (form_errors(formUser.lastName)) %}
+                            <div class="error">
+                                {{ form_errors(formUser.lastName) }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="formChild">
+                        {{ form_label(formUser.gender) }}
+                        {{ form_widget(formUser.gender) }}
+
+                        {% if (form_errors(formUser.gender)) %}
+                            <div class="error">
+                                {{ form_errors(formUser.gender) }}
+                            </div>
+                        {% endif %}            
+                    </div>
+                    <div class="formChild">
+                        {{ form_label(formUser.dateOfBirth) }}
+                        {{ form_widget(formUser.dateOfBirth) }}           
+
+                        {% if (form_errors(formUser.dateOfBirth)) %}
+                            <div class="error">
+                                {{ form_errors(formUser.dateOfBirth) }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <button class="button" type="submit">
+                        Enregistrer
+                    </button>
+                {{ form_end(formUser) }}
+            {% endset %}
+            <div class="containerDiv">
+                <div class="divAccount linkAccount">
+                    <div class="left">
+                        <div class="leftIcon">
+                            <button class="btnUpdate"><i class="fa-regular fa-user"></i></button>
+                        </div>
+                        <div class="leftContainer">
+                                <p>Utilisateur : {{ customer.username }}</p>
+                                <p>{{ customer.firstName }} {{ customer.lastName }}</p>
+                                <p>Neé le {{ customer.dateOfBirth | date('d/m/Y')  }}</p>
+                                <p>Membre depuis : {{ customer.registrationDate | date('d/m/Y') }}</p>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <button class="btnUpdate" data-active-modal><i class="fa-solid fa-pencil"></i></a></button>
+                    </div>
+                </div>
+            </div>
+            {% include "/shared/partials/_modal.html.twig" with {
+                title: "Modifier coordonnées",
+                content: content,
+            } %}
+        {#  #}
+
+        {# * ADRESSE #}
+            {% set content %}
+                {{ form_start(formAddress) }}
+                    <div class="formChild">
+                        {{ form_label(formAddress.line1) }}
+                        {{ form_widget(formAddress.line1) }}
+
+                        {% if (form_errors(formAddress.line1)) %}
+                            <div class="error">
+                                {{ form_errors(formAddress.line1) }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="formChild">
+                        {{ form_label(formAddress.line2) }}
+                        {{ form_widget(formAddress.line2) }}
+
+                        {% if (form_errors(formAddress.line2)) %}
+                            <div class="error">
+                                {{ form_errors(formAddress.line2) }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="formChild">
+                        {{ form_label(formAddress.postalCode) }}
+                        {{ form_widget(formAddress.postalCode) }}
+
+                        {% if (form_errors(formAddress.postalCode)) %}
+                            <div class="error">
+                                {{ form_errors(formAddress.postalCode) }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="formChild">
+                        {{ form_label(formAddress.city) }}
+                        {{ form_widget(formAddress.city) }}
+
+                        {% if (form_errors(formAddress.city)) %}
+                            <div class="error">
+                                {{ form_errors(formAddress.city) }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="formChild">
+                        {{ form_label(formAddress.country) }}
+                        {{ form_widget(formAddress.country) }}
+
+                        {% if (form_errors(formAddress.country)) %}
+                            <div class="error">
+                                {{ form_errors(formAddress.country) }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="formChild">
+                        {{ form_label(formAddress.firstName) }}
+                        {{ form_widget(formAddress.firstName) }}
+
+                        {% if (form_errors(formAddress.firstName)) %}
+                            <div class="error">
+                                {{ form_errors(formAddress.firstName) }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="formChild">
+                        {{ form_label(formAddress.lastName) }}
+                        {{ form_widget(formAddress.lastName) }}
+
+                        {% if (form_errors(formAddress.lastName)) %}
+                            <div class="error">
+                                {{ form_errors(formAddress.lastName) }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="formChild">
+                        {{ form_label(formAddress.phoneNumber) }}
+                        {{ form_widget(formAddress.phoneNumber) }}
+
+                        {% if (form_errors(formAddress.phoneNumber)) %}
+                            <div class="error">
+                                {{ form_errors(formAddress.phoneNumber) }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <button class="button" type="submit">
+                        Enregistrer
+                    </button>
+                {{ form_end(formAddress) }}
+            {% endset %}
+            <div class="containerDiv">
+                <div class="divAccount linkAccount">
+                    <div class="left">
+                        <div class="leftIcon">
+                            <button class="btnUpdate"><i class="fa-solid fa-location-dot"></i></button>
+                        </div>
+                        <div class="leftContainer">
+                            <p>{{ customer.address.firstName }} {{ customer.address.lastName }}</p>
+                            <p>{{ customer.address.line1 }}</p>
+                            <p>{{ customer.address.city }}, {{ customer.address.postalCode }}</p>
+                            <p>{{ customer.address.city }}</p>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <button class="btnUpdate" data-active-modal><i class="fa-solid fa-pencil"></i></a></button>
+                    </div>
+                </div>
+            </div>
+            {% include "/shared/partials/_modal.html.twig" with {
+                title: "Modifier adresse",
+                content: content,
+            } %}
+        {#  #}
+
+        {# * MAIL #}
+            {% set content %}
+                    {{ form_start(formEmail) }}
+                        <div class="formChild">
+                            {{ form_widget(formEmail.email) }}
+
+                            {% if (form_errors(formEmail.email)) %}
+                                <div class="error">
+                                    {{ form_errors(formEmail.email) }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="formChild">
+                            {{ form_label(formEmail.password) }}
+                            {{ form_widget(formEmail.password) }}
+
+                            {% if form_errors(formEmail.password) %}
+                                <div class="error">
+                                    {{ form_errors(formEmail.password) }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <button class="button" type="submit">Enregistrer</button>
+                {{ form_end(formEmail) }}
+            {% endset %}
+            <div class="containerDiv">       
+                <div class="divAccount linkAccount">
+                    <div class="left">
+                        <div class="leftIcon">
+                            <button class="btnUpdate"><i class="fa-regular fa-envelope"></i></button>
+                        </div>
+                        <div class="leftContainer">
+                                <p>Votre adresse mail<p>
+                                <p>{{ customer.email }}</p>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <button class="btnUpdate" data-active-modal><i class="fa-solid fa-pencil"></i></a></button>
+                    </div>
+                </div> 
+            </div>
+            {% include "/shared/partials/_modal.html.twig" with {
+                title: "Modifier adresse mail",
+                content: content,
+            } %}
+        {#  #}
+
+        {# * PASSWORD #}
+            {% set content %}
+                    {{ form_start(formPassword) }}
+                        <div class="formChild">
+                            {{ form_widget(formPassword.password) }}
+
+                            {% if (form_errors(formPassword.password)) %}
+                                <div class="error">
+                                    {{ form_errors(formPassword.password) }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="formChild">
+                            {{ form_label(formPassword.newPassword) }}
+                            {{ form_widget(formPassword.newPassword) }}
+
+                            {% if form_errors(formPassword.newPassword) %}
+                                <div class="error">
+                                    {{ form_errors(formPassword.newPassword) }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <button class="button" type="submit">Enregistrer</button>
+                {{ form_end(formPassword) }}
+            {% endset %}
+            <div class="containerDiv">       
+                <div class="divAccount linkAccount">
+                    <div class="left">
+                        <div class="leftIcon">
+                            <button class="btnUpdate"><i class="fa-solid fa-lock"></i></button>
+                        </div>
+                        <div class="leftContainer">
+                                <p>Votre mot de passe<p>
+                                <p>**************</p>
+                        </div>
+                    </div>
+                    <div class="right">
+                        <button class="btnUpdate" data-active-modal><i class="fa-solid fa-pencil"></i></a></button>
+                    </div>
+                </div> 
+            </div>
+            {% include "/shared/partials/_modal.html.twig" with {
+                title: "Modifier mot de passe",
+                content: content,
+            } %}
+            </section>
+        {#  #}
+{% endblock %}

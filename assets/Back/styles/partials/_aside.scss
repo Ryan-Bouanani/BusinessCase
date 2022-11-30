@@ -10,6 +10,14 @@ html {
     grid-template-columns: 14rem auto;
     gap: 1.8rem;
 
+    .form {
+        overflow-x: scroll;
+        margin: 2rem auto;
+        padding: 20px 30px;
+        width: 90%;
+        max-width: 600px;
+        background: white ;
+    }
     h1 {
         font-weight: 700;
         font-size: 1.8rem;

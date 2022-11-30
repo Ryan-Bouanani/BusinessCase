@@ -1,0 +1,61 @@
+{% extends 'front/base.html.twig' %}
+
+{% block title %}Connexion{% endblock %}
+
+{% block body %}
+
+<section class="container-me" id="shoppingCartSection">
+    {% include "front/partials/_processBar.html.twig" with {
+        active: 1,
+    } %}
+    <h1>Connexion</h1>
+     {% set contentCheckout %} 
+        <div class="authentication">
+            {% include "shared/partials/_flash.html.twig" %}
+            <form method="post">
+                {% if error %}
+                    <div class="alert alert-danger error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+                {% if app.user %}
+                    <div class="mb-3">
+                        Vous êtes connecté(e) comme {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Me déconnecter</a>
+                    </div>
+                {% endif %}
+                <div class="formChild">
+                    <label for="inputUsername">Nom d'utilisateur</label>
+                    <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus placeholder="Example123">
+                </div>
+                <div class="formChild">
+                    <label for="inputPassword">Mot de passe</label>
+                    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" placeholder="******" required>
+                </div>
+                <input type="hidden" name="_csrf_token"
+                    value="{{ csrf_token('authenticate') }}"
+                >
+                {#
+                    Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+                    See https://symfony.com/doc/current/security/remember_me.html
+
+                    <div class="checkbox mb-3">
+                        <label>
+                            <input type="checkbox" name="_remember_me"> Remember me
+                        </label>
+                    </div>
+                #}
+                <button class="button btnSubmitForm" type="submit">
+                    Connexion
+                </button>
+            </form>
+            <p>Si vous n'avez pas de compte : <a href="{{ path('app_register') }}">Inscrivez-vous</a></p>
+            <a href="{{ path('forgotten_password') }}">Mot de passe oublié ?</a>
+        </div>
+     {% endset %}
+     
+    {% include "front/partials/_shoppingCart.html.twig" with {
+        contentCheckout: contentCheckout,
+        path: 'app_checkout_address',
+        btn: true,
+    } %}
+</section>
+
+{% endblock %}

@@ -5,171 +5,31 @@
 {% block body %}
 
 <section class="container-me">
-<a class="btn" href=" {{ path('app_logout') }}">Déconnexion</a>
-<div class="form">
-    <h2>Modifier informations</h2>
-    {% include "shared/partials/_flash.html.twig" %}
-    {{ form_start(formUser) }}
-        <div class="formChild">
-            {{ form_label(formUser.firstName) }}
-            {{ form_widget(formUser.firstName) }}
+    <h1 class="h1Account">Mon compte</h1>
 
-            {% if (form_errors(formUser.firstName)) %}
-                <div class="error">
-                    {{ form_errors(formUser.firstName) }}
-                </div>
-            {% endif %}
+    <a class="linkAccount" href="{{ path('app_customer_order')}}">
+        <div class="divAccount">
+            <div class="left">
+                <i class="fa-solid fa-bag-shopping"></i>
+                <p>Commandes</p>
+            </div>
+            <div class="right">
+                <button class="btnUpdate"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
         </div>
-        <div class="formChild">
-            {{ form_label(formUser.lastName) }}
-            {{ form_widget(formUser.lastName) }}
-
-            {% if (form_errors(formUser.lastName)) %}
-                <div class="error">
-                    {{ form_errors(formUser.lastName) }}
-                </div>
-            {% endif %}
+    </a>
+    <a class="linkAccount" href="{{ path('app_customer_personalData')}}">
+        <div class="divAccount">
+            <div class="left">
+                <i class="fa-regular fa-user"></i>
+                <p>Données personnelles</p>
+            </div>
+            <div class="right">
+                <button class="btnUpdate"><i class="fa-solid fa-chevron-right"></i></button>
+            </div>
         </div>
-        <div class="formChild">
-            {{ form_label(formUser.gender) }}
-            {{ form_widget(formUser.gender) }}
-
-            {% if (form_errors(formUser.gender)) %}
-                <div class="error">
-                    {{ form_errors(formUser.gender) }}
-                </div>
-            {% endif %}            
-        </div>
-        <div class="formChild">
-            {{ form_label(formUser.dateOfBirth) }}
-            {{ form_widget(formUser.dateOfBirth) }}           
-
-            {% if (form_errors(formUser.dateOfBirth)) %}
-                <div class="error">
-                    {{ form_errors(formUser.dateOfBirth) }}
-                </div>
-            {% endif %}
-        </div>
-        <button class="button" type="submit">
-            Enregistrer
-        </button>
-    {{ form_end(formUser) }}
-</div>
-<div class="form">
-    <h2>Modifier adresse</h2>
-    {% include "shared/partials/_flash.html.twig" %}
-    {{ form_start(formAddress) }}
-        <div class="formChild">
-            {{ form_label(formAddress.line1) }}
-            {{ form_widget(formAddress.line1) }}
-
-            {% if (form_errors(formAddress.line1)) %}
-                <div class="error">
-                    {{ form_errors(formAddress.line1) }}
-                </div>
-            {% endif %}
-        </div>
-        <div class="formChild">
-            {{ form_label(formAddress.line2) }}
-            {{ form_widget(formAddress.line2) }}
-
-            {% if (form_errors(formAddress.line2)) %}
-                <div class="error">
-                    {{ form_errors(formAddress.line2) }}
-                </div>
-            {% endif %}
-        </div>
-        <div class="formChild">
-            {{ form_label(formAddress.postalCode) }}
-            {{ form_widget(formAddress.postalCode) }}
-
-            {% if (form_errors(formAddress.postalCode)) %}
-                <div class="error">
-                    {{ form_errors(formAddress.postalCode) }}
-                </div>
-            {% endif %}
-        </div>
-        <div class="formChild">
-            {{ form_label(formAddress.city) }}
-            {{ form_widget(formAddress.city) }}
-
-            {% if (form_errors(formAddress.city)) %}
-                <div class="error">
-                    {{ form_errors(formAddress.city) }}
-                </div>
-            {% endif %}
-        </div>
-        <div class="formChild">
-            {{ form_label(formAddress.country) }}
-            {{ form_widget(formAddress.country) }}
-
-            {% if (form_errors(formAddress.country)) %}
-                <div class="error">
-                    {{ form_errors(formAddress.country) }}
-                </div>
-            {% endif %}
-        </div>
-        <div class="formChild">
-            {{ form_label(formAddress.firstName) }}
-            {{ form_widget(formAddress.firstName) }}
-
-            {% if (form_errors(formAddress.firstName)) %}
-                <div class="error">
-                    {{ form_errors(formAddress.firstName) }}
-                </div>
-            {% endif %}
-        </div>
-        <div class="formChild">
-            {{ form_label(formAddress.lastName) }}
-            {{ form_widget(formAddress.lastName) }}
-
-            {% if (form_errors(formAddress.lastName)) %}
-                <div class="error">
-                    {{ form_errors(formAddress.lastName) }}
-                </div>
-            {% endif %}
-        </div>
-        <div class="formChild">
-            {{ form_label(formAddress.phoneNumber) }}
-            {{ form_widget(formAddress.phoneNumber) }}
-
-            {% if (form_errors(formAddress.phoneNumber)) %}
-                <div class="error">
-                    {{ form_errors(formAddress.phoneNumber) }}
-                </div>
-            {% endif %}
-        </div>
-        <button class="button" type="submit">
-            Enregistrer
-        </button>
-    {{ form_end(formAddress) }}
-</div>
-<div class="form">
- <h2>Changer mot de passe</h2>
- {% include "shared/partials/_flash.html.twig" %}
-    {{ form_start(formPassword) }}
-        <div class="formChild">
-            {{ form_widget(formPassword.password) }}
-
-            {% if (form_errors(formPassword.password)) %}
-                <div class="error">
-                    {{ form_errors(formPassword.password) }}
-                </div>
-            {% endif %}
-        </div>
-        <div class="formChild">
-            {{ form_label(formPassword.newPassword) }}
-            {{ form_widget(formPassword.newPassword) }}
-
-            {% if form_errors(formPassword.newPassword) %}
-                <div class="error">
-                    {{ form_errors(formPassword.newPassword) }}
-                </div>
-            {% endif %}
-        </div>
-        <button class="button" type="submit">Enregistrer</button>
-    {{ form_end(formPassword) }}
-</div>
+    </a>
+    <a class="btn logout" href=" {{ path('app_logout') }}">Déconnexion</a>
 </section>
 
 

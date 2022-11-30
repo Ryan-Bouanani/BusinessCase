@@ -2,7 +2,7 @@
 @use './mixins' as *;
 
 .processBar {
-    width: 90%;
+    width: 100%;
     margin: 0 auto;
     display: flex;
     justify-content: space-between;
@@ -24,12 +24,15 @@
             }
         }     
     }
+    .circleInfo .info {
+        font-size: 0.7rem;        
+    }
     .circle {
         display: flex;
         justify-content: center;
         align-items: center;
         align-items: center;
-        padding: 0.2rem 0.8rem;
+        padding: 0.2rem 0.6rem;
         border: 2px solid $colorGradient;
         z-index: 1;
         margin-bottom: 0.3rem;
@@ -54,5 +57,14 @@
         right: 40px;
         top: 18px;
         z-index: 0;
+    }
+    @media screen and (min-width: 500px) {
+        width: 90%;
+        .circle {
+            padding: 0.2rem 0.8rem;
+            .info {
+                font-size: 1.1rem;
+            }
+        }
     }
 }
