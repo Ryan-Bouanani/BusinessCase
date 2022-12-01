@@ -3,6 +3,8 @@
 namespace App\Controller\Front;
 
 use App\Entity\Product;
+use App\Entity\Review;
+use App\Form\ReviewType;
 use App\Repository\ProductRepository;
 use App\Repository\ReviewRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -29,11 +31,54 @@ class ProductController extends AbstractController
 
         $reviews = $reviewRepository->getAllReviewProduct($id, $request->query->getInt('page', 1));
 
+        $firstReview = true;
+        $customer = $this->getUser();
+        // Si utilisateur connécté il peut alors donner un avis au produit
+        if ($customer) {
+            foreach ($reviews as $review) {
+                if ($review->getCustomer() === $customer) {
+                    $firstReview = false;
+                }
+            }
+            if ($firstReview) {
+                $review = new Review();
+                $review->setProduct($product[0]);
+                $review->setCustomer($customer);
+                
+                 // Creation du formulaire d'avis de produit
+                $form = $this->createForm(ReviewType::class, $review);
 
-        return $this->render('front/product/index.html.twig', [
-            'product' => $product,
-            'productSamecategory' => $productSamecategory,
-            'reviews' => $reviews,
-        ]);
+                // On inspecte les requettes du formulaire
+                $form->handleRequest($request);
+
+                // Si le formulaire est envoyé et valide
+                if ($form->isSubmitted() && $form->isValid()) {
+                            
+                    // On met l'utilisateur à jour en bdd
+                    $reviewRepository->add($review, true);       
+                    return $this->redirectToRoute('app_detail_product', [
+                        'id' => $product[0]->getId(),
+                    ]);
+                } else {
+                    $this->addFlash(
+                        'error',
+                        'Veuillez sélectionner un moyen de paiement'
+                    );
+                }
+                return $this->render('front/product/index.html.twig', [
+                    'product' => $product,
+                    'productSamecategory' => $productSamecategory,
+                    'reviews' => $reviews,
+                    'formReview' => $form->createView(),
+                ]);
+            } else {
+                return $this->render('front/product/index.html.twig', [
+                    'product' => $product,
+                    'productSamecategory' => $productSamecategory,
+                    'reviews' => $reviews,
+                ]);
+            }
+        }
+
     }
 }

@@ -37,7 +37,7 @@ class CustomerType extends AbstractType
                 'label' => 'Date de naissance',
                 'widget' => 'single_text',
                 'attr' => [
-                    'max' => date('Y-m-d')
+                    'max' => date('d/m/Y')
                 ]
             ])
             ->add('gender', EntityType::class, [

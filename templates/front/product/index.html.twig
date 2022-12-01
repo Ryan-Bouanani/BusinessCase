@@ -4,7 +4,7 @@
 
 {% block body %}
 
- <section class="container-me">
+ <section class="container-me" id="productSection">
 
     <div class="topProduct">
         <div class="imagesProduct">
@@ -55,6 +55,67 @@
     <div class="descriptionContainer">
         <h2>Description</h2>
         <p class="productDescription">{{ product[0].description }}</p>
+    </div>
+
+    {% if formReview is defined %}
+        {% set content %}
+                {{ form_start(formReview) }}
+
+                    <div class="stars">
+                        <i class="fa-solid fa-star" data-value="1"></i><i class="fa-solid fa-star" data-value="2"></i><i class="fa-solid fa-star" data-value="3"></i><i class="fa-solid fa-star" data-value="4"></i><i class="fa-solid fa-star" data-value="5"></i>
+                    </div>
+
+                    <div class="formChild">
+                        {{ form_label(formReview.note) }}
+                        {{ form_widget(formReview.note) }}
+
+                        {% if (form_errors(formReview.note)) %}
+                            <div class="error">
+                                {{ form_errors(formReview.note) }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <div class="formChild">
+                        {{ form_label(formReview.comment) }}
+                        {{ form_widget(formReview.comment) }}
+
+                        {% if (form_errors(formReview.comment)) %}
+                            <div class="error">
+                                {{ form_errors(formReview.comment) }}
+                            </div>
+                        {% endif %}
+                    </div>
+                    <button class="button" type="submit">
+                        Enregistrer
+                    </button>
+                {{ form_end(formReview) }}
+        {% endset %}
+        {% include "/shared/partials/_modal.html.twig" with {
+            title: "Ajouter un avis",
+            content: content,
+        } %}
+    {% endif %}
+    
+
+
+    <div class="reviewsSection">
+        <h2 class="">Avis client</h2>
+        <div class="reviewsContainer">
+            {% if formReview is defined %}
+                <button class="button" data-active-modal>Ecrivez un avis</a></button>
+            {% endif %}
+            {% for review in reviews %}              
+            <div class="review">
+                <p class="reviewDate">{{ review.createdAt | date('d/m/Y') }}</p>
+                <div class="stars">
+                    {{ review.note | stars }}
+                </div>
+                <p class="reviewCustomer">{{ review.customer.firstName }} {{ review.customer.lastName }}</p>
+                <p class="reviewComment">{{ review.comment}}</p>
+            </div>
+            {% endfor %}
+        </div>
+        {{ knp_pagination_render(reviews) }}
     </div>
  </section>
 

@@ -39,38 +39,38 @@ class Review
         Assert\Range(
             min: 0,
             max: 5,
-            notInRangeMessage: 'La note doit être plus grand que 0 et inferieur à 5',
+            notInRangeMessage: 'La note doit être plus grand ou égale à 0 et inferieur ou égale à 5',
         )
     ]
     private ?int $note = null;
 
     #[ORM\ManyToOne(inversedBy: 'reviews')]
     #[ORM\JoinColumn(nullable: false)]
-    #[
-        Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
-        ]),
-    ]
+    // #[
+    //     Assert\NotBlank([
+    //         'message' => "Veuiller remplir tout les champs."
+    //     ]),
+    // ]
     private ?Product $product;
 
 
     #[ORM\ManyToOne(inversedBy: 'reviews')]
     #[ORM\JoinColumn(nullable: false)]
-    #[
-        Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
-        ]),
-    ]
+    // #[
+    //     Assert\NotBlank([
+    //         'message' => "Veuiller remplir tout les champs."
+    //     ]),
+    // ]
     private ?Customer $customer;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $createdAt = null;
 
 
-    // public function __construct()
-    // {
-    //     $this->createdAt = new DateTime();
-    // }
+    public function __construct()
+    {
+        $this->createdAt = new DateTime();
+    }
 
     public function getId(): ?int
     {

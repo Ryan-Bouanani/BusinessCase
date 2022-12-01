@@ -54,7 +54,9 @@ class CustomerController extends AbstractController
         if (!$customer) {
             return $this->redirectToRoute('app_login');
         }
+        // On récupere les commandes de l'utilisateur
         $orders = $basketRepository->findLastBasketWithCustomer($customer->getId());
+        // On récupere le total de chaque commande
         $total = [];
         foreach ($orders as $key => $order) {
             $totalOrder = $shoppingCartService->getTotal($order);
@@ -149,7 +151,7 @@ class CustomerController extends AbstractController
                            'Votre email a bien été modifié.'
                        );
    
-                       // On met l'utilisateur ç jour en bdd
+                       // On met l'utilisateur à jour en bdd
                        $customerRepository->add($customer, true);
                    } else {
                        $this->addFlash(

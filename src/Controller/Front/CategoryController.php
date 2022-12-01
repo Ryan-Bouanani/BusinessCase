@@ -4,7 +4,6 @@ namespace App\Controller\Front;
 
 use App\Entity\Category;
 use App\Form\Filter\FrontProductFilterType;
-use App\Form\Filter\ProductFilterType;
 use App\Repository\ProductRepository;
 use App\Service\PriceTaxInclService;
 use Knp\Component\Pager\PaginatorInterface;

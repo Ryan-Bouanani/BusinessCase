@@ -15,7 +15,6 @@ function modalCloseFunction(key: number, e: Event) {
 // modal  open function
 function modalOpenFunction(key: number, e: Event): void { 
     e.preventDefault,
-    console.log(modalOverlay);
     
     modalElem[key].classList.remove('overlayClose');
 }
