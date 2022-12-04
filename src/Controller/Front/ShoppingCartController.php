@@ -198,7 +198,7 @@ class ShoppingCartController extends AbstractController
 
                     // Puis on redirige vers la page suivante (paiement)
                     return $this->redirectToRoute('app_checkout_payment', [], Response::HTTP_SEE_OTHER);
-                } else {
+                } elseif($formAddress->isSubmitted() && !$formAddress->isValid()) {
                     // Si form non valide on renvoie une erreur
                     $this->addFlash(
                         'error',
@@ -288,7 +288,7 @@ class ShoppingCartController extends AbstractController
 
             // Puis on redirige à l'étape suivante
             return $this->redirectToRoute('app_checkout_resume', []);
-        } else {
+        } elseif($form->isSubmitted() && !$form->isValid()) {
             $this->addFlash(
                 'error',
                 'Veuillez sélectionner un moyen de paiement'

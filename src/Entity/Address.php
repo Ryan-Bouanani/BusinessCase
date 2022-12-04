@@ -55,7 +55,7 @@ class Address
         ]),
         Assert\Length([
             'min' => 2,
-            'max' => 5,
+            'max' => 15,
             'minMessage' => 'Veuiller entrer un code postale contenant au minimum {{ limit }} caractères',
             'maxMessage' => 'Veuiller entrer un code postale contenant au maximum {{ limit }} caractères',
         ]),
@@ -174,7 +174,7 @@ class Address
         return $this->line1;
     }
 
-    public function setLine1(? string $line1): self
+    public function setLine1(string $line1): self
     {
         $this->line1 = $line1;
 

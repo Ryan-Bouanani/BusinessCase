@@ -28,9 +28,13 @@ class SecurityController extends AbstractController
      * @return Response
      */
     #[Route(path: '/connexion', name: 'app_login')]
-    public function login(AuthenticationUtils $authenticationUtils): Response
+    public function login(
+        AuthenticationUtils $authenticationUtils,
+        ShoppingCartService $shoppingCartService,
+        ): Response
     {
         if ($this->getUser()) {
+            $shoppingCartService->transformShoppingCartToBasketSesion();
             return $this->redirectToRoute('app_home');
         }
         
@@ -77,13 +81,18 @@ class SecurityController extends AbstractController
         if ($user) {          
             // On vérifie que l'utilisateur possède bien un panier
             if ($session->has('shoppingCart')) {
+            // On met à jour la session avec le panier
+            $shoppingCartService->transformShoppingCartToBasketSesion(); 
+
+            $shoppingCart = $session->get('shoppingCart', []);  
+            $shoppingCart = $basketRepository->find($shoppingCart->getId()); 
 
             // On ajoute le client au panier maintenant qu'il est connecté
                  /** @var Basket $shoppingCart*/
-               $shoppingCart = $session->get('shoppingCart', []);
-               $shoppingCart = $basketRepository->find($shoppingCart->getId());
-               $shoppingCart->setCustomer($user);
-               $basketRepository->add($shoppingCart, true);
+            //    $shoppingCart = $session->get('shoppingCart', []);
+            //    $shoppingCart = $basketRepository->find($shoppingCart->getId());
+            //    $shoppingCart->setCustomer($user);
+            //    $basketRepository->add($shoppingCart, true);
            } else {
                 return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
            }

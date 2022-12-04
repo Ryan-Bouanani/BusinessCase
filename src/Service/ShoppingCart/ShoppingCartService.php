@@ -58,13 +58,11 @@ class ShoppingCartService {
         if (!$session->has('basket')) {
             $shoppingCart = new Basket();
             $session->set('shoppingCart', $shoppingCart);
-            // dd($shoppingCart);
         } else {
             
             // Je recupere mon entité panier et mon entité contentshoppingCart
             $shoppingCart = $session->get('shoppingCart', []);
             $shoppingCart = $this->basketRepository->find($shoppingCart->getId());
-            // dd($shoppingCart);
         }
         
         // Si utilisateur connecter et panier crée on cree la panier en son nom
@@ -212,65 +210,81 @@ class ShoppingCartService {
         // On recupere la session
         $session = $this->requestStack->getSession();
 
-        // On recup notre panier vide
+        // On recupere notre panier 
         $basket = $session->get('basket', []);
-        // dd($basket);
         $shoppingCart = $session->get('shoppingCart', []);
+        if ($shoppingCart) {
+            $shoppingCart = $this->basketRepository->find($shoppingCart->getId());
+        }
+        
+        /** @var Customer $customer*/
+        $customer = $this->security->getUser();
 
-        
-        // on recup nos ligne de panier
-        $contentShoppingCarts = $shoppingCart->getContentShoppingCarts();
-        
-        // et on set notre panier session avec les info du dernier panier que l'utilisateur n'a pas supprimé avant de se déconnecter
-        foreach ($contentShoppingCarts as $contentShoppingCart) {  
-            // Id du produit de la ligne
-            $id = $contentShoppingCart->getProduct()->getId();              
-            // dd($session->get('basket', []), $session->get('shoppingCart', []), $shoppingCart);
-            
-            // Si le produit du panier n'est pas dans la session on l'ajoute
-            if (empty($basket[$id])) {
-                $basket[$id] = $contentShoppingCart->getQuantity();
-            } else {
-                // sinon on additionne la quantité de la session et celle de la ligne du panier
-                $basket[$id] += $contentShoppingCart->getQuantity();
+        // Si ancien panier existant on supprime le nouveau
+        $oldShoppingCart = $this->basketRepository->findBasketWithCustomer($customer->getId());
+        if ($oldShoppingCart) {
+            if ($shoppingCart) {
+                $this->basketRepository->remove($shoppingCart, true);
             }
-        }  
+            $shoppingCart = $oldShoppingCart;
 
-        foreach ($basket as $id => $quantity) {
+            // On recupere nos lignes de panier
+            $contentShoppingCarts = $shoppingCart->getContentShoppingCarts();
 
-            $notInShoppingCart = true;
-            foreach ($contentShoppingCarts as $contentShoppingCart) {
-                // Si le produit de la session est déja dans la panier
-                if ($id === $contentShoppingCart->getProduct()->getId()) {
-                    $notInShoppingCart = false;
+            // Et on set notre panier session avec les info du dernier panier que l'utilisateur n'a pas supprimé avant de se déconnecter
+            foreach ($contentShoppingCarts as $contentShoppingCart) {  
+                // Id du produit de la ligne
+                $id = $contentShoppingCart->getProduct()->getId();              
+                
+                // Si le produit du panier n'est pas dans la session on l'ajoute
+                if (empty($basket[$id])) {
+                    $basket[$id] = $contentShoppingCart->getQuantity();
+                } else {
+                    // sinon on additionne la quantité de la session et celle de la ligne du panier
+                    $basket[$id] += $contentShoppingCart->getQuantity();
+                }
+            }  
+        }         
+        // Si dernier panier existant
+        if ($shoppingCart) {
+            if (!$shoppingCart->getCustomer()) {
+                $shoppingCart->setCustomer($customer);
+                $this->basketRepository->add($shoppingCart, true);
+            }
+            // On recupere nos lignes de panier
+            $contentShoppingCarts = $shoppingCart->getContentShoppingCarts();
+    
+            foreach ($basket as $id => $quantity) {   
+                $notInShoppingCart = true;
+                foreach ($contentShoppingCarts as $contentShoppingCart) {
+                    // Si le produit de la session est déja dans la panier
+                    if ($id === $contentShoppingCart->getProduct()->getId()) {
+                        $notInShoppingCart = false;
+                    }
+                }
+                // Si produit session n'est pas dans le panier alors on l'ajoute
+                if ($notInShoppingCart) {
+                    $product = $this->productRepository->getProductShoppingCart($id);
+                    $contentShoppingCart = new ContentShoppingCart();
+                    $contentShoppingCart->setProduct($product);
+                    $contentShoppingCart->setPrice($product->getPriceExclVat());
+                    $contentShoppingCart->setTva($product->getTva());
+                    $contentShoppingCart->setQuantity($quantity);
+                    $shoppingCart->addContentShoppingCart($contentShoppingCart);
+    
+                    // Puis on met à jour en bdd le panier et sa/ses lignes si il y'a un changement
+                    $this->basketRepository->add($shoppingCart, true);
+                    $this->contentShoppingCartRepository->add($contentShoppingCart, true);
                 }
             }
-            // Si produit session n'est pas dans le panier alors on l'ajoute
-            if ($notInShoppingCart) {
-                $product = $this->productRepository->getProductShoppingCart($id);
-                $contentShoppingCart = new ContentShoppingCart();
-                $contentShoppingCart->setProduct($product);
-                $contentShoppingCart->setPrice($product->getPriceExclVat());
-                $contentShoppingCart->setTva($product->getTva());
-                $contentShoppingCart->setQuantity($quantity);
-                $shoppingCart->addContentShoppingCart($contentShoppingCart);
-
-                // Puis on met à jour en bdd le panier et sa/ses lignes si il y'a un changement
-                $this->basketRepository->add($shoppingCart, true);
-                $this->contentShoppingCartRepository->add($contentShoppingCart, true);
-            }
+    
+            // Et on met à jour le panier de session
+            $session->set('basket', $basket);
+            $session->set('shoppingCart', $shoppingCart);
+    
+            // Met à jour la quantité
+            $this->getFullCart();
         }
-
-        
-
-        // Et on met à jour le panier de session
-        $session->set('basket', $basket);
-        $session->set('shoppingCart', $shoppingCart);
-
-        // Met à jour la quantité
-        $this->getFullCart();
-
-        // dd( $session->get('shoppingCart', []), $shoppingCart);
     }
     
     public function substractQuantity(Product $product) {

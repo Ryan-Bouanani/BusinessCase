@@ -17,7 +17,13 @@ class StarProductExtension extends AbstractExtension
         ];
     }
 
-    public function stars(float $note)
+    /**
+     * Cette fonction va permettre de formatter l'affichage d'une note sous forme d'étoiles
+     *
+     * @param float $note
+     * @return string
+     */
+    public function stars(float $note): string
     {
         $stars = [
             '<i class=" yellow fa-solid fa-star"></i>',

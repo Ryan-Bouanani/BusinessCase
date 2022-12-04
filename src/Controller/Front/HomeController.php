@@ -33,57 +33,9 @@ class HomeController extends AbstractController
 
     #[Route('/', name: 'app_home')]
     public function index(
-        FilterBuilderUpdaterInterface $builderUpdater,
-        Request $request,
         SessionInterface $session,
-        ShoppingCartService $shoppingCartService,
-        BasketRepository $basketRepository,
-        EntityManagerInterface $entityManager,
     ): Response
     {
-        $customer = $this->getUser();
-
-        // si je suis connecter
-        if ($customer) {
-            $shoppingCart = $session->get('shoppingCart', []);
-            if ($shoppingCart) {
-                if (!$shoppingCart->getCustomer()) {
-                    $shoppingCart->setCustomer($customer);
-                }
-            }
-
-            // // on va recuérer mon dernier panier
-            // $oldShoppingCart = $basketRepository->findBasketWithCustomer($customer->getId());
-
-            // $shoppingCart = $session->get('shoppingCart', []);
-            // if ($shoppingCart) {
-            //     $shoppingCart = $this->basketRepository->find($shoppingCart->getId());
-            // }
-
-            // // si j'avais un panier la derniere fois que je me suis connecté on le set en tant que panier actuelle
-            // if (!empty($oldShoppingCart) && $oldShoppingCart[0] !== $shoppingCart) {
-
-            //     // si j'ai déja un panier je le supprime
-
-            //     if ($shoppingCart) {
-            //         $shoppingCart = $this->basketRepository->find($shoppingCart->getId());
-            //         $basketRepository->remove($shoppingCart);
-            //         $entityManager->flush();
-            //     }
-
-            //     // sinon on met l'ancien panier en principale
-            //     // $shoppingCart = $oldShoppingCart[0];
-            //     // $session->remove('basket');
-            //     // $session->remove('shoppingCart');
-            //     // $session->remove('QTY');
-            //     // dd($session);
-            //     // dd($shoppingCart);
-
-            //     $shoppingCartService->transformShoppingCartToBasketSesion();
-            // }
-        } 
-        // dd($session->get('shoppingCart', []), $session->get('basket', []));
-
         // Récupere les nouveaux produits
         $newProducts = $this->productRepository->getNewProduct();
         // Récupere les produits les mieux notés
