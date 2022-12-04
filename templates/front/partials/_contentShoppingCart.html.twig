@@ -33,7 +33,7 @@
                         <div class="quantityAndTotalLineAndDelete">
                         {% if quantity is defined or delete is defined %}
                             <div class="lineQuantity">
-                                <a href="{{ path('app_shoppingCart_addQuantity', {id: item.product.id}) }}" class="increment"><i class="fa-solid fa-plus" ></i></a>
+                                <a href="{{ path('app_shoppingCart_add', {id: item.product.id}) }}" class="increment"><i class="fa-solid fa-plus" ></i></a>
                                 <p class="quantity">{{ item.quantity }}</p>
                                 <a href="{{ path('app_shoppingCart_substractQuantity', {id: item.product.id}) }}" class="decrement"><i class="fa-solid fa-minus"></i></a>
                             </div>

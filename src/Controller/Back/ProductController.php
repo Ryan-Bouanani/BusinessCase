@@ -22,6 +22,15 @@ use Symfony\Component\Routing\Annotation\Route;
 #[IsGranted('ROLE_ADMIN')]
 class ProductController extends AbstractController
 {
+    /**
+     * Ce controller va servir à afficher la liste des produits 
+     *
+     * @param ProductRepository $productRepository
+     * @param PaginatorInterface $paginator
+     * @param Request $request
+     * @param FilterBuilderUpdaterInterface $builderUpdater
+     * @return Response
+     */
     #[Route('/', name: 'app_product_index', methods: ['GET'])]
     public function index(
         ProductRepository $productRepository, 
@@ -30,34 +39,39 @@ class ProductController extends AbstractController
         FilterBuilderUpdaterInterface $builderUpdater,
         ): Response
     {
-
         // on récupère tout les produits
         $qb = $productRepository->getQbAll();
 
-        // on crée nos filtres de recherche
+        // on crée nos filtres de recherche de produit
         $filterForm = $this->createForm(ProductFilterType::class, null, [
             'method' => 'GET',
         ]);
 
-        // on vérifie si la query a un paramètre du formFilter en cours.Si oui, on l’ajoute dans le queryBuilder
+        // on vérifie si la query a un paramètre du formFilter en cours, si oui, on l’ajoute dans le queryBuilder
         if ($request->query->has($filterForm->getName())) {
             $filterForm->submit($request->query->all($filterForm->getName()));
             $builderUpdater->addFilterConditions($filterForm, $qb);
         }
-
         // Pagination
         $products = $paginator->paginate(
             $qb,
             $request->query->getInt('page', 1),
             10
         );
-
         return $this->render('back/product/index.html.twig', [
             'products' => $products,
             'filters' => $filterForm->createView(),
         ]);
     }
 
+    /**
+     * Ce controller va servir à l'ajout d'un nouveau produit
+     *
+     * @param Request $request
+     * @param ProductRepository $productRepository
+     * @param FileUploader $fileUploader
+     * @return Response
+     */
     #[Route('/new', name: 'app_product_new', methods: ['GET', 'POST'])]
     public function new(
         Request $request, 
@@ -76,7 +90,7 @@ class ProductController extends AbstractController
 
         // Si le form est envoyé et valide
         if ($form->isSubmitted() && $form->isValid()) {
-            // On récupère les images transmises
+            // On récupère les images transmises par l'utilisateur
             $images = $form->get('images')->getData();
 
              // On boucle sur les images
@@ -152,6 +166,15 @@ class ProductController extends AbstractController
         ]);
     }
 
+    /**
+     * Ce controller va servir à la modification d'un produit
+     *
+     * @param Request $request
+     * @param Product $product
+     * @param ProductRepository $productRepository
+     * @param FileUploader $fileUploader
+     * @return Response
+     */
     #[Route('/{id}/edit', name: 'app_product_edit', methods: ['GET', 'POST'])]
     public function edit(
         Request $request, 
@@ -209,6 +232,14 @@ class ProductController extends AbstractController
         ]);
     }
 
+    /**
+     * Ce controller va servir à la suppression d'un produit
+     *
+     * @param Request $request
+     * @param Product $product
+     * @param ProductRepository $productRepository
+     * @return Response
+     */
     #[Route('/{id}/delete', name: 'app_product_delete', methods: ['POST'])]
     public function delete(Request $request, Product $product, ProductRepository $productRepository): Response
     {
@@ -217,9 +248,9 @@ class ProductController extends AbstractController
             
             // $productImages = $product->getImages();
             // foreach ($productImages as $key => $image) {
-            // // On récupere le nom de l'image
+            // On récupere le nom de l'image
             // $path = $image->getPath();
-            // // Puis on supprime l'image en local
+            // Puis on supprime l'image en local
             // unlink($this->getParameter('images_directory').'/'.$path);
             // }
             $productRepository->remove($product, true);
@@ -228,7 +259,15 @@ class ProductController extends AbstractController
         return $this->redirectToRoute('app_product_index', [], Response::HTTP_SEE_OTHER);
     }
 
-// 
+
+    /**
+     * Ce controller va servir à la suppresson d'une image d'un produit
+     *
+     * @param Image $image
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
     #[Route('/delete/image/{id}', name: 'app_product_deleteImage', methods: ['DELETE'])]
     public function deleteImage(
         Image $image, 
@@ -241,6 +280,7 @@ class ProductController extends AbstractController
         
         // On vérifie si le token est valide
         if ($this->isCsrfTokenValid('delete' . $image->getId(), $data['_token'])) {
+
             // On récupere le nom de l'image
             // $path = $image->getPath();
             // Puis on supprime l'image en local

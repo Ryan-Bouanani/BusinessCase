@@ -4,6 +4,7 @@
 
 {% block body %}
 
+    <a class="button btnBack" href="{{ path('app_product_index') }}">Retour à la liste des produits</a>
 
     {{ include('back/product/_form.html.twig', {'button_label': 'Valider', 'title': 'Modifier Produit'}) }}
 

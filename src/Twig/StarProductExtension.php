@@ -17,7 +17,7 @@ class StarProductExtension extends AbstractExtension
         ];
     }
 
-    public function stars(?float $note)
+    public function stars(float $note)
     {
         $stars = [
             '<i class=" yellow fa-solid fa-star"></i>',
@@ -29,10 +29,7 @@ class StarProductExtension extends AbstractExtension
 
         if ($note) {
             if ($note < 4.5 and $note >= 3.5) {
-                str_replace('star', "star-half", $stars[4]);
-            } elseif ($note < 4 and $note >= 3.5) {
-                $newStar = str_replace("yellow", "", $stars[4]);
-                array_splice($stars, 4, 1, $newStar);
+                $stars = $this->forStars(4, $stars);
             } elseif ($note < 3.5 and $note >= 2.5) {
                 $stars = $this->forStars(3, $stars);
     
@@ -44,18 +41,17 @@ class StarProductExtension extends AbstractExtension
     
             } elseif ($note < 0.5 and $note >= 0) {
                 $stars = $this->forStars(0, $stars);
-            } 
-        } else {
-            $stars = $this->forStars(0, $stars);
+            }
+            // On transform le tableau en string pour pouvoir l'afficher
+            $stars = implode("", $stars); 
+            return $stars;
         }
-        $stars =  implode ("", $stars); 
+    }
+    // Pour chaque étoile qui ne doit pas être colorée on retire la classe yellow
+    public function forStars($keyStars, $stars) {
+        for ($i=$keyStars; $i < 5; $i++) { 
+            $stars[$i] = str_replace("yellow", "", $stars[$i]);
+        }
         return $stars;
     }
-     public function forStars($keyStars, $stars) {
-        for ($i=$keyStars; $i < 5; $i++) { 
-            $newStar = str_replace("yellow", "", $stars[$i]);
-            array_splice($stars, $i, 1, $newStar);
-        }
-        return $stars;
-     }
 }

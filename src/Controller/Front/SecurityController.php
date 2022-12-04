@@ -21,6 +21,12 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends AbstractController
 {
+    /**
+     * Ce controller va servir à authentifier l'utilisateur
+     *
+     * @param AuthenticationUtils $authenticationUtils
+     * @return Response
+     */
     #[Route(path: '/connexion', name: 'app_login')]
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
@@ -37,11 +43,27 @@ class SecurityController extends AbstractController
         return $this->render('front/security/login.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
     }
 
+    /**
+     * Ce controller va servir à déconnecter l'utilisateur
+     *
+     * @return void
+     */
     #[Route(path: '/logout', name: 'app_logout')]
     public function logout(): void
     {
         throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
     }
+
+
+    /**
+     * Ce controller va servir à authentifier l'utilisateur lorsqu'il passe commande 
+     *
+     * @param AuthenticationUtils $authenticationUtils
+     * @param BasketRepository $basketRepository
+     * @param ShoppingCartService $shoppingCartService
+     * @param SessionInterface $session
+     * @return Response
+     */
     #[Route(path: '/checkout/connexion', name: 'app_checkout_login')]
     public function loginCheckout (
         AuthenticationUtils $authenticationUtils, 
@@ -53,9 +75,10 @@ class SecurityController extends AbstractController
         // /** @var Customer $user*/
         $user = $this->getUser();
         if ($user) {          
-            // On recupere le panier de la session 
+            // On vérifie que l'utilisateur possède bien un panier
             if ($session->has('shoppingCart')) {
 
+            // On ajoute le client au panier maintenant qu'il est connecté
                  /** @var Basket $shoppingCart*/
                $shoppingCart = $session->get('shoppingCart', []);
                $shoppingCart = $basketRepository->find($shoppingCart->getId());
@@ -91,6 +114,17 @@ class SecurityController extends AbstractController
         ]);
     }
 
+
+    /**
+     * Ce controller va servir à afficher le formulaire de mail de reinitialisation de mot de passe
+     *
+     * @param Request $request
+     * @param CustomerRepository $customerRepository
+     * @param TokenGeneratorInterface $tokenGenerator
+     * @param EntityManagerInterface $entityManager
+     * @param SendMailService $mail
+     * @return Response
+     */
     #[Route(path: '/oubli-pass', name: 'forgotten_password')]
     public function forgottenPassword(
         Request $request, 
@@ -149,6 +183,16 @@ class SecurityController extends AbstractController
         ]);
     }
 
+    /**
+     * Ce controller va servir à afficher leformulaire de réinitialisation de mot de passe
+     *
+     * @param string $token
+     * @param Request $request
+     * @param CustomerRepository $customerRepository
+     * @param EntityManagerInterface $entityManager
+     * @param UserPasswordHasherInterface $passwordHasher
+     * @return Response
+     */
     #[Route(path: '/oubli-pass/{token}', name: 'reset_pass')]
     public function resetPass(
         string $token,

@@ -4,15 +4,10 @@
 
 {% block body %}
 
-    <a class="button btnBack" href="{{ path('app_basket_index') }}">Retour à la liste</a>
+    <a class="button btnBack" href="{{ path('app_basket_index') }}">Retour à la liste des commandes</a>
     
     {{ include('back/basket/_form.html.twig', {'button_label': 'Update', 'title': 'Modifier Commande'} )}}
 
     {{ include('back/basket/_delete_form.html.twig') }}
 
-    {# methode simillaire d'appeler le form #}
-  {# {% include 'back/basket/_form.html.twig' with {
-        'title': 'Modifier commande',
-        'button_label': 'Update'
-    } %} #}
 {% endblock %}

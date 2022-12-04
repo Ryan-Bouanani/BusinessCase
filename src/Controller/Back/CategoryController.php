@@ -18,6 +18,15 @@ use Symfony\Component\Routing\Annotation\Route;
 #[IsGranted('ROLE_ADMIN')]
 class CategoryController extends AbstractController
 {
+    /**
+     * Ce controller va servir à afficher la liste des catégories
+     *
+     * @param CategoryRepository $categoryRepository
+     * @param PaginatorInterface $paginator
+     * @param Request $request
+     * @param FilterBuilderUpdaterInterface $builderUpdater
+     * @return Response
+     */
     #[Route('/', name: 'app_category_index', methods: ['GET'])]
     public function index(
         CategoryRepository $categoryRepository,
@@ -26,15 +35,14 @@ class CategoryController extends AbstractController
         FilterBuilderUpdaterInterface $builderUpdater,
         ): Response
     {
-
         // on récupère toutes les catégories
         $qb = $categoryRepository->getQbAll();
         
-        // on crée nos filtres de recherche
+        // Création du formulaire de filtres de recherche
         $filterForm = $this->createForm(CategoryFilterType::class, null, [
             'method' => 'GET',
         ]);
-        // on vérifie si la query a un paramètre du formFilter en cours.Si oui, on l’ajoute dans le queryBuilder
+        // On vérifie si la query a un paramètre du formFilter en cours.Si oui, on l’ajoute dans le queryBuilder
         if ($request->query->has($filterForm->getName())) {
             $filterForm->submit($request->query->all($filterForm->getName()));
             $builderUpdater->addFilterConditions($filterForm, $qb);
@@ -52,6 +60,13 @@ class CategoryController extends AbstractController
         ]);
     }
 
+    /**
+     * Ce controller va servir à ajouter une nouvelle catégorie
+     *
+     * @param Request $request
+     * @param CategoryRepository $categoryRepository
+     * @return Response
+     */
     #[Route('/new', name: 'app_category_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CategoryRepository $categoryRepository): Response
     {
@@ -66,7 +81,7 @@ class CategoryController extends AbstractController
         // Si le form est envoyé et valide
         if ($form->isSubmitted() && $form->isValid()) {
 
-             // On met la catégorie en bdd
+             // On ajoute la catégorie en bdd
             $categoryRepository->add($category, true);
 
             $this->addFlash(
@@ -81,13 +96,20 @@ class CategoryController extends AbstractController
                 $form->getErrors()
             );
         }
-
         return $this->renderForm('back/category/new.html.twig', [
             'category' => $category,
             'form' => $form,
         ]);
     }
 
+    /**
+     * Ce controller va servir à la modification d'une catégorie
+     *
+     * @param Request $request
+     * @param Category $category
+     * @param CategoryRepository $categoryRepository
+     * @return Response
+     */
     #[Route('/{id}/edit', name: 'app_category_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Category $category, CategoryRepository $categoryRepository): Response
     {
@@ -100,7 +122,7 @@ class CategoryController extends AbstractController
         // Si le form est envoyé et valide
         if ($form->isSubmitted() && $form->isValid()) {
 
-             // On met la catégorie à jour en bdd
+            // On met la catégorie à jour en bdd
             $categoryRepository->add($category, true);
 
             $this->addFlash(
@@ -109,11 +131,6 @@ class CategoryController extends AbstractController
             );
 
             return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);
-        } else {
-            $this->addFlash(
-                'error',
-                $form->getErrors()
-            );
         }
         return $this->renderForm('back/category/edit.html.twig', [
             'category' => $category,
@@ -121,6 +138,14 @@ class CategoryController extends AbstractController
         ]);
     }
 
+    /**
+     * Ce controller va servir à la suppression d'une catégorie
+     *
+     * @param Request $request
+     * @param Category $category
+     * @param CategoryRepository $categoryRepository
+     * @return Response
+     */
     #[Route('/{id}/delete', name: 'app_category_delete', methods: ['DELETE'])]
     public function delete(Request $request, Category $category, CategoryRepository $categoryRepository): Response
     {

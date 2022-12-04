@@ -21,6 +21,15 @@ use Symfony\Component\Routing\Annotation\Route;
 #[IsGranted('ROLE_ADMIN')]
 class CustomerController extends AbstractController
 {
+    /**
+     * Ce controller va servir à afficher la liste des clients
+     *
+     * @param CustomerRepository $customerRepository
+     * @param PaginatorInterface $paginator
+     * @param Request $request
+     * @param FilterBuilderUpdater $builderUpdater
+     * @return Response
+     */
     #[Route('/', name: 'app_customer_index', methods: ['GET'])]
     public function index(
         CustomerRepository $customerRepository,
@@ -36,7 +45,7 @@ class CustomerController extends AbstractController
         $filterForm = $this->createForm(CustomerFilterType::class, null, [
             'method' => 'GET',
         ]);
-         // on vérifie si la query a un paramètre du formFilter en cours.Si oui, on l’ajoute dans le queryBuilder
+         // on vérifie si la query a un paramètre du formFilter en cours, si oui, on l’ajoute dans le queryBuilder
          if ($request->query->has($filterForm->getName())) {
             $filterForm->submit($request->query->all($filterForm->getName()));
             $builderUpdater->addFilterConditions($filterForm, $qb);
@@ -56,6 +65,13 @@ class CustomerController extends AbstractController
 
     }
 
+    /**
+     * Ce controller va servir à la création d'un nouveau client
+     *
+     * @param Request $request
+     * @param CustomerRepository $customerRepository
+     * @return Response
+     */
     #[Route('/new', name: 'app_customer_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CustomerRepository $customerRepository): Response
     {
@@ -81,63 +97,5 @@ class CustomerController extends AbstractController
             'customer' => $customer,
             'form' => $form,
         ]);
-    }
-
-    // #[Route('/{id}', name: 'app_customer_show', methods: ['GET'])]
-    // public function show(Customer $customer): Response
-    // {
-
-    //     return $this->render('back/customer/show.html.twig', [
-    //         'customer' => $customer,
-    //     ]);
-    // }
-
-    
-    // #[Route('/{id}/edit', name: 'app_customer_edit', methods: ['GET', 'POST'])]
-    // public function edit(Request $request, Customer $customer, CustomerRepository $customerRepository, UserPasswordHasherInterface $hasher): Response
-    // {
-
-    //     // Creation du formulaire de client
-    //     $form = $this->createForm(CustomerType::class, $customer);
-        
-    //     // On inspecte les requettes du formulaire
-    //     $form->handleRequest($request);
-
-    //     // Si le form est envoyé et valide
-    //     if ($form->isSubmitted() && $form->isValid()) {
-    //         // Et 
-    //         if ($hasher->isPasswordValid($customer, $form->getData()->getPassword())) {
-    //             $customer = $form->getData();
-    //             $customerRepository->add($customer, true);
-
-    //             $this->addFlash(
-    //                 'success',
-    //                 'Les informations de votre compte ont bien été modifiées.'
-    //             );
-
-    //             return $this->redirectToRoute('app_customer_index', [], Response::HTTP_SEE_OTHER);
-    //         } else {
-    //             $this->addFlash(
-    //                 'warning',
-    //                 'Le mot de passe renseigné est incorrect.'
-    //             );
-    //         } 
-    //     }
-
-    //     return $this->renderForm('back/customer/edit.html.twig', [
-    //         'customer' => $customer,
-    //         'form' => $form,
-    //     ]);
-    // }
-
-    #[Route('/{id}', name: 'app_customer_delete', methods: ['POST'])]
-    public function delete(Request $request, Customer $customer, CustomerRepository $customerRepository): Response
-    {
-        
-        if ($this->isCsrfTokenValid('delete'.$customer->getId(), $request->request->get('_token'))) {
-            $customerRepository->remove($customer, true);
-        }
-
-        return $this->redirectToRoute('app_customer_index', [], Response::HTTP_SEE_OTHER);
     }
 }

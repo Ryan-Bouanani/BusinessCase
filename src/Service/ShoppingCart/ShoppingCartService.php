@@ -127,7 +127,7 @@ class ShoppingCartService {
         $shoppingCart = $session->get('shoppingCart', []);
         $shoppingCart = $this->basketRepository->find($shoppingCart->getId());
 
-        // Si pas vide on supprime notre produit en session
+        // Si j'ai le produit dans le panier et il n'est pas vide on supprime alors notre produit en session
         if (!empty($basket[$id])) {
             unset($basket[$id]);
 
@@ -137,7 +137,7 @@ class ShoppingCartService {
             foreach ($contentShoppingCarts as $oldContentShoppingCart) {                
     
                 if ($oldContentShoppingCart->getProduct() === $product) {
-                    $this->contentShoppingCartRepository->remove($oldContentShoppingCart);
+                    $this->contentShoppingCartRepository->remove($oldContentShoppingCart, true);
                 }
             }    
         }
@@ -286,8 +286,7 @@ class ShoppingCartService {
         $contentShoppingCarts = $shoppingCart->getContentShoppingCarts();
         
         // Si le produit éxiste, on décrémente 
-        if (!empty($basket[$id])) {
-            if ($basket[$id] > 1) {
+        if (!empty($basket[$id]) && $basket[$id] > 1) {
                 $basket[$id]--;
 
                 foreach ($contentShoppingCarts as $oldContentShoppingCart) {                
@@ -298,7 +297,15 @@ class ShoppingCartService {
                         $this->basketRepository->add($shoppingCart, true);
                     }
                 }    
-            }
+        } else {
+            unset($basket[$id]);
+            foreach ($contentShoppingCarts as $oldContentShoppingCart) {                
+                
+                if ($oldContentShoppingCart->getProduct() === $product) {
+                    
+                    $this->contentShoppingCartRepository->remove($oldContentShoppingCart, true);
+                }
+            }    
         }
 
         

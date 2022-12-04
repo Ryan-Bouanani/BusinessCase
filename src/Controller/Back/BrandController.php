@@ -20,6 +20,15 @@ use Symfony\Component\Routing\Annotation\Route;
 #[IsGranted('ROLE_ADMIN')]
 class BrandController extends AbstractController
 {
+    /**
+     * Ce controller va servir à afficher la liste des marques 
+     *
+     * @param BrandRepository $brandRepository
+     * @param PaginatorInterface $paginator
+     * @param Request $request
+     * @param FilterBuilderUpdaterInterface $builderUpdater
+     * @return Response
+     */
     #[Route('/', name: 'app_brand_index', methods: ['GET'])]
     public function index(
         BrandRepository $brandRepository,
@@ -28,15 +37,15 @@ class BrandController extends AbstractController
         FilterBuilderUpdaterInterface $builderUpdater,
         ): Response
     {
-        // on récupère tout les produits
+        // On récupère toutes les marques
         $qb = $brandRepository->getQbAll();
 
-        // on crée nos filtres de recherche
+        // on crée nos filtres de recherche de marque
         $filterForm = $this->createForm(BrandFilterType::class, null, [
             'method' => 'GET',
         ]);
 
-        // on vérifie si la query a un paramètre du formFilter en cours.Si oui, on l’ajoute dans le queryBuilder
+        // On vérifie si la query a un paramètre du formFilter en cours, si oui, on l’ajoute dans le queryBuilder
         if ($request->query->has($filterForm->getName())) {
             $filterForm->submit($request->query->all($filterForm->getName()));
             $builderUpdater->addFilterConditions($filterForm, $qb);
@@ -55,47 +64,65 @@ class BrandController extends AbstractController
         ]);
     }
 
-#[Route('/new', name: 'app_brand_new', methods: ['GET', 'POST'])]
-public function new(
-    Request $request, 
-    BrandRepository $brandRepository,
-    FileUploader $fileUploader,
-    ): Response
-{
-    $brand = new Brand();
-    $form = $this->createForm(BrandType::class, $brand);
-    $form->handleRequest($request);
+    #[Route('/new', name: 'app_brand_new', methods: ['GET', 'POST'])]
+    /**
+     * Ce controller va servir à l'ajout d'une marque
+     *
+     * @param Request $request
+     * @param BrandRepository $brandRepository
+     * @param FileUploader $fileUploader
+     * @return Response
+     */
+    public function new(
+        Request $request, 
+        BrandRepository $brandRepository,
+        FileUploader $fileUploader,
+        ): Response
+    {
+        $brand = new Brand();
 
-    if ($form->isSubmitted() && $form->isValid()) {
+        // Creation du formulaire d'ajout d'une marque
+        $form = $this->createForm(BrandType::class, $brand);
 
-        $data = $form->getData();
-        if ($form->get('pathImage')->getData() !== null) {
-            $file = $fileUploader->uploadFile(
-            $form->get('pathImage')->getData()
+        // On inspecte les requettes du formulaire
+        $form->handleRequest($request);
+
+        // Si le formulaire est envoyé et valide
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            // On ajoute le logo à la marque
+            $data = $form->getData();
+            if ($form->get('pathImage')->getData() !== null) {
+                $file = $fileUploader->uploadFile(
+                $form->get('pathImage')->getData()
+                );
+                $data->setPathImage($file);
+            }
+            // On met la marque à jour en bdd
+            $brandRepository->add($brand, true);
+
+            $this->addFlash(
+                'success',
+                'Votre marque a été ajoutée avec succès !'
             );
-            $data->setPathImage($file);
+            return $this->redirectToRoute('app_brand_index', [], Response::HTTP_SEE_OTHER);
         }
-        $brandRepository->add($brand, true);
 
-        $this->addFlash(
-            'success',
-            'Votre marque a été ajoutée avec succès !'
-        );
-
-        return $this->redirectToRoute('app_brand_index', [], Response::HTTP_SEE_OTHER);
-    } else {
-        $this->addFlash(
-            'error',
-            $form->getErrors()
-        );
+            return $this->renderForm('back/brand/new.html.twig', [
+                'brand' => $brand,
+                'form' => $form,
+            ]);
     }
 
-        return $this->renderForm('back/brand/new.html.twig', [
-            'brand' => $brand,
-            'form' => $form,
-        ]);
-    }
-
+    /**
+     * Ce controller va servir à la modification d'une marque
+     *
+     * @param Request $request
+     * @param Brand $brand
+     * @param BrandRepository $brandRepository
+     * @param FileUploader $fileUploader
+     * @return Response
+     */
     #[Route('/{id}/edit', name: 'app_brand_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Brand $brand, BrandRepository $brandRepository, FileUploader $fileUploader): Response
     {
@@ -137,6 +164,15 @@ public function new(
         ]);
     }
 
+
+    /**
+     * Ce controller va servir à la suppression d'une marque
+     *
+     * @param Request $request
+     * @param Brand $brand
+     * @param BrandRepository $brandRepository
+     * @return Response
+     */
     #[Route('/{id}/delete', name: 'app_brand_delete', methods: ['POST'])]
     public function delete(Request $request, Brand $brand, BrandRepository $brandRepository): Response
     {

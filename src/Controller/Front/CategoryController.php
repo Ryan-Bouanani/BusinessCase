@@ -16,6 +16,17 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/category')]
 class CategoryController extends AbstractController
 {
+    /**
+     * Ce controller va servir à afficher les produits d'une catégorie
+     *
+     * @param Category $category
+     * @param ProductRepository $productRepository
+     * @param Request $request
+     * @param PaginatorInterface $paginator
+     * @param FilterBuilderUpdaterInterface $builderUpdater
+     * @param PriceTaxInclService $priceTaxInclService
+     * @return Response
+     */
     #[Route('/{id}', name: 'app_category_detail')]
     public function index(
         Category $category, 
@@ -33,19 +44,18 @@ class CategoryController extends AbstractController
             $qb = $productRepository->getProductSameCategory($category->getId());
         }
 
-        
-        // dd($products->getItems());
-        // $productsFilter = $products->getItems();
+        // Creation du formulaire de filtre de produit
         $filterForm = $this->createForm(FrontProductFilterType::class, null, [
             'method' => 'GET',
-            // 'priceExclVatService' => $this->get()
         ]);
             
+        // On vérifier si la query a un paramètre du formFilter en cours, si c’est le cas, on ajoute alors notre form dans le queryBuilder
         if ($request->query->has($filterForm->getName())) {
             $filterForm->submit($request->query->all($filterForm->getName()));
             $builderUpdater->addFilterConditions($filterForm, $qb);
         }
 
+        // Pagination
         $products = $paginator->paginate(
             $qb,
             $request->query->getInt('page', 1),

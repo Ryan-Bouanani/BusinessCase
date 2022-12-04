@@ -94,10 +94,11 @@ class HomeController extends AbstractController
         $reviews = $this->reviewRepository->getReview();
 
         // Ajouter une ligne date dans la table nbVisites
-        $nbVisite = new NbVisite();
-        $nbVisite->setVisitAt(new \DateTime('now', new \DateTimeZone('Europe/Paris')));
-        $this->entityManager->persist($nbVisite);
-        $this->entityManager->flush();
+            $nbVisite = new NbVisite();
+            $nbVisite->setVisitAt(new \DateTime('now', new \DateTimeZone('Europe/Paris')));
+            $this->entityManager->persist($nbVisite);
+            $this->entityManager->flush();
+        // 
 
         return $this->render('front/home/index.html.twig', [
             'newProducts' => $newProducts,
@@ -107,6 +108,13 @@ class HomeController extends AbstractController
         ]);
     }
 
+    /**
+     * Ce controller va servir à renvoyer les produits corréspondants à la recherche de l'utilisateur (barre de recherche back office)
+     *
+     * @param string $searchValue
+     * @param ProductRepository $productRepository
+     * @return Response
+     */
     #[Route('/filterSearch/{searchValue}', name: 'app_basket_productFilterSearch', methods: ['GET'])]
     public function getProductByFilter(
         string $searchValue, 
@@ -130,6 +138,13 @@ class HomeController extends AbstractController
         }  
     }
 
+    /**
+     * Ce controller va servir à renvoyer les produits corréspondants à la recherche de l'utilisateur (barre de recherche)
+     *
+     * @param string $searchValue
+     * @param ProductRepository $productRepository
+     * @return Response
+     */
     #[Route('/filterSearchFront/{searchValue}', name: 'app_productFilterSearchFront', methods: ['GET'])]
     public function getProductBySearchFront(
         string $searchValue, 
@@ -144,6 +159,7 @@ class HomeController extends AbstractController
         // On répond en JSON
         // Sinon aucun produit trouvé, on affiche le message suivant
         if (count($products) === 0) {
+            // Sérialisation de php à json pour pouvoir le désérialiser plus tard pour pouvoir ensuite l'utiliser en js
             return new JsonResponse(['error' => 'Aucun produits ne corresponds à votre recherche']);
         } else {
             // Sinon, on affiche les produits trouvés

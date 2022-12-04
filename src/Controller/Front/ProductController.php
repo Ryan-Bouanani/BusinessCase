@@ -2,7 +2,6 @@
 
 namespace App\Controller\Front;
 
-use App\Entity\Product;
 use App\Entity\Review;
 use App\Form\ReviewType;
 use App\Repository\ProductRepository;
@@ -15,6 +14,15 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/product')]
 class ProductController extends AbstractController
 {
+    /**
+     * Ce controller va servir à afficher la page de chaque produit
+     *
+     * @param ProductRepository $productRepository
+     * @param integer $id
+     * @param ReviewRepository $reviewRepository
+     * @param Request $request
+     * @return Response
+     */
     #[Route('/{id}', name: 'app_detail_product')]
     public function index(
         ProductRepository $productRepository, 
@@ -24,22 +32,27 @@ class ProductController extends AbstractController
         ): Response
     {
 
+        // On récupere les info précises du produit
         $product = $productRepository->getProductInfo($id);
     
+        // On récupere les produits de la même catégory
         $productSamecategory = $productRepository->getProductSameCategory($product[0]->getCategory()->getId(), 6);
+
         // $samemark = $productRepository->findSameMark($product[0][0]->getMark()->getId());
 
         $reviews = $reviewRepository->getAllReviewProduct($id, $request->query->getInt('page', 1));
 
+        // Si utilisateur connécté il peut alors donner un avis au produit
         $firstReview = true;
         $customer = $this->getUser();
-        // Si utilisateur connécté il peut alors donner un avis au produit
         if ($customer) {
+            // On vérifie si c'est son premier avis sur le produit
             foreach ($reviews as $review) {
                 if ($review->getCustomer() === $customer) {
                     $firstReview = false;
                 }
             }
+            // Si c'est le premier avis de l'utilisateur 
             if ($firstReview) {
                 $review = new Review();
                 $review->setProduct($product[0]);
@@ -71,14 +84,13 @@ class ProductController extends AbstractController
                     'reviews' => $reviews,
                     'formReview' => $form->createView(),
                 ]);
-            } else {
-                return $this->render('front/product/index.html.twig', [
-                    'product' => $product,
-                    'productSamecategory' => $productSamecategory,
-                    'reviews' => $reviews,
-                ]);
-            }
-        }
+            } 
+        } 
+        return $this->render('front/product/index.html.twig', [
+            'product' => $product,
+            'productSamecategory' => $productSamecategory,
+            'reviews' => $reviews,
+        ]);
 
     }
 }

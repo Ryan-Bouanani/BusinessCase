@@ -12,6 +12,15 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class SitemapController extends AbstractController
 {
+    /**
+     * Ce controller va servir aux robots d'indexation des moteurs de recherche de pouvoir lire le site plus intelligemment 
+     *
+     * @param Request $request
+     * @param ProductRepository $productRepository
+     * @param CategoryRepository $categoryRepository
+     * @param BrandRepository $brandRepository
+     * @return Response
+     */
     #[Route('/sitemap.xml', name: 'app_sitemap', defaults: ["_format" => "xml"])]
     public function index(
         Request $request,

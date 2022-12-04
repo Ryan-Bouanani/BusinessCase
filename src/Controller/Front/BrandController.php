@@ -15,6 +15,16 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/brand')]
 class BrandController extends AbstractController
 {
+    /**
+     * Ce controller va servir à afficher les produits d'une marque
+     *
+     * @param Brand $brand
+     * @param ProductRepository $productRepository
+     * @param Request $request
+     * @param PaginatorInterface $paginator
+     * @param FilterBuilderUpdaterInterface $builderUpdater
+     * @return Response
+     */
     #[Route('/{id}', name: 'app_brand_detail')]
     public function index(
         Brand $brand, 
@@ -28,15 +38,18 @@ class BrandController extends AbstractController
         // On récupère les produits de la marque
         $qb = $productRepository->getProductByBrand($brand->getId());
         
+        // Creation du formulaire de filtre de produit
         $filterForm = $this->createForm(FrontBrandFilterType::class, null, [
             'method' => 'GET',
         ]);
             
+        // On vérifier si la query a un paramètre du formFilter en cours, si c’est le cas, on ajoute alors notre form dans le queryBuilder
         if ($request->query->has($filterForm->getName())) {
             $filterForm->submit($request->query->all($filterForm->getName()));
             $builderUpdater->addFilterConditions($filterForm, $qb);
         }
 
+        // Pagination
         $products = $paginator->paginate(
             $qb,
             $request->query->getInt('page', 1),

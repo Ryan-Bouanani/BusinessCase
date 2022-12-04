@@ -18,7 +18,7 @@
             {{ form_label(form.categoryParent) }}
             {{ form_widget(form.categoryParent) }}
 
-            {% if form_errors(form.name) %}
+            {% if form_errors(form.categoryParent) %}
                 <div class="error">
                     {{ form_errors(form.categoryParent) }}
                 </div>

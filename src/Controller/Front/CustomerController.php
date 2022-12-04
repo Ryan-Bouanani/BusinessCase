@@ -22,7 +22,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class CustomerController extends AbstractController
 {
     /**
-     * Undocumented function
+     * Ce controller va servir à afficher le menu de la page mon compte
      *
      * @return Response
      */
@@ -43,17 +43,25 @@ class CustomerController extends AbstractController
     }
 
     #[Route('/order', name: 'app_customer_order')]
+    /**
+     * Ce controller va servir à afficher les anciennes commande de l'utilisateur
+     *
+     * @param BasketRepository $basketRepository
+     * @param ShoppingCartService $shoppingCartService
+     * @return Response
+     */
     public function order(
         BasketRepository $basketRepository,
         ShoppingCartService $shoppingCartService,
         ): Response
     {
+        // Si l'utilisateur n'est pas connecté, on le redirige vers la page de connexion
         /** @var Customer $customer*/
         $customer = $this->getUser();
-        // Si l'utilisateur n'est pas connecté, on le redirige vers la page de connexion
         if (!$customer) {
             return $this->redirectToRoute('app_login');
         }
+
         // On récupere les commandes de l'utilisateur
         $orders = $basketRepository->findLastBasketWithCustomer($customer->getId());
         // On récupere le total de chaque commande
@@ -69,6 +77,15 @@ class CustomerController extends AbstractController
         ]);
     }
 
+    /**
+     * Ce controller va servir à afficher et modifier les donées personnelles de l'utilisateur
+     *
+     * @param Request $request
+     * @param AddressRepository $addressRepository
+     * @param CustomerRepository $customerRepository
+     * @param UserPasswordHasherInterface $hasher
+     * @return Response
+     */
     #[Route('/personalData', name: 'app_customer_personalData')]
     public function personalData(
         Request $request,
@@ -77,10 +94,8 @@ class CustomerController extends AbstractController
         UserPasswordHasherInterface $hasher
         ): Response
     {
-         // On récupère l'utilisateur
-         $customer = $this->getUser();
-
          // Si l'utilisateur n'est pas connecté, on le redirige vers la page de connexion
+         $customer = $this->getUser();
          if (!$customer) {
              return $this->redirectToRoute('app_login');
          }

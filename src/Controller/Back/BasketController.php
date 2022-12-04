@@ -25,6 +25,15 @@ use Symfony\Component\Routing\Annotation\Route;
 #[IsGranted('ROLE_ADMIN')]
 class BasketController extends AbstractController
 {
+    /**
+     * Ce controller va servir à afficher la liste des commandes 
+     *
+     * @param BasketRepository $basketRepository
+     * @param PaginatorInterface $paginator
+     * @param Request $request
+     * @param FilterBuilderUpdaterInterface $builderUpdater
+     * @return Response
+     */
     #[Route('/', name: 'app_basket_index', methods: ['GET'])]
     public function index(
         BasketRepository $basketRepository,
@@ -36,15 +45,18 @@ class BasketController extends AbstractController
     {
         $qb = $basketRepository->getQbAll();
 
+        // Creation du formulaire de filtre de commande
         $filterForm = $this->createForm(OrderFilterType::class, null, [
             'method' => 'GET',
         ]);
 
+        // On vérifier si la query a un paramètre du formFilter en cours, si c’est le cas, on ajoute alors notre form dans le queryBuilder
         if ($request->query->has($filterForm->getName())) {
             $filterForm->submit($request->query->all($filterForm->getName()));
             $builderUpdater->addFilterConditions($filterForm, $qb);
         }
 
+        // Pagination
         $baskets = $paginator->paginate(
             $qb,
             $request->query->getInt('page', 1),
@@ -57,6 +69,14 @@ class BasketController extends AbstractController
         ]);
     }
 
+    /**
+     * Ce controller va servir à l'ajout d'une commande
+     *
+     * @param Request $request
+     * @param BasketRepository $basketRepository
+     * @param AddressRepository $addressRepository
+     * @return Response
+     */
     #[Route('/new', name: 'app_basket_new', methods: ['GET', 'POST'])]
     public function new(Request $request, BasketRepository $basketRepository, AddressRepository $addressRepository): Response
     {
@@ -107,10 +127,17 @@ class BasketController extends AbstractController
         ]);
     }
 
+    /**
+     * Ce controller va servir la modification d'une commande
+     *
+     * @param Request $request
+     * @param Basket $basket
+     * @param BasketRepository $basketRepository
+     * @return Response
+     */
     #[Route('/{id}/edit', name: 'app_basket_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Basket $basket, BasketRepository $basketRepository): Response
     {
-
         $address = $basket->getAddress();
         // On récupere le contenue de chaques paniers
         $contentShoppingCarts = $basket->getContentShoppingCarts();
@@ -119,7 +146,7 @@ class BasketController extends AbstractController
         $formBasket = $this->createForm(BasketType::class, $basket, ['contentShoppingCarts' => $contentShoppingCarts]);
         $formAddress = $this->createForm(AddressType::class, $address);
         
-        // Et on écoute le formulaire
+        // On inspecte les requettes du formulaire
         $formBasket->handleRequest($request);
 
         // Si le form est envoyé et valide
@@ -131,19 +158,13 @@ class BasketController extends AbstractController
                 $line->setQuantity($quantity);
                 $count++;
             }
+            // On met la commande à jour en bdd
+            $basketRepository->add($basket, true);
 
             $this->addFlash(
                 'success',
                 'Votre commande a été modifié avec succès !'
             );
-
-            // On met la commande à jour en bdd
-            $basketRepository->add($basket, true);
-            // if (empty($contentShoppingCarts)) {
-            //     // Si commande vide on supprime la commande
-            //     $basketRepository->remove($basket);
-            // };
-
             return $this->redirectToRoute('app_basket_index', [], Response::HTTP_SEE_OTHER);
         } else {
             $this->addFlash(
@@ -159,17 +180,34 @@ class BasketController extends AbstractController
         ]);
     }
 
+    /**
+     * Ce controller va servir à la suppression d'une commande 
+     *
+     * @param Request $request
+     * @param Basket $basket
+     * @param BasketRepository $basketRepository
+     * @return Response
+     */
     #[Route('/{id}/delete', name: 'app_basket_delete', methods: ['POST'])]
     public function delete(Request $request, Basket $basket, BasketRepository $basketRepository): Response
     {
+        // On vérifie si le token est valide
         if ($this->isCsrfTokenValid('delete'.$basket->getId(), $request->request->get('_token'))) {
+            // On supprime la commande en bdd
             $basketRepository->remove($basket, true);
         }
-
         return $this->redirectToRoute('app_basket_index', [], Response::HTTP_SEE_OTHER);
     }
 
 
+    /**
+     * Ce controller va servir à supprimer un produit de la commande 
+     *
+     * @param ContentShoppingCart $contentShoppingCart
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @return Response
+     */
     #[Route('/delete/lineShoppingCart/{id}', name: 'app_basket_deleteLineContentShoppingCart', methods: ['DELETE'])]
     public function deleteLineShoppingCart(
         ContentShoppingCart $contentShoppingCart, 
@@ -193,6 +231,17 @@ class BasketController extends AbstractController
         }
     }
 
+    /**
+     * Ce controller va servir à ajouter un produit au sein de la commande
+     *
+     * @param Basket $basket
+     * @param string $product
+     * @param string $quantity
+     * @param Request $request
+     * @param EntityManagerInterface $entityManager
+     * @param ProductRepository $productRepository
+     * @return Response
+     */
     #[Route('/add/contentShoppingCart/{id}/{product?}/{quantity?}', name: 'app_basket_addContentShoppingCart', methods: ['POST'])]
     public function addContentShoppingCart(
         Basket $basket, 
@@ -208,11 +257,13 @@ class BasketController extends AbstractController
             // On vérifie si le token est valide
             if ($this->isCsrfTokenValid('addContentShoppingCart' . $basket->getId(), $data['_token'])) {
 
+                // On récupere le produit qui va être ajouté à la commande
                 $product = $productRepository->findOneBy(['title' => $product]);
                 
+                // On récupere les lignes de la commande
                 $contentShoppingCarts = $basket->getContentShoppingCarts();
-                // dd($basket->getContentShoppingCarts());
                 
+                // Pour chaque ligne de la commande
                 foreach ($contentShoppingCarts as $contentShoppingCart) {
                     
                     // On vérifie si le produit entré n'est pas déja dans la panier
@@ -221,7 +272,7 @@ class BasketController extends AbstractController
                     }
                 }
             
-                // On initialise les données de notre contentShoppingCart
+                // On initialise les données de notre contentShoppingCart (ligne de commande)
                 $newContentshoppingCart = new ContentShoppingCart();
                 $newContentshoppingCart->setProduct($product);
                 $newContentshoppingCart->setQuantity($quantity);
@@ -234,6 +285,7 @@ class BasketController extends AbstractController
                 $entityManager->persist($basket);
                 $entityManager->flush();
                 
+                // Creation du formulaire de commande
                 $formBasket = $this->createForm(BasketType::class, $basket, ['contentShoppingCarts' => $contentShoppingCarts]);
 
             // On répond en JSON
