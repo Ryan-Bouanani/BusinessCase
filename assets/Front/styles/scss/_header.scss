@@ -494,7 +494,7 @@ header.home::after {
             width: 90%;
             margin: 0 auto;
             justify-content: center;
-            gap: 3rem;
+            gap: 1rem;
         }
 
         .search-menu-mobile {
@@ -630,6 +630,11 @@ header.home::after {
 @media (min-width: 800px) and (max-width: 905px) {
     header .bottom-nav ul {
         gap: 2rem;
+    }
+}
+@media (min-width: 1000px) {
+    header .top-nav {
+        gap: 3rem;
     }
 }
 @media (min-width: 905px) {

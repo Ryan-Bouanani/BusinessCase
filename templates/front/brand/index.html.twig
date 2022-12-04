@@ -7,6 +7,7 @@
     {% include "/front/partials/_allProducts.html.twig" with {
         filterBy: 'category',
         entity: brand,
+        name: brand.label,
         route: 'app_brand_detail',
     } %}
 
