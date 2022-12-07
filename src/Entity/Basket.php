@@ -258,7 +258,7 @@ use Doctrine\ORM\Mapping as ORM;
         ],     
     ],
     itemOperations: [
-        'get'
+        // 'get'
     ],
 )]
 class Basket

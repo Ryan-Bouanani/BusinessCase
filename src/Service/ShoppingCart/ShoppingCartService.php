@@ -59,7 +59,6 @@ class ShoppingCartService {
             $shoppingCart = new Basket();
             $session->set('shoppingCart', $shoppingCart);
         } else {
-            
             // Je recupere mon entité panier et mon entité contentshoppingCart
             $shoppingCart = $session->get('shoppingCart', []);
             $shoppingCart = $this->basketRepository->find($shoppingCart->getId());
@@ -142,7 +141,7 @@ class ShoppingCartService {
 
         // Si le panier est vide alors on supprime le panier
         if (empty($basket)) {
-            $this->basketRepository->remove($shoppingCart);
+            $this->basketRepository->remove($shoppingCart, true);
             $session->remove('basket');
             $session->remove('shoppingCart');
         } else {
@@ -150,8 +149,6 @@ class ShoppingCartService {
             $session->set('basket', $basket);
             $session->set('shoppingCart', $shoppingCart);
         }
-        // On met à jour en bdd
-        $this->entityManager->flush();
         
     }
     public function getFullCart(): array {
@@ -222,7 +219,8 @@ class ShoppingCartService {
 
         // Si ancien panier existant on supprime le nouveau
         $oldShoppingCart = $this->basketRepository->findBasketWithCustomer($customer->getId());
-        if ($oldShoppingCart) {
+
+        if ($oldShoppingCart && ($oldShoppingCart !== $shoppingCart)) {
             if ($shoppingCart) {
                 $this->basketRepository->remove($shoppingCart, true);
             }
@@ -321,11 +319,16 @@ class ShoppingCartService {
                 }
             }    
         }
-
-        
-        // Et on met à jour notre basket
-        $session->set('basket', $basket);
-        $session->set('shoppingCart', $shoppingCart);
+          // Si le panier est vide alors on supprime le panier
+          if (empty($basket)) {
+            $this->basketRepository->remove($shoppingCart, true);
+            $session->remove('basket');
+            $session->remove('shoppingCart');
+        } else {
+            // Sinon on met à jour notre basket
+            $session->set('basket', $basket);
+            $session->set('shoppingCart', $shoppingCart);
+        }
     }
 }
 ?>

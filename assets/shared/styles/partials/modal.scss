@@ -49,6 +49,15 @@
     select {
         width: 100%;
     }
+    .mb {
+        margin-bottom: 1rem;
+    }
+    textarea {
+        resize: none;
+        min-height: 8rem;
+        padding: 10px;
+        outline: none;
+    }
 }
 .overlayClose {
     display: none;

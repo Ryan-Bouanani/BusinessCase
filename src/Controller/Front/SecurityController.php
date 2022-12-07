@@ -84,19 +84,11 @@ class SecurityController extends AbstractController
             // On met à jour la session avec le panier
             $shoppingCartService->transformShoppingCartToBasketSesion(); 
 
-            $shoppingCart = $session->get('shoppingCart', []);  
-            $shoppingCart = $basketRepository->find($shoppingCart->getId()); 
-
-            // On ajoute le client au panier maintenant qu'il est connecté
-                 /** @var Basket $shoppingCart*/
-            //    $shoppingCart = $session->get('shoppingCart', []);
-            //    $shoppingCart = $basketRepository->find($shoppingCart->getId());
-            //    $shoppingCart->setCustomer($user);
-            //    $basketRepository->add($shoppingCart, true);
            } else {
                 return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
            }
-           
+           $shoppingCart = $session->get('shoppingCart', []);  
+           $shoppingCart = $basketRepository->find($shoppingCart->getId());
            if ($shoppingCart) {
                 // Si la commande possède une adresse et/ou un moyen de paiement alors on redirige 
                if ($shoppingCart->getAddress() !== null) {           

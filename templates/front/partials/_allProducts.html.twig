@@ -10,7 +10,7 @@
                 <legend>Par prix :</legend>
                 {{ form_widget(filters.priceExclVat)}}  
                 {{ form_widget(filters[filterBy])}}
-                <button class="button" type="submit">Rechercher</button>
+                <button class="button btnSubmitForm mb" type="submit">Rechercher</button>
             {{ form_end(filters) }}
 
             <a href="{{ path(route, {id: entity.id}) }}" class="button">Reset les filtres</a>

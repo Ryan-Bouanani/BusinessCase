@@ -21,9 +21,8 @@ class StarProductExtension extends AbstractExtension
      * Cette fonction va permettre de formatter l'affichage d'une note sous forme d'étoiles
      *
      * @param float $note
-     * @return string
      */
-    public function stars(float $note): string
+    public function stars(float $note = 0): string
     {
         $stars = [
             '<i class=" yellow fa-solid fa-star"></i>',
@@ -32,26 +31,23 @@ class StarProductExtension extends AbstractExtension
             '<i class=" yellow fa-solid fa-star"></i>',
             '<i class=" yellow fa-solid fa-star"></i>'
         ];
+        if ($note < 4.5 and $note >= 3.5) {
+            $stars = $this->forStars(4, $stars);
+        } elseif ($note < 3.5 and $note >= 2.5) {
+            $stars = $this->forStars(3, $stars);
 
-        if ($note) {
-            if ($note < 4.5 and $note >= 3.5) {
-                $stars = $this->forStars(4, $stars);
-            } elseif ($note < 3.5 and $note >= 2.5) {
-                $stars = $this->forStars(3, $stars);
-    
-            } elseif ($note < 2.5 and $note >= 1.5) {
-                $stars = $this->forStars(2, $stars);
-    
-            } elseif ($note < 1.5 and $note >= 0.5) {
-                $stars = $this->forStars(1, $stars);
-    
-            } elseif ($note < 0.5 and $note >= 0) {
-                $stars = $this->forStars(0, $stars);
-            }
-            // On transform le tableau en string pour pouvoir l'afficher
-            $stars = implode("", $stars); 
-            return $stars;
+        } elseif ($note < 2.5 and $note >= 1.5) {
+            $stars = $this->forStars(2, $stars);
+
+        } elseif ($note < 1.5 and $note >= 0.5) {
+            $stars = $this->forStars(1, $stars);
+
+        } elseif ($note < 0.5 and $note >= 0) {
+            $stars = $this->forStars(0, $stars);
         }
+        // On transform le tableau en string pour pouvoir l'afficher
+        $stars = implode("", $stars); 
+        return $stars;
     }
     // Pour chaque étoile qui ne doit pas être colorée on retire la classe yellow
     public function forStars($keyStars, $stars) {

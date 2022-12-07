@@ -99,7 +99,7 @@ h1.h1Home {
     font-size: $h1;
     letter-spacing: 5px;
     margin-bottom: 0.3rem;
-    z-index: 100;
+    z-index: 20;
 }
 h2.h2 {
     font-size: $h2;
@@ -305,7 +305,9 @@ main {
         }
     }
 }
-
+#new-products {
+    padding-top: 2rem;
+}
 
 // Arrow scroll top
 

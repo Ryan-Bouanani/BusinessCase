@@ -132,7 +132,6 @@ class ShoppingCartController extends AbstractController
         Request $request,
         ) 
     {
-
         // On enleve un fois le produit de notre panier
         $shoppingCartService->substractQuantity($product);
 

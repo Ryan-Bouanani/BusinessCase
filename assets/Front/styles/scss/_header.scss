@@ -536,6 +536,7 @@ header.home::after {
             width: fit-content;
             margin: 0 auto;
             margin: 0.5rem auto 2rem auto;
+            z-index: 40;
 
             ul.listCategories {
                 margin-bottom: 0;
@@ -570,13 +571,11 @@ header.home::after {
                 width: 100%;
                 max-height: fit-content;
                 padding-left: 0;
-                // display: grid;
-                // grid-template-columns: repeat(4, 1fr);
                 gap: 30px;
                 padding: 30px;
                 border: 1px solid hsl(0, 0%, 93%);
                 a:hover {
-                    color: hsl(0, 0%, 33%);;
+                    color: $colorGradient
                 }
             }
             ul {

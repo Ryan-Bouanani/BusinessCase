@@ -53,7 +53,7 @@ class BrandController extends AbstractController
         $products = $paginator->paginate(
             $qb,
             $request->query->getInt('page', 1),
-            10
+            12
         );
         return $this->render('front/brand/index.html.twig', [
             'brand' => $brand,
