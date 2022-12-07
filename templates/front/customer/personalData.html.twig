@@ -177,10 +177,14 @@
                             <button class="btnUpdate"><i class="fa-solid fa-location-dot"></i></button>
                         </div>
                         <div class="leftContainer">
-                            <p>{{ customer.address.firstName }} {{ customer.address.lastName }}</p>
-                            <p>{{ customer.address.line1 }}</p>
-                            <p>{{ customer.address.city }}, {{ customer.address.postalCode }}</p>
-                            <p>{{ customer.address.city }}</p>
+                            {% if customer.address is define %}                     
+                                <p>{{ customer.address.firstName }} {{ customer.address.lastName }}</p>
+                                <p>{{ customer.address.line1 }}</p>
+                                <p>{{ customer.address.city }}, {{ customer.address.postalCode }}</p>
+                                <p>{{ customer.address.city }}</p>
+                            {% else %}
+                                <p>Ajouter une adresse</p>
+                            {% endif %}
                         </div>
                     </div>
                     <div class="right">

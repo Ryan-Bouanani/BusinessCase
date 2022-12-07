@@ -33,6 +33,15 @@ body::-webkit-scrollbar {
 body::-webkit-scrollbar-thumb {
     @include gradient-bg();
 }
+body {
+    width: 100vh;
+}
+
+@media screen and (min-width: 800px) {
+    body {
+        width: 100%;
+    }
+}
 input {
     border: none;
     outline: none;
@@ -103,6 +112,8 @@ h1.h1Home {
 }
 h2.h2 {
     font-size: $h2;
+    width: max-content;
+    margin: 0 auto;
 }
 h2.h2:not(.h2Newletter) {
     margin-bottom: 4rem;
@@ -128,12 +139,12 @@ h2.h2:not(.h2Newletter)::before {
     // * ARROWS SLIDER
 main {
     .arrow_left {
-        left: -50px;
+        left: -35px;
         background: url(/assets/img/arrow-left-orange.svg);
     }
 
     .arrow_right {
-        right: -50px;
+        right: -35px;
         background: url(/assets/img/arrow-right-orange.svg);
     }
     .arrow_left, .arrow_right {
@@ -148,6 +159,30 @@ main {
         cursor: pointer;
         z-index: 10;
     }
+    @media screen and (min-width: 500px) {
+        .arrow_left {
+            left: -50px;
+        }
+        .arrow_right {
+            right: -50px;
+        }
+    }
+    
+@media screen and (max-width: 250px) {
+    body {
+        width: 110%;
+        main .arrow_left {
+            left: -20px;
+        }
+        main .arrow_right {
+            right: -20px;
+        }
+        .h1Home {
+            font-size: 3.2rem;
+        }
+    }
+
+}
 }
 
 
@@ -335,18 +370,3 @@ main {
     }    
 }
 
-@media screen and (max-width: 340px) {
-    body {
-        width: 110%;
-        main .arrow_left {
-            left: -20px;
-        }
-        main .arrow_right {
-            right: -20px;
-        }
-        .h1Home {
-            font-size: 3.2rem;
-        }
-    }
-
-}
