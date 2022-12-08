@@ -46,12 +46,6 @@ class ShoppingCartService {
         $id = $product->getId();
         
         $session = $this->requestStack->getSession();
-        // dd($session->get('shoppingCart', []));
-
-        // $session->remove('basket');
-        // $session->remove('shoppingCart');
-        // $session->remove('QTY');
-        // dd($session);
 
         // Si panier pas encore crée, on en crée un et le stock en session,
         $customer = $this->security->getUser();
@@ -96,7 +90,6 @@ class ShoppingCartService {
 
         // Peu importe si le produit est déja dans la panier ou non on met à jour la quantité dans la ligne du panier
         $contentShoppingCart->setQuantity( $basket[$id]);
-        
         // On ajoute la ligne de panier au panier
         $shoppingCart->addContentShoppingCart($contentShoppingCart);
 

@@ -34,6 +34,9 @@ class ProductController extends AbstractController
 
         // On récupere les info précises du produit
         $product = $productRepository->getProductInfo($id);
+        if (!$product[0]->isActive()) {
+            return $this->redirectToRoute('app_home');
+        }
     
         // On récupere les produits de la même catégory
         $productSamecategory = $productRepository->getProductSameCategory($product[0]->getCategory()->getId(), 6);

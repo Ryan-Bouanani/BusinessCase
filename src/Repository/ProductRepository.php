@@ -2,8 +2,10 @@
 
 namespace App\Repository;
 
+use App\Entity\Image;
 use App\Entity\Product;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query\Expr\Join;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -82,16 +84,16 @@ class ProductRepository extends AbstractRepository
     // Récupère la produit correspondant au bon id
     public function getProductInfo(int $id): array {
         return $this->createQueryBuilder('product')
-            ->select('product, AVG(review.note) AS Note, COUNT(DISTINCT (review)) AS Avis')
+            ->select('product', 'image', 'AVG(review.note) AS Note, COUNT(DISTINCT (review)) AS Avis')
+            ->leftJoin('product.images', 'image')
             ->leftJoin('product.reviews', 'review')
-            ->where('product.id = :id')
-            ->groupBy('product')
+            ->where('product = :id')
+            ->groupBy('image')
             ->setParameter('id', $id)
             ->getQuery()
             ->getOneOrNullResult();
         ;
     }
-
     // Récupère les produits de la même catégorie
     public function getProductSameCategory(int $id, $limit = null, $categorieParent = null): QueryBuilder {
         $query =  $this->createQueryBuilder('product')

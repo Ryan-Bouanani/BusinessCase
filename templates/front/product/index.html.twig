@@ -9,7 +9,7 @@
     <div class="topProduct">
         <div class="imagesProduct">
             <div class="imagesSecondary">
-                {% for image in product[0].images %}              
+                {% for image in product[0].images %}             
                     <img src="{{ asset("build/images/" ~ image.path) }}" alt="{{ product[0].title }}">
                 {% endfor %}
             </div>

@@ -61,7 +61,7 @@ class ShoppingCartController extends AbstractController
         // On récupere le produit
         $product = $productRepository->find($id);
         // Si produit inexistant on renvoie une erreur
-        if (!$product) {
+        if (!$product || !$product->isActive()) {
             throw $this->createNotFoundException("Le produit $id n'éxiste pas");
         }
         // On ajoute l'id du produit à notre panier
@@ -87,8 +87,7 @@ class ShoppingCartController extends AbstractController
     public function remove(
         Product $product, 
         ShoppingCartService $shoppingCartService
-        ) {
-
+        ) {         
         // On supprime le produit de notre panier
         $shoppingCartService->remove($product);
 
@@ -292,6 +291,7 @@ class ShoppingCartController extends AbstractController
                 'error',
                 'Veuillez sélectionner un moyen de paiement'
             );
+            dd($form->isSubmitted() && !$form->isValid());
         }
 
         return $this->renderForm('front/shoppingCart/payment.html.twig', [

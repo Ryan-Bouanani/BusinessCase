@@ -33,15 +33,7 @@ body::-webkit-scrollbar {
 body::-webkit-scrollbar-thumb {
     @include gradient-bg();
 }
-body {
-    width: 100vh;
-}
 
-@media screen and (min-width: 800px) {
-    body {
-        width: 100%;
-    }
-}
 input {
     border: none;
     outline: none;
@@ -356,6 +348,7 @@ main {
     background-size: cover;
     opacity: 0;
     cursor: pointer;
+    z-index: 100;
 }
 .arrowScrollTop.display {
     opacity: 1;
