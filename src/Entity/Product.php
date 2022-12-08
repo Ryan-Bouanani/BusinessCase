@@ -140,7 +140,9 @@ class Product
     ])]
     private Collection $reviews;
 
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ContentShoppingCart::class)]
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ContentShoppingCart::class, cascade: [
+        'remove'
+    ])]
     private Collection $contentShoppingCarts;
 
 

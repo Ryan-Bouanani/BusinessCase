@@ -20,10 +20,12 @@ table {
     thead .colCategory {
         min-width: 10rem;
     }
+    thead .colLabel {
+        min-width: 10rem;
+    }
     .btnAction:first-child {
         margin-bottom: 0.2rem;
     }
-
     img {
         width: 4rem;
         background-size: contain;

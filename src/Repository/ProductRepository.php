@@ -127,22 +127,30 @@ class ProductRepository extends AbstractRepository
     }
 
     // Récupère les produits de la même catégorie
-    public function getProductByBrand(int $id): QueryBuilder {
-        return $this->createQueryBuilder('product')
+    public function getProductByBrand(int $id, $productId = null, $limit = null) : QueryBuilder| array {
+        $query = $this->createQueryBuilder('product')
             ->select('product, image, AVG(review.note) AS Note, COUNT(review) AS Avis')
             ->leftJoin('product.images', 'image')
             ->leftJoin('product.reviews', 'review')
-            // ->join('product.brand', 'brand')
             ->where('image.isMain = true')
             ->andWhere('product.active = 1')
             ->andWhere('product.brand = :id')
             ->setParameter('id', $id)
-            ->groupBy('product')
-        ;
+            ->groupBy('product');
+            if (isset($limit)) {
+                $query = $query
+                ->andWhere('product != :productId')
+                ->setParameter('productId', $productId)
+                ->setMaxResults(10)
+                ->getQuery()
+                ->getResult();
+            }
+            return $query;
+
     }
 
     // Récupère la produit correspondant au bon id
-    public function getProductShoppingCart(int $id): Product {
+    public function getProductShoppingCart(int $id): Product | null {
         return $this->createQueryBuilder('product')
             ->select('product', 'image')
             ->leftjoin('product.images', 'image')

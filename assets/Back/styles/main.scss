@@ -50,10 +50,20 @@ input, select {
 }
 
 .btnBack {
-  margin-left: 2rem;
-  margin-top: 2rem;
   display: inline-block;
 }
 div ul li {
   list-style-type: none;
+}
+textarea {
+  resize: none;
+  padding: 5px 10px;
+  outline: none;
+  min-height: 6rem;
+}
+
+.btnTopAdmin {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

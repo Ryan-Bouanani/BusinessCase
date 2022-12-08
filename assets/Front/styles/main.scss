@@ -210,7 +210,7 @@ main {
         text-align: center;
         padding: 2rem 0;
         width: 150px;
-        height: 17rem;
+        height: 16rem;
         box-shadow: 0 0 7px rgb(0 0 0 / 20%);
         background: $white;
         border-radius: 5px;
@@ -254,16 +254,14 @@ main {
         color: #FFE600;
     }
     .p-1 {
-        // width: 35%;
         font-weight: bold;
         color: $colorGradient;
-        font-size: 0.7rem;
+        font-size: 0.8rem;
         display: inline;
     }
     .price {
         font-weight: bold;
         font-size: 1rem;
-        // color: $redPrice;
         color: $colorGradient;
     }
     .priceInline {

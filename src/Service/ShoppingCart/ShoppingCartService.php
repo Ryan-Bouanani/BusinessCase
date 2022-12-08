@@ -152,11 +152,30 @@ class ShoppingCartService {
         $basketWithData = [];
         $quantityToal = 0;
         foreach ($basket as $id => $quantity) {
-            $basketWithData[] = [
-                'product' => $this->productRepository->getProductShoppingCart($id),
-                'quantity' => $quantity,
-            ];
-            $quantityToal+= $quantity;
+        
+            // On vérifie quele produit éxiste
+            if ($this->productRepository->getProductShoppingCart($id) !== null) {
+                $basketWithData[] = [
+                    'product' => $this->productRepository->getProductShoppingCart($id),
+                    'quantity' => $quantity,
+                ];
+                $quantityToal+= $quantity;
+
+            // Si admin supprime produit, on supprime le produits des paniers
+            } else {
+                if (!empty($basket)) {
+                    unset($basket[$id]);
+                }  
+                if (empty($basket)) {
+                    if (empty($basket)) {
+                        $session->remove('basket');
+                        $session->remove('shoppingCart');
+                    } else {
+                        // Sinon on met à jour notre basket
+                        $session->set('basket', $basket);
+                    }
+                }
+            }
         };
         // On enregistre la quantité totale dans la session
         $session->set('QTY', $quantityToal);

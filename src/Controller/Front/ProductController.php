@@ -41,13 +41,13 @@ class ProductController extends AbstractController
         // On récupere les produits de la même catégory
         $productSamecategory = $productRepository->getProductSameCategory($product[0]->getCategory()->getId(), 6);
 
-        // $samemark = $productRepository->findSameMark($product[0][0]->getMark()->getId());
+        $productSameBrand = $productRepository->getProductByBrand($product[0]->getBrand()->getId(), $product[0], 10);
 
         $reviews = $reviewRepository->getAllReviewProduct($id, $request->query->getInt('page', 1));
-
         // Si utilisateur connécté il peut alors donner un avis au produit
         $firstReview = true;
         $customer = $this->getUser();
+        // dd($productSameBrand);
         if ($customer) {
             // On vérifie si c'est son premier avis sur le produit
             foreach ($reviews as $review) {
@@ -86,6 +86,7 @@ class ProductController extends AbstractController
                     'productSamecategory' => $productSamecategory,
                     'reviews' => $reviews,
                     'formReview' => $form->createView(),
+                    'productSameBrand' => $productSameBrand,
                 ]);
             } 
         } 
@@ -93,6 +94,7 @@ class ProductController extends AbstractController
             'product' => $product,
             'productSamecategory' => $productSamecategory,
             'reviews' => $reviews,
+            'productSameBrand' => $productSameBrand,
         ]);
 
     }

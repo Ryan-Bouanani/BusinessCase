@@ -11,12 +11,14 @@ html {
     gap: 1.8rem;
 
     .form {
-        overflow-x: scroll;
         margin: 2rem auto;
         padding: 20px 30px;
         width: 90%;
         max-width: 600px;
         background: white ;
+        form {
+        overflow-x: scroll;
+        }
     }
     h1 {
         font-weight: 700;

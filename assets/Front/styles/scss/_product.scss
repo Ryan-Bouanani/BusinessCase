@@ -4,10 +4,11 @@
 #productSection {
 
     h2 {
-        margin: 2rem 0 1rem 0;
-    }
-    .price {
-        font-size: 1.5rem;
+        margin: 1.5rem 0 1rem 0;
+        font-size: 1.3rem;
+        border-bottom: 1px solid #d3d2d2;
+        padding-bottom: 0.3rem;
+        font-weight: 600;
     }
     .topProduct {
         display: flex;
@@ -62,6 +63,10 @@
         flex-direction: column;
         gap: 0.5rem;
         margin-bottom: 2rem;
+
+        .price {
+            font-size: 1.5rem;
+        }
     
         .stars i {
             font-size: 1.2rem;
@@ -101,6 +106,10 @@
         flex-direction: column;
         gap: 1rem;
         margin-bottom: 3rem;
+        button {
+            max-width: 13rem;
+            font-weight: 600;
+        }
     }
     .review {           
         display: flex;
@@ -113,12 +122,31 @@
             font-size: 1rem;
         }
         .reviewCustomer {
-            font-weight: 700;
+            font-weight: 600;
         }
         .reviewComment, .reviewDate {
             color: #555555;
             font-size: 14px;
         }
+    }
+    .similarProducts {
+        width: 100%;
+
+        // .card {
+        //     height: 15rem;
+        //     img {
+        //        height: 85px;
+        //    }
+        // }
+        // h3 {
+        //     font-size: 1rem;
+        // }
+        // div.stars i {
+        //     font-size: 0.8rem;
+        // }
+        // del {
+        //     font-size: 0.9rem;
+        // }
     }
 
 
