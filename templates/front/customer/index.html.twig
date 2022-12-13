@@ -7,6 +7,10 @@
 <section class="container-me">
     <h1 class="h1Account">Mon compte</h1>
 
+    {% if 'ROLE_ADMIN' in app.user.getRoles()  %}
+        <a class="btn logout backCustomer" href=" {{ path('app_product_index') }}">ADMIN</a>
+    {% endif %}
+
     <a class="linkAccount" href="{{ path('app_customer_order')}}">
         <div class="divAccount">
             <div class="left">
