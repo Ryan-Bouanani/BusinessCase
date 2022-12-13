@@ -118,33 +118,33 @@ class CustomerController extends AbstractController
                  );
              }
         // 
-         // * FORM ADRESSE
-             // Si l'utilisateur n'a pas d'adresse onen crée une
-             /** @var Customer $customer*/
-             if (is_null($customer->getAddress())){
-                 $address = new Address();
-             } else {
-                 $address = $customer->getAddress();
-             }
-             // Creation du formulaire d'adresse
-             $formAddress = $this->createForm(AddressType::class, $address);
- 
-                 // On inspecte les requettes du formulaire
-                 $formAddress->handleRequest($request);
- 
-                 // Si le formulaire est envoyé et valide
-                 if ($formAddress->isSubmitted() && $formAddress->isValid()) {
-                     // On ajoute l'addresse en bdd
-                     $addressRepository->add($address, true);
-                     $customer->setAddress($address);
-                     $customerRepository->add($customer, true);
- 
-                     $this->addFlash(
-                         'success',
-                         'Votre adresse a bien été modifié.'
-                     );
-                 }
-         // 
+        // * FORM ADRESSE
+            // Si l'utilisateur n'a pas d'adresse onen crée une
+            /** @var Customer $customer*/
+            if (is_null($customer->getAddress())){
+                $address = new Address();
+            } else {
+                $address = $customer->getAddress();
+            }
+            // Creation du formulaire d'adresse
+            $formAddress = $this->createForm(AddressType::class, $address);
+
+                // On inspecte les requettes du formulaire
+                $formAddress->handleRequest($request);
+
+                // Si le formulaire est envoyé et valide
+                if ($formAddress->isSubmitted() && $formAddress->isValid()) {
+                    // On ajoute l'addresse en bdd
+                    $addressRepository->add($address, true);
+                    $customer->setAddress($address);
+                    $customerRepository->add($customer, true);
+
+                    $this->addFlash(
+                        'success',
+                        'Votre adresse a bien été modifié.'
+                    );
+                }
+        // 
         //  * FORM CHANGE EMAIL
                // Creation du formulaire de changement de mail
                $formEmail = $this->createForm(UserEmailType::class);
@@ -174,42 +174,42 @@ class CustomerController extends AbstractController
                            'Le mot de passe renseigné est incorrect.'
                        );
                    }
-               }
+               } 
         // 
-         // * FORM CHANGE PASSWORD
-             // Creation du formulaire de changement de mot de passe 
-             $passForm = $this->createForm(UserPasswordType::class);
- 
-             // On inspecte les requettes du formulaire
-             $passForm->handleRequest($request);
-             
-             // Si le formulaire est envoyé et valide
-             if ($passForm->isSubmitted() && $passForm->isValid()) {
-                 if ($hasher->isPasswordValid($customer, $passForm->getData()['password'])) {
- 
-                     // Et on set le nouveau mot de passe en le hachant
-                     $customer->setPassword(
-                         $hasher->hashPassword(
-                             $customer,
-                         $passForm->getData()['newPassword']
-                         )
-                     );
- 
-                     $this->addFlash(
-                         'success',
-                         'Le mot de passe a bien été modifié.'
-                     );
- 
-                     // On met l'utilisateur ç jour en bdd
-                     $customerRepository->add($customer, true);
-                 } else {
-                     $this->addFlash(
-                         'error',
-                         'Le mot de passe renseigné est incorrect.'
-                     );
-                 }
-             }
-         // 
+        // * FORM CHANGE PASSWORD
+            // Creation du formulaire de changement de mot de passe 
+            $passForm = $this->createForm(UserPasswordType::class);
+
+            // On inspecte les requettes du formulaire
+            $passForm->handleRequest($request);
+            
+            // Si le formulaire est envoyé et valide
+            if ($passForm->isSubmitted() && $passForm->isValid()) {
+                if ($hasher->isPasswordValid($customer, $passForm->getData()['password'])) {
+
+                        // Et on set le nouveau mot de passe en le hachant
+                        $customer->setPassword(
+                            $hasher->hashPassword(
+                                $customer,
+                            $passForm->getData()['newPassword']
+                            )
+                        );
+
+                        $this->addFlash(
+                            'success',
+                            'Le mot de passe a bien été modifié.'
+                        );
+
+                        // On met l'utilisateur ç jour en bdd
+                        $customerRepository->add($customer, true);
+                    } else {
+                        $this->addFlash(
+                            'error',
+                            'Le mot de passe renseigné est incorrect.'
+                        );
+                }
+            }
+        // 
  
          return $this->render('front/customer/personalData.html.twig', [
              'addressForm' => $address,

@@ -7,6 +7,9 @@
     <section class="container-me" id="shoppingCartSection">
 
         <h1>Commandes</h1>
+
+        <a class="btn backCustomer" href=" {{ path('app_customer') }}">Retour</a>
+
         <div class="ordersContainer">
             {% for key, order in orders %}
                 <div class="orderContainer">
@@ -31,6 +34,8 @@
                         } %} 
                     </div>
                 </div>
+            {% else %}
+                <p>Vous n'avez pas éffectué du commande</p>
             {% endfor %}
         </div>
     </section>

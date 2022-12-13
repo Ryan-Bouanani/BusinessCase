@@ -16,6 +16,7 @@
         "fakerphp/faker": "^1.20",
         "knplabs/knp-paginator-bundle": "^5.8",
         "knplabs/knp-snappy-bundle": "^1.9",
+        "league/commonmark": "^2.3",
         "lexik/form-filter-bundle": "^7.0",
         "lexik/jwt-authentication-bundle": "^2.16",
         "nelmio/cors-bundle": "^2.2",
@@ -51,7 +52,8 @@
         "symfony/web-link": "6.0.*",
         "symfony/webpack-encore-bundle": "^1.15",
         "symfony/yaml": "6.0.*",
-        "twig/extra-bundle": "^2.12|^3.0",
+        "twig/extra-bundle": "^3.4",
+        "twig/markdown-extra": "^3.4",
         "twig/twig": "^2.12|^3.0"
     },
     "config": {

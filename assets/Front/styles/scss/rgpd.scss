@@ -1,0 +1,16 @@
+#rgpd {
+    align-items: stretch;
+    h1 {
+        text-align: center;
+    }
+    h1, h2 {
+        margin-bottom: 1rem;
+    }
+    .rgpdDiv {
+        margin-bottom: 1rem;
+    }
+    p:not(.rgpdDiv) {
+        margin-bottom: 1rem;
+    }
+
+}

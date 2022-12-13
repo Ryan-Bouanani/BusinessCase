@@ -120,4 +120,24 @@ class HomeController extends AbstractController
             ]));
         }  
     }
+
+    
+    #[Route('/legal_notice', name: 'app_home_legal_notice')]
+    public function legal_notice(): Response
+    {
+        return $this->render('front/home/legal_notice.html.twig', [
+        ]);
+    }
+    #[Route('terms_of_sales', name: 'app_home_terms_of_sales')]
+    public function terms_of_sales(): Response
+    {
+        return $this->render('front/home/terms_of_sales.html.twig', [
+        ]);
+    }
+    #[Route('/privacy_policies', name: 'app_home_privacy_policies')]
+    public function privacy_policies(): Response
+    {
+        return $this->render('front/home/privacy_policies.html.twig', [
+        ]);
+    }
 }

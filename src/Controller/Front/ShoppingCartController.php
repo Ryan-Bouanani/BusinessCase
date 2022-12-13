@@ -179,20 +179,21 @@ class ShoppingCartController extends AbstractController
             $order = $basketRepository->findBasketWithCustomer($user->getId());
 
             // Si dernier panier existant
-            if ($order) {
+            if (!empty($order)) {
                 // On inspecte les requettes du formulaire
                 $formAddress->handleRequest($request);
-
+                
                 // Si le formulaire est envoyé et valide
                 if ($formAddress->isSubmitted() && $formAddress->isValid()) {                      
-                    if ($user->getAddress()) {
-                        return $this->redirectToRoute('app_checkout_address', [], Response::HTTP_SEE_OTHER);
-                    }
 
                     // On met l'adresse de l'utilisateur en bdd
                     $addressRepository->add($address, true);
                     $user->setAddress($address);
                     $customerRepository->add($user, true);
+
+                    if ($user->getAddress()) {
+                        return $this->redirectToRoute('app_checkout_address', [], Response::HTTP_SEE_OTHER);
+                    }
 
                     // Puis on redirige vers la page suivante (paiement)
                     return $this->redirectToRoute('app_checkout_payment', [], Response::HTTP_SEE_OTHER);
@@ -212,7 +213,7 @@ class ShoppingCartController extends AbstractController
             if ($user->getAddress()) {
                 return $this->render('front/shoppingCart/address.html.twig', [
                     'formAddress' => $formAddress->createView(),
-                    'order' => $order,
+                    'order' => $order[0],
                     // On calcul le montant du panier
                     'total' => $shoppingCartService->getTotal(),
                     'address' => $address,
@@ -221,7 +222,7 @@ class ShoppingCartController extends AbstractController
                  // Rendu : Si utilisateur possède pas d'adresse 
                 return $this->render('front/shoppingCart/address.html.twig', [
                     'formAddress' => $formAddress->createView(),
-                    'oder' => $order,
+                    'oder' => $order[0],
                     // On calcul le montant du panier
                     'total' => $shoppingCartService->getTotal(),
                 ]);
@@ -249,15 +250,14 @@ class ShoppingCartController extends AbstractController
         if (!$user) {
             return $this->redirectToRoute('app_home');
         }
-
         // On récupère le dernier panier de l'utilisateur
         $order = $basketRepository->findBasketWithCustomer($user->getId());
      
         // Si dernier panier existant
-        if ($order) {
+        if (!empty($order)) {
             // On ajoute l'adresse de l'utilisateur au panier
-            $order->setAddress($user->getAddress());
-            $basketRepository->add($order, true);
+            $order[0]->setAddress($user->getAddress());
+            $basketRepository->add($order[0], true);
         } else {
             // Si pas de dernier panier on redirige vers l'accueil
             return $this->redirectToRoute('app_home');
@@ -269,8 +269,7 @@ class ShoppingCartController extends AbstractController
         }
 
         // Creation du formulaire de moyen de paiement
-        $form = $this->createForm(MeanOfPaymentType::class, $order);
-        
+        $form = $this->createForm(MeanOfPaymentType::class, $order[0]);
         // On inspecte les requettes du formulaire
         $form->handleRequest($request);
 
@@ -278,25 +277,25 @@ class ShoppingCartController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
                     
             // On récupere et ajoute le moyen de paiement choisie par l'utilisateur et la date de facturation à la commande 
-            $order->setMeanOfPayment($form->get('meanOfPayment')->getData());
-            $order->setBillingDate(new \DateTime());
+            $order[0]->setMeanOfPayment($form->get('meanOfPayment')->getData());
+            $order[0]->setBillingDate(new \DateTime());
 
             // On met la commande à jour en bdd
-            $basketRepository->add($order, true);
+            $basketRepository->add($order[0], true);
 
             // Puis on redirige à l'étape suivante
             return $this->redirectToRoute('app_checkout_resume', []);
         } elseif($form->isSubmitted() && !$form->isValid()) {
+            dd($form->isSubmitted() && !$form->isValid());
             $this->addFlash(
                 'error',
                 'Veuillez sélectionner un moyen de paiement'
             );
-            dd($form->isSubmitted() && !$form->isValid());
         }
 
         return $this->renderForm('front/shoppingCart/payment.html.twig', [
             'form' => $form,
-            'order' => $order,
+            'order' => $order[0],
             // On calcul le montant du panier
             'total' => $shoppingCartService->getTotal(),
         ]);
@@ -323,17 +322,16 @@ class ShoppingCartController extends AbstractController
         if (!$user) {
             return $this->redirectToRoute('app_home');
         }
-
         // On récupère le dernier panier de l'utilisateur
         $order = $basketRepository->findBasketWithCustomer($user->getId());
 
         // Si pas de dernier panier on redirige vers l'accueil
-        if (!$order) {
+        if (empty($order)) {
             return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
         }        
 
         return $this->renderForm('front/shoppingCart/resume.html.twig', [
-            'order' => $order,
+            'order' => $order[0],
             // On récupere et envoie notre panier 
             'items' => $shoppingCartService->getFullCart(),
             // On calcul le montant du panier
@@ -369,15 +367,15 @@ class ShoppingCartController extends AbstractController
         $order = $basketRepository->findBasketWithCustomer($user->getId());
 
         // Si dernier panier existant et status non null
-        if ($order && is_null($order->getStatus())) {
+        if (!empty($order) && is_null($order[0]->getStatus())) {
             // On qjoute un status
             $status = $statusRepository->findOneBy(['name' => StatusEnum::ACCEPTER]);
-            $order->setStatus($status);
+            $order[0]->setStatus($status);
             // On reset nos variables de session
             $session->remove('basket');
             $session->remove('shoppingCart');
             // On met la commande à jour en bdd
-            $basketRepository->add($order, true);
+            $basketRepository->add($order[0], true);
             
         }
         // On récupère la derniere commande de l'utilisateur

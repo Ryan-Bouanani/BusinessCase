@@ -93,15 +93,13 @@
                         {{ form_end(formAddress) }}
                         {% set btn = false %}
             </div>
-                    {% else %}
-                        {% set btn = true %}
                     {% endif %}
 
         {% endset %}
 
         {% if address is defined %}
             <div class="formChild">
-                    <h2>ADRESSE DE LIVRAISON</h2>
+                    <h2>Adresse de livraison</h2>
                 <div class="addressContainer shippingAddress">
                     <div class="left">
                         <p>{{ address.firstName }} {{ address.lastName }}</p>
@@ -131,14 +129,20 @@
         {% endif %}
     {% endset %} 
 
-    {% include "front/partials/_shoppingCart.html.twig" with {
-        contentCheckout: contentCheckout,
-        path: 'app_checkout_payment',
-        btn: btn,
-    } %}
-        {% if address is not defined %}
+
+    {% if address is not defined %}
+        {% include "front/partials/_shoppingCart.html.twig" with {
+            contentCheckout: contentCheckout,
+            path: 'app_checkout_payment',
+        } %}
             {{ form_end(formAddress) }}
-            </div>
-        {% endif %}
+        </div>
+    {% else %}
+            {% include "front/partials/_shoppingCart.html.twig" with {
+            contentCheckout: contentCheckout,
+            path: 'app_checkout_payment',
+            btn: btn,
+        } %}
+    {% endif %}
 </section>
 {% endblock %}

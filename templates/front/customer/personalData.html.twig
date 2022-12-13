@@ -8,6 +8,8 @@
 
         <h1 class="h1Account">Modifier informations</h1>
 
+        <a class="btn backCustomer" href=" {{ path('app_customer') }}">Retour</a>
+
         {% include "shared/partials/_flash.html.twig" %}
 
         {# *COORDONEES #}
@@ -177,7 +179,7 @@
                             <button class="btnUpdate"><i class="fa-solid fa-location-dot"></i></button>
                         </div>
                         <div class="leftContainer">
-                            {% if customer.address is define %}                     
+                            {% if customer.address is defined %}                     
                                 <p>{{ customer.address.firstName }} {{ customer.address.lastName }}</p>
                                 <p>{{ customer.address.line1 }}</p>
                                 <p>{{ customer.address.city }}, {{ customer.address.postalCode }}</p>
@@ -200,7 +202,7 @@
 
         {# * MAIL #}
             {% set content %}
-                    {{ form_start(formEmail) }}
+                {{ form_start(formEmail) }}
                         <div class="formChild">
                             {{ form_widget(formEmail.email) }}
 

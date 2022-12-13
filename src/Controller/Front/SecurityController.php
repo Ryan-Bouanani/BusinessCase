@@ -76,14 +76,13 @@ class SecurityController extends AbstractController
         SessionInterface $session,
         ): Response
     {
-        // /** @var Customer $user*/
+        /** @var Customer $user*/
         $user = $this->getUser();
-        if ($user) {          
+        if ($user) {         
             // On vérifie que l'utilisateur possède bien un panier
             if ($session->has('shoppingCart')) {
-            // On met à jour la session avec le panier
-            $shoppingCartService->transformShoppingCartToBasketSesion(); 
-
+                // On met à jour la session avec le panier
+                $shoppingCartService->transformShoppingCartToBasketSesion(); 
            } else {
                 return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
            }
@@ -91,8 +90,8 @@ class SecurityController extends AbstractController
            $shoppingCart = $basketRepository->find($shoppingCart->getId());
            if ($shoppingCart) {
                 // Si la commande possède une adresse et/ou un moyen de paiement alors on redirige 
-               if ($shoppingCart->getAddress() !== null) {           
-                   if ($shoppingCart->getMeanOfPayment() !== null) {           
+               if ($shoppingCart->getAddress() !== null) {  
+                   if ($shoppingCart->getMeanOfPayment() !== null) {                     
                        return $this->redirectToRoute('app_checkout_resume', [], Response::HTTP_SEE_OTHER);
                    } 
                    return $this->redirectToRoute('app_checkout_payment', [], Response::HTTP_SEE_OTHER);

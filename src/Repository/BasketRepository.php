@@ -43,7 +43,7 @@ class BasketRepository extends AbstractRepository
     }
 
 
-    public function findBasketWithCustomer(int $id): Basket|null
+    public function findBasketWithCustomer(int $id): array
     {
         return $this->createQueryBuilder('basket')
             ->select('basket')
@@ -52,7 +52,7 @@ class BasketRepository extends AbstractRepository
             ->leftJoin('basket.customer', 'customer')
             ->setParameter('id', $id)
             ->getQuery()
-            ->getOneOrNullResult();
+            ->getResult();
             ;
     }
 

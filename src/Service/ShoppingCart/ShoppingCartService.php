@@ -225,18 +225,17 @@ class ShoppingCartService {
         if ($shoppingCart) {
             $shoppingCart = $this->basketRepository->find($shoppingCart->getId());
         }
-        
         /** @var Customer $customer*/
         $customer = $this->security->getUser();
 
         // Si ancien panier existant on supprime le nouveau
         $oldShoppingCart = $this->basketRepository->findBasketWithCustomer($customer->getId());
-
-        if ($oldShoppingCart && ($oldShoppingCart !== $shoppingCart)) {
+        
+        if (!empty($oldShoppingCart[0]) && ($oldShoppingCart[0] !== $shoppingCart)) {
             if ($shoppingCart) {
                 $this->basketRepository->remove($shoppingCart, true);
             }
-            $shoppingCart = $oldShoppingCart;
+            $shoppingCart = $oldShoppingCart[0];
 
             // On recupere nos lignes de panier
             $contentShoppingCarts = $shoppingCart->getContentShoppingCarts();

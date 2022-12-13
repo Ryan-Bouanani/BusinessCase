@@ -23,7 +23,7 @@ class AddressType extends AbstractType
                 'label' => 'Complément d\'adresse',
                 'required' => false,
                 'attr' => [
-                    'placeholder' => 'Complément d\'adresseee'
+                    'placeholder' => 'Complément d\'adresse'
                 ]
             ])
             ->add('postalCode', TextType::class, [
