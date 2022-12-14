@@ -87,13 +87,13 @@
                         <td class="colMeanOfPayment">{{ basket.meanOfPayment.designation ?  basket.meanOfPayment.designation: '' }}</td>
                         <td class="colStatus">{{ basket.status.name ?  basket.status.name: '' }}</td>
                         <td>
-                            <a class="button btnAction" href="{{ path('app_basket_show', {'id': basket.id}) }}">Detail</a>
+                            {# <a class="button btnAction" href="{{ path('app_basket_show', {'id': basket.id}) }}">Detail</a> #}
                             <a class="button btnAction" href="{{ path('app_basket_edit', {'id': basket.id}) }}">Modifier</a>
                         </td>
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="6">Aucune commande n'a été trouvé</td>
+                        <td colspan="6">Aucune commande n'a été trouvée</td>
                     </tr>
                 {% endfor %}
                 </tbody>

@@ -58,18 +58,21 @@
             <p class="productDescription">{{ product[0].description }}</p>
         </div>
 
-        <div class="similarProducts">
-            <h2>Votre animal aimera surement</h2>
-            <div class="carrouselContainer">
-                <span class="arrow_left"></span>
-                <span class="arrow_right"></span>
-                <div class="carrousel carrouselProducts">          
-                    {% include 'front/partials/_product.html.twig' with {
-                        'products': productSameBrand,
-                    } %}
+        {% if productSameBrand is not empty %}
+            <div class="similarProducts">
+                <h2>Votre animal aimera surement</h2>
+                <div class="carrouselContainer">
+                    <span class="arrow_left"></span>
+                    <span class="arrow_right"></span>
+                    <div class="carrousel carrouselProducts">          
+                        {% include 'front/partials/_product.html.twig' with {
+                            'products': productSameBrand,
+                        } %}
+                    </div>
                 </div>
             </div>
-        </div>
+        {% endif %}
+    
 
         {% if formReview is defined %}
             {% set content %}
@@ -127,6 +130,8 @@
                     <p class="reviewCustomer">{{ review.customer.firstName }} {{ review.customer.lastName }}</p>
                     <p class="reviewComment">{{ review.comment}}</p>
                 </div>
+                {% else %}
+                    <p>Aucun avis pour le moment</p>
                 {% endfor %}
             </div>
             {{ knp_pagination_render(reviews) }}

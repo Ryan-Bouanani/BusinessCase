@@ -55,7 +55,7 @@
             {% for category in categories %}
                 <tr>
                     <td>{{ category.id }}</td>
-                    <td>{{ category.categoryParent.name }}</td>
+                    <td>{{ category.categoryParent ? category.categoryParent.name : 'Pas de catégorie parent'}}</td>
                     <td>{{ category.name }}</td>
                     <td>
                         <a class="button btnAction" href="{{ path('app_category_edit', {'id': category.id}) }}">Modifier</a>

@@ -101,6 +101,9 @@
     .descriptionContainer {
         margin-bottom: 2rem;
     }
+    .reviewsSection {
+        width: 100%;
+    }
     .reviewsContainer {
         display: flex;
         flex-direction: column;
@@ -129,11 +132,11 @@
             font-size: 14px;
         }
     }
-    .carrouselContainer {
-        width: 90%;
-    }
     .similarProducts {
         width: 100%;
+        .carrouselContainer {
+            width: 85%;
+        }
 
         // .card {
         //     height: 15rem;
@@ -152,9 +155,12 @@
         // }
     }
 
-
-    @media screen and (min-width: 800px) {
-        
+    @media screen and (min-width: 800px) {       
+        .similarProducts {
+            .carrouselContainer {
+                width: 90%;
+            }
+        }
         .topProduct {
             flex-direction: row;
             align-items: center;

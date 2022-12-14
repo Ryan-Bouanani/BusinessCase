@@ -22,8 +22,12 @@ class StarProductExtension extends AbstractExtension
      *
      * @param float $note
      */
-    public function stars(float $note = 0): string
+    public function stars($note): string
     {
+        // On vérifie qu'un produit a des avis, si non :
+        if ($note === null) {
+            $note = 0;
+        }
         $stars = [
             '<i class=" yellow fa-solid fa-star"></i>',
             '<i class=" yellow fa-solid fa-star"></i>',
@@ -32,6 +36,7 @@ class StarProductExtension extends AbstractExtension
             '<i class=" yellow fa-solid fa-star"></i>'
         ];
         if ($note < 4.5 and $note >= 3.5) {
+            // On lui envoie le nombre d'étoiles que l'on souhaite garder en jaune
             $stars = $this->forStars(4, $stars);
         } elseif ($note < 3.5 and $note >= 2.5) {
             $stars = $this->forStars(3, $stars);

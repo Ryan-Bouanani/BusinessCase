@@ -75,11 +75,6 @@ class ProductController extends AbstractController
                     return $this->redirectToRoute('app_detail_product', [
                         'id' => $product[0]->getId(),
                     ]);
-                } else {
-                    $this->addFlash(
-                        'error',
-                        'Veuillez sélectionner un moyen de paiement'
-                    );
                 }
                 return $this->render('front/product/index.html.twig', [
                     'product' => $product,

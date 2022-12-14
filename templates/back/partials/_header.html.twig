@@ -16,10 +16,6 @@
         <span class="material-icons">shopping_bag</span>
         <h3>Commande</h3>
       </a>
-      <a href="{{ path('app_basket_new') }}"  class="{% if app.request.pathinfo == path('app_basket_new') %}active{% endif %}">
-        <span class="material-icons">add</span>
-        <h3>Ajouter commande</h3>
-      </a>
       <a href="{{ path('app_product_index') }}"  class="{% if app.request.pathinfo == path('app_product_index') %}active{% endif %}">
         <span class="material-icons">shopping_cart</span>
         <h3>Produits</h3>
@@ -55,10 +51,6 @@
       <a href="{{ path('app_customer_index') }}"  class="{% if app.request.pathinfo == path('app_customer_index') %}active{% endif %}">
         <span class="material-icons">person_outline</span>
         <h3>Clients</h3>
-      </a>
-      <a href="{{ path('app_customer_new') }}"  class="{% if app.request.pathinfo == path('app_customer_new') %}active{% endif %}">
-        <span class="material-icons">add</span>
-        <h3>Ajouter client</h3>
       </a>
       <a href="{{ path('app_home') }}"  class="{% if app.request.pathinfo == path('app_home') %}active{% endif %}">
         <span class="material-icons">logout</span>

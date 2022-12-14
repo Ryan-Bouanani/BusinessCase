@@ -1,11 +1,12 @@
 
 window.addEventListener('load', () => {
 
-    // On récupere la div qui va afficher les produits correspondants
-    const productResult = document.querySelector('.resultProductSearch');
-    
     // On récupère l'input de recherche de produit
     const inputSearchProduct = document.querySelector(".searchProduct") as HTMLInputElement;
+
+    // On récupere la div qui va afficher les produits correspondants ou l'erreur
+    const productResult = document.querySelector('.resultProductSearch') as HTMLDivElement;
+    
     
     inputSearchProduct.addEventListener("keyup", function(){
 

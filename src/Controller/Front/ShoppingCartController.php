@@ -285,13 +285,7 @@ class ShoppingCartController extends AbstractController
 
             // Puis on redirige à l'étape suivante
             return $this->redirectToRoute('app_checkout_resume', []);
-        } elseif($form->isSubmitted() && !$form->isValid()) {
-            dd($form->isSubmitted() && !$form->isValid());
-            $this->addFlash(
-                'error',
-                'Veuillez sélectionner un moyen de paiement'
-            );
-        }
+        } 
 
         return $this->renderForm('front/shoppingCart/payment.html.twig', [
             'form' => $form,

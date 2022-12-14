@@ -53,7 +53,7 @@ class BrandRepository extends AbstractRepository
     public function getBrand() {
         $query = $this->createQueryBuilder('brand')
         ->select('brand')
-        ->setMaxResults('8')
+        ->setMaxResults('20')
         ->getQuery()
         ->getResult()
         ;

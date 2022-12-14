@@ -69,63 +69,64 @@ class BasketController extends AbstractController
         ]);
     }
 
-    /**
-     * Ce controller va servir à l'ajout d'une commande
-     *
-     * @param Request $request
-     * @param BasketRepository $basketRepository
-     * @param AddressRepository $addressRepository
-     * @return Response
-     */
-    #[Route('/new', name: 'app_basket_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, BasketRepository $basketRepository, AddressRepository $addressRepository): Response
-    {
-        $basket = new Basket();
-        // $address = new Address();
+    // /**
+        //  * Ce controller va servir à l'ajout d'une commande
+        //  *
+        //  * @param Request $request
+        //  * @param BasketRepository $basketRepository
+        //  * @param AddressRepository $addressRepository
+        //  * @return Response
+        //  */
+        // #[Route('/new', name: 'app_basket_new', methods: ['GET', 'POST'])]
+        // public function new(Request $request, BasketRepository $basketRepository, AddressRepository $addressRepository): Response
+        // {
+        //     $basket = new Basket();
+        //     // $address = new Address();
 
-        // Creation du formulaire de commande
-        $formBasket = $this->createForm(BasketType::class, $basket);
-        // $formAddress = $this->createForm(AddressType::class, $address);
+        //     // Creation du formulaire de commande
+        //     $formBasket = $this->createForm(BasketType::class, $basket);
+        //     // $formAddress = $this->createForm(AddressType::class, $address);
 
-        // On inspecte les requettes du formulaire
-        $formBasket->handleRequest($request);
+        //     // On inspecte les requettes du formulaire
+        //     $formBasket->handleRequest($request);
 
-        // Si le form est envoyé et valide
-        if ($formBasket->isSubmitted() && $formBasket->isValid()) {
+        //     // Si le form est envoyé et valide
+        //     if ($formBasket->isSubmitted() && $formBasket->isValid()) {
 
-            // $basket->setAddress($address);
-            // $addressRepository->add($address, true);
+        //         // $basket->setAddress($address);
+        //         // $addressRepository->add($address, true);
 
-             // On met la commande en bdd
-            $basketRepository->add($basket, true);
+        //          // On met la commande en bdd
+        //         $basketRepository->add($basket, true);
 
-            $this->addFlash(
-                'success',
-                'Votre commande a été ajoutée avec succès !'
-            );
+        //         $this->addFlash(
+        //             'success',
+        //             'Votre commande a été ajoutée avec succès !'
+        //         );
 
-            return $this->redirectToRoute('app_basket_index', [], Response::HTTP_SEE_OTHER);
-        } else {
-            $this->addFlash(
-                'error',
-                $formBasket->getErrors()
-            );
-        }
+        //         return $this->redirectToRoute('app_basket_index', [], Response::HTTP_SEE_OTHER);
+        //     } else {
+        //         $this->addFlash(
+        //             'error',
+        //             $formBasket->getErrors()
+        //         );
+        //     }
 
-        return $this->renderForm('back/basket/new.html.twig', [
-            'basket' => $basket,
-            'formBasket' => $formBasket,
-            // 'formAddress' => $formAddress,
-        ]);
-    }
+        //     return $this->renderForm('back/basket/new.html.twig', [
+        //         'basket' => $basket,
+        //         'formBasket' => $formBasket,
+        //         // 'formAddress' => $formAddress,
+        //     ]);
+        // }
+    // 
 
-    #[Route('/{id}', name: 'app_basket_show', methods: ['GET'])]
-    public function show(Basket $basket): Response
-    {
-        return $this->render('back/basket/show.html.twig', [
-            'basket' => $basket,
-        ]);
-    }
+    // #[Route('/{id}', name: 'app_basket_show', methods: ['GET'])]
+    // public function show(Basket $basket): Response
+    // {
+    //     return $this->render('back/basket/show.html.twig', [
+    //         'basket' => $basket,
+    //     ]);
+    // }
 
     /**
      * Ce controller va servir la modification d'une commande

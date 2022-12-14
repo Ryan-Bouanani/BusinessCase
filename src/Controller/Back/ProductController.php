@@ -109,7 +109,7 @@ class ProductController extends AbstractController
                 }                          
             }
             // On met le produit en bdd
-            $productRepository->add($product, false);
+            $productRepository->add($product, true);
 
             $this->addFlash(
                 'success',

@@ -16,7 +16,7 @@
                             {{knp_pagination_sortable(
                                 brands,
                                 'Id',
-                                'basket.id'
+                                'brand.id'
                             )|raw
                         }}
                         </th>
@@ -27,7 +27,7 @@
                             {{knp_pagination_sortable(
                                 brands,
                                 'Nom',
-                                'basket.label'
+                                'brand.label'
                             )|raw
                         }}
                         </th>
@@ -60,7 +60,7 @@
                     </tr>
                 {% else %}
                     <tr>
-                        <td colspan="5">Aucune marque n'a été trouvé</td>
+                        <td colspan="5">Aucune marque n'a été trouvée</td>
                     </tr>
                 {% endfor %}
                 </tbody>

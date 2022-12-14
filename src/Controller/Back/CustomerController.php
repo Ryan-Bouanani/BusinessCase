@@ -65,37 +65,38 @@ class CustomerController extends AbstractController
 
     }
 
-    /**
-     * Ce controller va servir à la création d'un nouveau client
-     *
-     * @param Request $request
-     * @param CustomerRepository $customerRepository
-     * @return Response
-     */
-    #[Route('/new', name: 'app_customer_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, CustomerRepository $customerRepository): Response
-    {
+    // /**
+        //  * Ce controller va servir à la création d'un nouveau client
+        //  *
+        //  * @param Request $request
+        //  * @param CustomerRepository $customerRepository
+        //  * @return Response
+        //  */
+        // #[Route('/new', name: 'app_customer_new', methods: ['GET', 'POST'])]
+        // public function new(Request $request, CustomerRepository $customerRepository): Response
+        // {
 
-        $customer = new Customer();
+        //     $customer = new Customer();
 
-        // Creation du formulaire de client
-        $form = $this->createForm(CustomerType::class, $customer);
-        
-        // On inspecte les requettes du formulaire
-        $form->handleRequest($request);
+        //     // Creation du formulaire de client
+        //     $form = $this->createForm(CustomerType::class, $customer);
+            
+        //     // On inspecte les requettes du formulaire
+        //     $form->handleRequest($request);
 
-        // Si le form est envoyé et valide
-        if ($form->isSubmitted() && $form->isValid()) {
+        //     // Si le form est envoyé et valide
+        //     if ($form->isSubmitted() && $form->isValid()) {
 
-             // On met le client à jour en bdd
-            $customerRepository->add($customer, true);
+        //          // On met le client à jour en bdd
+        //         $customerRepository->add($customer, true);
 
-            return $this->redirectToRoute('app_customer_index', [], Response::HTTP_SEE_OTHER);
-        }
+        //         return $this->redirectToRoute('app_customer_index', [], Response::HTTP_SEE_OTHER);
+        //     }
 
-        return $this->renderForm('back/customer/new.html.twig', [
-            'customer' => $customer,
-            'form' => $form,
-        ]);
-    }
+        //     return $this->renderForm('back/customer/new.html.twig', [
+        //         'customer' => $customer,
+        //         'form' => $form,
+        //     ]);
+        // }
+    // 
 }
