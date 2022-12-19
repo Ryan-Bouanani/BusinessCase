@@ -34,7 +34,7 @@ class Status
     #[Groups(['read:Order:attributes'])]
     #[
         Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
+            'message' => "Veuillez remplir tout les champs."
         ]),
         Assert\Choice([
             'choices' => [

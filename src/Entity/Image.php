@@ -17,7 +17,7 @@ class Image
     #[ORM\Column(length: 255)]
     #[
         Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
+            'message' => "Veuillez remplir tout les champs."
         ]),
         Assert\Url([
             'message' => 'L\'url n\'est pas valide.',
@@ -28,7 +28,7 @@ class Image
     #[ORM\Column(nullable: true)]
     #[
         Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
+            'message' => "Veuillez remplir tout les champs."
         ]),
     ]
     private ?bool $isMain = null;
@@ -37,7 +37,7 @@ class Image
     #[ORM\JoinColumn(nullable: false)]
     #[
         Assert\NotBlank([
-            'message' => "Veuiller entrer un produit."
+            'message' => "Veuillez entrer un produit."
         ]),
     ]
     private ?Product $product = null;

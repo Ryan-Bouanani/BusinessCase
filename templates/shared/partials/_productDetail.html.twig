@@ -3,13 +3,13 @@
     <div class="imagesProduct">
         <div class="imagesSecondary">
             {% for image in product.images %}              
-                <img src="{{ asset("build/images/" ~ image.path) }}" alt="{{ product.title }}">
+                <img src="{{ asset("build/images/" ~ image.path) }}" alt="{{ product.name }}">
             {% endfor %}
         </div>
         <div class="imageMain">
             {% for image in product.images %}
                 {% if image.isMain == true %}                 
-                    <img src="{{ asset("build/images/" ~ image.path) }}" alt="{{ product.title }}">
+                    <img src="{{ asset("build/images/" ~ image.path) }}" alt="{{ product.name }}">
 
                 {% endif %}
             {% endfor %}
@@ -22,7 +22,7 @@
             </div>
             <p class="p-1 nbReview">({{ product['Avis'] }} avis)</p>
         </div>
-        <h1 class="title-product">{{ product.title }}</h1>
+        <h1 class="title-product">{{ product.name }}</h1>
         
         {% set priceTaxIncl = product.priceExclVat |priceTaxIncl( product.tva) %}
 

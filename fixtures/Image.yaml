@@ -43,12 +43,12 @@ App\Entity\Image:
     path: 'boites-hill-s-science-plan-no-grain-adult-chicken1.png'
     isMain: true
     product: '@product<current()>'
-  image{111..200}:
+  image{111..400}:
     path: 'product-hill-s2.png'
     product: '@product*'
-  image{201..300}:
+  image{401..700}:
     path: 'hill-s-science-plan-puppy-medium-chicken2.png'
     product: '@product*'
-  image{301..400}:
+  image{701..1000}:
     path: 'boites-hill-s-science-plan-no-grain-adult-chicken2.png'
     product: '@product*'

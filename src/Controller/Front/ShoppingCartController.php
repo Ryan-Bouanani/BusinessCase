@@ -93,28 +93,6 @@ class ShoppingCartController extends AbstractController
 
         return $this->redirectToRoute("app_shoppingCart");
     }
-
-
-
-    // /**
-    //  * Ce controller va servir à ajouter un produit déja existant au panier
-    //  *
-    //  * @param Product $product
-    //  * @param ShoppingCartService $shoppingCartService
-    //  * @return void
-    //  */
-    // #[Route('/addQuantity/{id}', 'app_shoppingCart_addQuantity')]
-    // public function addQuantity(Product $product, ShoppingCartService $shoppingCartService) {
-
-    //     // On ajoute le produit de notre panier
-    //     $shoppingCartService->add($product);
-
-    //      // On met à jour la quantité du panier
-    //      $shoppingCartService->getFullCart();
-
-    //     return $this->redirectToRoute("app_shoppingCart");
-    // }
-
     
     /**
      * Ce controller va servir à retirer un produit du panier

@@ -1,5 +1,5 @@
 App\Entity\Review:
-  review{0..1000}:
+  review{0..1300}:
     comment: '<sentence(20,80)>'
     note: '<numberBetween(0, 5)>'
     product: '@product*'

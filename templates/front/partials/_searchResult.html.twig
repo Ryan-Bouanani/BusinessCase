@@ -5,9 +5,9 @@
         <a href="{{ path('app_detail_product', {id: product.id})}}">
             <div class="product">
                 {% for image in product.images %}
-                    <img src="{{ asset('/build/images/' ~ image.path) }}"  alt="{{ product.title }}"> 
+                    <img src="{{ asset('/build/images/' ~ image.path) }}"  alt="{{ product.name }}"> 
                 {% endfor %}
-                <p class="productTitle">{{ product.title }}</p>
+                <p class="productTitle">{{ product.name }}</p>
                 {% set priceTaxIncl = product.priceExclVat |priceTaxIncl( product.tva) %}
 
                 {% if product.promotion %}

@@ -3,64 +3,47 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\ProductRepository;
+use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
-#[UniqueEntity('title')]
+#[UniqueEntity('name')]
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[ApiResource(
     attributes: [
         "security" => "is_granted('ROLE_STATS')",
         "security_message" => "Accès refusé",
-        'normalization_context' => ['groups' => ['read:Product:attributes']],
     ],
     collectionOperations: [
-        // 'get',
     ],
     itemOperations: [
-        // 'get',
-    
     ],
 )]
+#[ORM\HasLifecycleCallbacks]
 class Product
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    #[Groups(['read:Basket:attributes'],['read:Product:attributes'])]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    #[
-        Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
-        ]),
-        Assert\Length([
-            'min' => 3,
-            'max'=> 255,
-            'minMessage' => 'Veuiller entrer un produict contenant au minimum {{ limit }} caractères',
-            'maxMessage' => 'Veuiller entrer un produict contenant au maximum {{ limit }} caractères',
-        ]),
-    ]
-    #[Groups(['read:Basket:attributes'])]
-    private ?string $title = null;
+    use VapeurIshEntity;
 
     #[ORM\Column(type: Types::TEXT)]
     #[
         Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
+            'message' => "Veuillez remplir tout les champs."
         ]),
         Assert\Length([
             'min' => 10,
             'max' => 1000,
-            'minMessage' => 'Veuiller entrer une description contenant au minimum {{ limit }} caractères',
-            'maxMessage' => 'Veuiller entrer une description contenant au maximum {{ limit }} caractères',
+            'minMessage' => 'Veuillez entrer une description contenant au minimum {{ limit }} caractères',
+            'maxMessage' => 'Veuillez entrer une description contenant au maximum {{ limit }} caractères',
         ]),
     ]
     private ?string $description = null;
@@ -68,7 +51,7 @@ class Product
     #[ORM\Column(type: Types::DECIMAL, precision: 7, scale: 2)]
     #[
         Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
+            'message' => "Veuillez remplir tout les champs."
         ]),
         Assert\PositiveOrZero(),
         Assert\Range(
@@ -88,7 +71,7 @@ class Product
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[
         Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
+            'message' => "Veuillez remplir tout les champs."
         ]),
     ]
     private ?\DateTimeInterface $dateAdded = null;
@@ -96,30 +79,29 @@ class Product
     #[ORM\Column(type: Types::DECIMAL, precision: 4, scale: 2)]
     #[
         Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
+            'message' => "Veuillez remplir tout les champs."
         ]),
     ]
     private ?string $tva = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
-    #[Groups(['read:Product:attributes'])]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true, onDelete: "SET NULL")]
     #[
         Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
+            'message' => "Veuillez remplir tout les champs."
         ]),
     ]
     private ?Brand $brand = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
-    #[ORM\JoinColumn(nullable: true)]
+    #[ORM\JoinColumn(nullable: true, onDelete: "SET NULL")]
     private ?Promotion $promotion = null;
 
     #[ORM\ManyToOne(inversedBy: 'products')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true, onDelete: "SET NULL")]
     #[
         Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
+            'message' => "Veuillez remplir tout les champs."
         ]),
     ]
     private ?Category $category = null;
@@ -130,7 +112,7 @@ class Product
     ])]
     #[
         Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
+            'message' => "Veuillez remplir tout les champs."
         ]),
     ]
     private Collection $images;
@@ -155,21 +137,14 @@ class Product
         $this->contentShoppingCarts = new ArrayCollection();
     }
 
+    #[ORM\PrePersist]
+    public function PrePersist() {
+        $this->slug = (new Slugify())->slugify($this->name);
+    }
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getTitle(): ?string
-    {
-        return $this->title;
-    }
-
-    public function setTitle(string $title): self
-    {
-        $this->title = $title;
-
-        return $this;
     }
 
     public function getDescription(): ?string

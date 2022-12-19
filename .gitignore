@@ -1,4 +1,3 @@
-
 ###> symfony/framework-bundle ###
 /.env.local
 /.env.local.php
@@ -22,6 +21,10 @@
 ###> lexik/jwt-authentication-bundle ###
 # /config/jwt/*.pem
 ###< lexik/jwt-authentication-bundle ###
+###> PHPloy.ini ###
+/phploy.ini
+###< PHPloy.ini ###
+node_modules
 
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
@@ -29,7 +32,3 @@
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
-
-###> PHPloy.ini ###
-/phploy.ini
-###< PHPloy.ini ###

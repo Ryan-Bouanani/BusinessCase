@@ -78,12 +78,12 @@
                     
                 <li class="category">
                     <div class="linkCategory">
-                        <a href="{{ path('app_category_detail', {id: category.id}) }}">{{ category.name }}</a>
+                        <a href="{{ path('app_category_detail', {slug: category.slug}) }}">{{ category.name }}</a>
                         <i class="fa-solid fa-chevron-right"></i>
                     </div>
                     <ul class="sub-menu">
                         {% for subCategory in category.categoryChildren %}
-                            <li><a href="{{ path('app_category_detail', {id: subCategory.id}) }}">{{ subCategory.name }}</a></li>      
+                            <li><a href="{{ path('app_category_detail', {slug: subCategory.slug}) }}">{{ subCategory.name }}</a></li>      
                         {% endfor %}
                     </ul>
                 </li>

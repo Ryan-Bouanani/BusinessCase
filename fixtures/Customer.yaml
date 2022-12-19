@@ -6,7 +6,7 @@ parameters:
 
 App\Entity\Customer:
   customer (template):
-    userName: '<username()>'
+    userName (unique): '<username()>'
     firstName: '<firstName()>'
     lastName: '<lastName()>'
     email (unique): '<email()>'
@@ -36,4 +36,4 @@ App\Entity\Customer:
     gender: '@gender*'
 
 
-  customer{0..200} (extends customer): ~
+  customer{0..500} (extends customer): ~

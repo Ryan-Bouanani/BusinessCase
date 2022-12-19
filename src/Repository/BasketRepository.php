@@ -4,7 +4,6 @@ namespace App\Repository;
 
 use App\Entity\Basket;
 use DateTime;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -219,7 +218,7 @@ class BasketRepository extends AbstractRepository
         }
 
         $query = $this->createQueryBuilder('basket')
-            ->select('product.title AS NameProduct','image.path AS Image', 'SUM(contentSC.quantity) AS NbSold', 'SUM(contentSC.price * contentSC.quantity) AS TotalAmountSold')
+            ->select('product.name AS NameProduct','image.path AS Image', 'SUM(contentSC.quantity) AS NbSold', 'SUM(contentSC.price * contentSC.quantity) AS TotalAmountSold')
             ->join('basket.contentShoppingCarts', 'contentSC')
             ->join('contentSC.product', 'product')
             ->leftJoin("basket.status", "status")

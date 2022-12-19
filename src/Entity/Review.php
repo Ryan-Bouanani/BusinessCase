@@ -19,13 +19,13 @@ class Review
     #[ORM\Column(type: Types::TEXT)]
     #[
         Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
+            'message' => "Veuillez remplir tout les champs."
         ]),
         Assert\Length([
             'min' => 2,
             'max' => 500,
-            'minMessage' => 'Veuiller entrer un commentaire contenant au minimum {{ limit }} caractères',
-            'maxMessage' => 'Veuiller entrer un commentaire contenant au maximum {{ limit }} caractères',
+            'minMessage' => 'Veuillez entrer un commentaire contenant au minimum {{ limit }} caractères',
+            'maxMessage' => 'Veuillez entrer un commentaire contenant au maximum {{ limit }} caractères',
         ]),
     ]
     private ?string $comment = null;
@@ -33,7 +33,7 @@ class Review
     #[ORM\Column]
     #[
         Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
+            'message' => "Veuillez remplir tout les champs."
         ]),
         Assert\PositiveOrZero,
         Assert\Range(
@@ -46,21 +46,11 @@ class Review
 
     #[ORM\ManyToOne(inversedBy: 'reviews')]
     #[ORM\JoinColumn(nullable: false)]
-    // #[
-    //     Assert\NotBlank([
-    //         'message' => "Veuiller remplir tout les champs."
-    //     ]),
-    // ]
     private ?Product $product;
 
 
     #[ORM\ManyToOne(inversedBy: 'reviews')]
     #[ORM\JoinColumn(nullable: false)]
-    // #[
-    //     Assert\NotBlank([
-    //         'message' => "Veuiller remplir tout les champs."
-    //     ]),
-    // ]
     private ?Customer $customer;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]

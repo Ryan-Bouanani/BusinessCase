@@ -16,10 +16,8 @@ use Doctrine\ORM\Mapping as ORM;
         "security_message" => "Accès refusé",
     ],
     collectionOperations: [
-        'get'
     ],
     itemOperations: [
-        'get',
     ],
 )]
 class ContentShoppingCart
@@ -34,7 +32,7 @@ class ContentShoppingCart
     #[Groups(['read:Basket:attributes'])]
     #[
          Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
+            'message' => "Veuillez remplir tout les champs."
         ]),
         Assert\Positive
     ]
@@ -44,7 +42,7 @@ class ContentShoppingCart
     #[ORM\Column(type: Types::DECIMAL, precision: 7, scale: 2)]
     #[
          Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
+            'message' => "Veuillez remplir tout les champs."
         ]),
         Assert\PositiveOrZero,
         Assert\Range(
@@ -58,7 +56,7 @@ class ContentShoppingCart
     #[ORM\Column(type: Types::DECIMAL, precision: 4, scale: 2)]
     #[
         Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
+            'message' => "Veuillez remplir tout les champs."
         ]),
     ]
     private ?string $tva = null;
@@ -67,7 +65,7 @@ class ContentShoppingCart
     #[ORM\JoinColumn(nullable: false)]
     #[
          Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
+            'message' => "Veuillez remplir tout les champs."
         ]),
     ]
     private ?Basket $basket = null;

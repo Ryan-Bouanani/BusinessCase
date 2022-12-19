@@ -25,7 +25,7 @@ class BrandController extends AbstractController
      * @param FilterBuilderUpdaterInterface $builderUpdater
      * @return Response
      */
-    #[Route('/{id}', name: 'app_brand_detail')]
+    #[Route('/{slug}', name: 'app_brand_detail')]
     public function index(
         Brand $brand, 
         ProductRepository $productRepository,

@@ -1,6 +1,6 @@
 App\Entity\Product:
-  product{0..110}:
-    title (unique): '<word()>'
+  product{0..300}:
+    name (unique): '<text(20)>'
     description: '<sentence(70, 90)>'
     priceExclVat: '<numberBetween(8, 50)>'
     active:  '<boolean(90)>'

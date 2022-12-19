@@ -82,14 +82,14 @@ class ProductRepository extends AbstractRepository
     }
 
     // Récupère la produit correspondant au bon id
-    public function getProductInfo(int $id): array {
+    public function getProductInfo(string $slug): array {
         return $this->createQueryBuilder('product')
             ->select('product', 'image', 'AVG(review.note) AS Note, COUNT(DISTINCT (review)) AS Avis')
             ->leftJoin('product.images', 'image')
             ->leftJoin('product.reviews', 'review')
-            ->where('product = :id')
+            ->where('product.slug = :slug')
             ->groupBy('image')
-            ->setParameter('id', $id)
+            ->setParameter('slug', $slug)
             ->getQuery()
             ->getOneOrNullResult();
         ;
@@ -166,8 +166,9 @@ class ProductRepository extends AbstractRepository
     public function getQbAll(): QueryBuilder {
         $qb = parent::getQbAll();
         return $qb->select('product', 'image')
-            ->join('product.images', 'image')
-            ->join('product.category', 'category')
+            ->leftJoin('product.category', 'category')
+            ->leftJoin('product.brand', 'brand')
+            ->leftJoin('product.images', 'image')
             ->where('image.isMain = true')
             ->orderBy('product.id', 'ASC')
         ;
@@ -179,7 +180,7 @@ class ProductRepository extends AbstractRepository
             ->select('p', 'image')
             ->leftjoin('p.images', 'image')
             ->join('p.brand', 'b')
-            ->where('p.title LIKE :searchValue OR b.label LIKE :searchValue')
+            ->where('p.name LIKE :searchValue OR b.name LIKE :searchValue')
             ->andWhere('image.isMain = true')
             ->andWhere('p.active = 1')
             ->setParameter('searchValue', '%'.$searchValue.'%')

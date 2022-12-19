@@ -25,21 +25,15 @@
                         }}
                     </th>
                     <th scope="col" class="colCategory">
-                        {# filtre par id #}
+                        {# filtre par catégorie parent #}
                         {{ form_widget(filters.categoryParent)}}
-                        {# {{knp_pagination_sortable(
-                            categories,
-                            'Catégorie parent',
-                            'category.categoryParent.name'
-                        )|raw
-                        }} #}
                     </th>
                     <th scope="col" class="colCategory">
                         {# filtre par id #}
                         {{ form_widget(filters.name)}}
                         {{knp_pagination_sortable(
                             categories,
-                            'Sous catégorie',
+                            'Catégorie',
                             'category.name'
                         )|raw
                         }}
@@ -58,7 +52,7 @@
                     <td>{{ category.categoryParent ? category.categoryParent.name : 'Pas de catégorie parent'}}</td>
                     <td>{{ category.name }}</td>
                     <td>
-                        <a class="button btnAction" href="{{ path('app_category_edit', {'id': category.id}) }}">Modifier</a>
+                        <a class="button btnAction" href="{{ path('app_category_edit', {'slug': category.slug}) }}">Modifier</a>
                     </td>
                 </tr>
             {% else %}

@@ -574,7 +574,7 @@ header.home::after {
                 padding-left: 0;
                 gap: 30px;
                 padding: 30px;
-                border: 1px solid hsl(0, 0%, 93%);
+                box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
                 a:hover {
                     color: $colorGradient
                 }

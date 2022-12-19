@@ -56,11 +56,6 @@ class NbVisite
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
-    #[
-        Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
-        ]),
-    ]
     private ?\DateTimeInterface $visitAt = null;
 
     public function __construct()

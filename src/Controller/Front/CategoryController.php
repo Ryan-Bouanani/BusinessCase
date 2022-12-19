@@ -27,7 +27,7 @@ class CategoryController extends AbstractController
      * @param PriceTaxInclService $priceTaxInclService
      * @return Response
      */
-    #[Route('/{id}', name: 'app_category_detail')]
+    #[Route('/{slug}', name: 'app_category_detail')]
     public function index(
         Category $category, 
         ProductRepository $productRepository,

@@ -23,11 +23,11 @@
                         <th class="colLogo">Logo</th>
                         <th scope="col" class="colLabel">
                             {# filtre par label de marque #}
-                            {{ form_widget(filters.label)}}
+                            {{ form_widget(filters.name)}}
                             {{knp_pagination_sortable(
                                 brands,
                                 'Nom',
-                                'brand.label'
+                                'brand.name'
                             )|raw
                         }}
                         </th>
@@ -51,11 +51,11 @@
                 {% for brand in brands %}
                     <tr>
                         <td>{{ brand[0].id }}</td>
-                        <td><img src="{{ asset("build/images/" ~ brand[0].pathImage) }}" alt="{{ brand[0].label }}"></td>
-                        <td>{{ brand[0].label }}</td>
+                        <td><img src="{{ asset("build/images/" ~ brand[0].pathImage) }}" alt="{{ brand[0].name }}"></td>
+                        <td>{{ brand[0].name }}</td>
                         <td>{{ brand['NbProduct'] }}</td>
                         <td>
-                            <a class="button btnAction" href="{{ path('app_brand_edit', {'id': brand[0].id}) }}">Modifier</a>
+                            <a class="button btnAction" href="{{ path('app_brand_edit', {'slug': brand[0].slug}) }}">Modifier</a>
                         </td>
                     </tr>
                 {% else %}

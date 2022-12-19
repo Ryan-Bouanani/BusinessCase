@@ -6,6 +6,7 @@ use App\Entity\Category;
 use App\Form\CategoryType;
 use App\Form\Filter\CategoryFilterType;
 use App\Repository\CategoryRepository;
+use App\Repository\ProductRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -110,7 +111,7 @@ class CategoryController extends AbstractController
      * @param CategoryRepository $categoryRepository
      * @return Response
      */
-    #[Route('/{id}/edit', name: 'app_category_edit', methods: ['GET', 'POST'])]
+    #[Route('/{slug}/edit', name: 'app_category_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Category $category, CategoryRepository $categoryRepository): Response
     {
         // Creation du formulaire de catégorie
@@ -146,10 +147,24 @@ class CategoryController extends AbstractController
      * @param CategoryRepository $categoryRepository
      * @return Response
      */
-    #[Route('/{id}/delete', name: 'app_category_delete', methods: ['DELETE'])]
-    public function delete(Request $request, Category $category, CategoryRepository $categoryRepository): Response
+    #[Route('/{slug}/delete', name: 'app_category_delete', methods: ['POST'])]
+    public function delete(Request $request, Category $category, CategoryRepository $categoryRepository, ProductRepository $productRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {
+            // Catégorie supprimée : on set active à false pour tout les produits de la catégorie
+            if (is_null($category->getCategoryParent())) {
+                foreach ($category->getCategoryChildren() as $categoryChildren) {
+                    foreach ($categoryChildren->getProducts() as $product) {
+                        $product->setActive(false);
+                        $productRepository->add($product, true);
+                    }
+                }
+            } else {
+                foreach ($category->getProducts() as $product) {
+                    $product->setActive(false);
+                    $productRepository->add($product, true);
+                }
+            }
             $categoryRepository->remove($category, true);
         }
 

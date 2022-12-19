@@ -140,6 +140,9 @@ main {
         right: -35px;
         background: url(/assets/img/arrow-right-orange.svg);
     }
+    .arrow_left:not(#testimonials .arrow_left), .arrow_right:not(#testimonials .arrow_right) {
+        display: none;
+    }
     .arrow_left, .arrow_right {
         color: $white;
         position: absolute;
@@ -152,30 +155,51 @@ main {
         cursor: pointer;
         z-index: 10;
     }
+ 
     @media screen and (min-width: 500px) {
-        .arrow_left {
+        .arrow_left:not(#testimonials .arrow_left, #bestBrandts .arrow_left) {
             left: -50px;
         }
-        .arrow_right {
+        .arrow_right:not(#testimonials .arrow_right, #bestBrandts .arrow_right) {
             right: -50px;
         }
     }
+    @media screen and (min-width: 668px) {
+        .arrow_left:not(#testimonials .arrow_left), .arrow_right:not(#testimonials .arrow_right) {
+            display: block;
+        }
+        #testimonials {
+            .arrow_left, .arrow_right {
+                display: block;
+            }
+        }
     
+    }
+    @media screen and (min-width: 768px) {
+        #testimonials, #bestBrandts {
+            .arrow_left {
+                left: -50px;
+            }
+            .arrow_right {
+                right: -50px;
+            }
+        }
+        .arrow_left:not(#testimonials .arrow_left, #bestBrandts .arrow_left, #productSection .arrow_left) {
+            left: -70px;
+        }
+        .arrow_right:not(#testimonials .arrow_right, #bestBrandts .arrow_right, #productSection .arrow_right) {
+            right: -70px;
+        }
+    }       
+}
+
 @media screen and (max-width: 250px) {
     body {
         width: 110%;
-        main .arrow_left {
-            left: -20px;
-        }
-        main .arrow_right {
-            right: -20px;
-        }
         .h1Home {
             font-size: 3.2rem;
         }
     }
-
-}
 }
 
 
@@ -361,4 +385,3 @@ main {
         color: $white;
     }    
 }
-

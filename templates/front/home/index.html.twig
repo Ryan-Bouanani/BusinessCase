@@ -56,7 +56,7 @@
                     <span class="arrow_right"></span>
                     <div class="carrousel carrouselBrandts">
                       {% for brand in brandts %}
-                        <a href="{{ path('app_brand_detail', {id: brand.id}) }}"><img src="{{ asset("build/images/" ~ brand.pathImage) }}" alt="{{ brand.label }}"></a>
+                        <a href="{{ path('app_brand_detail', {slug: brand.slug}) }}"><img src="{{ asset("build/images/" ~ brand.pathImage) }}" alt="{{ brand.name }}"></a>
                       {% endfor %}
                     </div>
                 </div>

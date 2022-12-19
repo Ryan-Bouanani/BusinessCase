@@ -5,6 +5,7 @@ namespace App\Controller\Front;
 use App\Entity\Customer;
 use App\Form\RegistrationFormType;
 use App\Security\CustomerAuthenticator;
+use App\Service\ShoppingCart\ShoppingCartService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -30,7 +31,7 @@ class RegistrationController extends AbstractController
     #[Route('/inscription', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, CustomerAuthenticator $authenticator, 
     EntityManagerInterface $entityManager,
-    SessionInterface $session,
+    ShoppingCartService $shoppingCartService,
     ): Response
     {
         $user = new Customer();
@@ -59,18 +60,66 @@ class RegistrationController extends AbstractController
             );
         }
 
-            /** @var Customer $user*/
-            $user = $this->getUser();
-            if ($user) {         
-                // On vérifie que l'utilisateur possède bien un panier
-                if ($session->has('basket') && $session->has('shoppingCart')) {
-                    $shoppingCart = $session->get('shoppingCart', []);
-                    $shoppingCart->setCustomer($user);
-                }
-            }
+        // On ajoute un user à la commande
+        $shoppingCartService->addUserToBasket();
 
         return $this->render('front/registration/register.html.twig', [
             'registrationForm' => $form->createView(),
+        ]);
+    }
+
+
+    #[Route('/checkout/inscription', name: 'app_checkout_register')]
+    public function checkoutRegister(
+        Request $request, 
+        UserPasswordHasherInterface $userPasswordHasher, 
+        UserAuthenticatorInterface $userAuthenticator, 
+        CustomerAuthenticator $authenticator, 
+        EntityManagerInterface $entityManager,
+        ShoppingCartService $shoppingCartService,
+        SessionInterface $session,
+    ): Response
+    {
+        $user = new Customer();
+        $form = $this->createForm(RegistrationFormType::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // encode the plain password
+            $user->setPassword(
+                $userPasswordHasher->hashPassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                )
+            );
+
+            $entityManager->persist($user);
+            $entityManager->flush();
+
+            // do anything else you need here, like send an email
+            // dd($user);
+
+            $userAuthenticator->authenticateUser(
+                $user,
+                $authenticator,
+                $request
+            );
+
+            // On ajoute un user à la commande
+            $shoppingCartService->addUserToBasket();
+            
+            // On vérifie que l'utilisateur possède bien un panier
+            if ($session->has('shoppingCart')) {
+                // Sinon on redrige vers formulaire d'ajout d'adresse
+                return $this->redirectToRoute('app_checkout_address');
+            }
+        }
+
+
+        return $this->render('front/shoppingCart/register.html.twig', [
+            'registrationForm' => $form->createView(),
+            // On calcul le montant du panier
+            'total' => $shoppingCartService->getTotal(),
         ]);
     }
 }

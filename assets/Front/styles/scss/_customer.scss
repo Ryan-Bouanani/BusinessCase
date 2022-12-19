@@ -54,6 +54,9 @@
         padding: 30px 40px;
         width: 100%;
         max-width: 830px;
+        .ordersEmpty {
+            text-align: center;
+        }
     }
     .btnUpdate, .linkAccount i, .leftIcon i {
         font-size: 1.3rem;

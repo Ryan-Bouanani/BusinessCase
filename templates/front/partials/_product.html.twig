@@ -1,11 +1,11 @@
    {% for product in products %}
         <div class="card">
-        <a href="{{ path('app_detail_product', {'id': product[0].id}) }}">
+        <a href="{{ path('app_detail_product', {'slug': product[0].slug}) }}">
         
             {% for image in product[0].images %}
-                <img src="{{ asset("build/images/" ~ image.path) }}" alt="{{ product[0].title }}">
+                <img src="{{ asset("build/images/" ~ image.path) }}" alt="{{ product[0].name }}">
             {% endfor %}
-            <h3 class="title-product">{{ product[0].title }}</h3>
+            <h3 class="title-product">{{ product[0].name }}</h3>
 
             {% if product[0].promotion and product[0].promotion.expirationDate > 'now' | date('d/m/Y') %}
                 <span class="badge">{{ product[0].promotion.percentage | percentagePromo }}</span>

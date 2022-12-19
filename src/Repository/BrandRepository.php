@@ -46,7 +46,7 @@ class BrandRepository extends AbstractRepository
         return $qb->select('brand', 'count(product) AS NbProduct')
             ->leftjoin('brand.products', 'product')
             ->groupBy('brand')
-            ->orderBy('brand.label', 'ASC')
+            ->orderBy('brand.name', 'ASC')
         ;
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Form\Filter;
 
+use App\Entity\Brand;
 use App\Entity\Category;
 use App\Entity\Image;
 use App\Entity\Product;
@@ -32,7 +33,7 @@ class ProductFilterType extends AbstractType
                     'placeholder' => 'Id d\'un produit'
                 ]
             ])
-            ->add('title', TextFilterType::class, [
+            ->add('name', TextFilterType::class, [
                 'condition_pattern' => FilterOperands::STRING_CONTAINS,
                 'attr' => [
                     'class' => 'filterSearch',
@@ -83,6 +84,19 @@ class ProductFilterType extends AbstractType
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('category')
                     ->orderBy('category.name', 'ASC')
+                    ;
+                }
+            ])
+            ->add('brand', EntityFilterType::class, [
+                'class' => Brand::class,
+                'choice_label' => 'name',
+                'placeholder' => 'Marque',
+                'attr' => [
+                    'class' => 'filterSearchSelect'
+                ],
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('brand')
+                    ->orderBy('brand.name', 'ASC')
                     ;
                 }
             ])

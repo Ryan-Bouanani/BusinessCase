@@ -109,7 +109,7 @@ class PromotionController extends AbstractController
      * @param PromotionRepository $promotionRepository
      * @return Response
      */
-    #[Route('/{id}/edit', name: 'app_promotion_edit', methods: ['GET', 'POST'])]
+    #[Route('/{slug}/edit', name: 'app_promotion_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Promotion $promotion, PromotionRepository $promotionRepository): Response
     {
         // Creation du formulaire de promotion
@@ -141,7 +141,7 @@ class PromotionController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_promotion_delete', methods: ['POST'])]
+    #[Route('/{slug}', name: 'app_promotion_delete', methods: ['POST'])]
     /**
      *  Ce controller va servir à la suppression d'une promotion
      *

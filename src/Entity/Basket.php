@@ -258,7 +258,6 @@ use Doctrine\ORM\Mapping as ORM;
         ],     
     ],
     itemOperations: [
-        // 'get'
     ],
 )]
 class Basket
@@ -273,7 +272,7 @@ class Basket
     #[Groups(['read:Basket:attributes'])]
     #[
         Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
+            'message' => "Veuillez remplir tout les champs."
         ]),
     ]
     private ?\DateTimeInterface $dateCreated = null;
@@ -289,7 +288,7 @@ class Basket
     #[Groups(['read:Basket:attributes'])]
     #[
           Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
+            'message' => "Veuillez remplir tout les champs."
         ]),
     ]
     private Collection $contentShoppingCarts;
@@ -301,7 +300,7 @@ class Basket
     #[ORM\ManyToOne(inversedBy: 'baskets')]
     #[
         Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
+            'message' => "Veuillez remplir tout les champs."
         ]),
     ]
     private ?MeanOfPayment $meanOfPayment = null;

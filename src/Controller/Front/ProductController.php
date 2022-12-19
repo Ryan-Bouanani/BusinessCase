@@ -18,22 +18,22 @@ class ProductController extends AbstractController
      * Ce controller va servir à afficher la page de chaque produit
      *
      * @param ProductRepository $productRepository
-     * @param integer $id
+     * @param string $slug
      * @param ReviewRepository $reviewRepository
      * @param Request $request
      * @return Response
      */
-    #[Route('/{id}', name: 'app_detail_product')]
+    #[Route('/{slug}', name: 'app_detail_product')]
     public function index(
         ProductRepository $productRepository, 
-        int $id,
+        string $slug,
         ReviewRepository $reviewRepository,
         Request $request,
         ): Response
     {
 
         // On récupere les info précises du produit
-        $product = $productRepository->getProductInfo($id);
+        $product = $productRepository->getProductInfo($slug);
         if (!$product[0]->isActive()) {
             return $this->redirectToRoute('app_home');
         }
@@ -43,7 +43,7 @@ class ProductController extends AbstractController
 
         $productSameBrand = $productRepository->getProductByBrand($product[0]->getBrand()->getId(), $product[0], 10);
 
-        $reviews = $reviewRepository->getAllReviewProduct($id, $request->query->getInt('page', 1));
+        $reviews = $reviewRepository->getAllReviewProduct($slug, $request->query->getInt('page', 1));
         // Si utilisateur connécté il peut alors donner un avis au produit
         $firstReview = true;
         $customer = $this->getUser();
@@ -73,7 +73,7 @@ class ProductController extends AbstractController
                     // On met l'utilisateur à jour en bdd
                     $reviewRepository->add($review, true);       
                     return $this->redirectToRoute('app_detail_product', [
-                        'id' => $product[0]->getId(),
+                        'slug' => $product[0]->getSlug(),
                     ]);
                 }
                 return $this->render('front/product/index.html.twig', [

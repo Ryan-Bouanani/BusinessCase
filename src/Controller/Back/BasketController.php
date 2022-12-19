@@ -259,7 +259,7 @@ class BasketController extends AbstractController
             if ($this->isCsrfTokenValid('addContentShoppingCart' . $basket->getId(), $data['_token'])) {
 
                 // On récupere le produit qui va être ajouté à la commande
-                $product = $productRepository->findOneBy(['title' => $product]);
+                $product = $productRepository->findOneBy(['name' => $product]);
                 
                 // On récupere les lignes de la commande
                 $contentShoppingCarts = $basket->getContentShoppingCarts();

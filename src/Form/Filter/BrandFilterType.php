@@ -20,7 +20,7 @@ class BrandFilterType extends AbstractType
                     'placeholder' => 'Id d\'une marque'
                 ]
             ])
-            ->add('label', TextFilterType::class, [
+            ->add('name', TextFilterType::class, [
                 'condition_pattern' => FilterOperands::STRING_CONTAINS,
                 'attr' => [
                     'class' => 'filterSearch',

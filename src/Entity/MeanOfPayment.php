@@ -19,13 +19,13 @@ class MeanOfPayment
     #[ORM\Column(length: 255)]
     #[
         Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
+            'message' => "Veuillez remplir tout les champs."
         ]),
         Assert\Length([
             'min' => 2,
             'max' => 255,
-            'minMessage' => 'Veuiller entrer un moyen de paiement contenant au minimum {{ limit }} caractères',
-            'maxMessage' => 'Veuiller entrer un moyen de paiement contenant au maximum {{ limit }} caractères',
+            'minMessage' => 'Veuillez entrer un moyen de paiement contenant au minimum {{ limit }} caractères',
+            'maxMessage' => 'Veuillez entrer un moyen de paiement contenant au maximum {{ limit }} caractères',
         ]),
     ]
     private ?string $designation = null;

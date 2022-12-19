@@ -25,11 +25,11 @@
                     </th>
                     <th scope="col" class="colTitle">
                         {# filtre par title #}
-                        {{ form_widget(filters.title)}}
+                        {{ form_widget(filters.name)}}
                         {{knp_pagination_sortable(
                             products,
                             'Nom',
-                            'product.title'
+                            'product.name'
                         )|raw
                         }}
                     </th>
@@ -76,6 +76,16 @@
                         )|raw
                         }}
                     </th>
+                    <th scope="col" class="colCategory">
+                        {# filtrer par date d'ajout #}
+                        {{ form_widget(filters.brand)}}
+                        {{knp_pagination_sortable(
+                            products,
+                            'Marque',
+                            'brand.name'
+                        )|raw
+                        }}
+                    </th>
                     <th scope="col">
                         <a class="button btnAction" href=" {{ path('app_product_index') }}">Reset</a>
                         <button class="button btnAction" type="submit">Rechercher</button>
@@ -89,18 +99,19 @@
                     <th scope="row">{{ product.id }}</th>
                     <th scope="row">
                     {% for image in product.images %}       
-                            <img src="{{ asset("build/images/" ~ image.path) }}" alt="{{ product.title }}">
+                            <img src="{{ asset("build/images/" ~ image.path) }}" alt="{{ product.name }}">
                         {% endfor %}
                     </th>
-                    <th scope="row">{{ product.title }}</th>
+                    <th scope="row">{{ product.name }}</th>
                     <td>{{ product.priceExclVat }}€</td>
                     <td>{{ product.priceExclVat | priceTaxIncl(product.tva) }}€</td>
                     <td class="colActive">{{ product.active ? 'Oui' : 'Non' }}</td>
                     <td class="colDateAdded">{{ product.dateAdded ? product.dateAdded|date('d/m/Y') : '' }}</td>
-                    <td class="colCategory">{{ product.category.name ? product.category.name: '' }}</td>
+                    <td class="colCategory">{{ product.category ? product.category.name: 'Aucune catégorie' }}</td>
+                    <td class="colCategory">{{ product.brand ? product.brand.name: 'Aucune marque' }}</td>
                     <td>
-                        <a class="button btnAction" href="{{ path('app_product_show', {'id': product.id}) }}">Detail</a>
-                        <a class="button btnAction" href="{{ path('app_product_edit', {'id': product.id}) }}">Modifier</a>
+                        <a class="button btnAction" href="{{ path('app_product_show', {'slug': product.slug}) }}">Detail</a>
+                        <a class="button btnAction" href="{{ path('app_product_edit', {'slug': product.slug}) }}">Modifier</a>
                     </td>
                 </tr>
                 {% else %}

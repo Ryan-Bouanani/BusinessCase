@@ -27,7 +27,7 @@ class ProductType extends AbstractType
         $isEdit = $product && $product->getId();
 
         $builder
-            ->add('title', TextType::class, [
+            ->add('name', TextType::class, [
                 'label' => 'Nom',
                 'attr' => [
                     'placeholder' => 'Entrer un nom'

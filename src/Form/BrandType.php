@@ -21,7 +21,7 @@ class BrandType extends AbstractType
         $isEdit = $brand && $brand->getId();
 
         $builder
-            ->add('label', TextType::class, [
+            ->add('name', TextType::class, [
                 'label' => 'Nom',
                 'attr' => [
                     'placeholder' => 'Entrer une nom'

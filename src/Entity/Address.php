@@ -20,13 +20,13 @@ class Address
     #[ORM\Column(length: 255)]
     #[
         Assert\NotBlank([
-           'message' => "Veuiller remplir tout les champs."
+           'message' => "Veuillez remplir tout les champs."
        ]),
        Assert\Length([
            'min' => 2,
            'max' => 255,
-           'minMessage' => 'Veuiller entrer un prenom contenant au minimum {{ limit }} caractères',
-           'maxMessage' => 'Veuiller entrer un prenom contenant au maximum {{ limit }} caractères',
+           'minMessage' => 'Veuillez entrer un prenom contenant au minimum {{ limit }} caractères',
+           'maxMessage' => 'Veuillez entrer un prenom contenant au maximum {{ limit }} caractères',
        ]),
    ]
     private ?string $firstName = null;
@@ -34,13 +34,13 @@ class Address
     #[ORM\Column(length: 255)]
     #[
         Assert\NotBlank([
-           'message' => "Veuiller remplir tout les champs."
+           'message' => "Veuillez remplir tout les champs."
        ]),
        Assert\Length([
            'min' => 2,
            'max' => 255,
-           'minMessage' => 'Veuiller entrer un nom contenant au minimum {{ limit }} caractères',
-           'maxMessage' => 'Veuiller entrer un nom contenant au maximum {{ limit }} caractères',
+           'minMessage' => 'Veuillez entrer un nom contenant au minimum {{ limit }} caractères',
+           'maxMessage' => 'Veuillez entrer un nom contenant au maximum {{ limit }} caractères',
        ]),
    ]
     private ?string $lastName = null;
@@ -51,13 +51,13 @@ class Address
     #[ORM\Column(length: 15)]
     #[
         Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
+            'message' => "Veuillez remplir tout les champs."
         ]),
         Assert\Length([
             'min' => 2,
             'max' => 15,
-            'minMessage' => 'Veuiller entrer un code postale contenant au minimum {{ limit }} caractères',
-            'maxMessage' => 'Veuiller entrer un code postale contenant au maximum {{ limit }} caractères',
+            'minMessage' => 'Veuillez entrer un code postale contenant au minimum {{ limit }} caractères',
+            'maxMessage' => 'Veuillez entrer un code postale contenant au maximum {{ limit }} caractères',
         ]),
     ]
     private ?string $postalCode = null;
@@ -65,13 +65,13 @@ class Address
     #[ORM\Column(length: 255)]
     #[
          Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
+            'message' => "Veuillez remplir tout les champs."
         ]),
         Assert\Length([
             'min' => 2,
             'max' => 255,
-            'minMessage' => 'Veuiller entrer une ville contenant au minimum {{ limit }} caractères',
-            'maxMessage' => 'Veuiller entrer une ville contenant au maximum {{ limit }} caractères',
+            'minMessage' => 'Veuillez entrer une ville contenant au minimum {{ limit }} caractères',
+            'maxMessage' => 'Veuillez entrer une ville contenant au maximum {{ limit }} caractères',
         ]),
         ]
         private ?string $city = null;
@@ -80,13 +80,13 @@ class Address
         #[ORM\Column(length: 255)]
         #[
             Assert\NotBlank([
-                'message' => "Veuiller remplir tout les champs."
+                'message' => "Veuillez remplir tout les champs."
             ]),
             Assert\Length([
                 'min' => 3,
                 'max' => 255,
-                'minMessage' => 'Veuiller entrer un pays contenant au minimum {{ limit }} caractères',
-                'maxMessage' => 'Veuiller entrer un pays contenant au maximum {{ limit }} caractères',
+                'minMessage' => 'Veuillez entrer un pays contenant au minimum {{ limit }} caractères',
+                'maxMessage' => 'Veuillez entrer un pays contenant au maximum {{ limit }} caractères',
             ]),
         ]
         private ?string $country = null;
@@ -94,13 +94,13 @@ class Address
     #[ORM\Column(length: 255)]
     #[
         Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
+            'message' => "Veuillez remplir tout les champs."
         ]),
         Assert\Length([
-            'min' => 2,
+            'min' => 5,
             'max' => 255,
-            'minMessage' => 'Veuiller entrer une rue contenant au minimum {{ limit }} caractères',
-            'maxMessage' => 'Veuiller entrer une rue contenant au maximum {{ limit }} caractères',
+            'minMessage' => 'Veuillez entrer un numéro et nom de rue contenant au minimum {{ limit }} caractères',
+            'maxMessage' => 'Veuillez entrer un numéro et nom de rue contenant au maximum {{ limit }} caractères',
         ]),
     ]
     private ?string $line1 = null;
@@ -109,7 +109,7 @@ class Address
     #[
         Assert\Length([
             'max' => 255,
-            'maxMessage' => 'Veuiller entrer une information contenant au maximum {{ limit }} caractères',
+            'maxMessage' => 'Veuillez entrer une information contenant au maximum {{ limit }} caractères',
         ]),
     ]
     private ?string $line2 = null;

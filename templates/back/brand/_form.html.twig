@@ -4,11 +4,11 @@
     <h1>{{ title }}</h1>
     {{ form_start(form) }}
         <div class='formChild'>
-            {{ form_label(form.label) }}
-            {{ form_widget(form.label) }}
-            {% if form_errors(form.label) %}
+            {{ form_label(form.name) }}
+            {{ form_widget(form.name) }}
+            {% if form_errors(form.name) %}
                 <div class="error">
-                    {{ form_errors(form.label) }}
+                    {{ form_errors(form.name) }}
                 </div>
             {% endif %}       
         </div>

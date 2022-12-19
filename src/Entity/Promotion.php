@@ -4,12 +4,14 @@ namespace App\Entity;
 
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\PromotionRepository;
+use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PromotionRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Promotion
 {
     #[ORM\Id]
@@ -17,24 +19,12 @@ class Promotion
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    #[
-        Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
-        ]),
-        Assert\Length([
-            'min' => 2,
-            'max' => 255,
-            'minMessage' => 'Veuiller entrer une promotion contenant au minimum {{ limit }} caractères',
-            'maxMessage' => 'Veuiller entrer une promotion contenant au maximum {{ limit }} caractères',
-        ]),
-    ]
-    private ?string $name = null;
+    use VapeurIshEntity;
 
     #[ORM\Column]
     #[
         Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
+            'message' => "Veuillez remplir tout les champs."
         ]),
         Assert\Positive
     ]
@@ -43,7 +33,7 @@ class Promotion
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[
         Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
+            'message' => "Veuillez remplir tout les champs."
         ]),
     ]
     private ?\DateTimeInterface $expirationDate = null;
@@ -54,6 +44,11 @@ class Promotion
     public function __construct()
     {
         $this->products = new ArrayCollection();
+    }
+
+    #[ORM\PrePersist]
+    public function PrePersist() {
+        $this->slug = (new Slugify())->slugify($this->name);
     }
 
     public function getId(): ?int

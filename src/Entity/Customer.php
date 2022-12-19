@@ -68,13 +68,13 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180, unique: true)]
     #[
         Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
+            'message' => "Veuillez remplir tout les champs."
         ]),
         Assert\Length([
             'min' => 2,
             'max' => 180,
-            'minMessage' => 'Veuiller entrer un username contenant au minimum {{ limit }} caractères',
-            'maxMessage' => 'Veuiller entrer un username contenant au maximum {{ limit }} caractères',
+            'minMessage' => 'Veuillez entrer un username contenant au minimum {{ limit }} caractères',
+            'maxMessage' => 'Veuillez entrer un username contenant au maximum {{ limit }} caractères',
         ]),
     ]
     private ?string $username = null;
@@ -82,7 +82,7 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 180, unique: true)]
     #[
         Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
+            'message' => "Veuillez remplir tout les champs."
         ]),
         Assert\Email([
             'message' => 'Cette adresse mail n\'est pas valide.',
@@ -109,13 +109,13 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     #[
         Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
+            'message' => "Veuillez remplir tout les champs."
         ]),
         Assert\Length([
             'min' => 3,
             'max' => 255,
-            'minMessage' => 'Veuiller entrer un prenom contenant au minimum {{ limit }} caractères',
-            'maxMessage' => 'Veuiller entrer un prenom contenant au maximum {{ limit }} caractères',
+            'minMessage' => 'Veuillez entrer un prenom contenant au minimum {{ limit }} caractères',
+            'maxMessage' => 'Veuillez entrer un prenom contenant au maximum {{ limit }} caractères',
         ]),
     ]
     private ?string $firstName = null;
@@ -123,13 +123,13 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     #[
         Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
+            'message' => "Veuillez remplir tout les champs."
         ]),
         Assert\Length([
             'min' => 3,
             'max' => 255,
-            'minMessage' => 'Veuiller entrer un nom contenant au minimum {{ limit }} caractères',
-            'maxMessage' => 'Veuiller entrer un nom contenant au maximum {{ limit }} caractères',
+            'minMessage' => 'Veuillez entrer un nom contenant au minimum {{ limit }} caractères',
+            'maxMessage' => 'Veuillez entrer un nom contenant au maximum {{ limit }} caractères',
         ]),
     ]
     private ?string $lastName = null;
@@ -142,7 +142,7 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[
         Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
+            'message' => "Veuillez remplir tout les champs."
         ]),
   
     ]
@@ -151,7 +151,7 @@ class Customer implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     #[
         Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
+            'message' => "Veuillez remplir tout les champs."
         ]),
     ]
     private ?\DateTimeInterface $registrationDate = null;

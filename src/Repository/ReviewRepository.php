@@ -54,14 +54,14 @@ class ReviewRepository extends ServiceEntityRepository
         return $query;
     }
 
-    public function getAllReviewProduct(int $id, int $page ): PaginationInterface {
+    public function getAllReviewProduct(string $slug, int $page ): PaginationInterface {
         $query = $this->createQueryBuilder('review')
         ->select('review')
         ->join('review.customer', 'customer')
         ->join('review.product', 'product')
-        ->where('product.id = :id')
+        ->where('product.slug = :slug')
         ->orderBy('review.createdAt', 'DESC')
-        ->setParameter(':id', $id)
+        ->setParameter(':slug', $slug)
         ->getQuery()
         ->getResult()
         ;

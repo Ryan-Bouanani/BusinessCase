@@ -157,7 +157,7 @@ class ProductController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_product_show', methods: ['GET'])]
+    #[Route('/{slug}', name: 'app_product_show', methods: ['GET'])]
     public function show(Product $product): Response
     {
 
@@ -175,7 +175,7 @@ class ProductController extends AbstractController
      * @param FileUploader $fileUploader
      * @return Response
      */
-    #[Route('/{id}/edit', name: 'app_product_edit', methods: ['GET', 'POST'])]
+    #[Route('/{slug}/edit', name: 'app_product_edit', methods: ['GET', 'POST'])]
     public function edit(
         Request $request, 
         Product $product, 
@@ -240,7 +240,7 @@ class ProductController extends AbstractController
      * @param ProductRepository $productRepository
      * @return Response
      */
-    #[Route('/{id}/delete', name: 'app_product_delete', methods: ['POST'])]
+    #[Route('/{slug}/delete', name: 'app_product_delete', methods: ['POST'])]
     public function delete(Request $request, Product $product, ProductRepository $productRepository): Response
     {
 

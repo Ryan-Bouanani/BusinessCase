@@ -2,14 +2,17 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
-use Symfony\Component\Validator\Constraints as Assert;
-use App\Repository\BrandRepository;
-use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
+use App\Entity\VapeurIshEntity;
 use Doctrine\ORM\Mapping as ORM;
+use App\Repository\BrandRepository;
+use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiResource;
+use Cocur\Slugify\Slugify;
+use Doctrine\Common\Collections\ArrayCollection;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: BrandRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Brand
 {
     #[ORM\Id]
@@ -17,19 +20,7 @@ class Brand
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    #[
-        Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
-        ]),
-        Assert\Length([
-            'min' => 2,
-            'max' => 255,
-            'minMessage' => 'Veuiller entrer une marque contenant au minimum {{ limit }} caractères',
-            'maxMessage' => 'Veuiller entrer une marque contenant au maximum {{ limit }} caractères',
-        ]),
-    ]
-    private ?string $label = null;
+    use VapeurIshEntity;
 
     #[ORM\OneToMany(mappedBy: 'brand', targetEntity: Product::class)]
     private Collection $products;
@@ -42,21 +33,14 @@ class Brand
         $this->products = new ArrayCollection();
     }
 
+    #[ORM\PrePersist]
+    public function PrePersist() {
+        $this->slug = (new Slugify())->slugify($this->name);
+    }
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getLabel(): ?string
-    {
-        return $this->label;
-    }
-
-    public function setLabel(string $label): self
-    {
-        $this->label = $label;
-
-        return $this;
     }
 
     /**

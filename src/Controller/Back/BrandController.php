@@ -123,7 +123,7 @@ class BrandController extends AbstractController
      * @param FileUploader $fileUploader
      * @return Response
      */
-    #[Route('/{id}/edit', name: 'app_brand_edit', methods: ['GET', 'POST'])]
+    #[Route('/{slug}/edit', name: 'app_brand_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Brand $brand, BrandRepository $brandRepository, FileUploader $fileUploader): Response
     {
         // Creation du formulaire de marque
@@ -173,7 +173,7 @@ class BrandController extends AbstractController
      * @param BrandRepository $brandRepository
      * @return Response
      */
-    #[Route('/{id}/delete', name: 'app_brand_delete', methods: ['POST'])]
+    #[Route('/{slug}/delete', name: 'app_brand_delete', methods: ['POST'])]
     public function delete(Request $request, Brand $brand, BrandRepository $brandRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$brand->getId(), $request->request->get('_token'))) {

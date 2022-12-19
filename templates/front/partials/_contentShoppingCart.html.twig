@@ -4,16 +4,16 @@
                     <div class="leftShoppingCart">
                         {% for image in item.product.images %}
                             {% if image.isMain == true %}
-                                <a href="{{ path('app_detail_product', {id: item.product.id}) }}">
-                                    <img class="productImage" src="{{ asset("build/images/" ~ image.path) }}" alt="{{ item.product.title }}">
+                                <a href="{{ path('app_detail_product', {slug: item.product.slug}) }}">
+                                    <img class="productImage" src="{{ asset("build/images/" ~ image.path) }}" alt="{{ item.product.name }}">
                                 </a>
                             {% endif %}
                         {% endfor %}
                     </div>
                     <div class="rightShoppingCart">
                         <div class="titleAndPrice">
-                            <p class="productTitle">{{ item.product.title |slice(0, 20) }}</p>
-                            <p>{{ item.product.brand.label |slice(0, 20) }}</p>
+                            <p class="productTitle">{{ item.product.name |slice(0, 20) }}</p>
+                            <p>{{ item.product.brand.name |slice(0, 20) }}</p>
                         
                             {% set priceTaxIncl = item.product.priceExclVat |priceTaxIncl( item.product.tva) %}
                             {% if item.product.promotion  and item.product.promotion.expirationDate > 'now' | date('d/m/Y') %}

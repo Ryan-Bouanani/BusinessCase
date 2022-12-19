@@ -12,8 +12,7 @@ App\Entity\Category:
   category6:
     name: 'Oiseau'
   category7:
-    name: 'Ferme'
-
+    name: 'Ferme'  
   category8:
     name: 'Alimentation pour chien'
     categoryParent: '@category1'
@@ -32,7 +31,6 @@ App\Entity\Category:
   category13:
     name: 'Antiparasites  pour chien'
     categoryParent: '@category1'
-
   category14:
     name: 'Alimentation pour chat'
     categoryParent: '@category2'
@@ -45,7 +43,6 @@ App\Entity\Category:
   category17:
     name: 'Antiparasites pour chat'
     categoryParent: '@category2'
-
   category18:
     name: 'Alimentation pour rongueur'
     categoryParent: '@category3'
@@ -61,8 +58,6 @@ App\Entity\Category:
   category22:
     name: 'Litières pour rongueur'
     categoryParent: '@category3'
-
-
   category23:
     name: 'Alimentation pour reptile'
     categoryParent: '@category4'
@@ -81,7 +76,6 @@ App\Entity\Category:
   category28:
     name: 'Terrariums pour reptile'
     categoryParent: '@category4'
-
   category29:
     name: 'Alimentation pour poisson'
     categoryParent: '@category5'
@@ -100,7 +94,6 @@ App\Entity\Category:
   category34:
     name: 'Traitements d’eau pour poisson'
     categoryParent: '@category5'
-
   category35:
     name: 'Alimentation pour oiseau'
     categoryParent: '@category6'
@@ -113,7 +106,6 @@ App\Entity\Category:
   category38:
     name: 'Hygiène et soins pour oiseau'
     categoryParent: '@category6'
-
   category39:
     name: 'Alimentation pour ferme'
     categoryParent: '@category7'

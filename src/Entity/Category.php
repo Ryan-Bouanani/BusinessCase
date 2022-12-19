@@ -3,12 +3,13 @@
 namespace App\Entity;
 
 use App\Repository\CategoryRepository;
-use Symfony\Component\Validator\Constraints as Assert;
+use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CategoryRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Category
 {
     #[ORM\Id]
@@ -16,24 +17,14 @@ class Category
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    #[
-        Assert\NotBlank([
-            'message' => "Veuiller remplir tout les champs."
-        ]),
-        Assert\Length([
-            'min' => 3,
-            'max' => 255,
-            'minMessage' => 'Veuiller entrer une categorie contenant au minimum {{ limit }} caractères',
-            'maxMessage' => 'Veuiller entrer une categorie contenant au maximum {{ limit }} caractères',
-        ]),
-    ]
-    private ?string $name = null;
+    use VapeurIshEntity;
 
     #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'categoryChild')]
     private ?self $categoryParent = null;
 
-    #[ORM\OneToMany(mappedBy: 'categoryParent', targetEntity: self::class)]
+    #[ORM\OneToMany(mappedBy: 'categoryParent', targetEntity: self::class, cascade: [
+        'remove'
+    ])]
     private Collection $categoryChildren;
 
     #[ORM\OneToMany(mappedBy: 'category', targetEntity: Product::class)]
@@ -45,21 +36,14 @@ class Category
         $this->products = new ArrayCollection();
     }
 
+    #[ORM\PrePersist]
+    public function PrePersist() {
+        $this->slug = (new Slugify())->slugify($this->name);
+    }
+
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getName(): ?string
-    {
-        return $this->name;
-    }
-
-    public function setName(string $name): self
-    {
-        $this->name = $name;
-
-        return $this;
     }
 
     public function getCategoryParent(): ?self

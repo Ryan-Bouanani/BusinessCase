@@ -44,7 +44,7 @@ class FrontProductFilterType extends AbstractType
             
             ->add('brand', EntityFilterType::class, [
                 'class' => Brand::class,
-                'choice_label' => 'label',
+                'choice_label' => 'name',
                 'label' => 'Marque',
                 'placeholder' => 'Sélectionner une marque',
                 'attr' => [
@@ -52,7 +52,7 @@ class FrontProductFilterType extends AbstractType
                 ],
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('brand')
-                        ->orderBy('brand.label', 'ASC')
+                        ->orderBy('brand.name', 'ASC')
                     ;
                 },
             ])

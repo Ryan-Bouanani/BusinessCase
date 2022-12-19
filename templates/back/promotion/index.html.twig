@@ -75,7 +75,7 @@
                     <td>{{ promotion['NbProduct'] }}</td>
                     <td>{{ promotion[0].expirationDate ? promotion[0].expirationDate|date('d/m/Y H:i') : '' }}</td>
                     <td>
-                        <a class="button btnAction" href="{{ path('app_promotion_edit', {'id': promotion[0].id}) }}">Modifier</a>
+                        <a class="button btnAction" href="{{ path('app_promotion_edit', {'slug': promotion[0].slug}) }}">Modifier</a>
                     </td>
                 </tr>
             {% else %}

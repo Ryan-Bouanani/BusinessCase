@@ -1,49 +1,49 @@
 App\Entity\Brand:
   brand0:
-    label: 'Royal Canin'
+    name: 'Royal Canin'
     pathimage: 'royal-Canin.png'
   brand1:
-    label: 'Taste of the Wild'
+    name: 'Taste of the Wild'
     pathimage: 'taste_of_the_wild.png'
   brand2:
-    label: 'Vitakraft'
+    name: 'Vitakraft'
     pathimage: 'vitacraft.png'
   brand3:
-    label: 'Pedigree'
+    name: 'Pedigree'
     pathimage: 'pedigree.png'
   brand4:
-    label: 'Whiskas'
+    name: 'Whiskas'
     pathimage: 'whiskas.png'
   brand5:
-    label: 'Yarrah'
+    name: 'Yarrah'
     pathimage: 'yarrah.png'
   brand6:
-    label: 'Purina'
+    name: 'Purina'
     pathimage: 'purina.png'
   brand7:
-    label: 'Almo Nature'
+    name: 'Almo Nature'
     pathimage: 'almoNature.png'
   brand8:
-    label: 'Animalis'
+    name: 'Animalis'
     pathimage: 'animalis.png'
   brand9:
-    label: "Hill's"
+    name: "Hill's"
     pathimage: 'hills.png'
   brand10:
-    label: 'Nutribird'
+    name: 'Nutribird'
     pathimage: 'nutribird.png'
   brand11:
-    label: 'Tetra'
+    name: 'Tetra'
     pathimage: 'tetra.png'
   brand12:
-    label: 'Lucky Reptile'
+    name: 'Lucky Reptile'
     pathimage: 'lucky_reptile.png'
   brand13:
-    label: 'Versele Laga'
+    name: 'Versele Laga'
     pathimage: 'versele-laga.png'
   brand14:
-    label: 'Exo Terra'
+    name: 'Exo Terra'
     pathimage: 'exo_terra.png'
   brand15:
-    label: 'Wolf of Wilderness'     
+    name: 'Wolf of Wilderness'     
     pathimage: 'wolf_of_wilderness.png'

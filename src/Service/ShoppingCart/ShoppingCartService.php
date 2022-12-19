@@ -341,5 +341,22 @@ class ShoppingCartService {
             $session->set('shoppingCart', $shoppingCart);
         }
     }
+
+    public function addUserToBasket() 
+    {
+        $session = $this->requestStack->getSession();
+
+        /** @var Customer $user */
+        $user = $this->security->getUser();
+        if ($user) {         
+            // On vérifie que l'utilisateur possède bien un panier
+            if ($session->has('basket') && $session->has('shoppingCart')) {
+                $shoppingCart = $session->get('shoppingCart', []);
+                $shoppingCart = $this->basketRepository->find($shoppingCart->getId());
+                $shoppingCart->setCustomer($user);
+                $this->basketRepository->add($shoppingCart, true);
+            }
+        }
+    }
 }
 ?>

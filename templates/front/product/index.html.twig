@@ -1,6 +1,6 @@
 {% extends 'front/base.html.twig' %}
 
-{% block title %} {{ product[0].title }}{% endblock %}
+{% block title %} {{ product[0].name }}{% endblock %}
 
 {% block body %}
 
@@ -11,13 +11,13 @@
             <div class="imagesProduct">
                 <div class="imagesSecondary">
                     {% for image in product[0].images %}             
-                        <img src="{{ asset("build/images/" ~ image.path) }}" alt="{{ product[0].title }}">
+                        <img src="{{ asset("build/images/" ~ image.path) }}" alt="{{ product[0].name }}">
                     {% endfor %}
                 </div>
                 <div class="imageMain">
                     {% for image in product[0].images %}
                         {% if image.isMain == true %}                 
-                            <img src="{{ asset("build/images/" ~ image.path) }}" alt="{{ product[0].title }}">
+                            <img src="{{ asset("build/images/" ~ image.path) }}" alt="{{ product[0].name }}">
                         {% endif %}
                     {% else %}
                         <p>Image indisponible</p>
@@ -32,8 +32,10 @@
                     <p class="p-1 nbReview">({{ product['Avis'] }} avis)</p>
                 </div>
                 <div class="productTitleAndBrandLabel">
-                    <h1 class="title-product">{{ product[0].title }}</h1>
-                    <p>{{ product[0].brand.label }}</p>
+                    <h1 class="title-product">{{ product[0].name }}</h1>
+                    <a href=" {{ path('app_brand_detail', {slug: product[0].brand.slug} )}}">
+                        <p>{{ product[0].brand.name }}</p>
+                    </a>
                 </div>
                 
                 {% set priceTaxIncl = product[0].priceExclVat |priceTaxIncl( product[0].tva) %}

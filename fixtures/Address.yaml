@@ -1,6 +1,6 @@
 
 App\Entity\Address:
-  address{0..2000}:
+  address{0..600}:
     firstName: '<firstName()>'
     lastName: '<lastName()>'
     phoneNumber: '30%? <phoneNumber()>'
