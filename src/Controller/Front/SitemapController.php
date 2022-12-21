@@ -44,6 +44,7 @@ class SitemapController extends AbstractController
         $urls[] = ['loc' => $this->generateUrl('app_customer_order')];
         $urls[] = ['loc' => $this->generateUrl('app_shoppingCart')];
         $urls[] = ['loc' => $this->generateUrl('app_checkout_login')];
+        $urls[] = ['loc' => $this->generateUrl('app_checkout_register')];
         $urls[] = ['loc' => $this->generateUrl('app_checkout_address')];
         $urls[] = ['loc' => $this->generateUrl('app_checkout_payment')];
         $urls[] = ['loc' => $this->generateUrl('app_checkout_resume')];
@@ -54,13 +55,13 @@ class SitemapController extends AbstractController
                 if ($image->getIsMain() === true) {
                     $images = [
                         'loc' => '/build/images/' . $image->getPath(), // URL to image
-                        'title' => $product->getTitle() // Optional, text describing the image
+                        'title' => $product->getName() // Optional, text describing the image
                     ];
                 }
             }
             $urls[] = [
                 'loc' => $this->generateUrl('app_detail_product', [
-                    'id' => $product->getId(),
+                    'slug' => $product->getSlug(),
                 ]),
                 'lastmod' => $product->getDateAdded()->format('Y-m-d'),
                 'image' => $images,
@@ -69,14 +70,14 @@ class SitemapController extends AbstractController
         foreach ($categoryRepository->findAll() as $category) {
             $urls[] = [
                 'loc' => $this->generateUrl('app_category_detail', [
-                    'id' => $category->getId(),
+                    'slug' => $category->getSlug(),
                 ]),
             ];
         }
         foreach ($brandRepository->findAll() as $brand) {
             $urls[] = [
                 'loc' => $this->generateUrl('app_brand_detail', [
-                    'id' => $brand->getId(),
+                    'slug' => $brand->getSlug(),
                 ]),
             ];
         }

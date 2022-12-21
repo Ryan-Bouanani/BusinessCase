@@ -2,7 +2,7 @@
 
 {% if products is not empty %}
     {% for product in products %}   
-        <a href="{{ path('app_detail_product', {id: product.id})}}">
+        <a href="{{ path('app_detail_product', {slug: product.slug})}}">
             <div class="product">
                 {% for image in product.images %}
                     <img src="{{ asset('/build/images/' ~ image.path) }}"  alt="{{ product.name }}"> 

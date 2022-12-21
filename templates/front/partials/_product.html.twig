@@ -5,7 +5,11 @@
             {% for image in product[0].images %}
                 <img src="{{ asset("build/images/" ~ image.path) }}" alt="{{ product[0].name }}">
             {% endfor %}
-            <h3 class="title-product">{{ product[0].name }}</h3>
+            {% if product[0].name|length < 17 %}
+                  <h3 class="title-product">{{ product[0].name }}</h3>
+            {% else %}
+                <h3 class="title-product">{{ product[0].name |slice(0, 17) }} ...</h3>  
+            {% endif %}
 
             {% if product[0].promotion and product[0].promotion.expirationDate > 'now' | date('d/m/Y') %}
                 <span class="badge">{{ product[0].promotion.percentage | percentagePromo }}</span>

@@ -1,5 +1,5 @@
 App\Entity\Product:
-  product{0..300}:
+  product{0..700}:
     name (unique): '<text(20)>'
     description: '<sentence(70, 90)>'
     priceExclVat: '<numberBetween(8, 50)>'

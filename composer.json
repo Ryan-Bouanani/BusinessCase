@@ -19,7 +19,6 @@
         "knplabs/knp-snappy-bundle": "^1.9",
         "league/commonmark": "^2.3",
         "league/flysystem": "^3.11",
-        "league/flysystem-sftp": "^3.6",
         "lexik/form-filter-bundle": "^7.0",
         "lexik/jwt-authentication-bundle": "^2.16",
         "nelmio/cors-bundle": "^2.2",
