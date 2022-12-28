@@ -3,25 +3,24 @@
 namespace App\Controller\Back\Stats;
 
 use App\Repository\BasketRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RequestStack;
 
-class RecurrenceOrderCustomerAction extends AbstractController
+class RecurrenceOrderCustomerAction extends BaseControllerStats
 {
-
     public function __construct(
-        private BasketRepository $basketRepository
+        BasketRepository $basketRepository,
+        RequestStack $requestStack,
     )
     {
+        $this->basketRepository = $basketRepository;
+        $this->requestStack = $requestStack;
     }
-
 
     public function __invoke(): JsonResponse
     {
-        $query = $this->basketRepository->recurrenceOrderCustomer();
-
+        $query = $this->getQuery('recurrenceOrderCustomer', $this->basketRepository, $this->requestStack);
         return new JsonResponse($query);
-        // return new JsonResponse(json_encode(['data' => $query]));
     }
 }
 

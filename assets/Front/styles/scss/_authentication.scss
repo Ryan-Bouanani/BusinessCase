@@ -14,4 +14,23 @@ div.authentication {
     button {
         margin-bottom: 1rem;
     }
+    .formChild .input-container {
+        position: relative;
+    }
+    
+    .formChild .input-container input {
+        width: 100%;
+    }
+    
+    .formChild .input-container .btn-eye {
+        position: absolute;
+        font-size: 1rem;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        border: none;
+        background: transparent;
+        outline: none;
+    }
+    
 }

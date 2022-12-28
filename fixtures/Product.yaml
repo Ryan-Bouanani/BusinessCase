@@ -4,7 +4,7 @@ App\Entity\Product:
     description: '<sentence(70, 90)>'
     priceExclVat: '<numberBetween(8, 50)>'
     active:  '<boolean(90)>'
-    dateAdded: "<dateTimeBetween('-2 years','now')>"
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
     tva: '<randomFloat(2, 0, 20)>'
     brand: '@brand*'
     promotion: '70%? @promotion*'

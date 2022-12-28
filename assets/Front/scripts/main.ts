@@ -18,6 +18,19 @@ closeMenuIcon.addEventListener('click', () => {
     navbar.classList.add('close');
 });
 
+// PASSWORD
+document.getElementById('btn-eye').addEventListener('click', function() {
+    let input = document.querySelector('.input-container input[type="password"]') as HTMLInputElement;
+    
+    let icon = this.firstChild as HTMLElement;
+    if (input.type === 'password') {
+        input.type = 'text';
+        icon.classList.replace('fa-eye-slash', 'fa-eye');
+    } else {
+        input.type = 'password';
+        icon.classList.replace('fa-eye', 'fa-eye-slash');
+    }
+});
 
 
 // * carrousel products

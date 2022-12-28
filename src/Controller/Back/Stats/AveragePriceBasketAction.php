@@ -3,26 +3,25 @@
 namespace App\Controller\Back\Stats;
 
 use App\Repository\BasketRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RequestStack;
 
-class AveragePriceBasketAction extends AbstractController
+class AveragePriceBasketAction extends BaseControllerStats
 {
 
     public function __construct(
-        private BasketRepository $basketRepository
+        BasketRepository $basketRepository,
+        RequestStack $requestStack,
     )
     {
+        $this->basketRepository = $basketRepository;
+        $this->requestStack = $requestStack;
     }
-
 
     public function __invoke(): JsonResponse
     {
-        $query = $this->basketRepository->averagePriceBasket();
-        
-        $query['AveragePriceBasket'] = round($query['AveragePriceBasket'], 2);
+        $query = $this->getQuery('averagePriceBasket', $this->basketRepository, $this->requestStack);
         return new JsonResponse($query);
-
     }
 }
 

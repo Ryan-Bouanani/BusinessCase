@@ -2,25 +2,24 @@
 
 namespace App\Controller\Back\Stats;
 
-use App\Repository\BasketRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\VisitRepository;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\RequestStack;
 
-class BestSellingProductAction extends BaseControllerStats
+class NbVisitAction extends BaseControllerStats
 {
     public function __construct(
-        BasketRepository $basketRepository,
+        VisitRepository $visitRepository,
         RequestStack $requestStack,
     )
     {
-        $this->basketRepository = $basketRepository;
+        $this->visitRepository = $visitRepository;
         $this->requestStack = $requestStack;
     }
 
     public function __invoke(): JsonResponse
     {
-        $query = $this->getQuery('bestSellingProduct', $this->basketRepository, $this->requestStack);
+        $query = $this->getQuery('nbVisitArray', $this->visitRepository, $this->requestStack);
         return new JsonResponse($query);
     }
 }

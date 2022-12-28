@@ -23,7 +23,6 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
         "security_message" => "Accès refusé",
     ],
     collectionOperations: [
-        'get',
         // NB NEW CLIENT 
         'getNbNewCustomer' => [
             'method' => 'GET',
@@ -51,7 +50,6 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
         ],
     ],
     itemOperations: [
-        'get'
     ],
 )]
 #[UniqueEntity(fields: ['username'], message: 'Un compte utilise déja ce nom d\'utilisateur')]

@@ -12,7 +12,7 @@ App\Entity\Customer:
     email (unique): '<email()>'
     password: '<{passwordUser}>'
     dateOfBirth: '<dateTimeBetween("-60 years", "-18 years")>'
-    registrationDate: '<dateTimeBetween("-2 years", "now")>'
+    registrationDate: '<dateTimeBetween("-4 years", "now")>'
     gender: '@gender*'
     address: '@address*'
     roles: [ROLE_USER]

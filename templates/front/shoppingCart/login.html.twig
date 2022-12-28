@@ -27,7 +27,12 @@
                 </div>
                 <div class="formChild">
                     <label for="inputPassword">Mot de passe</label>
-                    <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" placeholder="******" required>
+                    {% set input %} 
+                        <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" placeholder="******" required>
+                    {% endset %}
+                    {% include "/front/partials/_togglePassword.html.twig" with {
+                        input: input,
+                    } %}
                 </div>
                 <input type="hidden" name="_csrf_token"
                     value="{{ csrf_token('authenticate') }}"

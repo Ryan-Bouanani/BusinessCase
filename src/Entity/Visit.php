@@ -3,13 +3,12 @@
 namespace App\Entity;
 
 use ApiPlatform\Core\Annotation\ApiResource;
-use Symfony\Component\Validator\Constraints as Assert;
-use App\Controller\Back\Stats\NbVisiteAction;
-use App\Repository\NbVisiteRepository;
+use App\Controller\Back\Stats\NbVisitAction;
+use App\Repository\VisitRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: NbVisiteRepository::class)]
+#[ORM\Entity(repositoryClass: VisitRepository::class)]
 #[ApiResource(
 
     attributes: [
@@ -17,12 +16,11 @@ use Doctrine\ORM\Mapping as ORM;
         "security_message" => "Accès refusé",
     ],
     collectionOperations: [
-        'get',
         // NB BASKET
-        'getNbVisite' => [
+        'getNbVisit' => [
             'method' => 'GET',
-            'path' => 'stats/nbVisite',
-            'controller' => NbVisiteAction::class,
+            'path' => 'stats/nbVisit',
+            'controller' => NbVisitAction::class,
             'read' => false,
             'pagination_enabled' => false,
             'openapi_context' => [
@@ -45,10 +43,9 @@ use Doctrine\ORM\Mapping as ORM;
         ], 
     ],
     itemOperations: [
-        'get'
     ],
 )]
-class NbVisite
+class Visit
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

@@ -19,7 +19,13 @@
             </div>
             <div class="formChild">
                 {{ form_label(registrationForm.plainPassword) }}
-                {{ form_widget(registrationForm.plainPassword) }}
+                {% set input %} 
+                    {{ form_widget(registrationForm.plainPassword) }}
+                {% endset %}
+                {% include "/front/partials/_togglePassword.html.twig" with {
+                    input: input,
+                } %}
+
                 {% if  form_errors(registrationForm.plainPassword) %}
                     <div class="error">
                         {{ form_errors(registrationForm.plainPassword) }}

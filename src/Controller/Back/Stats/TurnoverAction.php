@@ -3,26 +3,25 @@
 namespace App\Controller\Back\Stats;
 
 use App\Repository\BasketRepository;
-use ProxyManager\Factory\RemoteObject\Adapter\JsonRpc;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RequestStack;
 
-class TurnoverAction extends AbstractController
+class TurnoverAction extends BaseControllerStats
 {
-
     public function __construct(
-        private BasketRepository $basketRepository
+        BasketRepository $basketRepository,
+        RequestStack $requestStack,
     )
     {
+        $this->basketRepository = $basketRepository;
+        $this->requestStack = $requestStack;
     }
-
 
     public function __invoke(): JsonResponse
     {
-        $query = $this->basketRepository->turnover();
+        $query = $this->getQuery('turnover', $this->basketRepository, $this->requestStack);
         return new JsonResponse($query);
     }
- 
 }
 
 

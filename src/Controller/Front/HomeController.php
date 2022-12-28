@@ -2,21 +2,16 @@
 
 namespace App\Controller\Front;
 
-use App\Entity\NbVisite;
-use App\Form\Filter\ProductSearchFilterType;
+use App\Entity\Visit;
 use App\Repository\BasketRepository;
 use App\Repository\BrandRepository;
 use App\Repository\CategoryRepository;
 use App\Repository\ProductRepository;
 use App\Repository\ReviewRepository;
-use App\Service\ShoppingCart\ShoppingCartService;
 use Doctrine\ORM\EntityManagerInterface;
-use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
@@ -32,9 +27,7 @@ class HomeController extends AbstractController
     ) { }
 
     #[Route('/', name: 'app_home')]
-    public function index(
-        SessionInterface $session,
-    ): Response
+    public function index(): Response
     {
         // Récupere les nouveaux produits
         $newProducts = $this->productRepository->getNewProduct();
@@ -46,7 +39,7 @@ class HomeController extends AbstractController
         $reviews = $this->reviewRepository->getReview();
 
         // Ajouter une ligne date dans la table nbVisites
-            $nbVisite = new NbVisite();
+            $nbVisite = new Visit();
             $nbVisite->setVisitAt(new \DateTime('now', new \DateTimeZone('Europe/Paris')));
             $this->entityManager->persist($nbVisite);
             $this->entityManager->flush();

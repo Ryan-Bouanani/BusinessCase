@@ -3,8 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Customer;
-use DateTime;
-use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -67,42 +66,76 @@ class CustomerRepository extends AbstractRepository implements PasswordUpgraderI
     }
 
 
-    public function NbNewCustomer(?\DateTime $beginDate = null, ?\DateTime $endDate = null): array {
+    public function NbNewCustomer(?\DateTime $startDate = null, ?\DateTime $endDate = null): array {
 
-        if ($beginDate === null || $endDate === null) {
-            $beginDate = new DateTime('2018-01-01');
-            $endDate = new DateTime('now');
-        }
-
-        $query = $this->createQueryBuilder('customer')
+        $queryModifier = $this->createQueryBuilder('customer')
             ->select('COUNT(customer) AS NbNewCustomer')
-            ->where('customer.registrationDate BETWEEN :beginDate AND :endDate')
-            ->setParameter('beginDate', $beginDate)
-            ->setParameter('endDate', $endDate)
-            ->getQuery()
-            ->getOneOrNullResult()
         ;
-        return $query;
+
+        $resultModifier = function(Query $query) {
+            // Return the desired result
+            return $query->getOneOrNullResult();
+        };
+        // Call the getDateFilteredResult method for add filter date is in query
+        $NbNewCustomer = $this->getDateFilteredResult($queryModifier, $resultModifier, 'registrationDate', $startDate, $endDate);
+        
+        // Check if result is null
+        if (empty($NbNewCustomer['NbNewCustomer'])) {
+            $NbNewCustomer['NbNewCustomer'] = 0;
+        }
+        return $NbNewCustomer;
     }
 
-    public function NbNewCustomerArray(?\DateTime $beginDate = null, ?\DateTime $endDate = null): array {
+    public function NbNewCustomerArray(?\DateTime $startDate = null, ?\DateTime $endDate = null): array {
 
-        if ($beginDate === null || $endDate === null) {
-            $beginDate = new DateTime('2018-01-01');
-            $endDate = new DateTime('now');
+        // If startDate is not provided, set it to the earliest newCustomer registration date in the database
+        if (!$startDate) {
+            $startDate = $this->createQueryBuilder('customer')
+                ->select('MIN(customer.registrationDate)')
+                ->getQuery()
+                ->getSingleScalarResult();
+            $startDate = new \DateTime($startDate);
+        }
+        // If endDate is not provided, set it to the current date and time
+        if (!$endDate) {
+            $endDate = new \DateTime('NOW');
         }
 
-        $query = $this->createQueryBuilder('customer')
-            ->select('COUNT(customer) AS NbNewCustomer','customer.registrationDate AS RegistrationDate', 'SUBSTRING(customer.registrationDate, 1, 7) as Date')
-            ->where('customer.registrationDate BETWEEN :beginDate AND :endDate')
-            ->setParameter('beginDate', $beginDate)
-            ->setParameter('endDate', $endDate)
-            ->groupBy("Date")
-            ->orderBy("RegistrationDate", "ASC")
-            ->getQuery()
-            ->getResult()
+        $queryModifier = $this->createQueryBuilder('customer')
+            ->select('COUNT(customer) AS NbNewCustomer')
         ;
-        return $query;
+        // Calculate the time difference between start date and end date
+        $diff = $startDate->diff($endDate);
+        //   return [$diff, $startDate, $endDate, $diff->y >= 4];
+        if ($diff->days <= 30) {
+            // If time between start date and end date is less than or equal to 1 month, group by day
+            $queryModifier->addSelect('SUBSTRING(customer.registrationDate, 1, 10) as RegistrationDate');
+        } 
+        // elseif ($diff->days <= 120) {
+        //         // If time between start date and end date is more than 4 months, group by week
+        //         $queryModifier->addSelect("WEEK(customer.registrationDate) as RegistrationDate");
+        // } 
+        elseif ($diff->y >= 4) {
+                // If time between start date and end date is more than 4 months, group by week
+                $queryModifier->addSelect("YEAR(customer.registrationDate) as RegistrationDate");
+        } 
+        else {
+            // If time between start date and end date is more than 4 years, group by year
+            $queryModifier->addSelect('SUBSTRING(customer.registrationDate, 1, 7) as RegistrationDate');
+        }
+       
+        $queryModifier ->groupBy("RegistrationDate")
+        ->orderBy("RegistrationDate", "ASC");
+
+
+        $resultModifier = function(Query $query) {
+            // Return the desired result
+            return $query->getResult();
+        };
+        // Call the getDateFilteredResult method for add filter date is in query
+        $NbNewCustomer = $this->getDateFilteredResult($queryModifier, $resultModifier, 'registrationDate', $startDate, $endDate);
+    
+        return $NbNewCustomer;
     }
 
 //    /**

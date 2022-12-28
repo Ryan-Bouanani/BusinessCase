@@ -181,7 +181,7 @@ use Doctrine\ORM\Mapping as ORM;
                 ]
             ],
         ],
-        // PERCENTAGE CONVERSION ORDER
+        // PERCENTAGE VISIT CONVERSION BASKET
         'getVisiteConversionBasketPercentage' => [
             'method' => 'GET',
             'path' => 'stats/visiteConversionBasketPercentage',

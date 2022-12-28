@@ -2,23 +2,25 @@
 
 namespace App\Controller\Back\Stats;
 
+use App\Controller\Back\Stats\BaseControllerStats;
 use App\Repository\BasketRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\RequestStack;
 
-class NbOrderAction extends AbstractController
-{
+class NbOrderAction extends BaseControllerStats {
 
     public function __construct(
-        private BasketRepository $basketRepository
+        BasketRepository $basketRepository,
+        RequestStack $requestStack,
     )
-    {}
-
-
+    {
+        $this->basketRepository = $basketRepository;
+        $this->requestStack = $requestStack;
+    }
 
     public function __invoke(): JsonResponse
     {
-        $query = $this->basketRepository->nbOrder();
+        $query = $this->getQuery('nbOrder', $this->basketRepository, $this->requestStack);
         return new JsonResponse($query);
     }
 }

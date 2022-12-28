@@ -3,10 +3,9 @@
 namespace App\Repository;
 
 use App\Entity\Basket;
-use DateTime;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @extends ServiceEntityRepository<Basket>
@@ -83,141 +82,143 @@ class BasketRepository extends AbstractRepository
 
 // stats api
 
-    public function nbBasketAndOrders(?\DateTime $beginDate = null, ?\DateTime $endDate = null): array 
+    public function nbBasketAndOrders(?\DateTime $startDate = null, ?\DateTime $endDate = null): array 
     {
-
-        if ($beginDate === null || $endDate === null) {
-            $beginDate = new DateTime('2018-01-01');
-            $endDate = new DateTime('now');
-        }
-
-        $nbBasket = $this->createQueryBuilder('basket')
+        $queryModifier = $this->createQueryBuilder('basket')
             ->select('COUNT(basket) AS NbBasketAndOrders')
-            ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
-            ->leftJoin("basket.status", "status")
-            ->setParameter('beginDate', $beginDate)
-            ->setParameter('endDate', $endDate)
-            ->getQuery()
-            ->getOneOrNullResult();
-            ;
-            return $nbBasket;
+        ;
+
+        $resultModifier = function(Query $query) {
+            // Return the desired result
+            return $query->getOneOrNullResult();
+        };
+        // Call the getDateFilteredResult method for add filter date is in query
+        $nbBasket = $this->getDateFilteredResult($queryModifier, $resultModifier, 'dateCreated', $startDate, $endDate);
+        
+        // Check if result is null
+        if (empty($nbBasket['NbBasket'])) {
+            $nbBasket['NbBasket'] = 0;
+        }
+        return $nbBasket;
     }
 
-    public function nbBasket(?\DateTime $beginDate = null, ?\DateTime $endDate = null): array 
+    public function nbBasket(?\DateTime $startDate = null, ?\DateTime $endDate = null): array 
     {
 
-        if ($beginDate === null || $endDate === null) {
-            $beginDate = new DateTime('2018-01-01');
-            $endDate = new DateTime('now');
-        }
-    
-        $nbBasket = $this->createQueryBuilder('basket')
+        $queryModifier = $this->createQueryBuilder('basket')
             ->select('COUNT(basket) AS NbBasket')
-            ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
-            ->leftJoin("basket.status", "status")
-            ->setParameter('beginDate', $beginDate)
-            ->setParameter('endDate', $endDate)
-            ->andWhere("status IS NULL")
-            ->getQuery()
-            ->getOneOrNullResult();
-            ;
-            return $nbBasket;
+            ->andWhere("basket.status IS NULL")
+        ;
+
+        $resultModifier = function(Query $query) {
+            // Return the desired result
+            return $query->getOneOrNullResult();
+        };
+        // Call the getDateFilteredResult method for add filter date is in query
+        $nbBasket = $this->getDateFilteredResult($queryModifier, $resultModifier, 'dateCreated', $startDate, $endDate);
+        
+         // Check if result is null
+        if (empty($nbBasket['NbBasket'])) {
+            $nbBasket['NbBasket'] = 0;
+        }
+        return $nbBasket;
     }
 
-    public function averagePriceBasket(?\DateTime $beginDate = null, ?\DateTime $endDate = null): array  {
+    public function averagePriceBasket(?\DateTime $startDate = null, ?\DateTime $endDate = null): array  {
 
-        if ($beginDate === null || $endDate === null) {
-            $beginDate = new DateTime('2018-01-01');
-            $endDate = new DateTime('now');
-        }
-
-        $query = $this->createQueryBuilder('basket')
-        ->select('(SUM(contentSC.price * contentSC.quantity) / COUNT(DISTINCT basket)) AS AveragePriceBasket')
-        ->join('basket.contentShoppingCarts', 'contentSC')  
-        ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
-        ->setParameter('beginDate', $beginDate)
-        ->setParameter('endDate', $endDate)
-        ->getQuery()
-        ->getOneOrNullResult()
+        $queryModifier = $this->createQueryBuilder('basket')
+            ->select('(SUM(contentSC.price * contentSC.quantity) / COUNT(DISTINCT basket)) AS AveragePriceBasket')
+            ->join('basket.contentShoppingCarts', 'contentSC')
         ;
-        return $query;
+
+        $resultModifier = function(Query $query) {
+            // Return the desired result
+            return $query->getOneOrNullResult();
+        };
+        // Call the getDateFilteredResult method for add filter date is in query
+        $averagePriceBasket = $this->getDateFilteredResult($queryModifier, $resultModifier, 'dateCreated', $startDate, $endDate);
+       
+        // Check if result is null
+        if (empty($averagePriceBasket['AveragePriceBasket'])) {
+            $averagePriceBasket['AveragePriceBasket'] = 0;
+        }
+        return $averagePriceBasket;
     }
     
     // selectionne les paniers qui qui ont étés crée il y'a plus de 2 heures et qui n'ont toujours pas été convertis en commandes
-    public function abandonedBasket(?\DateTime $beginDate = null, ?\DateTime $endDate = null): array {
+    public function abandonedBasket(?\DateTime $startDate = null, ?\DateTime $endDate = null): array {
 
-        if ($beginDate === null || $endDate === null) {
-            $beginDate = new DateTime('2018-01-01');
-            $endDate = new DateTime('now');
+        $queryModifier = $this->createQueryBuilder('basket')
+            ->select('COUNT(basket) AS NbAbandonedBasket') 
+            ->leftJoin("basket.status", "status")
+            ->where("CURRENT_TIMESTAMP() > DATE_ADD(basket.dateCreated, 2, 'HOUR')")
+            ->andWhere("status IS NULL")
+        ;
+        $resultModifier = function(Query $query) {
+            // Return the desired result
+            return $query->getOneOrNullResult();
+        };
+        // Call the getDateFilteredResult method for add filter date is in query
+        $NbAbandonedBasket = $this->getDateFilteredResult($queryModifier, $resultModifier, 'dateCreated', $startDate, $endDate);
+
+        // Check if result is null
+        if (empty($NbAbandonedBasket['NbAbandonedBasket'])) {
+            $NbAbandonedBasket['NbAbandonedBasket'] = 0;
         }
-
-        $query = $this->createQueryBuilder('basket')
-        ->select('COUNT(basket) AS NbAbandonedBasket') 
-        ->leftJoin("basket.status", "status")
-        ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
-        ->setParameter('beginDate', $beginDate)
-        ->setParameter('endDate', $endDate)
-        ->andWhere("CURRENT_TIMESTAMP() > DATE_ADD(basket.dateCreated, 2, 'HOUR')")
-        ->andWhere("status IS NULL")
-        ->getQuery()
-        ->getOneOrNullResult();
-
-        return $query;
+        return $NbAbandonedBasket;
     }
     
     // todo faire un if pour chaque date et non les 2 en meme temps
-    public function nbOrder(?\DateTime $beginDate = null, ?\DateTime $endDate = null): array 
-    {
+    public function nbOrder(?\DateTime $startDate = null, ?\DateTime $endDate = null): array {
 
-        if ($beginDate === null || $endDate === null) {
-            $beginDate = new DateTime('2018-01-01');
-            $endDate = new DateTime('now');
-        }
-    
-        $nbOrder = $this->createQueryBuilder('basket')
+        $queryModifier = $this->createQueryBuilder('basket')
             ->select('COUNT(basket) AS NbOrder')
             ->leftJoin("basket.status", "status")
-            ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
-            ->setParameter('beginDate', $beginDate)
-            ->setParameter('endDate', $endDate)
             ->andWhere("status IS NOT NULL")
-            ->getQuery()
-            ->getOneOrNullResult();
-            ;
-            return $nbOrder;     
         ;
+
+        $resultModifier = function(Query $query) {
+            // Return the desired result
+            return $query->getOneOrNullResult();
+        };
+        // Call the getDateFilteredResult method for add filter date is in query
+        $nbOrder = $this->getDateFilteredResult($queryModifier, $resultModifier, 'dateCreated', $startDate, $endDate);
+        
+        // Check if result is null
+        if (empty($nbOrder['NbOrder'])) {
+            $nbOrder['NbOrder'] = 0;
+        }
+        return $nbOrder;     
     }
     
 
-    public function turnover(?\DateTime $beginDate = null, ?\DateTime $endDate = null): array {
+    public function turnover(?\DateTime $startDate = null, ?\DateTime $endDate = null) {
 
-        if ($beginDate === null || $endDate === null) {
-            $beginDate = new DateTime('2018-01-01');
-            $endDate = new DateTime('now');
+        $queryModifier = $this->createQueryBuilder('basket')
+            ->select('SUM(contentShoppingCart.price * contentShoppingCart.quantity) AS Turnover')
+            ->join('basket.contentShoppingCarts', 'contentShoppingCart')
+            ->leftJoin("basket.status", "status")
+            ->Where("status IS NOT NULL")
+            ->andWhere("status.name != 'Remboursée'");
+        ;
+
+        $resultModifier = function(Query $query) {
+             // Return the desired result
+            return $query->getOneOrNullResult();
+        };
+        // Call the getDateFilteredResult method for add filter date is in query
+        $turnover = $this->getDateFilteredResult($queryModifier, $resultModifier, 'dateCreated', $startDate, $endDate);
+        ;
+        // Check if result is null
+        if (empty($turnover['Turnover'])) {
+            $turnover['Turnover'] = 0;
         }
-
-        $query = $this->createQueryBuilder('basket')
-        ->select('SUM(contentShoppingCart.price * contentShoppingCart.quantity) AS Turnover')
-        ->join('basket.contentShoppingCarts', 'contentShoppingCart')
-        ->leftJoin("basket.status", "status")
-        ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
-        ->setParameter('beginDate', $beginDate)
-        ->setParameter('endDate', $endDate)
-        ->andWhere("status IS NOT NULL")
-        ->andWhere("status.name != 'Remboursée'")
-        ->getQuery()
-        ->getOneOrNullResult();
-        return $query;
+        return $turnover;
     }
 
-    public function bestSellingProduct(?\DateTime $beginDate = null, ?\DateTime $endDate = null): array {
+    public function bestSellingProduct(?\DateTime $startDate = null, ?\DateTime $endDate = null): array {
 
-        if ($beginDate === null || $endDate === null) {
-            $beginDate = new DateTime('2018-01-01');
-            $endDate = new DateTime('now');
-        }
-
-        $query = $this->createQueryBuilder('basket')
+        $queryModifier = $this->createQueryBuilder('basket')
             ->select('product.name AS NameProduct','image.path AS Image', 'SUM(contentSC.quantity) AS NbSold', 'SUM(contentSC.price * contentSC.quantity) AS TotalAmountSold')
             ->join('basket.contentShoppingCarts', 'contentSC')
             ->join('contentSC.product', 'product')
@@ -227,27 +228,27 @@ class BasketRepository extends AbstractRepository
             ->orderBy('NbSold', 'DESC')
             ->addOrderBy('TotalAmountSold', 'DESC')
             ->where('image.isMain = true')
-            ->andWhere('basket.dateCreated BETWEEN :beginDate AND :endDate')
-            ->setParameter('beginDate', $beginDate)
-            ->setParameter('endDate', $endDate)
-            // todo voir si faire un join de status et plus performant que mettre le nb du status souhaitée
             ->andWhere("status IS NOT NULL")
             ->andWhere("status.name != 'Remboursée'")
             ->setMaxResults(7)
-            ->getQuery()
-            ->getResult()
         ;
-        return $query;
+
+        $resultModifier = function(Query $query) {
+             // Return the desired result
+            return $query->getResult();
+        };
+        // Call the getDateFilteredResult method for add filter date is in query
+        $bestSellingProduct = $this->getDateFilteredResult($queryModifier, $resultModifier, 'dateCreated', $startDate, $endDate);
+        ;
+        return $bestSellingProduct;
     }
 
-
-    public function recurrenceOrderCustomer(?\DateTime $beginDate = null, ?\DateTime $endDate = null): array {
-        
-        if ($beginDate === null || $endDate === null) {
-            $beginDate = new DateTime('2018-01-01');
-            $endDate = new DateTime('now');
-        }
-
+    
+    public function recurrenceOrderCustomer(?\DateTime $startDate = null, ?\DateTime $endDate = null) {
+        // $startDate = new DateTime('2022-12-14');
+        // $endDate = new DateTime('2022-12-16');
+        // $startDate = $startDate->format('Y-m-d');
+        // $endDate = $endDate->format('Y-m-d');
         
         // selectionne les nouveaux clients ayant commandés qu'une seule fois
         $newCustomer = $this->createQueryBuilder('basket')
@@ -258,75 +259,81 @@ class BasketRepository extends AbstractRepository
             ->groupBy('basket.customer')
             ->having('COUNT(basket) = 1')
             ->getQuery()
-            ->getResult();
-
-        // selectionne les commandes avec clients ayant commandés qu'une seule fois sur la periode selectionnée
-        $newCustomerByDate = $this->createQueryBuilder('basket')
-            ->select('customer.id AS IdNewClient')  
-            ->join('basket.customer', 'customer')
-            ->leftJoin('basket.status', 'status')
-            ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
-            ->setParameter('beginDate', $beginDate)
-            ->setParameter('endDate', $endDate)
-            ->andWhere("status IS NOT NULL")
-            ->groupBy('basket.customer')
-            ->having('COUNT(basket) = 1')
-            ->getQuery()
             ->getResult()
         ;
+        // selectionne les commandes avec clients ayant commandés qu'une seule fois sur la periode selectionnée
+            $queryModifier = $this->createQueryBuilder('basket')
+                ->select('customer.id AS IdNewClient')  
+                ->join('basket.customer', 'customer')
+                ->leftJoin('basket.status', 'status')
+                ->where("status IS NOT NULL")
+                ->groupBy('basket.customer')
+                ->having('COUNT(basket) = 1')
+            ;
+            $resultModifier = function(Query $query) {
+                // Return the desired result
+                return $query->getResult();
+            };
+            // Call the getDateFilteredResult method for add filter date is in query
+            $newCustomerByDate = $this->getDateFilteredResult($queryModifier, $resultModifier, 'dateCreated', $startDate, $endDate);
+            ;
+        // 
 
-        // selectionne les commandes avec clients existant
+        // Sélectionne le nombre de commandes avec nouveau clients (hors et pendant les date)
+            $queryModifier = $this->createQueryBuilder('basket')
+                ->select('COUNT(basket) AS RecurrenceOrderCustomer') 
+                ->join('basket.customer', 'customer') 
+                ->leftJoin("basket.status", "status")
+                // ->setParameter('query2', $query2) 
+                ->where('customer IN (:newCustomer)')
+                ->andWhere('customer IN (:newCustomerByDate)')
+                ->setParameter('newCustomer', $newCustomer) 
+                ->setParameter('newCustomerByDate', $newCustomerByDate)
+                ->andWhere("status IS NOT NULL")
+            ;
+            $resultModifier = function(Query $query) {
+                // Return the desired result
+                return $query->getOneOrNullResult();
+            };
+            // Call the getDateFilteredResult method for add filter date is in query
+            $query = $this->getDateFilteredResult($queryModifier, $resultModifier, 'dateCreated', $startDate, $endDate);
+        // 
+
+        // selectionne les clients déja existant
         $existingCustomer = $this->createQueryBuilder('basket')
             ->select('customer.id')  
             ->join('basket.customer', 'customer')
             ->leftJoin('basket.status', 'status')
-            ->andWhere("status IS NOT NULL")
+            ->where("status IS NOT NULL")
             ->groupBy('basket.customer')
             ->having('COUNT(basket) > 1')
             ->getQuery()
             ->getResult()
         ;
-    
-        // selectionne le nombre de commandes
-        $query2 = $this->createQueryBuilder('basket')
-            ->select('COUNT(basket) AS OrderWithExistingCustomer') 
-            ->join('basket.customer', 'customer') 
-            ->leftJoin("basket.status", "status")
-            ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
-            ->setParameter('beginDate', $beginDate)
-            ->setParameter('endDate', $endDate)
-            ->andWhere("status IS NOT NULL")
-            // ->andWhere('customer IN (:existingCustomer)')
-            // ->setParameter('existingCustomer', $existingCustomer)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        // Sélectionne le nombre de commandes avec clients déja existant
+            $queryModifier = $this->createQueryBuilder('basket')
+                ->select('COUNT(basket) AS OrderWithExistingCustomer') 
+                ->join('basket.customer', 'customer') 
+                ->leftJoin("basket.status", "status")
+                ->Where("status IS NOT NULL")
+                ->andWhere('customer IN (:existingCustomer)')
+                ->setParameter('existingCustomer', $existingCustomer)
+            ;
+            $resultModifier = function(Query $query) {
+                // Return the desired result
+                return $query->getOneOrNullResult();
+            };
+            // Call the getDateFilteredResult method for add filter date is in query
+            $query2 = $this->getDateFilteredResult($queryModifier, $resultModifier, 'dateCreated', $startDate, $endDate);
+            ;
+        // 
 
-        $query = $this->createQueryBuilder('basket')
-            ->select('COUNT(basket) AS RecurrenceOrderCustomer') 
-            ->join('basket.customer', 'customer') 
-            ->leftJoin("basket.status", "status")
-            ->where('basket.dateCreated BETWEEN :beginDate AND :endDate')
-            ->setParameter('beginDate', $beginDate)
-            ->setParameter('endDate', $endDate)
-            // ->setParameter('query2', $query2) 
-            ->andWhere('customer IN (:newCustomer)')
-            ->andWhere('customer IN (:newCustomerByDate)')
-            ->setParameter('newCustomer', $newCustomer) 
-            ->setParameter('newCustomerByDate', $newCustomerByDate)
-            ->andWhere("status IS NOT NULL")
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
-
-        if ($query2['OrderWithExistingCustomer'] == 0) {
+        if ( $query2['OrderWithExistingCustomer'] === 0) {
             $query['RecurrenceOrderCustomer'] = round(($query['RecurrenceOrderCustomer'] * 100), 2);
         } else {
             $query['RecurrenceOrderCustomer'] = round((($query['RecurrenceOrderCustomer'] / $query2['OrderWithExistingCustomer']) * 100), 2);
         }
         return $query;
-
-
     }
 
 
@@ -334,12 +341,12 @@ class BasketRepository extends AbstractRepository
     public function getQbAll(): QueryBuilder {
         $qb = parent::getQbAll();
         return $qb->select('basket','status')
-        ->join('basket.status', 'status')
-        ->leftJoin('basket.address', 'address')
-        ->join('basket.meanOfPayment', 'meanOfPayment')
-        ->where('basket.status IS NOT NULL')
-        ->groupBy('basket')
-        ->orderBy('basket.id', 'ASC')
+            ->join('basket.status', 'status')
+            ->leftJoin('basket.address', 'address')
+            ->join('basket.meanOfPayment', 'meanOfPayment')
+            ->where('basket.status IS NOT NULL')
+            ->groupBy('basket')
+            ->orderBy('basket.id', 'ASC')
         ;
     }
 
