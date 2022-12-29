@@ -19,18 +19,21 @@ closeMenuIcon.addEventListener('click', () => {
 });
 
 // PASSWORD
-document.getElementById('btn-eye').addEventListener('click', function() {
-    let input = document.querySelector('.input-container input[type="password"]') as HTMLInputElement;
-    
-    let icon = this.firstChild as HTMLElement;
-    if (input.type === 'password') {
-        input.type = 'text';
-        icon.classList.replace('fa-eye-slash', 'fa-eye');
-    } else {
-        input.type = 'password';
-        icon.classList.replace('fa-eye', 'fa-eye-slash');
-    }
-});
+const eye = document.getElementById('btn-eye') as HTMLButtonElement;
+if (eye) {
+    eye.addEventListener('click', function() {
+        let input = document.querySelector('.input-container input[type="password"]') as HTMLInputElement;
+        
+        let icon = this.firstChild as HTMLElement;
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.classList.replace('fa-eye-slash', 'fa-eye');
+        } else {
+            input.type = 'password';
+            icon.classList.replace('fa-eye', 'fa-eye-slash');
+        }
+    });
+}
 
 
 // * carrousel products
@@ -135,10 +138,8 @@ class Carousel3d {
     }
 };
 
-
 if (reviewsContainer && reviewsItems && testimonialControls) {
     const carrouselTestimonials  = new Carousel3d(reviewsContainer, reviewsItems, testimonialControls);
-    
     carrouselTestimonials.updateGallery()
     carrouselTestimonials.useControls();
 }
@@ -147,7 +148,6 @@ if (reviewsContainer && reviewsItems && testimonialControls) {
 
 // Arrow scroll top and appareance on scroll
 const arrowScrollTop = document.querySelector('.arrowScrollTop');
-
 
 function scrollTop() {
     window.scrollTo(0, 0)

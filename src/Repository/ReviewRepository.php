@@ -47,7 +47,7 @@ class ReviewRepository extends ServiceEntityRepository
         ->select('review')
         ->join('review.customer', 'customer')
         ->orderBy('review.note', 'DESC')
-        ->setMaxResults(5)
+        ->setMaxResults(10)
         ->getQuery()
         ->getResult()
         ;
