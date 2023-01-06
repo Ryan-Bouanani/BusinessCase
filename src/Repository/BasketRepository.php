@@ -96,8 +96,8 @@ class BasketRepository extends AbstractRepository
         $nbBasket = $this->getDateFilteredResult($queryModifier, $resultModifier, 'dateCreated', $startDate, $endDate);
         
         // Check if result is null
-        if (empty($nbBasket['NbBasket'])) {
-            $nbBasket['NbBasket'] = 0;
+        if (empty($nbBasket['NbBasketAndOrders'])) {
+            $nbBasket['NbBasketAndOrders'] = 0;
         }
         return $nbBasket;
     }
@@ -251,16 +251,17 @@ class BasketRepository extends AbstractRepository
         // $endDate = $endDate->format('Y-m-d');
         
         // selectionne les nouveaux clients ayant commandés qu'une seule fois
-        $newCustomer = $this->createQueryBuilder('basket')
-            ->select('customer.id AS IdNewClient')  
-            ->join('basket.customer', 'customer')
-            ->leftJoin('basket.status', 'status')
-            ->where("status IS NOT NULL")
-            ->groupBy('basket.customer')
-            ->having('COUNT(basket) = 1')
-            ->getQuery()
-            ->getResult()
-        ;
+            $newCustomer = $this->createQueryBuilder('basket')
+                ->select('customer.id AS IdNewClient')  
+                ->join('basket.customer', 'customer')
+                ->leftJoin('basket.status', 'status')
+                ->where("status IS NOT NULL")
+                ->groupBy('basket.customer')
+                ->having('COUNT(basket) = 1')
+                ->getQuery()
+                ->getResult()
+            ;
+        // 
         // selectionne les commandes avec clients ayant commandés qu'une seule fois sur la periode selectionnée
             $queryModifier = $this->createQueryBuilder('basket')
                 ->select('customer.id AS IdNewClient')  
@@ -280,24 +281,27 @@ class BasketRepository extends AbstractRepository
         // 
 
         // Sélectionne le nombre de commandes avec nouveau clients (hors et pendant les date)
-            $queryModifier = $this->createQueryBuilder('basket')
-                ->select('COUNT(basket) AS RecurrenceOrderCustomer') 
-                ->join('basket.customer', 'customer') 
-                ->leftJoin("basket.status", "status")
-                // ->setParameter('query2', $query2) 
-                ->where('customer IN (:newCustomer)')
-                ->andWhere('customer IN (:newCustomerByDate)')
-                ->setParameter('newCustomer', $newCustomer) 
-                ->setParameter('newCustomerByDate', $newCustomerByDate)
-                ->andWhere("status IS NOT NULL")
-            ;
-            $resultModifier = function(Query $query) {
-                // Return the desired result
-                return $query->getOneOrNullResult();
-            };
-            // Call the getDateFilteredResult method for add filter date is in query
-            $query = $this->getDateFilteredResult($queryModifier, $resultModifier, 'dateCreated', $startDate, $endDate);
+            // $queryModifier = $this->createQueryBuilder('basket')
+            //     ->select('COUNT(basket) AS NbOrderNewCustomer') 
+            //     ->join('basket.customer', 'customer') 
+            //     ->leftJoin("basket.status", "status")
+            //     // ->setParameter('query2', $query2) 
+            //     ->where('customer IN (:newCustomer)')
+            //     ->andWhere('customer IN (:newCustomerByDate)')
+            //     ->setParameter('newCustomer', $newCustomer) 
+            //     ->setParameter('newCustomerByDate', $newCustomerByDate)
+            //     ->where("status IS NOT NULL")
+            // ;
+            // $resultModifier = function(Query $query) {
+            //     // Return the desired result
+            //     return $query->getOneOrNullResult();
+            // };
+            // // Call the getDateFilteredResult method for add filter date is in query
+            // $query = $this->getDateFilteredResult($queryModifier, $resultModifier, 'dateCreated', $startDate, $endDate);
         // 
+
+        // Sélectionne le nombre de commandes
+        $nbOrder = $this->nbOrder($startDate, $endDate);
 
         // selectionne les clients déja existant
         $existingCustomer = $this->createQueryBuilder('basket')
@@ -310,6 +314,7 @@ class BasketRepository extends AbstractRepository
             ->getQuery()
             ->getResult()
         ;
+
         // Sélectionne le nombre de commandes avec clients déja existant
             $queryModifier = $this->createQueryBuilder('basket')
                 ->select('COUNT(basket) AS OrderWithExistingCustomer') 
@@ -328,12 +333,12 @@ class BasketRepository extends AbstractRepository
             ;
         // 
 
-        if ( $query2['OrderWithExistingCustomer'] === 0) {
-            $query['RecurrenceOrderCustomer'] = round(($query['RecurrenceOrderCustomer'] * 100), 2);
+        if ($nbOrder['NbOrder'] > 0) {
+            $recurrenceOrderCustomer['RecurrenceOrderCustomer'] = round((($query2['OrderWithExistingCustomer'] / $nbOrder['NbOrder']) * 100), 2);
         } else {
-            $query['RecurrenceOrderCustomer'] = round((($query['RecurrenceOrderCustomer'] / $query2['OrderWithExistingCustomer']) * 100), 2);
+            $recurrenceOrderCustomer['RecurrenceOrderCustomer'] = 0;
         }
-        return $query;
+        return $recurrenceOrderCustomer;
     }
 
 

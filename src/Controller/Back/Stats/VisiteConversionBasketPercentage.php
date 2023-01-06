@@ -25,14 +25,13 @@ class VisiteConversionBasketPercentage extends BaseControllerStats
     public function __invoke(): JsonResponse
     {
         $nbVisit = $this->getQuery('nbVisit', $this->visitRepository, $this->requestStack);
-        $nbBasketAndOrders = $this->getQuery('nbBasketAndOrders', $this->basketRepository, $this->requestStack);
+        $nbBasket = $this->getQuery('nbBasket', $this->basketRepository, $this->requestStack);
 
         if ($nbVisit['NbVisit'] === 0 ) {
             $query['PercentageVisitsConvertedIntoBasket'] = 0;
         } else {         
-            $query['PercentageVisitsConvertedIntoBasket'] = round((($nbBasketAndOrders['NbBasketAndOrders'] / $nbVisit['NbVisit']) * 100), 2);
+            $query['PercentageVisitsConvertedIntoBasket'] = round((($nbBasket['NbBasket'] / $nbVisit['NbVisit']) * 100), 2);
         }
-        
         return new JsonResponse($query);
     }
 }

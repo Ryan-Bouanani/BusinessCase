@@ -132,12 +132,12 @@ h2.h2:not(.h2Newletter)::before {
     // * ARROWS SLIDER
 main {
     .arrow_left {
-        left: -35px;
+        left: -25px;
         background: url(/assets/img/arrow-left-orange.svg);
     }
 
     .arrow_right {
-        right: -35px;
+        right: -25px;
         background: url(/assets/img/arrow-right-orange.svg);
     }
     .arrow_left:not(#testimonials .arrow_left), .arrow_right:not(#testimonials .arrow_right) {
@@ -156,6 +156,15 @@ main {
         z-index: 10;
     }
  
+    @media screen and (min-width: 400px) {
+        .arrow_left {
+            left: -35px;
+        }
+    
+        .arrow_right {
+            right: -35px;
+        }
+    }
     @media screen and (min-width: 500px) {
         .arrow_left:not(#testimonials .arrow_left, #bestBrandts .arrow_left) {
             left: -50px;

@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20221217231820 extends AbstractMigration
+final class Version20230106115237 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -30,11 +30,11 @@ final class Version20221217231820 extends AbstractMigration
         $this->addSql('CREATE TABLE gender (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(6) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE image (id INT AUTO_INCREMENT NOT NULL, product_id INT NOT NULL, path VARCHAR(255) NOT NULL, is_main TINYINT(1) DEFAULT NULL, INDEX IDX_C53D045F4584665A (product_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE mean_of_payment (id INT AUTO_INCREMENT NOT NULL, designation VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE nb_visite (id INT AUTO_INCREMENT NOT NULL, visit_at DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE product (id INT AUTO_INCREMENT NOT NULL, brand_id INT NOT NULL, promotion_id INT DEFAULT NULL, category_id INT DEFAULT NULL, description LONGTEXT NOT NULL, price_excl_vat NUMERIC(7, 2) NOT NULL, active TINYINT(1) NOT NULL, date_added DATETIME NOT NULL, tva NUMERIC(4, 2) NOT NULL, name VARCHAR(180) NOT NULL, slug VARCHAR(255) NOT NULL, UNIQUE INDEX UNIQ_D34A04AD5E237E06 (name), UNIQUE INDEX UNIQ_D34A04AD989D9B62 (slug), INDEX IDX_D34A04AD44F5D008 (brand_id), INDEX IDX_D34A04AD139DF194 (promotion_id), INDEX IDX_D34A04AD12469DE2 (category_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
-        $this->addSql('CREATE TABLE promotion (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, percentage INT NOT NULL, expiration_date DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE product (id INT AUTO_INCREMENT NOT NULL, brand_id INT DEFAULT NULL, promotion_id INT DEFAULT NULL, category_id INT DEFAULT NULL, description LONGTEXT NOT NULL, price_excl_vat NUMERIC(7, 2) NOT NULL, active TINYINT(1) NOT NULL, date_added DATETIME NOT NULL, tva NUMERIC(4, 2) NOT NULL, name VARCHAR(180) NOT NULL, slug VARCHAR(255) NOT NULL, UNIQUE INDEX UNIQ_D34A04AD5E237E06 (name), UNIQUE INDEX UNIQ_D34A04AD989D9B62 (slug), INDEX IDX_D34A04AD44F5D008 (brand_id), INDEX IDX_D34A04AD139DF194 (promotion_id), INDEX IDX_D34A04AD12469DE2 (category_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE promotion (id INT AUTO_INCREMENT NOT NULL, percentage INT NOT NULL, expiration_date DATETIME NOT NULL, name VARCHAR(180) NOT NULL, slug VARCHAR(255) NOT NULL, UNIQUE INDEX UNIQ_C11D7DD15E237E06 (name), UNIQUE INDEX UNIQ_C11D7DD1989D9B62 (slug), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE review (id INT AUTO_INCREMENT NOT NULL, product_id INT NOT NULL, customer_id INT NOT NULL, comment LONGTEXT NOT NULL, note INT NOT NULL, created_at DATETIME DEFAULT NULL, INDEX IDX_794381C64584665A (product_id), INDEX IDX_794381C69395C3F3 (customer_id), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE status (id INT AUTO_INCREMENT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
+        $this->addSql('CREATE TABLE visit (id INT AUTO_INCREMENT NOT NULL, visit_at DATETIME NOT NULL, PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('CREATE TABLE messenger_messages (id BIGINT AUTO_INCREMENT NOT NULL, body LONGTEXT NOT NULL, headers LONGTEXT NOT NULL, queue_name VARCHAR(190) NOT NULL, created_at DATETIME NOT NULL, available_at DATETIME NOT NULL, delivered_at DATETIME DEFAULT NULL, INDEX IDX_75EA56E0FB7336F0 (queue_name), INDEX IDX_75EA56E0E3BD61CE (available_at), INDEX IDX_75EA56E016BA31DB (delivered_at), PRIMARY KEY(id)) DEFAULT CHARACTER SET utf8mb4 COLLATE `utf8mb4_unicode_ci` ENGINE = InnoDB');
         $this->addSql('ALTER TABLE basket ADD CONSTRAINT FK_2246507B9395C3F3 FOREIGN KEY (customer_id) REFERENCES customer (id)');
         $this->addSql('ALTER TABLE basket ADD CONSTRAINT FK_2246507B5F286933 FOREIGN KEY (mean_of_payment_id) REFERENCES mean_of_payment (id)');
@@ -46,7 +46,7 @@ final class Version20221217231820 extends AbstractMigration
         $this->addSql('ALTER TABLE customer ADD CONSTRAINT FK_81398E09708A0E0 FOREIGN KEY (gender_id) REFERENCES gender (id)');
         $this->addSql('ALTER TABLE customer ADD CONSTRAINT FK_81398E09F5B7AF75 FOREIGN KEY (address_id) REFERENCES address (id)');
         $this->addSql('ALTER TABLE image ADD CONSTRAINT FK_C53D045F4584665A FOREIGN KEY (product_id) REFERENCES product (id)');
-        $this->addSql('ALTER TABLE product ADD CONSTRAINT FK_D34A04AD44F5D008 FOREIGN KEY (brand_id) REFERENCES brand (id)');
+        $this->addSql('ALTER TABLE product ADD CONSTRAINT FK_D34A04AD44F5D008 FOREIGN KEY (brand_id) REFERENCES brand (id) ON DELETE SET NULL');
         $this->addSql('ALTER TABLE product ADD CONSTRAINT FK_D34A04AD139DF194 FOREIGN KEY (promotion_id) REFERENCES promotion (id) ON DELETE SET NULL');
         $this->addSql('ALTER TABLE product ADD CONSTRAINT FK_D34A04AD12469DE2 FOREIGN KEY (category_id) REFERENCES category (id) ON DELETE SET NULL');
         $this->addSql('ALTER TABLE review ADD CONSTRAINT FK_794381C64584665A FOREIGN KEY (product_id) REFERENCES product (id)');
@@ -81,11 +81,11 @@ final class Version20221217231820 extends AbstractMigration
         $this->addSql('DROP TABLE gender');
         $this->addSql('DROP TABLE image');
         $this->addSql('DROP TABLE mean_of_payment');
-        $this->addSql('DROP TABLE nb_visite');
         $this->addSql('DROP TABLE product');
         $this->addSql('DROP TABLE promotion');
         $this->addSql('DROP TABLE review');
         $this->addSql('DROP TABLE status');
+        $this->addSql('DROP TABLE visit');
         $this->addSql('DROP TABLE messenger_messages');
     }
 }

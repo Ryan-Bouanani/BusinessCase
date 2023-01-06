@@ -162,7 +162,7 @@ class SecurityController extends AbstractController
 
                 // Envoi du mail
                 $mail->send(
-                    'LaNimesAlerie@gmail.com',
+                    'laNimesAlerierb@gmail.com',
                     $user->getEmail(),
                     'Réinitialisation de mot de passe',
                     'password_reset',
@@ -184,7 +184,7 @@ class SecurityController extends AbstractController
     }
 
     /**
-     * Ce controller va servir à afficher leformulaire de réinitialisation de mot de passe
+     * Ce controller va servir à afficher le formulaire de réinitialisation de mot de passe
      *
      * @param string $token
      * @param Request $request

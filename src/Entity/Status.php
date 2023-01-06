@@ -2,27 +2,13 @@
 
 namespace App\Entity;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use Symfony\Component\Validator\Constraints as Assert;
 use App\Repository\StatusRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: StatusRepository::class)]
-#[ApiResource(
-    attributes: [
-        "security" => "is_granted('ROLE_STATS')",
-        "security_message" => "Accès refusé",
-    ],
-    collectionOperations: [
-        'get',
-    ],
-    itemOperations: [
-        'get'
-    ],
-)]
 class Status
 {
     #[ORM\Id]
@@ -31,7 +17,6 @@ class Status
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['read:Order:attributes'])]
     #[
         Assert\NotBlank([
             'message' => "Veuillez remplir tout les champs."
@@ -56,7 +41,7 @@ class Status
 
     public function __construct()
     {
-        $this->orders = new ArrayCollection();
+        $this->baskets = new ArrayCollection();
         $this->baskets = new ArrayCollection();
     }
 

@@ -1,8 +1,7 @@
 parameters:
   passwordAdmin: '$2y$13$UjlgDb2/uZSGh/UIi0mOx.eipN8k.dHovXGqC60i.aZ8.XZYCZbRq'
-  # password: Issou2021
-  passwordUser: '$2y$13$zUUxup6uhFhRlv8c55Xm8eZEGLHE8srdqMk7er2BgIbGYrPpSQPk2'
-  # password: test
+  passwordUser: '$2y$13$YqVdQaBnQxtYPjmnVshMOOImRr5Yhc02GgvRzdikJwx.9p2lnqTze'
+
 
 App\Entity\Customer:
   customer (template):
@@ -36,4 +35,4 @@ App\Entity\Customer:
     gender: '@gender*'
 
 
-  customer{0..500} (extends customer): ~
+  customer{0..250} (extends customer): ~
