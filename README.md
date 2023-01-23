@@ -18,7 +18,7 @@ La partie frontend (front office et back office) du projet est réalisée avec
 
 ## Technologies utilisées
 
-* Symfony (5.4.19)
+* Symfony (6.0.18)
 * PHP (8.1.13)
 * MySQL (8.0.31)
 
