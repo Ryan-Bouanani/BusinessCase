@@ -26,7 +26,7 @@ La partie frontend (front office et back office) du projet est réalisée avec
 
 Cloner le projet sur votre machine :  
 
-```git clone https://github.com/LaurentCNS/La-nimes-alerie-Business-case```
+```git clone https://github.com/Ryan-Bouanani/BusinessCase.git```
 
 Creer un fichier `.env.local` à la racine et configurez vos propres informations de connexion de votre base de données.  
 Vous pouvez consulter le fichier `.env` pour voir les informations par défaut.  
