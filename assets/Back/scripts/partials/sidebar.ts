@@ -11,7 +11,6 @@ if (linkSidebar) {
       })
     }
 }
-console.log('lol');
 
 let menu = document.querySelector('.containerBack .menu');
 let aside = document.querySelector('.containerBack aside');

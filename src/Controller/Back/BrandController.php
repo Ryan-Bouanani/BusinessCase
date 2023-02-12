@@ -6,12 +6,12 @@ use App\Entity\Brand;
 use App\Form\BrandType;
 use App\Form\Filter\BrandFilterType;
 use App\Repository\BrandRepository;
+use App\Repository\ProductRepository;
 use App\Service\FileUploader;
 use Knp\Component\Pager\PaginatorInterface;
 use Lexik\Bundle\FormFilterBundle\Filter\FilterBuilderUpdaterInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -174,9 +174,13 @@ class BrandController extends AbstractController
      * @return Response
      */
     #[Route('/{slug}/delete', name: 'app_brand_delete', methods: ['POST'])]
-    public function delete(Request $request, Brand $brand, BrandRepository $brandRepository): Response
+    public function delete(Request $request, Brand $brand, BrandRepository $brandRepository, ProductRepository $productRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$brand->getId(), $request->request->get('_token'))) {
+            foreach ($brand->getProducts() as $product) {
+                $product->setActive(false);
+                $productRepository->add($product, true);
+            }
             $brandRepository->remove($brand, true);
         }
 

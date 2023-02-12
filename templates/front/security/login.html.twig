@@ -7,9 +7,9 @@
 <div class="authentication">
     <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
     {% include "shared/partials/_flash.html.twig" %}
-    <form method="post">
+    <form method="post" name="login">
         {% if error %}
-            <div class="alert alert-danger error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            <div class="error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
 
         {% if app.user %}
@@ -47,9 +47,7 @@
             </div>
         #}
 
-        <button class="button btnSubmitForm" type="submit">
-            Connexion
-        </button>
+        <button class="button btnSubmitForm" type="submit">Connexion</button>
     </form>
      <p>Si vous n'avez pas de compte ? <a class="aRegister" href="{{ path('app_register') }}">Inscrivez-vous</a></p>
      <a href="{{ path('forgotten_password') }}">Mot de passe oublié ?</a>

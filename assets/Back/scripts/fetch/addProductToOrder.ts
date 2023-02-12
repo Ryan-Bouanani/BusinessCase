@@ -78,7 +78,7 @@ window.addEventListener('load', () => {
     if (btnAddProduct) {
         btnAddProduct.addEventListener('click', function(e) {
             // On empêche la navigation
-            e.preventDefault()
+            e.preventDefault();
                 
             const error = document.querySelector('.error');
 

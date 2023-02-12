@@ -4,6 +4,7 @@ namespace App\Service\ShoppingCart;
 
 use App\Entity\Basket;
 use App\Entity\ContentShoppingCart;
+use App\Entity\Customer;
 use App\Entity\Product;
 use App\Repository\BasketRepository;
 use App\Repository\ContentShoppingCartRepository;
@@ -20,8 +21,8 @@ class ShoppingCartService {
     protected $priceTaxInclService;
     protected $entityManager;
     protected $basketRepository;
-    protected $contentShoppingCart;
-    protected $request;
+    protected $contentShoppingCartRepository;
+    protected $security;
 
     public function __construct(
         RequestStack $requestStack,

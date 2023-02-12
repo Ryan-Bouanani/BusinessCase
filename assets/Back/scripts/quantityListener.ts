@@ -30,8 +30,6 @@ export function updateNodeListInputBtnQuantity() {
     btnsDelete = document.querySelectorAll("[data-delete]");
 
     if (quantityArray.length !== 0) {
-        console.log(quantityArray);
-        
         
         arrayBtnQuantity = [addQuantity, substractQuantity];
     
@@ -69,12 +67,9 @@ function quantityListener(arrayBtnQuantity: NodeListOf<HTMLButtonElement>) {
             let quantityValue = parseInt(quantityArray[key].value);
                 
                 // Si click sur un button d'ajout, on incremente
-                if (element === addQuantity[key]) { 
-            
+                if (element === addQuantity[key]) {      
                     // on incremente
-                    quantityValue++;   
-
-                        
+                    quantityValue++;                       
                 } else {
                     // Si click sur un button de soustraction, on décremente
                     quantityValue--;
@@ -107,14 +102,14 @@ function inputQuantityListener(quantity: HTMLInputElement, key: number) {
     
                     } else if (quantityValue < 1) {
     
-                        quantityValue = 1;
+                        quantityValue = 0;
     
                     }
                 } else {          
-                    quantityValue = 1;    
+                    quantityValue = 0;    
                 }
             } else {          
-                quantityValue = 1;  
+                quantityValue = 0;  
             }                
             // Je met à jour les buttons de quantités
             updateBtnQuantity(quantityValue, key);   
@@ -193,7 +188,7 @@ function updateBtnQuantity(quantity, key: number) {
         // Si supérieur à 0 alors je réactive le button soustraction
         substractQuantity[key].removeAttribute('disabled');
     }
-    if (quantity <= 1) {
+    if (quantity <= 0) {
         // Si inférieur ou égale à 1 alors je désactive le button soustraction
         substractQuantity[key].setAttribute('disabled', '');
     } 

@@ -48,7 +48,7 @@ class CustomerAuthenticator extends AbstractLoginFormAuthenticator
         }
 
         // For example:
-        if($_SERVER['REQUEST_URI'] === '/checkout/connexion'){
+        if($request->getRequestUri() === '/checkout/connexion'){
             return new RedirectResponse($this->urlGenerator->generate('app_checkout_login'));
         } else {
             return new RedirectResponse($this->urlGenerator->generate('app_login'));
@@ -58,7 +58,7 @@ class CustomerAuthenticator extends AbstractLoginFormAuthenticator
 
     protected function getLoginUrl(Request $request): string
     {
-        if($_SERVER['REQUEST_URI'] === '/checkout/connexion'){
+        if($request->getRequestUri() === '/checkout/connexion'){
             return $this->urlGenerator->generate(self::LOGIN_CHECKOUT_ROUTE);
 
         } else {
