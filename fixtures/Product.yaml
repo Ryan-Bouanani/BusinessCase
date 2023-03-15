@@ -8,4 +8,4 @@ App\Entity\Product:
     tva: '<randomFloat(2, 0, 20)>'
     brand: '@brand*'
     promotion: '70%? @promotion*'
-    category: '@category<numberBetween(8, 41)>'
+    category: '@category<numberBetween(8, 40)>'

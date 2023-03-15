@@ -90,7 +90,7 @@ class CategoryController extends AbstractController
                 'Votre catégorie a été ajoutée avec succès !'
             );
 
-            return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_category_index', [], Response::HTTP_FOUND);
         } else {
             $this->addFlash(
                 'error',
@@ -131,7 +131,7 @@ class CategoryController extends AbstractController
                 'Votre catégorie a été modifiée avec succès !'
             );
 
-            return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('app_category_index', [], Response::HTTP_FOUND);
         }
         return $this->renderForm('back/category/edit.html.twig', [
             'category' => $category,
@@ -150,24 +150,35 @@ class CategoryController extends AbstractController
     #[Route('/{slug}/delete', name: 'app_category_delete', methods: ['POST'])]
     public function delete(Request $request, Category $category, CategoryRepository $categoryRepository, ProductRepository $productRepository): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {
-            // Catégorie supprimée : on set active à false pour tout les produits de la catégorie
-            if (is_null($category->getCategoryParent())) {
-                foreach ($category->getCategoryChildren() as $categoryChildren) {
-                    foreach ($categoryChildren->getProducts() as $product) {
-                        $product->setActive(false);
-                        $productRepository->add($product, true);
-                    }
-                }
-            } else {
-                foreach ($category->getProducts() as $product) {
-                    $product->setActive(false);
-                    $productRepository->add($product, true);
-                }
-            }
-            $categoryRepository->remove($category, true);
+        if (!$this->isCsrfTokenValid('delete'.$category->getId(), $request->request->get('_token'))) {
+            return $this->redirectToRoute('app_category_edit', [
+                'slug' => $category->getSlug(),
+            ]);   
         }
 
-        return $this->redirectToRoute('app_category_index', [], Response::HTTP_SEE_OTHER);
+        // On set active à false pour tout les produits de la catégorie suprimée
+        if ($category->getCategoryParent() === null) {
+            $categories = $category->getCategoryChildren(); 
+        } else {
+            $categories = [$category];
+        }
+
+        foreach ($categories as $cat) {
+            foreach ($cat->getProducts() as $product) {
+                $product->setActive(false);
+                $productRepository->add($product, true);
+            }
+        }
+
+        // Remove category
+        $categoryRepository->remove($category, true);
+
+        $this->addFlash(
+            'success',
+            'Votre catégorie a été supprimée avec succès !'
+        );
+
+        return $this->redirectToRoute('app_category_index', [], Response::HTTP_FOUND);
+
     }
 }

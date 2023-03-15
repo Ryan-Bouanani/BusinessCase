@@ -65,12 +65,12 @@ class ProductType extends AbstractType
             ])
             ->add('brand', EntityType::class, [
                 'class' => Brand::class,
-                'choice_label' => 'label',
+                'choice_label' => 'name',
                 'label' => 'Marque',
                 'placeholder' => 'Selectionner une marque',
                 'query_builder' => function(EntityRepository $er) {
                     return $er->createQueryBuilder('brand')
-                        ->orderBy('brand.label', 'ASC')
+                        ->orderBy('brand.name', 'ASC')
                     ;
                 }
             ])

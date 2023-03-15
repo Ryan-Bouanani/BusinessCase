@@ -1,57 +1,82 @@
 <?php
 
-// namespace App\Test\Back\Controller;
+namespace App\Test\Back\Controller;
 
-// use App\Entity\Category;
-// use App\Repository\CategoryRepository;
-// use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-// use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use App\Entity\Category;
+use App\Entity\Customer;
+use App\Repository\CategoryRepository;
+use Symfony\Bundle\FrameworkBundle\KernelBrowser;
+use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 
-// class CategoryControllerTest extends WebTestCase
-// {
-//     private KernelBrowser $client;
-//     private CategoryRepository $repository;
-//     private string $path = '/category/';
+class CategoryControllerTest extends WebTestCase
+{
+    private KernelBrowser $client;
+    private CategoryRepository $repository;
+    private string $path = '/category/';
 
-//     protected function setUp(): void
-//     {
-//         $this->client = static::createClient();
-//         $this->repository = (static::getContainer()->get('doctrine'))->getRepository(Category::class);
+    protected function setUp(): void
+    {
+        $this->client = static::createClient();
+        $this->repository = (static::getContainer()->get('doctrine'))->getRepository(Category::class);
 
-//         foreach ($this->repository->findAll() as $object) {
-//             $this->repository->remove($object, true);
-//         }
-//     }
+        foreach ($this->repository->findAll() as $object) {
+            $this->repository->remove($object, true);
+        }
+    }
 
-    // public function testIndex(): void
-    // {
-    //     $crawler = $this->client->request('GET', $this->path);
+    public function testIfListCategoryIsSuccessful(): void
+    {
+        $urlGenerator = $this->client->getContainer()->get('router');
+        $entitymanager = $this->client->getContainer()->get('doctrine.orm.entity_manager');
 
-    //     self::assertResponseStatusCodeSame(200);
-    //     self::assertPageTitleContains('Category index');
+        $user = $entitymanager->find(Customer::class, 2);
 
-    //     // Use the $crawler to perform additional assertions e.g.
-    //     // self::assertSame('Some text on the page', $crawler->filter('.p')->first());
-    // }
+        $this->client->loginUser($user);
 
-    // public function testNew(): void
-    // {
-    //     $originalNumObjectsInRepository = count($this->repository->findAll());
+        $this->client->request('GET', $urlGenerator->generate('app_category_index'));
 
-    //     $this->markTestIncomplete();
-    //     $this->client->request('GET', sprintf('%snew', $this->path));
+        $this->assertResponseIsSuccessful();
+        self::assertRouteSame('app_category_index');
 
-    //     self::assertResponseStatusCodeSame(200);
+        // Use the $crawler to perform additional assertions e.g.
+        // self::assertSame('Some text on the page', $crawler->filter('.p')->first());
+    }
 
-    //     $this->client->submitForm('Save', [
-    //         'category[name]' => 'Testing',
-    //         'category[categoryParent]' => 'Testing',
-    //     ]);
+    public function testIfCreateAnCategoryIsSuccessful(): void
+    {
+        $urlGenerator = $this->client->getContainer()->get('router');
+        $entitymanager = $this->client->getContainer()->get('doctrine.orm.entity_manager');
 
-    //     self::assertResponseRedirects('/category/');
+        $user = $entitymanager->find(Customer::class, 2);
 
-    //     self::assertSame($originalNumObjectsInRepository + 1, count($this->repository->findAll()));
-    // }
+        $this->client->loginUser($user);
+
+        $originalNumObjectsInRepository = count($this->repository->findAll());
+
+        // $this->markTestIncomplete();
+        $crawler = $this->client->request(Request::METHOD_GET, $urlGenerator->generate('app_category_new'));
+
+        $this->assertResponseIsSuccessful();
+
+        $form = $crawler->filter('form[name=category]')->form([
+            'category[name]' => 'Testing',
+            // 'category[categoryParent]' => floatval(2),
+        ]);
+
+        $this->client->submit($form);
+
+        self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
+
+        $this->client->followRedirect();
+
+        $this->assertSelectorTextContains('div.success', 'Votre catégorie a été ajoutée avec succès !');
+
+        $this->assertRouteSame('app_category_index');
+
+        self::assertSame($originalNumObjectsInRepository + 1, count($this->repository->findAll()));
+    }
 
     // public function testShow(): void
     // {
@@ -70,48 +95,85 @@
     //     // Use assertions to check that the properties are properly displayed.
     // }
 
-    // public function testEdit(): void
-    // {
-    //     $this->markTestIncomplete();
-    //     $fixture = new Category();
-    //     $fixture->setName('My Title');
-    //     $fixture->setCategoryParent('My Title');
+    public function testIfUpdateAnCategoryIsSuccessful(): void
+    {
+        $urlGenerator = $this->client->getContainer()->get('router');
+        $entitymanager = $this->client->getContainer()->get('doctrine.orm.entity_manager');
 
-    //     $this->repository->add($fixture, true);
+        $user = $entitymanager->find(Customer::class, 2);
 
-    //     $this->client->request('GET', sprintf('%s%s/edit', $this->path, $fixture->getId()));
+        $this->client->loginUser($user);
 
-    //     $this->client->submitForm('Update', [
-    //         'category[name]' => 'Something New',
-    //         'category[categoryParent]' => 'Something New',
-    //     ]);
+        $fixture = new Category();
+        $fixture->setName('Edit Test');
+        $this->repository->add($fixture, true);
+        
+        $crawler = $this->client->request(
+            Request::METHOD_GET,
+             $urlGenerator->generate('app_category_edit', [
+                'slug' => $fixture->getSlug(),
+             ])
+        );
 
-    //     self::assertResponseRedirects('/category/');
+        $this->assertResponseIsSuccessful();
 
-    //     $fixture = $this->repository->findAll();
+        $form = $crawler->filter('form[name=category]')->form( [
+            'category[name]' => 'Edit Test Work',
+        ]);
 
-    //     self::assertSame('Something New', $fixture[0]->getName());
-    //     self::assertSame('Something New', $fixture[0]->getCategoryParent());
-    // }
+        $this->client->submit($form);
 
-    // public function testRemove(): void
-    // {
-    //     $this->markTestIncomplete();
+        self::assertResponseStatusCodeSame(Response::HTTP_FOUND);
+       
+        $this->client->followRedirect();
 
-    //     $originalNumObjectsInRepository = count($this->repository->findAll());
+        $this->assertSelectorTextContains('div.success', 'Votre catégorie a été modifiée avec succès !');
 
-    //     $fixture = new Category();
-    //     $fixture->setName('My Title');
-    //     $fixture->setCategoryParent('My Title');
+        $this->assertRouteSame('app_category_index');
 
-    //     $this->repository->add($fixture, true);
+        $fixture = $this->repository->findAll();
 
-    //     self::assertSame($originalNumObjectsInRepository + 1, count($this->repository->findAll()));
+        // self::assertSame('Edit Test Work', $fixture[0]->getName());
+        self::assertSame('Edit Test Work', end($fixture)->getName());
+    }
 
-    //     $this->client->request('GET', sprintf('%s%s', $this->path, $fixture->getId()));
-    //     $this->client->submitForm('Delete');
+    public function testIfRemoveAnCategoryIsSuccessful(): void
+    {
+        $urlGenerator = $this->client->getContainer()->get('router');
+        $entitymanager = $this->client->getContainer()->get('doctrine.orm.entity_manager');
 
-    //     self::assertSame($originalNumObjectsInRepository, count($this->repository->findAll()));
-    //     self::assertResponseRedirects('/category/');
-    // }
-// }
+        $user = $entitymanager->find(Customer::class, 2);
+
+        $this->client->loginUser($user);
+
+        $originalNumObjectsInRepository = count($this->repository->findAll());
+
+        $fixture = new Category();
+        $fixture->setName('Delete Test');
+
+        $this->repository->add($fixture, true);
+
+        self::assertSame($originalNumObjectsInRepository + 1, count($this->repository->findAll()));
+
+        $this->client->request(
+            Request::METHOD_POST, 
+            $urlGenerator->generate('app_category_edit', [
+            'slug' => $fixture->getSlug()
+            ])
+        );
+        $this->assertResponseIsSuccessful();
+
+        $this->client->submitForm('Supprimer');
+
+        
+        $this->assertResponseStatusCodeSame(Response::HTTP_FOUND);
+
+        $this->client->followRedirect();
+
+        $this->assertSelectorTextContains('div.success', 'Votre catégorie a été supprimée avec succès !');
+        
+        $this->assertRouteSame('app_category_index');
+
+        self::assertSame($originalNumObjectsInRepository, count($this->repository->findAll()));
+    }
+}

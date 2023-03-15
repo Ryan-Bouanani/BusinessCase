@@ -1,3 +1,3 @@
 App\Entity\Visit:
-  visit{1..2000}:
+  visit{0..1000}:
     visitAt: '<dateTimeBetween("-4 years", "now")>'

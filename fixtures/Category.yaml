@@ -1,120 +1,120 @@
 App\Entity\Category:
-  category1:
+  category0:
     name: 'Chien'
-  category2:
+  category1:
     name: 'Chat'
-  category3:
+  category2:
     name: 'Rongueur'
-  category4:
+  category3:
     name: 'Reptile'
-  category5:
+  category4:
     name: 'Poisson'
-  category6:
+  category5:
     name: 'Oiseau'
-  category7:
+  category6:
     name: 'Ferme'  
-  category8:
+  category7:
     name: 'Alimentation pour chien'
-    categoryParent: '@category1'
-  category9:
+    categoryParent: '@category0'
+  category8:
     name: 'Accessoires pour chien'
-    categoryParent: '@category1'
-  category10:
+    categoryParent: '@category0'
+  category9:
     name: 'Jouets pour chien'
-    categoryParent: '@category1'
-  category11:
+    categoryParent: '@category0'
+  category10:
     name: 'Hygiène et Soins  pour chien'
-    categoryParent: '@category1'
-  category12:
+    categoryParent: '@category0'
+  category11:
     name: 'Friandises pour chien'
-    categoryParent: '@category1'
-  category13:
+    categoryParent: '@category0'
+  category12:
     name: 'Antiparasites  pour chien'
+    categoryParent: '@category0'
+  category13:
+    name: 'Alimentation pour chat'
     categoryParent: '@category1'
   category14:
-    name: 'Alimentation pour chat'
-    categoryParent: '@category2'
-  category15:
     name: 'Accessoires pour chat'
-    categoryParent: '@category2'
-  category16:
+    categoryParent: '@category1'
+  category15:
     name: 'Litières pour chat'
-    categoryParent: '@category2'
-  category17:
+    categoryParent: '@category1'
+  category16:
     name: 'Antiparasites pour chat'
+    categoryParent: '@category1'
+  category17:
+    name: 'Alimentation pour rongueur'
     categoryParent: '@category2'
   category18:
-    name: 'Alimentation pour rongueur'
-    categoryParent: '@category3'
-  category19:
     name: 'Accessoires pour rongueur'
-    categoryParent: '@category3'
-  category20:
+    categoryParent: '@category2'
+  category19:
     name: 'Friandises pour rongueur'
-    categoryParent: '@category3'
-  category21:
+    categoryParent: '@category2'
+  category20:
     name: 'Cages et clapiers pour rongueur'
-    categoryParent: '@category3'
-  category22:
+    categoryParent: '@category2'
+  category21:
     name: 'Litières pour rongueur'
+    categoryParent: '@category2'
+  category22:
+    name: 'Alimentation pour reptile'
     categoryParent: '@category3'
   category23:
-    name: 'Alimentation pour reptile'
-    categoryParent: '@category4'
-  category24:
     name: 'Accessoires pour reptile'
-    categoryParent: '@category4'
-  category25:
+    categoryParent: '@category3'
+  category24:
     name: 'Eclairages pour reptile'
-    categoryParent: '@category4'
-  category26:
+    categoryParent: '@category3'
+  category25:
     name: 'Chauffages pour reptile'
-    categoryParent: '@category4'
-  category27:
+    categoryParent: '@category3'
+  category26:
     name: 'Suppléments & Soins pour reptile'
-    categoryParent: '@category4'
-  category28:
+    categoryParent: '@category3'
+  category27:
     name: 'Terrariums pour reptile'
+    categoryParent: '@category3'
+  category28:
+    name: 'Alimentation pour poisson'
     categoryParent: '@category4'
   category29:
-    name: 'Alimentation pour poisson'
-    categoryParent: '@category5'
-  category30:
     name: 'Accessoires pour poisson'
-    categoryParent: '@category5'
-  category31:
+    categoryParent: '@category4'
+  category30:
     name: 'Filtration pour poisson'
-    categoryParent: '@category5'
-  category32:
+    categoryParent: '@category4'
+  category31:
     name: 'Décoration pour poisson'
-    categoryParent: '@category5'
-  category33:
+    categoryParent: '@category4'
+  category32:
     name: 'Aquariums pour poisson'
-    categoryParent: '@category5'
-  category34:
+    categoryParent: '@category4'
+  category33:
     name: 'Traitements d’eau pour poisson'
+    categoryParent: '@category4'
+  category34:
+    name: 'Alimentation pour oiseau'
     categoryParent: '@category5'
   category35:
-    name: 'Alimentation pour oiseau'
-    categoryParent: '@category6'
-  category36:
     name: 'Accessoires pour oiseau'
-    categoryParent: '@category6'
-  category37:
+    categoryParent: '@category5'
+  category36:
     name: 'Cages et volières pour oiseau'
-    categoryParent: '@category6'
-  category38:
+    categoryParent: '@category5'
+  category37:
     name: 'Hygiène et soins pour oiseau'
+    categoryParent: '@category5'
+  category38:
+    name: 'Alimentation pour ferme'
     categoryParent: '@category6'
   category39:
-    name: 'Alimentation pour ferme'
-    categoryParent: '@category7'
-  category40:
     name: 'Accessoires pour ferme'
-    categoryParent: '@category7'
-  category41:
+    categoryParent: '@category6'
+  category40:
     name: 'Basse-cour pour ferme'
-    categoryParent: '@category7'
+    categoryParent: '@category6'
 
 
 

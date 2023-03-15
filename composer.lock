@@ -3525,16 +3525,16 @@
         },
         {
             "name": "league/commonmark",
-            "version": "2.3.8",
+            "version": "2.3.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "c493585c130544c4e91d2e0e131e6d35cb0cbc47"
+                "reference": "c1e114f74e518daca2729ea8c4bf1167038fa4b5"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/c493585c130544c4e91d2e0e131e6d35cb0cbc47",
-                "reference": "c493585c130544c4e91d2e0e131e6d35cb0cbc47",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/c1e114f74e518daca2729ea8c4bf1167038fa4b5",
+                "reference": "c1e114f74e518daca2729ea8c4bf1167038fa4b5",
                 "shasum": ""
             },
             "require": {
@@ -3627,7 +3627,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2022-12-10T16:02:17+00:00"
+            "time": "2023-02-15T14:07:24+00:00"
         },
         {
             "name": "league/config",
@@ -4165,16 +4165,16 @@
         },
         {
             "name": "lexik/jwt-authentication-bundle",
-            "version": "v2.18.0",
+            "version": "v2.18.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/lexik/LexikJWTAuthenticationBundle.git",
-                "reference": "8f23254b280bb854c53b97bc1f9f570163ff4b80"
+                "reference": "0609638166981258bd68663fd15b3c57ac63a0df"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lexik/LexikJWTAuthenticationBundle/zipball/8f23254b280bb854c53b97bc1f9f570163ff4b80",
-                "reference": "8f23254b280bb854c53b97bc1f9f570163ff4b80",
+                "url": "https://api.github.com/repos/lexik/LexikJWTAuthenticationBundle/zipball/0609638166981258bd68663fd15b3c57ac63a0df",
+                "reference": "0609638166981258bd68663fd15b3c57ac63a0df",
                 "shasum": ""
             },
             "require": {
@@ -4196,9 +4196,9 @@
                 "symfony/console": "<4.4"
             },
             "require-dev": {
-                "symfony/browser-kit": "^4.4|^5.3|^6.0",
+                "symfony/browser-kit": "^5.4|^6.0",
                 "symfony/console": "^4.4|^5.3|^6.0",
-                "symfony/dom-crawler": "^4.4|^5.3|^6.0",
+                "symfony/dom-crawler": "^5.4|^6.0",
                 "symfony/filesystem": "^4.4|^5.3|^6.0",
                 "symfony/framework-bundle": "^4.4|^5.3|^6.0",
                 "symfony/phpunit-bridge": "^4.4|^5.3|^6.0",
@@ -4267,7 +4267,7 @@
             ],
             "support": {
                 "issues": "https://github.com/lexik/LexikJWTAuthenticationBundle/issues",
-                "source": "https://github.com/lexik/LexikJWTAuthenticationBundle/tree/v2.18.0"
+                "source": "https://github.com/lexik/LexikJWTAuthenticationBundle/tree/v2.18.1"
             },
             "funding": [
                 {
@@ -4279,7 +4279,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2023-02-08T15:24:59+00:00"
+            "time": "2023-02-13T12:30:12+00:00"
         },
         {
             "name": "monolog/monolog",
@@ -11295,23 +11295,23 @@
         },
         {
             "name": "nelmio/alice",
-            "version": "3.12.1",
+            "version": "3.12.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nelmio/alice.git",
-                "reference": "e7d3275a9137bea1436b89f0fea770d0feca5358"
+                "reference": "a020c0767e10dbb7bf1c193e16e94710691133d9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nelmio/alice/zipball/e7d3275a9137bea1436b89f0fea770d0feca5358",
-                "reference": "e7d3275a9137bea1436b89f0fea770d0feca5358",
+                "url": "https://api.github.com/repos/nelmio/alice/zipball/a020c0767e10dbb7bf1c193e16e94710691133d9",
+                "reference": "a020c0767e10dbb7bf1c193e16e94710691133d9",
                 "shasum": ""
             },
             "require": {
                 "fakerphp/faker": "^1.10",
                 "myclabs/deep-copy": "^1.10",
                 "php": "^8.1",
-                "sebastian/comparator": "^3.0 || ^4.0",
+                "sebastian/comparator": "^3.0 || ^4.0 || ^5.0",
                 "symfony/property-access": "^5.4 || ^6.0",
                 "symfony/yaml": "^5.4 || ^6.0"
             },
@@ -11377,7 +11377,7 @@
             ],
             "support": {
                 "issues": "https://github.com/nelmio/alice/issues",
-                "source": "https://github.com/nelmio/alice/tree/3.12.1"
+                "source": "https://github.com/nelmio/alice/tree/3.12.2"
             },
             "funding": [
                 {
@@ -11385,7 +11385,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2022-11-14T18:45:17+00:00"
+            "time": "2023-02-13T11:17:55+00:00"
         },
         {
             "name": "nikic/php-parser",
