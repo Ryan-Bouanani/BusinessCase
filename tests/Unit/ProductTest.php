@@ -6,19 +6,10 @@ use App\Entity\Category;
 use App\Entity\Product;
 use App\Repository\BrandRepository;
 use App\Repository\CategoryRepository;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use App\Tests\BaseTestCase;
 
-class ProductTest extends KernelTestCase
+class ProductTest extends BaseTestCase
 {
-    public function assertValidationErrorsCount(Product $basket, int $number = 0) {
-        $errors = self::getContainer()->get('validator')->validate($basket);
-        $messages = [];
-        /** @var ConstraintViolation $error */
-        foreach($errors as $error) {
-            $messages[] = $error->getPropertyPath() . ' => ' . $error->getMessage();
-        };
-        $this->assertCount($number, $errors, implode(', ', $messages));
-    }
 
     public function testEntityIsValid(): void
     {

@@ -7,14 +7,13 @@ use App\Entity\Customer;
 use App\Entity\MeanOfPayment;
 use App\Enum\StatusEnum;
 use App\Repository\StatusRepository;
+use App\Tests\BaseTestCase;
 use DateTime;
 use Liip\TestFixturesBundle\Services\DatabaseToolCollection;
 use Liip\TestFixturesBundle\Services\DatabaseTools\AbstractDatabaseTool;
-use PhpParser\Node\Scalar\MagicConst\Dir;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 use Symfony\Component\Validator\ConstraintViolation;
 
-class BasketTest extends KernelTestCase
+class BasketTest extends BaseTestCase
 {
     /** @var AbstractDatabaseTool */
     protected $databaseTool;
@@ -43,15 +42,6 @@ class BasketTest extends KernelTestCase
         return $basket;
     }
 
-    public function assertValidationErrorsCount(Basket $basket, int $number = 0) {
-        $errors = self::getContainer()->get('validator')->validate($basket);
-        $messages = [];
-        /** @var ConstraintViolation $error */
-        foreach($errors as $error) {
-            $messages[] = $error->getPropertyPath() . ' => ' . $error->getMessage();
-        };
-        $this->assertCount($number, $errors, implode(', ', $messages));
-    }
 
     /**
      * This controller will be used for test the creation of order is valid
