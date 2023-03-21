@@ -73,7 +73,7 @@ class CategoryController extends AbstractController
     {
         $category = new Category();
 
-        // Creation du formulaire de catéhorie
+        // Creation du formulaire de catégorie
         $form = $this->createForm(CategoryType::class, $category);
        
         // On inspecte les requettes du formulaire

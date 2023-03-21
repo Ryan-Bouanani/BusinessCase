@@ -216,13 +216,16 @@ class ShoppingCartService {
         }
         return $total;
     }
-    public function transformShoppingCartToBasketSesion() {
-        // On recupere la session
+
+    public function transformShoppingCartToBasketSession() {
+        // On récupere la session
         $session = $this->requestStack->getSession();
 
-        // On recupere notre panier 
+        // On récupere notre panier de bdd et de session
         $basket = $session->get('basket', []);
         $shoppingCart = $session->get('shoppingCart', []);
+
+        // S'il y a un panier d'achat en cours dans la session, je le récupére dans la base de données.
         if ($shoppingCart) {
             $shoppingCart = $this->basketRepository->find($shoppingCart->getId());
         }
@@ -276,10 +279,11 @@ class ShoppingCartService {
                 if ($notInShoppingCart) {
                     $product = $this->productRepository->getProductShoppingCart($id);
                     $contentShoppingCart = new ContentShoppingCart();
-                    $contentShoppingCart->setProduct($product);
-                    $contentShoppingCart->setPrice($product->getPriceExclVat());
-                    $contentShoppingCart->setTva($product->getTva());
-                    $contentShoppingCart->setQuantity($quantity);
+                    $contentShoppingCart->setProduct($product)
+                        ->setPrice($product->getPriceExclVat())
+                        ->setTva($product->getTva())
+                        ->setQuantity($quantity)
+                    ;
                     $shoppingCart->addContentShoppingCart($contentShoppingCart);
     
                     // Puis on met à jour en bdd le panier et sa/ses lignes si il y'a un changement

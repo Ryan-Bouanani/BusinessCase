@@ -34,7 +34,7 @@ class SecurityController extends AbstractController
         ): Response
     {
         if ($this->getUser()) {
-            $shoppingCartService->transformShoppingCartToBasketSesion();
+            $shoppingCartService->transformShoppingCartToBasketSession();
             return $this->redirectToRoute('app_home');
         }
         
@@ -78,40 +78,36 @@ class SecurityController extends AbstractController
     {
         /** @var Customer $user*/
         $user = $this->getUser();
-        if ($user) {         
-            // On vérifie que l'utilisateur possède bien un panier
-            if ($session->has('shoppingCart')) {
-                // On met à jour la session avec le panier
-                $shoppingCartService->transformShoppingCartToBasketSesion(); 
-           } else {
-                return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
-           }
-           $shoppingCart = $session->get('shoppingCart', []);  
-           $shoppingCart = $basketRepository->find($shoppingCart->getId());
-           if ($shoppingCart) {
-                // Si la commande possède une adresse et/ou un moyen de paiement alors on redirige 
-               if ($shoppingCart->getAddress() !== null) {  
-                   if ($shoppingCart->getMeanOfPayment() !== null) {                     
-                       return $this->redirectToRoute('app_checkout_resume', [], Response::HTTP_SEE_OTHER);
-                   } 
-                   return $this->redirectToRoute('app_checkout_payment', [], Response::HTTP_SEE_OTHER);
-               } 
-               // Sinon on redrige vers formulaire d'ajout d'adresse
-               return $this->redirectToRoute('app_checkout_address');
-           }
+        if (!$user) {
+            $error = $authenticationUtils->getLastAuthenticationError();
+            $lastUsername = $authenticationUtils->getLastUsername();
+            return $this->render('front/shoppingCart/login.html.twig', [
+                'last_username' => $lastUsername, 
+                'error' => $error,
+                'total' => $shoppingCartService->getTotal(),
+            ]);
         }
-        // get the login error if there is one
-        $error = $authenticationUtils->getLastAuthenticationError();
-
-        // last username entered by the user
-        $lastUsername = $authenticationUtils->getLastUsername();
-
-        return $this->render('front/shoppingCart/login.html.twig', [
-            'last_username' => $lastUsername, 
-            'error' => $error,
-            // On calcul le montant du panier
-            'total' => $shoppingCartService->getTotal(),
-        ]);
+        
+        if (!$session->has('shoppingCart')) {
+            return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
+        }
+        
+        $shoppingCartService->transformShoppingCartToBasketSession();
+        $shoppingCart = $basketRepository->find($session->get('shoppingCart')->getId());
+        
+        if (!$shoppingCart) {
+            return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
+        }
+        
+        if ($shoppingCart->getAddress() === null) {
+            return $this->redirectToRoute('app_checkout_address');
+        }
+        
+        if ($shoppingCart->getMeanOfPayment() === null) {
+            return $this->redirectToRoute('app_checkout_payment', [], Response::HTTP_SEE_OTHER);
+        }
+        
+        return $this->redirectToRoute('app_checkout_resume', [], Response::HTTP_SEE_OTHER);
     }
 
 
@@ -172,9 +168,10 @@ class SecurityController extends AbstractController
                 // On renvoie un message de succès
                 $this->addFlash('success', 'Un email vous a été envoyé, sur votre boite mail');
                 return $this->redirectToRoute('app_login');
+            } else {
+                // Si user est null, on renvoie un message d'erreur
+                $this->addFlash('error', 'Un problème est survenue');
             }
-            // Si user est null, on renvoie un message d'erreur
-            $this->addFlash('error', 'Un problème est survenue');
             return $this->redirectToRoute('app_login');
         }
         // On envoie le form pour qu'il soit affiché

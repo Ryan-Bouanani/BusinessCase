@@ -22,7 +22,7 @@ closeMenuIcon.addEventListener('click', () => {
 const eye = document.getElementById('btn-eye') as HTMLButtonElement;
 if (eye) {
     eye.addEventListener('click', function() {
-        let input = document.querySelector('.input-container input[type="password"]') as HTMLInputElement;
+        let input = document.querySelector('.input-container input[name="password"]') as HTMLInputElement;
         
         let icon = this.firstChild as HTMLElement;
         if (input.type === 'password') {
