@@ -17,7 +17,11 @@
             </div>
         </div>
         {% if btn is defined and btn == false %}
-            <a href="{{ path( path|default('app_checkout_login')) }}" class="btn btnAddBasket">{{ btnContent|default('CONTINUER') }}</a>
+            {% if path is defined and path == 'checkout_payment' %}
+                <a href="{{ path( path|default('app_checkout_login')) }}?_csrf_token={{ csrf_token('payment' ~ order.id) }}" class="btn btnAddBasket">{{ btnContent|default('CONTINUER') }}</a>
+            {% else %}
+                <a href="{{ path( path|default('app_checkout_login')) }}" class="btn btnAddBasket">{{ btnContent|default('CONTINUER') }}</a>
+            {% endif %}
        {% elseif btn is defined and btn == true %}
        {% else %}
                <button href="{{ path( path|default('app_checkout_login')) }}" class="btn btnAddBasket">{{ btnContent|default('CONTINUER') }}</button>

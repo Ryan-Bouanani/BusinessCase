@@ -13,7 +13,7 @@
         </a>
 
         {% if active >= 2 %}
-            <a href="{{ path('app_checkout_address') }}">
+            <a href="{{ path('checkout_address') }}">
         {% endif %}
         {% if active == 2 %}
         <div class="circleInfo active">
@@ -28,7 +28,7 @@
         {% endif %} 
 
         {% if active >= 3 or (order is defined and order.address) %}
-            <a href="{{ path('app_checkout_payment') }}">
+            <a href="{{ path('checkout_choice_payment') }}">
         {% endif %}
         {% if active == 3 %}
         <div class="circleInfo active">
@@ -43,7 +43,7 @@
         {% endif %}
 
         {% if active >= 4 or (order is defined and order.address and order.meanOfPayment) %}
-            <a href="{{ path('app_checkout_resume') }}">
+            <a href="{{ path('checkout_resume') }}">
         {% endif %}
         {% if active == 4 %}
         <div class="circleInfo active">
@@ -59,7 +59,7 @@
 
 
         {% if active >= 5 or (order is defined and order.address and order.meanOfPayment and order.status) %}
-            <a href="{{ path('app_checkout_resume') }}">
+            <a href="{{ path('checkout_resume') }}">
         {% endif %}
         {% if active == 5 %}
         <div class="circleInfo active">

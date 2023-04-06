@@ -2,6 +2,7 @@
 
 namespace App\Controller\Front;
 
+use App\Service\ShoppingCart\PaypalOperationService;
 use App\Entity\Address;
 use App\Entity\Product;
 use App\Entity\Customer;
@@ -11,14 +12,22 @@ use App\Form\MeanOfPaymentType;
 use App\Repository\AddressRepository;
 use App\Repository\BasketRepository;
 use App\Repository\CustomerRepository;
+use App\Repository\ImageRepository;
+use App\Repository\PaypalPaymentRepository;
 use App\Repository\ProductRepository;
 use App\Repository\StatusRepository;
+use App\Service\PriceTaxInclService;
 use App\Service\ShoppingCart\ShoppingCartService;
+use Omnipay\Common\Exception\InvalidResponseException;
+use Omnipay\Common\Item;
+use Omnipay\PayPal\PayPalItem;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 #[Route('/checkout')]
 class ShoppingCartController extends AbstractController
@@ -127,7 +136,7 @@ class ShoppingCartController extends AbstractController
      * @param ShoppingCartService $shoppingCartService
      * @return void
      */
-    #[Route('/address', 'app_checkout_address')]
+    #[Route('/address', 'checkout_address')]
     public function address(
         Request $request, 
         BasketRepository $basketRepository,
@@ -170,11 +179,11 @@ class ShoppingCartController extends AbstractController
                     $customerRepository->add($user, true);
 
                     if ($user->getAddress()) {
-                        return $this->redirectToRoute('app_checkout_address', [], Response::HTTP_SEE_OTHER);
+                        return $this->redirectToRoute('checkout_address', [], Response::HTTP_SEE_OTHER);
                     }
 
                     // Puis on redirige vers la page suivante (paiement)
-                    return $this->redirectToRoute('app_checkout_payment', [], Response::HTTP_SEE_OTHER);
+                    return $this->redirectToRoute('checkout_choice_payment', [], Response::HTTP_SEE_OTHER);
                 } elseif($formAddress->isSubmitted() && !$formAddress->isValid()) {
                     // Si form non valide on renvoie une erreur
                     $this->addFlash(
@@ -200,7 +209,7 @@ class ShoppingCartController extends AbstractController
                  // Rendu : Si utilisateur possède pas d'adresse 
                 return $this->render('front/shoppingCart/address.html.twig', [
                     'formAddress' => $formAddress->createView(),
-                    'oder' => $order[0],
+                    'order' => $order[0],
                     // On calcul le montant du panier
                     'total' => $shoppingCartService->getTotal(),
                 ]);
@@ -215,8 +224,8 @@ class ShoppingCartController extends AbstractController
      * @param ShoppingCartService $shoppingCartService
      * @return void
      */
-    #[Route('/payment', 'app_checkout_payment')]
-    public function payment(
+    #[Route('/choice_payment', 'checkout_choice_payment')]
+    public function choice_payment(
         BasketRepository $basketRepository,
         Request $request,
         ShoppingCartService $shoppingCartService,
@@ -241,20 +250,20 @@ class ShoppingCartController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
-        // Si l'utilisateur n'a pas d'adresse on le redirige vers la page d'ajou( d'adresse)
+        // Si l'utilisateur n'a pas d'adresse on le redirige vers la page d’ajout( d'adresse)
         if ($user->getAddress() === NULL) {
             return $this->redirectToRoute('app_address', [], Response::HTTP_SEE_OTHER);
         }
 
         // Creation du formulaire de moyen de paiement
         $form = $this->createForm(MeanOfPaymentType::class, $order[0]);
-        // On inspecte les requettes du formulaire
+        // On inspecte les requêtes du formulaire
         $form->handleRequest($request);
 
         // Si le formulaire est envoyé et valide
         if ($form->isSubmitted() && $form->isValid()) {
                     
-            // On récupere et ajoute le moyen de paiement choisie par l'utilisateur et la date de facturation à la commande 
+            // On récupère et ajoute le moyen de paiement choisie par l'utilisateur et la date de facturation à la commande 
             $order[0]->setMeanOfPayment($form->get('meanOfPayment')->getData());
             $order[0]->setBillingDate(new \DateTime());
 
@@ -262,7 +271,7 @@ class ShoppingCartController extends AbstractController
             $basketRepository->add($order[0], true);
 
             // Puis on redirige à l'étape suivante
-            return $this->redirectToRoute('app_checkout_resume', []);
+            return $this->redirectToRoute('checkout_resume', []);
         } 
 
         return $this->renderForm('front/shoppingCart/payment.html.twig', [
@@ -273,7 +282,6 @@ class ShoppingCartController extends AbstractController
         ]);
     }
 
-    
 
     /**
      * Ce controller va servir à afficher le resumé de la commande
@@ -282,7 +290,7 @@ class ShoppingCartController extends AbstractController
      * @param ShoppingCartService $shoppingCartService
      * @return void
      */
-    #[Route('/resume', 'app_checkout_resume')]
+    #[Route('/resume', 'checkout_resume')]
     public function resume(
         BasketRepository $basketRepository,
         ShoppingCartService $shoppingCartService,
@@ -300,7 +308,7 @@ class ShoppingCartController extends AbstractController
         // Si pas de dernier panier on redirige vers l'accueil
         if (empty($order)) {
             return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
-        }        
+        }       
 
         return $this->renderForm('front/shoppingCart/resume.html.twig', [
             'order' => $order[0],
@@ -312,6 +320,100 @@ class ShoppingCartController extends AbstractController
     }
 
     /**
+     * Ce controller va servir à gérer le paiement de la commande via PayPal ou Stripe
+     *
+     * @param BasketRepository $basketRepository
+     * @param ShoppingCartService $shoppingCartService
+     * @param PaypalOperationService $paypalOperationService
+    //  * @return void
+     */
+    #[Route('/payment', name: 'checkout_payment')]
+    public function payment(
+        BasketRepository $basketRepository,
+        ShoppingCartService $shoppingCartService,
+        PaypalOperationService $paypalOperationService,
+        PriceTaxInclService $priceTaxInclService,
+        Request $request,
+        ImageRepository $imageRepository,
+    ) : Response
+    {            
+        // Si pas d'utilisateur, on redirige vers l'accueil
+        /** @var Customer $user*/
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('app_home');
+        }
+        // On récupère le dernier panier de l'utilisateur
+        $order = $basketRepository->findBasketWithCustomer($user->getId());
+        if ($order[0]->getMeanOfPayment()->getDesignation() === 'Paypal') {
+
+            $tokenValue = $request->query->get('_csrf_token');
+
+            if (!$this->isCsrfTokenValid('payment' . $order[0]->getId(), $tokenValue)) {
+                return new Response('Opération non autorisée', Response::HTTP_BAD_REQUEST, [
+                    // 'content-type' => 'text/plain'
+                ]);
+            }
+
+            // Create a PayPal payment
+
+            // Add détails cart (product, quantity, price) for user
+            $items = [];
+            foreach ($shoppingCartService->getFullCart() as $item) {
+                $itemPrice = $priceTaxInclService->calcPriceTaxIncl($item['product']->getPriceExclVat(), $item['product']->getTva(), $item['product']->getPromotion()->getPercentage());
+
+                $image = $imageRepository->findOneBy([
+                    'product' => $item['product'],
+                    'isMain' => true,
+                ]);
+                $items[] = new PayPalItem([
+                    'name' => $item['product']->getName(), 
+                    'price' => $itemPrice, 
+                    'quantity' => $item['quantity'],
+                    // 'description' => "<img src=\"{{ asset('build/images/{$image->getPath()}') }}\">",
+                ]);
+            }
+
+            // Generate the full URL for returnUrl and cancelUrl
+            $returnUrl = $this->generateUrl('checkout_success', [], UrlGeneratorInterface::ABSOLUTE_URL);
+            $cancelUrl = $this->generateUrl('checkout_error', [], UrlGeneratorInterface::ABSOLUTE_URL);
+            
+            $response = $paypalOperationService->purchase(
+                $shoppingCartService->getTotal(), 
+                $_ENV['PAYPAL_CURRENCY'], 
+                $returnUrl, 
+                $cancelUrl,
+                $items
+            )->send();
+    
+            // Redirect the user to PayPal to complete the payment
+            try {
+                // dd($response, $items);
+                if ($response->isRedirect()) {
+                    $response->redirect();
+                } else {
+                    return $response->getMessage();
+                }
+            } catch (\Throwable $th) {
+                return new Response($th->getMessage(), Response::HTTP_BAD_REQUEST, [
+                    // 'content-type' => 'text/plain'
+                ]);
+            } 
+        }
+        return $this->redirectToRoute('checkout_success');
+    }
+    
+    
+    // Page d'erreur de la transaction
+    #[Route('/error', name: 'checkout_error')]
+    public function error(): Response
+    {
+        // Gestion de l'exception : on affiche l'erreur et on redirige l'utilisateur vers l'accueil
+        $this->addFlash('error', 'Une erreur s\'est produite lors de la validation de votre commande. Veuillez réessayer plus tard.');
+        return $this->redirectToRoute('checkout_resume');
+    }
+
+    /**
      * Ce controller va servir à confirmer que la commande de l'utilisateur à bien été prise en compte
      *
      * @param BasketRepository $basketRepository
@@ -320,13 +422,16 @@ class ShoppingCartController extends AbstractController
      * @param SessionInterface $session
      * @return void
      */
-    #[Route('/validate-order', 'app_validate_order', methods: ['GET'])]
-    public function validateOrder(
+    #[Route('/success', 'checkout_success', methods: ['GET'])]
+    public function success(
         BasketRepository $basketRepository,
         ShoppingCartService $shoppingCartService,
         StatusRepository $statusRepository,
-        SessionInterface $session
-    ) 
+        PaypalPaymentRepository $paypalPaymentRepository,
+        SessionInterface $session,
+        Request $request,  
+        PaypalOperationService $paypalOperationService  
+        ) : Response
     {
         // Si pas d'utilisateur, on redirige vers l'accueil
         /** @var Customer $user*/
@@ -335,28 +440,49 @@ class ShoppingCartController extends AbstractController
             return $this->redirectToRoute('app_home');
         }
 
-        // On récupère le derniere panier de l'utilisateur
+        // On récupère le dernier panier de l'utilisateur
         $order = $basketRepository->findBasketWithCustomer($user->getId());
+        if (empty($order)) {
+            return $this->redirectToRoute('app_home');
+        }
+        
+        // On vérifie que la commande à bien été payé et que la commande n'est pas déjà en bdd (rechargement de page)
+        if ($paypalOperationService->isPaypalOrderUnpaid($order[0], $request)
+        || $paypalOperationService->isExistingPaypalPayment($paypalPaymentRepository, $request)
+        ) {
+            return $this->redirectToRoute('app_home');
+        }
 
+        if ($order[0]->getMeanOfPayment()->getDesignation() === 'Paypal') {
+            try {
+                // On vérifie si la transaction s'est bien passer et on met les infos de la commande en bdd
+                $paypalOperationService->completePurchaseAndSavePayment($request, $paypalPaymentRepository);
+                // throw new InvalidResponseException('Testing the catch block');
+            } catch (InvalidResponseException $e) {
+                // Gestion de l'exception : on affiche l'erreur et on redirige l'utilisateur vers l'accueil
+                $this->addFlash('error', 'Une erreur s\'est produite lors de la validation de votre commande. Veuillez réessayer plus tard.');
+                return $this->redirectToRoute('checkout_resume');
+            }
+        }
+        
         // Si dernier panier existant et status non null
-        if (!empty($order) && is_null($order[0]->getStatus())) {
-            // On qjoute un status
+        if (is_null($order[0]->getStatus())) {
+            // On ajoute un status
             $status = $statusRepository->findOneBy(['name' => StatusEnum::ACCEPTER]);
             $order[0]->setStatus($status);
-            // On reset nos variables de session
-            $session->remove('basket');
-            $session->remove('shoppingCart');
+            // On reset nos variables de session 
+            $shoppingCartService->resetSessionVariables($session);
             // On met la commande à jour en bdd
             $basketRepository->add($order[0], true);
-            
         }
-        // On récupère la derniere commande de l'utilisateur
+        // On récupère la dernière commande de l'utilisateur
         $order = $basketRepository->findLastBasketWithCustomer($user->getId(), 1);        
 
-        return $this->renderForm('front/shoppingCart/validateOrder.html.twig', [
+        return $this->renderForm('front/shoppingCart/success.html.twig', [
             'items' => $order[0]->getContentShoppingCarts(),
             // On calcul le montant du panier
             'total' => $shoppingCartService->getTotal($order[0]),
+            'message' => 'Votre commande à bien été enregistrée'
         ]);
     }
 }

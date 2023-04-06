@@ -12,6 +12,7 @@ use App\Repository\ProductRepository;
 use App\Service\PriceTaxInclService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\Security\Core\Security;
 
 class ShoppingCartService {
@@ -44,9 +45,12 @@ class ShoppingCartService {
     }
 
     public function add(Product $product) {
+        $session = $this->requestStack->getSession();
+        // $session->remove('shoppingCart');
+        // $session->remove('basket');
+
         $id = $product->getId();
         
-        $session = $this->requestStack->getSession();
 
         // Si panier pas encore crée, on en crée un et le stock en session,
         $customer = $this->security->getUser();
@@ -151,16 +155,16 @@ class ShoppingCartService {
         $basket = $session->get('basket', []);
 
         $basketWithData = [];
-        $quantityToal = 0;
+        $quantityTotal = 0;
         foreach ($basket as $id => $quantity) {
         
-            // On vérifie quele produit éxiste
+            // On vérifie que le produit existe
             if ($this->productRepository->getProductShoppingCart($id) !== null) {
                 $basketWithData[] = [
                     'product' => $this->productRepository->getProductShoppingCart($id),
                     'quantity' => $quantity,
                 ];
-                $quantityToal+= $quantity;
+                $quantityTotal+= $quantity;
 
             // Si admin supprime produit, on supprime le produits des paniers
             } else {
@@ -179,7 +183,7 @@ class ShoppingCartService {
             }
         };
         // On enregistre la quantité totale dans la session
-        $session->set('QTY', $quantityToal);
+        $session->set('QTY', $quantityTotal);
 
         return $basketWithData;
     }
@@ -362,6 +366,12 @@ class ShoppingCartService {
                 $this->basketRepository->add($shoppingCart, true);
             }
         }
+    }
+
+    public function resetSessionVariables(Session $session) 
+    { 
+        $session->remove('basket');
+        $session->remove('shoppingCart');   
     }
 }
 ?>

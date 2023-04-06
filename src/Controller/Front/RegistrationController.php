@@ -111,7 +111,7 @@ class RegistrationController extends AbstractController
             // On vérifie que l'utilisateur possède bien un panier
             if ($session->has('shoppingCart')) {
                 // Sinon on redrige vers formulaire d'ajout d'adresse
-                return $this->redirectToRoute('app_checkout_address');
+                return $this->redirectToRoute('checkout_address');
             }
         }
 

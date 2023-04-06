@@ -100,14 +100,14 @@ class SecurityController extends AbstractController
         }
         
         if ($shoppingCart->getAddress() === null) {
-            return $this->redirectToRoute('app_checkout_address');
+            return $this->redirectToRoute('checkout_address');
         }
         
         if ($shoppingCart->getMeanOfPayment() === null) {
-            return $this->redirectToRoute('app_checkout_payment', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('checkout_choice_payment', [], Response::HTTP_SEE_OTHER);
         }
         
-        return $this->redirectToRoute('app_checkout_resume', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('checkout_resume', [], Response::HTTP_SEE_OTHER);
     }
 
 

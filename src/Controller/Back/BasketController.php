@@ -8,7 +8,6 @@ use App\Entity\ContentShoppingCart;
 use App\Form\AddressType;
 use App\Form\BasketType;
 use App\Form\Filter\OrderFilterType;
-use App\Repository\AddressRepository;
 use App\Repository\BasketRepository;
 use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManagerInterface;

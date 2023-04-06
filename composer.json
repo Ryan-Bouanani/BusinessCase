@@ -20,9 +20,11 @@
         "knplabs/knp-snappy-bundle": "^1.9",
         "league/commonmark": "^2.3",
         "league/flysystem": "^3.11",
+        "league/omnipay": "^3.2",
         "lexik/form-filter-bundle": "^7.0",
         "lexik/jwt-authentication-bundle": "^2.16",
         "nelmio/cors-bundle": "^2.2",
+        "omnipay/paypal": "^3.0",
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpstan/phpdoc-parser": "^1.6",
         "sensio/framework-extra-bundle": "^6.1",
@@ -64,7 +66,8 @@
         "allow-plugins": {
             "composer/package-versions-deprecated": true,
             "symfony/flex": true,
-            "symfony/runtime": true
+            "symfony/runtime": true,
+            "php-http/discovery": true
         },
         "optimize-autoloader": true,
         "preferred-install": {

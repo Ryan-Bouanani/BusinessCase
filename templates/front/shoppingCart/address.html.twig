@@ -134,14 +134,14 @@
     {% if address is not defined %}
         {% include "front/partials/_shoppingCart.html.twig" with {
             contentCheckout: contentCheckout,
-            path: 'app_checkout_payment',
+            path: 'checkout_choice_payment',
         } %}
             {{ form_end(formAddress) }}
         </div>
     {% else %}
             {% include "front/partials/_shoppingCart.html.twig" with {
             contentCheckout: contentCheckout,
-            path: 'app_checkout_payment',
+            path: 'checkout_choice_payment',
             btn: btn,
         } %}
     {% endif %}

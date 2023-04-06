@@ -20,6 +20,7 @@ class MeanOfPaymentType extends AbstractType
                 // 'mapped' => false,
                 'expanded' => true,
                 'required' => true,
+                'invalid_message' => 'Opération non autorisée. Veuillez réessayer.',
             ])
         ;
     }

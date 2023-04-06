@@ -6,7 +6,7 @@ class PriceTaxInclService
 {
     public function calcPriceTaxIncl( float $priceExclVat, float $tva, $promoPercentage = null): float {
 
-        // prix ttc snas promo
+        // prix ttc sans promo
         $priceTaxIncl = round($priceExclVat + ($priceExclVat * ($tva / 100)),2);
         if ($promoPercentage !== null) {
             // prix ttc avec promotion

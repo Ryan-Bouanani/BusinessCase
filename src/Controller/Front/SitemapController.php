@@ -45,10 +45,9 @@ class SitemapController extends AbstractController
         $urls[] = ['loc' => $this->generateUrl('app_shoppingCart')];
         $urls[] = ['loc' => $this->generateUrl('app_checkout_login')];
         $urls[] = ['loc' => $this->generateUrl('app_checkout_register')];
-        $urls[] = ['loc' => $this->generateUrl('app_checkout_address')];
-        $urls[] = ['loc' => $this->generateUrl('app_checkout_payment')];
-        $urls[] = ['loc' => $this->generateUrl('app_checkout_resume')];
-        $urls[] = ['loc' => $this->generateUrl('app_validate_order')];
+        $urls[] = ['loc' => $this->generateUrl('checkout_address')];
+        $urls[] = ['loc' => $this->generateUrl('checkout_choice_payment')];
+        $urls[] = ['loc' => $this->generateUrl('checkout_resume')];
 
         foreach ($productRepository->findAll() as $product) {
             foreach ($product->getImages() as $image) {

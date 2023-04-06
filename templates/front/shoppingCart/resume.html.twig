@@ -9,6 +9,7 @@
         active: 4,
     } %}
     <h1>Résumer de la commande</h1>
+        {% include "shared/partials/_flash.html.twig" %}
         {% set contentCheckout %}          
             <div class="formChild">
                 <h2>COMMANDE</h2>
@@ -16,7 +17,7 @@
             </div>
             <div class="formChild">
                 <div class="titleAndUpdateContainer">
-                    <h2>ADRESSE DE LIVRAISON</h2><a href="{{ path('app_checkout_address') }}"><i class="fa-solid fa-pencil"></i></a>
+                    <h2>ADRESSE DE LIVRAISON</h2><a href="{{ path('checkout_address') }}"><i class="fa-solid fa-pencil"></i></a>
                 </div>
                 <p>{{ order.address.firstName }} {{ order.address.lastName }}</p>
                 <p>{{ order.address.line1 }}</p>
@@ -36,7 +37,7 @@
             </div>
             <div class="formChild">
                 <div class="titleAndUpdateContainer">
-                    <h2>MOYEN DE PAIEMENT</h2><a href="{{ path('app_checkout_payment') }}"><i class="fa-solid fa-pencil"></i></a>
+                    <h2>MOYEN DE PAIEMENT</h2><a href="{{ path('checkout_choice_payment') }}"><i class="fa-solid fa-pencil"></i></a>
                 </div>
                 <div class="meanOfPayment">
                     <p>{{ order.meanOfPayment.designation }} </p>
@@ -57,7 +58,7 @@
 
         {% include "front/partials/_shoppingCart.html.twig" with {
             contentCheckout: contentCheckout,
-            path: 'app_validate_order',
+            path: 'checkout_payment',
             btnContent: 'COMMANDER',
             btn: false,
         } %}
