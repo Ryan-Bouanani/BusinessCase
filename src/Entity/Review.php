@@ -126,4 +126,21 @@ class Review
 
         return $this;
     }
+
+        /**
+     * Checks if a customer has already left a review for a product
+     *
+     * @param object $customer
+     * @param array $reviews
+     * @return bool
+     */
+    public static function isFirstReview($customer, $reviews)
+    {
+        foreach ($reviews as $review) {
+            if ($review->getCustomer() === $customer) {
+                return false;
+            }
+        }
+        return true;
+    }
 }

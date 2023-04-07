@@ -15,7 +15,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class ProductController extends AbstractController
 {
     /**
-     * Ce controller va servir à afficher la page de chaque produit
+     * Ce controller va servir à afficher la page détail de chaque produit
      *
      * @param ProductRepository $productRepository
      * @param string $slug
@@ -24,7 +24,7 @@ class ProductController extends AbstractController
      * @return Response
      */
     #[Route('/{slug}', name: 'app_detail_product')]
-    public function index(
+    public function productDetail(
         ProductRepository $productRepository, 
         string $slug,
         ReviewRepository $reviewRepository,
@@ -32,62 +32,55 @@ class ProductController extends AbstractController
         ): Response
     {
 
-        // On récupere les info précises du produit
+        // On récupère les info précises du produit
         $product = $productRepository->getProductInfo($slug);
         if (!$product[0]->isActive()) {
             return $this->redirectToRoute('app_home');
         }
     
-        // On récupere les produits de la même catégory
-        $productSamecategory = $productRepository->getProductSameCategory($product[0]->getCategory()->getId(), 6);
-
+        // On récupère les produits de la même category et de la même marque
+        $productSameCategory = $productRepository->getProductSameCategory($product[0]->getCategory()->getId(), 6);
         $productSameBrand = $productRepository->getProductByBrand($product[0]->getBrand()->getId(), $product[0], 10);
 
         $reviews = $reviewRepository->getAllReviewProduct($slug, $request->query->getInt('page', 1));
-        // Si utilisateur connécté il peut alors donner un avis au produit
+        // Si utilisateur connecté il peut alors donner un avis au produit
         $firstReview = true;
         $customer = $this->getUser();
-        // dd($productSameBrand);
-        if ($customer) {
-            // On vérifie si c'est son premier avis sur le produit
-            foreach ($reviews as $review) {
-                if ($review->getCustomer() === $customer) {
-                    $firstReview = false;
-                }
-            }
-            // Si c'est le premier avis de l'utilisateur 
-            if ($firstReview) {
-                $review = new Review();
-                $review->setProduct($product[0]);
-                $review->setCustomer($customer);
-                
-                 // Creation du formulaire d'avis de produit
-                $form = $this->createForm(ReviewType::class, $review);
 
-                // On inspecte les requettes du formulaire
-                $form->handleRequest($request);
+        $firstReview = $customer ? Review::isFirstReview($customer, $reviews) : false;
 
-                // Si le formulaire est envoyé et valide
-                if ($form->isSubmitted() && $form->isValid()) {
-                            
-                    // On met l'utilisateur à jour en bdd
-                    $reviewRepository->add($review, true);       
-                    return $this->redirectToRoute('app_detail_product', [
-                        'slug' => $product[0]->getSlug(),
-                    ]);
-                }
-                return $this->render('front/product/index.html.twig', [
-                    'product' => $product,
-                    'productSamecategory' => $productSamecategory,
-                    'reviews' => $reviews,
-                    'formReview' => $form->createView(),
-                    'productSameBrand' => $productSameBrand,
+        // Si c'est le premier avis de l'utilisateur 
+        if ($firstReview) {
+            $review = new Review();
+            $review->setProduct($product[0]);
+            $review->setCustomer($customer);
+            
+                // Creation du formulaire d'avis de produit
+            $form = $this->createForm(ReviewType::class, $review);
+
+            // On inspecte les requêtes du formulaire
+            $form->handleRequest($request);
+
+            // Si le formulaire est envoyé et valide
+            if ($form->isSubmitted() && $form->isValid()) {
+                        
+                // On met l'utilisateur à jour en bdd
+                $reviewRepository->add($review, true);       
+                return $this->redirectToRoute('app_detail_product', [
+                    'slug' => $product[0]->getSlug(),
                 ]);
-            } 
-        } 
+            }
+            return $this->render('front/product/index.html.twig', [
+                'product' => $product,
+                'productSameCategory' => $productSameCategory,
+                'reviews' => $reviews,
+                'formReview' => $form->createView(),
+                'productSameBrand' => $productSameBrand,
+            ]);
+        }  
         return $this->render('front/product/index.html.twig', [
             'product' => $product,
-            'productSamecategory' => $productSamecategory,
+            'productSameCategory' => $productSameCategory,
             'reviews' => $reviews,
             'productSameBrand' => $productSameBrand,
         ]);

@@ -29,7 +29,7 @@ class SitemapController extends AbstractController
         BrandRepository $brandRepository
         ): Response
     {
-        // On récupère le nom d'hôte deouis l'url (http://127.0.0.1:8000 en local) 
+        // On récupère le nom d'hôte depuis l'url (http://127.0.0.1:8000 en local) 
         $hostName = $request->getSchemeAndHttpHost();
 
         // On initialise un tableau pour lister les URLs

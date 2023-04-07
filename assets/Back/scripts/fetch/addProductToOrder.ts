@@ -1,4 +1,5 @@
 import { updateNodeListInputBtnQuantity } from "../quantityListener";
+console.log('lol');
 window.addEventListener('load', () => {
     
     // On récupère le button d'ajout de produit
@@ -28,7 +29,7 @@ window.addEventListener('load', () => {
             let searchValue = inputProduct.value;
         
             // On envoie une requête Ajax vers le href du lien avec la méthode DELETE
-            fetch('/filterSearch/' + JSON.stringify(searchValue), {
+            fetch('/filterSearch/' + JSON.stringify(searchValue) + '/' + true, {
                 method: "GET",
                 headers: {
                     "X-Requested-With": "XMLHttpRequest",
@@ -41,10 +42,10 @@ window.addEventListener('load', () => {
                 
                 productResult.classList.remove('none');
                 if(data.error) {
-                    // On affiche le resultat
+                    // On affiche le résultat
                     productResult.innerHTML = '<p class="errorSearchProduct">' + data['error'] + '</p>';
                 } else{
-                    // Si pas d'érreur, on affiche les produits trouvés
+                    // Si pas d’erreur, on affiche les produits trouvés
                     productResult.innerHTML = data;
         
                     const products = [...document.querySelectorAll(".product")];         

@@ -2,11 +2,11 @@
 @use './variables' as *;
 @use './mixins' as *;
 
-// * Best Brandts
-#bestBrandts {
+// * Best Brands
+#bestBrands {
     position: relative;
     text-align: center;
-    .bestBrandtsCarrousel {  
+    .bestBrandsCarrousel {  
         width: 90%;
     }
     div.dog {
@@ -30,7 +30,7 @@
             right: -15px;
         }
     }
-    .carrouselBrandts {
+    .carrouselBrands {
             width: 82%;
             gap: 3rem;
             img {
@@ -45,26 +45,26 @@
             }
     }
 
-    .carrouselBrandts::-webkit-scrollbar {
+    .carrouselBrands::-webkit-scrollbar {
         display: none;
     } 
         
 }
 
 // @media (min-width: 1200px) {
-//     #bestBrandts {
+//     #bestBrands {
 //         .carrouselContainer {
 //             height: 200px;
-//             .carrouselBrandts img {
+//             .carrouselBrands img {
 //                 height: 6rem;
 //             }
 //         }
 //     }
 // }
 @media (min-width: 800px) {
-    #bestBrandts {
+    #bestBrands {
         flex-direction: row;
-        .bestBrandtsCarrousel {
+        .bestBrandsCarrousel {
             width: 60%;
         }
         .dogContainer {

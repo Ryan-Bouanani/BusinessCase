@@ -43,7 +43,7 @@ class ShoppingCartController extends AbstractController
     {
 
         return $this->render('front/shoppingCart/index.html.twig', [
-            // On récupere et envoie notre panier 
+            // On récupère et envoie notre panier 
             'items' => $shoppingCartService->getFullCart(),
             // On calcul le montant du panier
             'total' => $shoppingCartService->getTotal(),
@@ -67,11 +67,11 @@ class ShoppingCartController extends AbstractController
         Request $request,
         )
     {
-        // On récupere le produit
+        // On récupère le produit
         $product = $productRepository->find($id);
         // Si produit inexistant on renvoie une erreur
         if (!$product || !$product->isActive()) {
-            throw $this->createNotFoundException("Le produit $id n'éxiste pas");
+            throw $this->createNotFoundException("Le produit $id n’existe pas");
         }
         // On ajoute l'id du produit à notre panier
         $shoppingCartService->add($product);
@@ -127,7 +127,7 @@ class ShoppingCartController extends AbstractController
     }
 
     /**
-     * Ce controller va permettre d'ajouter une adressse pour l'utilisateur et sa commande
+     * Ce controller va permettre d'ajouter une adresse pour l'utilisateur et sa commande
      *
      * @param Request $request
      * @param BasketRepository $basketRepository
@@ -143,77 +143,71 @@ class ShoppingCartController extends AbstractController
         AddressRepository $addressRepository,
         CustomerRepository $customerRepository,
         ShoppingCartService $shoppingCartService,
-    ) 
+    ): Response
     {          
-            // Si pas d'utilisateur, on redirige vers l'accueil
-            /** @var Customer $user*/
-            $user = $this->getUser();
-            if (!$user) {
-                return $this->redirectToRoute('app_home');
-            }
-            
-            // Si l'utilisateur à déja une adresse, on crée un form de modification
+        // Si pas d'utilisateur, on redirige vers l'accueil
+        /** @var Customer $user*/
+        $user = $this->getUser();
+        if (!$user) {
+            return $this->redirectToRoute('app_home');
+        }
+        
+        // Si l'utilisateur à deja une adresse, on crée un form de modification
+        // Sinon on Créer du formulaire d'ajout d'adresse
+        $address = $user->getAddress() ?? New Address;
+        $formAddress = $this->createForm(AddressType::class, $address);
+
+        // On récupère le dernier panier de l'utilisateur
+        $order = $basketRepository->findBasketWithCustomer($user->getId());
+
+        // Si dernier panier existant
+        if (empty($order)) {
+            // Si dernier panier non existant, redirection vers la page d'accueil
+            return $this->redirectToRoute('app_home');
+        }
+
+        // On inspecte les requêtes du formulaire
+        $formAddress->handleRequest($request);      
+        // Si le formulaire est envoyé et valide
+        if ($formAddress->isSubmitted() && $formAddress->isValid()) {                      
+            // On met l'adresse de l'utilisateur en bdd
+            $addressRepository->add($address, true);
+            $user->setAddress($address);
+            $customerRepository->add($user, true);
+
             if ($user->getAddress()) {
-                $address = $user->getAddress();
-                $formAddress = $this->createForm(AddressType::class, $address);
-            } else {
-                // Sinon on Créer du formulaire d'ajout d'adresse
-                $address = new Address();
-                $formAddress = $this->createForm(AddressType::class, $address);
+                return $this->redirectToRoute('checkout_address', [], Response::HTTP_SEE_OTHER);
             }
 
-            // On récupère le dernier panier de l'utilisateur
-            $order = $basketRepository->findBasketWithCustomer($user->getId());
+            // Puis on redirige vers la page suivante (paiement)
+            return $this->redirectToRoute('checkout_choice_payment', [], Response::HTTP_SEE_OTHER);
 
-            // Si dernier panier existant
-            if (!empty($order)) {
-                // On inspecte les requettes du formulaire
-                $formAddress->handleRequest($request);
-                
-                // Si le formulaire est envoyé et valide
-                if ($formAddress->isSubmitted() && $formAddress->isValid()) {                      
-
-                    // On met l'adresse de l'utilisateur en bdd
-                    $addressRepository->add($address, true);
-                    $user->setAddress($address);
-                    $customerRepository->add($user, true);
-
-                    if ($user->getAddress()) {
-                        return $this->redirectToRoute('checkout_address', [], Response::HTTP_SEE_OTHER);
-                    }
-
-                    // Puis on redirige vers la page suivante (paiement)
-                    return $this->redirectToRoute('checkout_choice_payment', [], Response::HTTP_SEE_OTHER);
-                } elseif($formAddress->isSubmitted() && !$formAddress->isValid()) {
-                    // Si form non valide on renvoie une erreur
-                    $this->addFlash(
-                        'error',
-                        'Une erreur est survenue au sein de votre formulaire'
-                    );
-                }
-            } else {
-                // Si pas de dernier panier on redirige vers l'accueil
-                return $this->redirectToRoute('app_home');
-            }
-            
-            // Rendu : Si l'utilisateur possède une adresse
-            if ($user->getAddress()) {
-                return $this->render('front/shoppingCart/address.html.twig', [
-                    'formAddress' => $formAddress->createView(),
-                    'order' => $order[0],
-                    // On calcul le montant du panier
-                    'total' => $shoppingCartService->getTotal(),
-                    'address' => $address,
-                ]);
-            } else {
-                 // Rendu : Si utilisateur possède pas d'adresse 
-                return $this->render('front/shoppingCart/address.html.twig', [
-                    'formAddress' => $formAddress->createView(),
-                    'order' => $order[0],
-                    // On calcul le montant du panier
-                    'total' => $shoppingCartService->getTotal(),
-                ]);
-            }
+        } elseif($formAddress->isSubmitted() && !$formAddress->isValid()) {
+            // Si form non valide on renvoie une erreur
+            $this->addFlash(
+                'error',
+                'Une erreur est survenue au sein de votre formulaire'
+            );
+        }
+        
+        // Rendu : Si l'utilisateur possède une adresse
+        if ($user->getAddress()) {
+            return $this->render('front/shoppingCart/address.html.twig', [
+                'formAddress' => $formAddress->createView(),
+                'order' => $order[0],
+                // On calcul le montant du panier
+                'total' => $shoppingCartService->getTotal(),
+                'address' => $address,
+            ]);
+        } else {
+                // Rendu : Si utilisateur possède pas d'adresse 
+            return $this->render('front/shoppingCart/address.html.twig', [
+                'formAddress' => $formAddress->createView(),
+                'order' => $order[0],
+                // On calcul le montant du panier
+                'total' => $shoppingCartService->getTotal(),
+            ]);
+        }
     }
 
     /**
@@ -334,7 +328,6 @@ class ShoppingCartController extends AbstractController
         PaypalOperationService $paypalOperationService,
         PriceTaxInclService $priceTaxInclService,
         Request $request,
-        ImageRepository $imageRepository,
     ) : Response
     {            
         // Si pas d'utilisateur, on redirige vers l'accueil
@@ -362,15 +355,10 @@ class ShoppingCartController extends AbstractController
             foreach ($shoppingCartService->getFullCart() as $item) {
                 $itemPrice = $priceTaxInclService->calcPriceTaxIncl($item['product']->getPriceExclVat(), $item['product']->getTva(), $item['product']->getPromotion()->getPercentage());
 
-                $image = $imageRepository->findOneBy([
-                    'product' => $item['product'],
-                    'isMain' => true,
-                ]);
                 $items[] = new PayPalItem([
                     'name' => $item['product']->getName(), 
                     'price' => $itemPrice, 
                     'quantity' => $item['quantity'],
-                    // 'description' => "<img src=\"{{ asset('build/images/{$image->getPath()}') }}\">",
                 ]);
             }
 
@@ -396,7 +384,7 @@ class ShoppingCartController extends AbstractController
                 }
             } catch (\Throwable $th) {
                 return new Response($th->getMessage(), Response::HTTP_BAD_REQUEST, [
-                    // 'content-type' => 'text/plain'
+                    'content-type' => 'text/plain'
                 ]);
             } 
         }

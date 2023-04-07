@@ -37,7 +37,7 @@ class CategoryController extends AbstractController
         PriceTaxInclService $priceTaxInclService,
         ): Response
     {
-        // Récupere les produits de la catégorie
+        // Récupère les produits de la catégorie
         if (is_null($category->getCategoryParent())) {
             $qb = $productRepository->getProductSameCategory($category->getId() , null,  true);
         } else {

@@ -3,7 +3,7 @@
 @use './scss/mixins' as *;
 @use './scss/header' as *;
 @use './scss/bestSales' as *;
-@use './scss/brandtsCover' as *;
+@use './scss/brandsCover' as *;
 @use './scss/bestBrands' as *;
 @use './scss/blog' as *;
 @use './scss/testimonals' as *;
@@ -166,10 +166,10 @@ main {
         }
     }
     @media screen and (min-width: 500px) {
-        .arrow_left:not(#testimonials .arrow_left, #bestBrandts .arrow_left) {
+        .arrow_left:not(#testimonials .arrow_left, #bestBrands .arrow_left) {
             left: -50px;
         }
-        .arrow_right:not(#testimonials .arrow_right, #bestBrandts .arrow_right) {
+        .arrow_right:not(#testimonials .arrow_right, #bestBrands .arrow_right) {
             right: -50px;
         }
     }
@@ -185,7 +185,7 @@ main {
     
     }
     @media screen and (min-width: 768px) {
-        #testimonials, #bestBrandts {
+        #testimonials, #bestBrands {
             .arrow_left {
                 left: -50px;
             }
@@ -193,10 +193,10 @@ main {
                 right: -50px;
             }
         }
-        .arrow_left:not(#testimonials .arrow_left, #bestBrandts .arrow_left, #productSection .arrow_left) {
+        .arrow_left:not(#testimonials .arrow_left, #bestBrands .arrow_left, #productSection .arrow_left) {
             left: -70px;
         }
-        .arrow_right:not(#testimonials .arrow_right, #bestBrandts .arrow_right, #productSection .arrow_right) {
+        .arrow_right:not(#testimonials .arrow_right, #bestBrands .arrow_right, #productSection .arrow_right) {
             right: -70px;
         }
     }       

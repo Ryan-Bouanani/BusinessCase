@@ -62,8 +62,8 @@ class ProductRepository extends AbstractRepository
         return $query;
     }
 
-    // Récupere les produits les mieux notés
-    public function getTopRatedproduct(): array {
+    // Récupère les produits les mieux notés
+    public function getTopRatedProduct(): array {
 
         $query =  $this->createQueryBuilder('product')
             ->select('product, image, AVG(review.note) AS Note, COUNT(review) AS Avis')

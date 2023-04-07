@@ -1,7 +1,7 @@
 import "../../shared/scripts/main";
 import "./partials/imagesProductDetail";
 import "./partials/searchBar";
-import "./partials/starsSysteme";
+import "./partials/starsSystem";
 
 
 // * navbar toggle

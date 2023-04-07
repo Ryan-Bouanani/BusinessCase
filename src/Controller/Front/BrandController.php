@@ -34,7 +34,6 @@ class BrandController extends AbstractController
         FilterBuilderUpdaterInterface $builderUpdater,
     ): Response
     {
-
         // On récupère les produits de la marque
         $qb = $productRepository->getProductByBrand($brand->getId());
         

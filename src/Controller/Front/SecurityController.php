@@ -112,7 +112,7 @@ class SecurityController extends AbstractController
 
 
     /**
-     * Ce controller va servir à afficher le formulaire de mail de reinitialisation de mot de passe
+     * Ce controller va servir à afficher le formulaire de mail de réinitialisation de mot de passe
      *
      * @param Request $request
      * @param CustomerRepository $customerRepository
@@ -132,8 +132,7 @@ class SecurityController extends AbstractController
     {
         // On crée le formulaire de demande du mail du compte de l'utilisateur
         $form = $this->createForm(ResetPasswordRequestFormType::class);
-
-        // On inspecte les requettes du formulaire
+        // On inspecte les requêtes du formulaire
         $form->handleRequest($request);
 
         // Si le formulaire est envoyé et valide
@@ -146,13 +145,11 @@ class SecurityController extends AbstractController
                 // On génère un token  de réinitialisation
                 $token = $tokenGenerator->generateToken();
                 $user->setResetToken($token);
-
                 // On envoie en bdd le token  de réinitialisation de l'utilisateur
                 $entityManager->flush();
 
-                // On génere un lien de réinitialisation du mot de passe
+                // On génère un lien de réinitialisation du mot de passe
                 $url = $this->generateUrl('reset_pass', ['token' => $token], UrlGeneratorInterface::ABSOLUTE_URL);
-                
                 // On crée les données du mail
                 $context = compact('url', 'user');
 
@@ -168,12 +165,13 @@ class SecurityController extends AbstractController
                 // On renvoie un message de succès
                 $this->addFlash('success', 'Un email vous a été envoyé, sur votre boite mail');
                 return $this->redirectToRoute('app_login');
-            } else {
-                // Si user est null, on renvoie un message d'erreur
-                $this->addFlash('error', 'Un problème est survenue');
-            }
+            }  
+
+            // Si user est null, on renvoie un message d'erreur
+            $this->addFlash('error', 'Un problème est survenue');
             return $this->redirectToRoute('app_login');
         }
+        
         // On envoie le form pour qu'il soit affiché
         return $this->render('front/security/reset_password_request.html.twig', [
             'requestPassForm' => $form->createView(),
@@ -207,13 +205,13 @@ class SecurityController extends AbstractController
             // On crée le formulaire du nouveau mot de passe
             $form = $this->createForm(ResetPasswordFormType::class);
 
-            // On inspecte les requettes du formulaire
+            // On inspecte les requêtes du formulaire
             $form->handleRequest($request);
 
             // Si le formulaire est envoyé et valide
             if ($form->isSubmitted() && $form->isValid()) {
 
-                // On éfface le token
+                // On efface le token
                 $user->setResetToken('');
 
                 // Et on set le nouveau mot de passe en le hachant
@@ -226,7 +224,7 @@ class SecurityController extends AbstractController
                 // Puis on met à jour le reset du token et le nouveau mot de passe en bdd
                 $entityManager->flush();
 
-                // Si mot de passe changé alors on renvoie un message de succes
+                // Si mot de passe changé alors on renvoie un message de succès
                 $this->addFlash('succes', 'Mot de passe mis à jour avec succès');
                 return $this->redirectToRoute('app_login');
             }

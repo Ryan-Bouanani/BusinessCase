@@ -26,49 +26,56 @@ class HomeController extends AbstractController
         private EntityManagerInterface $entityManager,
     ) { }
 
+
+    /**
+     * Ce controller va servir à afficher la page d'accueil
+     *
+     * @return Response
+     */
     #[Route('/', name: 'app_home')]
     public function index(): Response
     {
-        // Récupere les nouveaux produits
+        // Récupère les nouveaux produits
         $newProducts = $this->productRepository->getNewProduct();
-        // Récupere les produits les mieux notés
-        $topRatedProducts = $this->productRepository->getTopRatedproduct();
+        // Récupère les produits les mieux notés
+        $topRatedProducts = $this->productRepository->getTopRatedProduct();
         // Récupère les marques
-        $brandts = $this->brandRepository->getBrand();
+        $brands = $this->brandRepository->getBrand();
         // Récupère les derniers avis
         $reviews = $this->reviewRepository->getReview();
 
         // Ajouter une ligne date dans la table nbVisites
-            $nbVisite = new Visit();
-            $nbVisite->setVisitAt(new \DateTime('now', new \DateTimeZone('Europe/Paris')));
-            $this->entityManager->persist($nbVisite);
+            $visit = new Visit();
+            $visit->setVisitAt(new \DateTime('now', new \DateTimeZone('Europe/Paris')));
+            $this->entityManager->persist($visit);
             $this->entityManager->flush();
         // 
 
         return $this->render('front/home/index.html.twig', [
             'newProducts' => $newProducts,
             'topRatedProducts' => $topRatedProducts,
-            'brandts' => $brandts,
+            'brands' => $brands,
             'reviews' => $reviews,
         ]);
     }
 
     /**
-     * Ce controller va servir à renvoyer les produits corréspondants à la recherche de l'utilisateur (barre de recherche back office)
+     * Ce controller va servir à renvoyer les produits correspondants à la recherche de l'utilisateur (barre de recherche back office)
      *
      * @param string $searchValue
      * @param ProductRepository $productRepository
      * @return Response
      */
-    #[Route('/filterSearch/{searchValue}', name: 'app_basket_productFilterSearch', methods: ['GET'])]
+    #[Route('/filterSearch/{searchValue}/{isSearchBack}', name: 'app_basket_productFilterSearch', methods: ['GET'])]
     public function getProductByFilter(
         string $searchValue, 
         ProductRepository $productRepository,
+        bool $isSearchBack = false,
         ): Response
     {
         $searchValue = json_decode($searchValue, true);
         
-        // On récupere tout les produits pour l'input d'ajout de produits
+        // On récupère tout les produits pour l'input d'ajout de produits
         $products = $productRepository->getProductBySearch($searchValue);
         
         // On répond en JSON
@@ -77,43 +84,12 @@ class HomeController extends AbstractController
             return new JsonResponse(['error' => 'Aucun produits ne corresponds à votre recherche']);
         } else {
             // Sinon, on affiche les produits trouvés
-            return new JsonResponse($this->renderView('back/partials/_searchResult.html.twig', [
+            return new JsonResponse($this->renderView('shared/partials/_searchResult.html.twig', [
                     'products' => $products,
+                    'isSearchBack' => $isSearchBack,
             ]));
         }  
     }
-
-    /**
-     * Ce controller va servir à renvoyer les produits corréspondants à la recherche de l'utilisateur (barre de recherche)
-     *
-     * @param string $searchValue
-     * @param ProductRepository $productRepository
-     * @return Response
-     */
-    #[Route('/filterSearchFront/{searchValue}', name: 'app_productFilterSearchFront', methods: ['GET'])]
-    public function getProductBySearchFront(
-        string $searchValue, 
-        ProductRepository $productRepository,
-        ): Response
-    {
-        $searchValue = json_decode($searchValue, true);
-        
-        // On récupere tout les produits pour l'input d'ajout de produits
-        $products = $productRepository->getProductBySearch($searchValue);
-        
-        // On répond en JSON
-        // Sinon aucun produit trouvé, on affiche le message suivant
-        if (count($products) === 0) {
-            // Sérialisation de php à json pour pouvoir le désérialiser plus tard pour pouvoir ensuite l'utiliser en js
-            return new JsonResponse(['error' => 'Aucun produits ne corresponds à votre recherche']);
-        } else {
-            // Sinon, on affiche les produits trouvés
-            return new JsonResponse($this->renderView('/front/partials/_searchResult.html.twig', [
-                    'products' => $products,
-            ]));
-        }  
-    }
-
     
     #[Route('/legal_notice', name: 'app_home_legal_notice')]
     public function legal_notice(): Response

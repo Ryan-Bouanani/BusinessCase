@@ -16,9 +16,7 @@ let menu = document.querySelector('.containerBack .menu');
 let aside = document.querySelector('.containerBack aside');
 let closeAside = document.querySelector('.containerBack .close');
 
-menu.addEventListener('click', () => {
-    console.log('lolll');
-    
+menu.addEventListener('click', () => {  
     aside.classList.toggle('menuDisplay');
 });
 closeAside.addEventListener('click', () => {

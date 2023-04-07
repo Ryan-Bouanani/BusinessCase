@@ -62,13 +62,13 @@ class CustomerController extends AbstractController
             return $this->redirectToRoute('app_login');
         }
 
-        // On récupere les commandes de l'utilisateur
+        // On récupère les commandes de l'utilisateur
         $orders = $basketRepository->findLastBasketWithCustomer($customer->getId());
-        // On récupere le total de chaque commande
+        // On récupère le total de chaque commande
         $total = [];
         foreach ($orders as $key => $order) {
             $totalOrder = $shoppingCartService->getTotal($order);
-            // On additione le total de chaque commande
+            // On additionne le total de chaque commande
             $total[$key] = $totalOrder;
         }
         return $this->render('front/customer/order.html.twig', [

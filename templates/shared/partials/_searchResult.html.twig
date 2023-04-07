@@ -2,7 +2,9 @@
 
 {% if products is not empty %}
     {% for product in products %}   
-        <a href="{{ path('app_detail_product', {slug: product.slug})}}">
+        {% if isSearchBack == false %}
+            <a href="{{ path('app_detail_product', {slug: product.slug})}}">
+        {% endif %}
             <div class="product">
                 {% for image in product.images %}
                     <img src="{{ asset('/build/images/' ~ image.path) }}"  alt="{{ product.name }}"> 
@@ -17,6 +19,8 @@
                     <p class="priceProduct">{{ product.priceExclVat |priceTaxIncl( product.tva) }}€</p>
                 {% endif %}
             </div>
-        </a>
+        {% if isSearchBack == false %}
+            </a>
+        {% endif %}
     {% endfor %}
 {% endif %}
