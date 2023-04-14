@@ -8,10 +8,10 @@
             {% if product[0].name|length < 17 %}
                   <h3 class="title-product">{{ product[0].name }}</h3>
             {% else %}
-                <h3 class="title-product">{{ product[0].name |slice(0, 17) }} ...</h3>  
+                <h3 class="title-product">{{ product[0].name | slice(0, 15) }}...</h3>  
             {% endif %}
 
-            {% if product[0].promotion and product[0].promotion.expirationDate > 'now' | date('d/m/Y') %}
+            {% if product[0].promotion and product[0].promotion.expirationDate | date('Y-m-d H:i:s') > 'now' | date('Y-m-d H:i:s') %}
                 <span class="badge">{{ product[0].promotion.percentage | percentagePromo }}</span>
             {% endif %}
                 <div class="stars-reviews">
@@ -21,15 +21,16 @@
                 <p class="p-1">({{ product['Avis'] }} avis)</p>
             </div>
 
-            {% set priceTaxIncl = product[0].priceExclVat |priceTaxIncl( product[0].tva) %}
+            {% set priceTaxInclWithoutPromo = product[0] | priceTaxIncl(false) %}
+            {% set priceTaxAndPromoIncl = product[0] | priceTaxIncl %}
 
-            {% if product[0].promotion and product[0].promotion.expirationDate > 'now' | date('d/m/Y') %}
+            {% if product[0].promotion and product[0].promotion.expirationDate | date('Y-m-d H:i:s') > 'now' | date('Y-m-d H:i:s') %}
 
-                <p class="price priceInline">{{product[0].priceExclVat | priceTaxIncl( product[0].tva, product[0].promotion.percentage) }}€</p> 
-                <del>{{ priceTaxIncl }}€</del>
+                <p class="price priceInline">{{ priceTaxAndPromoIncl }}€</p> 
+                <del>{{ priceTaxInclWithoutPromo }}€</del>
 
             {% else %}
-                <p class="price">{{ priceTaxIncl }}€</p>
+                <p class="price">{{ priceTaxInclWithoutPromo }}€</p>
             {% endif %}
             <a href=" {{ path('app_shoppingCart_add', {id: product[0].id} )}}" class="btn btnAddBasket cover">Ajoutez au panier</a>
         </a>

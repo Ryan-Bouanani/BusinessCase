@@ -6,9 +6,11 @@ use App\Entity\Basket;
 use App\Entity\ContentShoppingCart;
 use App\Entity\Customer;
 use App\Entity\Product;
+use App\Enum\StatusEnum;
 use App\Repository\BasketRepository;
 use App\Repository\ContentShoppingCartRepository;
 use App\Repository\ProductRepository;
+use App\Repository\StatusRepository;
 use App\Service\PriceTaxInclService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
@@ -46,9 +48,8 @@ class ShoppingCartService {
 
     public function add(Product $product) {
         $session = $this->requestStack->getSession();
-        // $session->remove('shoppingCart');
-        // $session->remove('basket');
-
+        // $this->resetSessionVariables($session);
+        // dd('lol');
         $id = $product->getId();
         
 
@@ -58,23 +59,23 @@ class ShoppingCartService {
             $shoppingCart = new Basket();
             $session->set('shoppingCart', $shoppingCart);
         } else {
-            // Je recupere mon entité panier et mon entité contentshoppingCart
+            // Je récupère mon entité panier et mon entité contentshoppingCart
             $shoppingCart = $session->get('shoppingCart', []);
             $shoppingCart = $this->basketRepository->find($shoppingCart->getId());
         }
         
-        // Si utilisateur connecter et panier crée on cree la panier en son nom
+        // Si utilisateur connecter et panier crée on crée la panier en son nom
         if ($customer && !empty($shoppingCart) && !$shoppingCart->getCustomer()) {
             $shoppingCart->setCustomer($customer);
         };
-        // On récupere notre panier
+        // On récupère notre panier
         $basket = $session->get('basket', []);
 
         
         // On crée un nouvelle ligne de panier
         $contentShoppingCart = new ContentShoppingCart();
         
-        // On vérifie si le produit entré n'est pas déja dans la panier
+        // On vérifie si le produit entré n'est pas déjà dans la panier
         if (!empty($basket[$id])) {
             $basket[$id]++;
             $contentShoppingCarts = $shoppingCart->getContentShoppingCarts();
@@ -86,14 +87,14 @@ class ShoppingCartService {
                 }
             }          
         } else {
-            // Sinon pas déja dans la panier on l'ajoute ainsi que son prix et sa tva
+            // Sinon pas déjà dans la panier on l'ajoute ainsi que son prix et sa tva
             $basket[$id] = 1;
             $contentShoppingCart->setProduct($product);
             $contentShoppingCart->setPrice($product->getPriceExclVat());
             $contentShoppingCart->setTva($product->getTva());
         }
 
-        // Peu importe si le produit est déja dans la panier ou non on met à jour la quantité dans la ligne du panier
+        // Peu importe si le produit est déjà dans la panier ou non on met à jour la quantité dans la ligne du panier
         $contentShoppingCart->setQuantity( $basket[$id]);
         // On ajoute la ligne de panier au panier
         $shoppingCart->addContentShoppingCart($contentShoppingCart);
@@ -115,10 +116,10 @@ class ShoppingCartService {
         $session = $this->requestStack->getSession();
 
         $id = $product->getId();
-        // On récupere notre basket
+        // On récupère notre basket
         $basket = $session->get('basket', []);
 
-        // Je recupere mon entité panier et mon entité contentshoppingCart
+        // Je récupère mon entité panier et mon entité contentshoppingCart
         $shoppingCart = $session->get('shoppingCart', []);
         $shoppingCart = $this->basketRepository->find($shoppingCart->getId());
 
@@ -205,31 +206,24 @@ class ShoppingCartService {
                 $product = $item['product'];
                 $quantity = $item['quantity'];
             }
-            if ($product->getPromotion()) {
+            // On multiplie le prix du produit par sa quantité
+            $totalItem = ($this->priceTaxInclService->calcPriceTaxIncl($product)) * $quantity;
 
-                // On multiplie le prix du produit par sa quantité
-                $totalItem = ($this->priceTaxInclService->calcPriceTaxIncl($product->getPriceExclVat(), $product->getTva(), $product->getPromotion()->getPercentage())) * $quantity;
-
-            } else {
-                 // On multiplie le prix du produit par sa quantité
-                 $totalItem = ($this->priceTaxInclService->calcPriceTaxIncl($product->getPriceExclVat(), $product->getTva())) * $quantity;
-            }
-            // On additione le total de chaque ligne
+            // On additionne le total de chaque ligne
             $total+= $totalItem;
-
         }
         return $total;
     }
 
     public function transformShoppingCartToBasketSession() {
-        // On récupere la session
+        // On récupère la session
         $session = $this->requestStack->getSession();
 
-        // On récupere notre panier de bdd et de session
+        // On récupère notre panier de bdd et de session
         $basket = $session->get('basket', []);
         $shoppingCart = $session->get('shoppingCart', []);
 
-        // S'il y a un panier d'achat en cours dans la session, je le récupére dans la base de données.
+        // S'il y a un panier d'achat en cours dans la session, je le récupère dans la base de données.
         if ($shoppingCart) {
             $shoppingCart = $this->basketRepository->find($shoppingCart->getId());
         }
@@ -305,7 +299,7 @@ class ShoppingCartService {
         }
     }
     
-    public function substractQuantity(Product $product) {
+    public function subtractQuantity(Product $product) {
         $session = $this->requestStack->getSession();
         $id = $product->getId();
         // On récupere notre basket
@@ -368,6 +362,38 @@ class ShoppingCartService {
         }
     }
 
+    /**
+     * Cette function va permettre de finaliser les commandes.
+     *
+     * @param Basket $order
+     * @param StatusRepository $statusRepository
+     * @return Basket
+     */
+    public function finalizeOrderInBdd(Basket $order, StatusRepository $statusRepository): Basket
+{
+    $session = $this->requestStack->getSession();
+
+    /** @var Customer $customer*/
+   $customer = $this->security->getUser();
+
+    // Mise à jour du status de la commande et réinitialisation des variables de session du panier  
+    if (is_null($order->getStatus())) {
+        $status = $statusRepository->findOneBy(['name' => StatusEnum::ACCEPTER]);
+        $order->setStatus($status);
+        $this->resetSessionVariables($session);
+        $this->basketRepository->add($order, true);
+    }
+    // On récupère la dernière commande de l'utilisateur
+    $order = $this->basketRepository->findLastBasketWithCustomer($customer->getId(), 1);
+
+    return $order[0];
+}
+    /**
+     * Cette function va permettre de reset les variables de sessions
+     *
+     * @param Session $session
+     * @return void
+     */
     public function resetSessionVariables(Session $session) 
     { 
         $session->remove('basket');

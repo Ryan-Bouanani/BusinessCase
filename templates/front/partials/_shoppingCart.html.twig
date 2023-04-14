@@ -16,15 +16,19 @@
                 <p class="totalLine">{{ total }}€</p>
             </div>
         </div>
-        {% if btn is defined and btn == false %}
-            {% if path is defined and path == 'checkout_payment' %}
-                <a href="{{ path( path|default('app_checkout_login')) }}?_csrf_token={{ csrf_token('payment' ~ order.id) }}" class="btn btnAddBasket">{{ btnContent|default('CONTINUER') }}</a>
-            {% else %}
+
+        {% if formSubmit is defined and formSubmit == true %}
+               <button href="{{ path( path|default('app_checkout_login')) }}" class="btn btnAddBasket" type="submit">{{ btnContent|default('CONTINUER') }}</button>
+        {% elseif form is defined and form == true %}
+                <form action="{{ path( path|default('app_checkout_login')) }}" method="POST">
+                    <button class="btn btnAddBasket" type="submit" id="checkout-button">{{ btnContent|default('CONTINUER') }}</button>
+                       <input type="hidden" name="token" value="{{ csrf_token('payment' ~ order.id) }}"/>
+                </form>
+                {# <a href="{{ path( path|default('app_checkout_login')) }}?_csrf_token={{ csrf_token('payment' ~ order.id) }}" class="btn btnAddBasket">{{ btnContent|default('CONTINUER') }}</a> #}
+        {% elseif noLink is defined and noLink == true %}
+            {# Déja un btn de connexion (login) #}
+        {% else %}
                 <a href="{{ path( path|default('app_checkout_login')) }}" class="btn btnAddBasket">{{ btnContent|default('CONTINUER') }}</a>
-            {% endif %}
-       {% elseif btn is defined and btn == true %}
-       {% else %}
-               <button href="{{ path( path|default('app_checkout_login')) }}" class="btn btnAddBasket">{{ btnContent|default('CONTINUER') }}</button>
         {% endif %}
         
     </div>

@@ -24,20 +24,20 @@
         </div>
         <h1 class="title-product">{{ product.name }}</h1>
         
-        {% set priceTaxIncl = product.priceExclVat |priceTaxIncl( product.tva) %}
-
+        {% set priceTaxInclWithoutPromo = product | priceTaxIncl(false) %}
+        {% set priceTaxAndPromoIncl = product | priceTaxIncl %}
         {% if product.promotion %}
 
             <div class="priceProduct">
-                <p class="price priceInline">{{product.priceExclVat | priceTaxIncl( product.tva, product.promotion.percentage) }}€</p> 
-                <del>{{ priceTaxIncl }}€</del>
+                <p class="price priceInline">{{ priceTaxAndPromoIncl }}€</p> 
+                <del>{{ priceTaxInclWithoutPromo }}€</del>
             </div>
 
         {% else %}
-            <p class="price">{{ priceTaxIncl }}€</p>
+            <p class="price">{{ priceTaxInclWithoutPromo }}€</p>
         {% endif %}
 
-        <input type="number" placeholder="Entrer une quantiter" value="1">
+        <input type="number" placeholder="Entrer une quantité" value="1">
 
         <a href=" {{ path('app_shoppingCart_add', {id: product.id} )}}" class="btn btnAddBasket">Ajoutez au panier</a>
     </div>

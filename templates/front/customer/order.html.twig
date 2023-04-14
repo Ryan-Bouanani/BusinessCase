@@ -24,6 +24,10 @@
                             <p class="totalOrder">{{ total[key] }}€</p>
                         </div>
                         <div class="infoContainer">
+                            <p>Moyen de paiement :</p>
+                            <p class="totalOrder">{{ order.meanOfPayment.designation }}</p>
+                        </div>
+                        <div class="infoContainer">
                             <p>Status de la commande:</p>
                             <p>{{ order.status.name }}</p>
                         </div>

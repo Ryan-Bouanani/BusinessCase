@@ -22,7 +22,7 @@
             <button class="decrement"><i class="fa-solid fa-minus"></i></button>
             {% set count = count + 1 %}
         </td>
-        <td scope="row" class="priceProduct">{{ line.product.priceExclVat| priceTaxIncl(line.product.tva) }}€</td>
+        <td scope="row" class="priceProduct">{{ line.product| priceTaxIncl }}€</td>
         <td class="priceTotalLine" scope="row"></td>
         <td>
             <button class="button btnAction" href="{{ path('app_basket_deleteLineContentShoppingCart', {id: line.id}) }}" data-delete data-token="{{ csrf_token('delete' ~ line.id) }}">Supprimer</button>  

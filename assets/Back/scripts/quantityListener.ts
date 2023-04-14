@@ -2,10 +2,10 @@ import { deletContentShoppingCart } from "./fetch/deleteContentShoppingCart";
 
 // Add Dynamic Quantity products order back office
 
-// J'initialise mes variables qui vont contenirs différents élements du DOM
+// J'initialise mes variables qui vont contenir différents elements du DOM
 let quantityArray: NodeListOf<HTMLInputElement>;
 let addQuantity: NodeListOf<HTMLInputElement>;
-let substractQuantity: NodeListOf<HTMLInputElement>;
+let subtractQuantity: NodeListOf<HTMLInputElement>;
 
 let priceProduct: NodeListOf<Element>;
 let priceTotalLine:  NodeListOf<Element>;
@@ -23,7 +23,7 @@ export function updateNodeListInputBtnQuantity() {
     // btn d'ajout de quantité
     addQuantity = document.querySelectorAll(' .lineQuantity button.increment');
     // btn de soustraction de quantité
-    substractQuantity = document.querySelectorAll(' .lineQuantity button.decrement');
+    subtractQuantity = document.querySelectorAll(' .lineQuantity button.decrement');
     priceProduct =  document.querySelectorAll(' .priceProduct');
     priceTotalLine = document.querySelectorAll(' .priceTotalLine');
     priceTotalOrder = document.querySelector(' .priceTotalOrder');
@@ -31,7 +31,7 @@ export function updateNodeListInputBtnQuantity() {
 
     if (quantityArray.length !== 0) {
         
-        arrayBtnQuantity = [addQuantity, substractQuantity];
+        arrayBtnQuantity = [addQuantity, subtractQuantity];
     
         // Je met à jour ma fonction delete de ligne de panier
         deletContentShoppingCart(btnsDelete);
@@ -186,11 +186,11 @@ function updateBtnQuantity(quantity, key: number) {
     } 
     if (quantity > 0) {
         // Si supérieur à 0 alors je réactive le button soustraction
-        substractQuantity[key].removeAttribute('disabled');
+        subtractQuantity[key].removeAttribute('disabled');
     }
     if (quantity <= 0) {
         // Si inférieur ou égale à 1 alors je désactive le button soustraction
-        substractQuantity[key].setAttribute('disabled', '');
+        subtractQuantity[key].setAttribute('disabled', '');
     } 
     if (quantity < 20) {
         // Si inferieur à 10 alors je réactive le button ajouter

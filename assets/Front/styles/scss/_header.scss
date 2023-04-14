@@ -1,12 +1,12 @@
 
-@use './variables' as *;
-@use './mixins' as *;
+@use '../../../shared/styles/partials/variables' as *;
+@use '../../../shared/styles/partials/mixins' as *;
 
 // * -------------Header-----------
 header.home {
     height: 90vh;
 
-     // Icones bg Header
+     // Icônes bg Header
      span.bone, span.boneWhite, span.paw {
         position: absolute;
         content: "";

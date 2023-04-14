@@ -10,13 +10,14 @@
                     <img src="{{ asset('/build/images/' ~ image.path) }}"  alt="{{ product.name }}"> 
                 {% endfor %}
                 <p class="productTitle">{{ product.name }}</p>
-                {% set priceTaxIncl = product.priceExclVat |priceTaxIncl( product.tva) %}
 
+                {% set priceTaxInclWithoutPromo = product | priceTaxIncl(false) %}
+                {% set priceTaxAndPromoIncl = product | priceTaxIncl %}
                 {% if product.promotion %}
-                    <p class="priceProduct">{{ product.priceExclVat|priceTaxIncl( product.tva, product.promotion.percentage) }}€</p>
-                    <del>{{ priceTaxIncl }}€</del>
+                    <p class="priceProduct">{{ priceTaxAndPromoIncl }}€</p>
+                    <del>{{ priceTaxInclWithoutPromo }}€</del>
                 {% else %}
-                    <p class="priceProduct">{{ product.priceExclVat |priceTaxIncl( product.tva) }}€</p>
+                    <p class="priceProduct">{{ priceTaxInclWithoutPromo }}€</p>
                 {% endif %}
             </div>
         {% if isSearchBack == false %}

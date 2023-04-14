@@ -15,19 +15,21 @@
                             <p class="productTitle">{{ item.product.name |slice(0, 20) }}</p>
                             <p>{{ item.product.brand.name |slice(0, 20) }}</p>
                         
-                            {% set priceTaxIncl = item.product.priceExclVat |priceTaxIncl( item.product.tva) %}
-                            {% if item.product.promotion  and item.product.promotion.expirationDate > 'now' | date('d/m/Y') %}
+                            {% set priceTaxInclWithoutPromo = item.product | priceTaxIncl(false) %}
+                            {% set priceTaxAndPromoIncl = item.product | priceTaxIncl %}
+
+                            {% if item.product.promotion  and item.product.promotion.expirationDate | date('Y-m-d H:i:s') > 'now' | date('Y-m-d H:i:s') %}
 
                                 <div class="productPrice">
                                 <div class="promoInfo">
-                                    <del>{{ priceTaxIncl }}€</del>
+                                    <del>{{ priceTaxInclWithoutPromo }}€</del>
                                     <span class="percentagePromo">{{ item.product.promotion.percentage | percentagePromo }}</span>
                                 </div>
-                                    <p class="price">{{item.product.priceExclVat | priceTaxIncl( item.product.tva, item.product.promotion.percentage) }}€</p> 
+                                    <p class="price">{{item.product | priceTaxIncl }}€</p> 
                                 </div>
 
                             {% else %}
-                                <p class="productPrice">{{ priceTaxIncl }}€</p>
+                                <p class="price">{{ priceTaxInclWithoutPromo }}€</p>
                             {% endif %}
                         </div>
                         <div class="quantityAndTotalLineAndDelete">
@@ -35,16 +37,13 @@
                             <div class="lineQuantity">
                                 <a href="{{ path('app_shoppingCart_add', {id: item.product.id}) }}" class="increment"><i class="fa-solid fa-plus" ></i></a>
                                 <p class="quantity">{{ item.quantity }}</p>
-                                <a href="{{ path('app_shoppingCart_substractQuantity', {id: item.product.id}) }}" class="decrement"><i class="fa-solid fa-minus"></i></a>
+                                <a href="{{ path('app_shoppingCart_subtractQuantity', {id: item.product.id}) }}" class="decrement"><i class="fa-solid fa-minus"></i></a>
                             </div>
                         {% else %}
                                 <p class="quantity">Qté x{{ item.quantity }}</p>
                         {% endif %}
-                            {% if item.product.promotion %}
-                                <p class="totalLine">{{ (item.product.priceExclVat | priceTaxIncl( item.product.tva, item.product.promotion.percentage)) * item.quantity}}€</p>
-                            {% else %}
-                                <p class="totalLine">{{ priceTaxIncl * item.quantity }}€</p>
-                            {% endif %}
+                            <p class="totalLine">{{ (item.product | priceTaxIncl) * item.quantity}}€</p>
+                            
                             {% if quantity is defined or delete is defined %}
                                 <a href=" {{ path('app_shoppingCart_remove', {id: item.product.id}) }}"><i class="fa-solid fa-trash"></i></a>
                             {% endif %}

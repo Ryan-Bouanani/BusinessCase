@@ -34,7 +34,6 @@ class CategoryController extends AbstractController
         Request $request,
         PaginatorInterface $paginator, 
         FilterBuilderUpdaterInterface $builderUpdater,
-        PriceTaxInclService $priceTaxInclService,
         ): Response
     {
         // Récupère les produits de la catégorie

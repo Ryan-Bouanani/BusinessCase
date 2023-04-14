@@ -1,8 +1,8 @@
-@import "lib/bootstrap.scss";
-@import "variables";
-@import "../../shared/styles/main.scss";
-@import "partials/table";
-@import "partials/aside";
+@use "lib/bootstrap.scss";
+@use "../../shared/styles/main.scss";
+@use '../../shared/styles/partials/variables' as *;
+@use "partials/table";
+@use "partials/aside";
 
 
 body {

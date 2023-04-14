@@ -103,8 +103,35 @@
                         {% endfor %}
                     </th>
                     <th scope="row">{{ product.name }}</th>
-                    <td>{{ product.priceExclVat }}€</td>
-                    <td>{{ product.priceExclVat | priceTaxIncl(product.tva) }}€</td>
+
+                    {% set priceTaxExclPromoIncl = product | priceTaxIncl(true, false) %}
+                    {% set priceTaxAndPromoExcl = product | priceTaxIncl(false, false) %}
+                    <td>
+                        {% if product.promotion and product.promotion.expirationDate | date('Y-m-d H:i:s') > 'now' | date('Y-m-d H:i:s') %}
+
+                            <p class="price inline">{{ priceTaxExclPromoIncl }}€</p> 
+                            <span class="percentagePromo">{{ product.promotion.percentage | percentagePromo }}</span>
+                            <del>{{ priceTaxAndPromoExcl }}€</del>
+
+                        {% else %}
+                            <p class="price">{{ priceTaxExclPromoIncl }}€</p>
+                        {% endif %}
+                    </td>
+
+                    {% set priceTaxInclWithoutPromo = product | priceTaxIncl(false) %}
+                    {% set priceTaxAndPromoIncl = product | priceTaxIncl %}
+                    <td>
+
+                        {% if product.promotion and product.promotion.expirationDate > 'now' | date('Y-m-d H:i:s') %}
+
+                            <p class="price inline">{{ priceTaxAndPromoIncl }}€</p> 
+                            <span class="percentagePromo">{{ product.promotion.percentage | percentagePromo }}</span>
+                            <del>{{ priceTaxInclWithoutPromo }}€</del>
+
+                        {% else %}
+                            <p class="price">{{ priceTaxInclWithoutPromo }}€</p>
+                        {% endif %}
+                    </td>
                     <td class="colActive">{{ product.active ? 'Oui' : 'Non' }}</td>
                     <td class="colDateAdded">{{ product.dateAdded ? product.dateAdded|date('d/m/Y') : '' }}</td>
                     <td class="colCategory">{{ product.category ? product.category.name: 'Aucune catégorie' }}</td>

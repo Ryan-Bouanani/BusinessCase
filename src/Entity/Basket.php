@@ -311,6 +311,12 @@ class Basket
     #[ORM\ManyToOne(inversedBy: 'baskets')]
     private ?Address $address = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $paypalPaymentId = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $stripeSessionId = null;
+
 
 
 
@@ -423,6 +429,30 @@ class Basket
     public function setAddress(?Address $address): self
     {
         $this->address = $address;
+
+        return $this;
+    }
+
+    public function getPaypalPaymentId(): ?string
+    {
+        return $this->paypalPaymentId;
+    }
+
+    public function setPaypalPaymentId(?string $paypalPaymentId): self
+    {
+        $this->paypalPaymentId = $paypalPaymentId;
+
+        return $this;
+    }
+
+    public function getStripeSessionId(): ?string
+    {
+        return $this->stripeSessionId;
+    }
+
+    public function setStripeSessionId(?string $stripeSessionId): self
+    {
+        $this->stripeSessionId = $stripeSessionId;
 
         return $this;
     }

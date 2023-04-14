@@ -2,24 +2,20 @@
 
 namespace App\Controller\Front;
 
-use App\Service\ShoppingCart\PaypalOperationService;
+use App\Service\ShoppingCart\PaymentOperationService;
 use App\Entity\Address;
 use App\Entity\Product;
 use App\Entity\Customer;
-use App\Enum\StatusEnum;
 use App\Form\AddressType;
 use App\Form\MeanOfPaymentType;
 use App\Repository\AddressRepository;
 use App\Repository\BasketRepository;
 use App\Repository\CustomerRepository;
-use App\Repository\ImageRepository;
-use App\Repository\PaypalPaymentRepository;
 use App\Repository\ProductRepository;
 use App\Repository\StatusRepository;
 use App\Service\PriceTaxInclService;
 use App\Service\ShoppingCart\ShoppingCartService;
 use Omnipay\Common\Exception\InvalidResponseException;
-use Omnipay\Common\Item;
 use Omnipay\PayPal\PayPalItem;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -111,15 +107,15 @@ class ShoppingCartController extends AbstractController
      * @param Request $request
      * @return void
      */
-    #[Route('/substractQuantity/{id}', 'app_shoppingCart_substractQuantity', methods: ['GET'])]
-    public function substractQuantity(
+    #[Route('/subtractQuantity/{id}', 'app_shoppingCart_subtractQuantity', methods: ['GET'])]
+    public function subtractQuantity(
         Product $product, 
         ShoppingCartService $shoppingCartService,
         Request $request,
         ) 
     {
-        // On enleve un fois le produit de notre panier
-        $shoppingCartService->substractQuantity($product);
+        // On enlève un fois le produit de notre panier
+        $shoppingCartService->subtractQuantity($product);
 
         // On redirige vers la page ou est l'utilisateur
         $route = $request->headers->get('referer');
@@ -259,7 +255,6 @@ class ShoppingCartController extends AbstractController
                     
             // On récupère et ajoute le moyen de paiement choisie par l'utilisateur et la date de facturation à la commande 
             $order[0]->setMeanOfPayment($form->get('meanOfPayment')->getData());
-            $order[0]->setBillingDate(new \DateTime());
 
             // On met la commande à jour en bdd
             $basketRepository->add($order[0], true);
@@ -278,7 +273,7 @@ class ShoppingCartController extends AbstractController
 
 
     /**
-     * Ce controller va servir à afficher le resumé de la commande
+     * Ce controller va servir à afficher le résumé de la commande
      *
      * @param BasketRepository $basketRepository
      * @param ShoppingCartService $shoppingCartService
@@ -318,14 +313,14 @@ class ShoppingCartController extends AbstractController
      *
      * @param BasketRepository $basketRepository
      * @param ShoppingCartService $shoppingCartService
-     * @param PaypalOperationService $paypalOperationService
+     * @param PaymentOperationService $paymentOperationService
     //  * @return void
      */
     #[Route('/payment', name: 'checkout_payment')]
     public function payment(
         BasketRepository $basketRepository,
         ShoppingCartService $shoppingCartService,
-        PaypalOperationService $paypalOperationService,
+        PaymentOperationService $paymentOperationService,
         PriceTaxInclService $priceTaxInclService,
         Request $request,
     ) : Response
@@ -338,22 +333,23 @@ class ShoppingCartController extends AbstractController
         }
         // On récupère le dernier panier de l'utilisateur
         $order = $basketRepository->findBasketWithCustomer($user->getId());
+
+        $tokenValue = $request->request->get('token');
+        
+        if (!$this->isCsrfTokenValid('payment' . $order[0]->getId(), $tokenValue)) {
+            return new Response('Opération non autorisée', Response::HTTP_BAD_REQUEST, [
+                // 'content-type' => 'text/plain'
+            ]);
+        }
+
         if ($order[0]->getMeanOfPayment()->getDesignation() === 'Paypal') {
-
-            $tokenValue = $request->query->get('_csrf_token');
-
-            if (!$this->isCsrfTokenValid('payment' . $order[0]->getId(), $tokenValue)) {
-                return new Response('Opération non autorisée', Response::HTTP_BAD_REQUEST, [
-                    // 'content-type' => 'text/plain'
-                ]);
-            }
 
             // Create a PayPal payment
 
             // Add détails cart (product, quantity, price) for user
             $items = [];
             foreach ($shoppingCartService->getFullCart() as $item) {
-                $itemPrice = $priceTaxInclService->calcPriceTaxIncl($item['product']->getPriceExclVat(), $item['product']->getTva(), $item['product']->getPromotion()->getPercentage());
+                $itemPrice = $priceTaxInclService->calcPriceTaxIncl($item['product']);
 
                 $items[] = new PayPalItem([
                     'name' => $item['product']->getName(), 
@@ -362,21 +358,21 @@ class ShoppingCartController extends AbstractController
                 ]);
             }
 
-            // Generate the full URL for returnUrl and cancelUrl
-            $returnUrl = $this->generateUrl('checkout_success', [], UrlGeneratorInterface::ABSOLUTE_URL);
+            // Generate the full URL for successUrl and cancelUrl
+            $successUrl = $this->generateUrl('checkout_success', [], UrlGeneratorInterface::ABSOLUTE_URL);
             $cancelUrl = $this->generateUrl('checkout_error', [], UrlGeneratorInterface::ABSOLUTE_URL);
             
-            $response = $paypalOperationService->purchase(
+            $response = $paymentOperationService->purchase(
                 $shoppingCartService->getTotal(), 
-                $_ENV['PAYPAL_CURRENCY'], 
-                $returnUrl, 
+                $_ENV['CURRENCY'], 
+                $successUrl, 
                 $cancelUrl,
                 $items
             )->send();
     
             // Redirect the user to PayPal to complete the payment
             try {
-                // dd($response, $items);
+                // dd($response);
                 if ($response->isRedirect()) {
                     $response->redirect();
                 } else {
@@ -387,19 +383,36 @@ class ShoppingCartController extends AbstractController
                     'content-type' => 'text/plain'
                 ]);
             } 
+        } else {
+            // Generate the full URL for successUrl and cancelUrl
+            $successUrl = $this->generateUrl('checkout_success', [
+                'id_sessions' => '{CHECKOUT_SESSION_ID}',
+            ], UrlGeneratorInterface::ABSOLUTE_URL);
+            $cancelUrl = $this->generateUrl('checkout_error', [
+                'id_sessions' => '{CHECKOUT_SESSION_ID}',
+            ], UrlGeneratorInterface::ABSOLUTE_URL);
+              
+            $items = [];
+            foreach ($shoppingCartService->getFullCart() as $item) {
+                $itemPrice = $priceTaxInclService->calcPriceTaxIncl($item['product']);
+
+                $items[] = [
+                    'price_data' => [
+                        'currency' => $_ENV['CURRENCY'],
+                        'product_data' => [
+                            'name' => $item['product']->getName(), 
+                        ],
+                        'unit_amount' => intval($itemPrice * 100),
+                    ],
+                    'quantity' => $item['quantity'],
+                ];
+            }
+            $checkout = $paymentOperationService->checkout($user->getEmail(), $items, 'http://127.0.0.1:8000/checkout/success?id_sessions={CHECKOUT_SESSION_ID}', $cancelUrl);
+            return $this->redirect($checkout->url);
+            // return New RedirectResponse($checkout->url);
         }
-        return $this->redirectToRoute('checkout_success');
     }
     
-    
-    // Page d'erreur de la transaction
-    #[Route('/error', name: 'checkout_error')]
-    public function error(): Response
-    {
-        // Gestion de l'exception : on affiche l'erreur et on redirige l'utilisateur vers l'accueil
-        $this->addFlash('error', 'Une erreur s\'est produite lors de la validation de votre commande. Veuillez réessayer plus tard.');
-        return $this->redirectToRoute('checkout_resume');
-    }
 
     /**
      * Ce controller va servir à confirmer que la commande de l'utilisateur à bien été prise en compte
@@ -415,10 +428,8 @@ class ShoppingCartController extends AbstractController
         BasketRepository $basketRepository,
         ShoppingCartService $shoppingCartService,
         StatusRepository $statusRepository,
-        PaypalPaymentRepository $paypalPaymentRepository,
-        SessionInterface $session,
         Request $request,  
-        PaypalOperationService $paypalOperationService  
+        PaymentOperationService $paymentOperationService  
         ) : Response
     {
         // Si pas d'utilisateur, on redirige vers l'accueil
@@ -427,50 +438,49 @@ class ShoppingCartController extends AbstractController
         if (!$user) {
             return $this->redirectToRoute('app_home');
         }
-
         // On récupère le dernier panier de l'utilisateur
         $order = $basketRepository->findBasketWithCustomer($user->getId());
         if (empty($order)) {
             return $this->redirectToRoute('app_home');
         }
-        
+
         // On vérifie que la commande à bien été payé et que la commande n'est pas déjà en bdd (rechargement de page)
-        if ($paypalOperationService->isPaypalOrderUnpaid($order[0], $request)
-        || $paypalOperationService->isExistingPaypalPayment($paypalPaymentRepository, $request)
-        ) {
-            return $this->redirectToRoute('app_home');
-        }
+        // if ($paymentOperationService->isPaypalOrderUnpaid($order[0], $request)
+        // || $paymentOperationService->isExistingPayment($order[0]->getMeanOfPayment()->getDesignation(), $request)
+        // ) {
+        //     return $this->redirectToRoute('app_home');
+        // }
 
         if ($order[0]->getMeanOfPayment()->getDesignation() === 'Paypal') {
             try {
                 // On vérifie si la transaction s'est bien passer et on met les infos de la commande en bdd
-                $paypalOperationService->completePurchaseAndSavePayment($request, $paypalPaymentRepository);
-                // throw new InvalidResponseException('Testing the catch block');
+                $paymentOperationService->completePurchaseAndSavePaypalIdPayment($request, $order[0]);
             } catch (InvalidResponseException $e) {
                 // Gestion de l'exception : on affiche l'erreur et on redirige l'utilisateur vers l'accueil
                 $this->addFlash('error', 'Une erreur s\'est produite lors de la validation de votre commande. Veuillez réessayer plus tard.');
                 return $this->redirectToRoute('checkout_resume');
             }
+        } else {
+            $paymentOperationService->completeAndSaveStripePayment($request, $order[0]); 
         }
-        
-        // Si dernier panier existant et status non null
-        if (is_null($order[0]->getStatus())) {
-            // On ajoute un status
-            $status = $statusRepository->findOneBy(['name' => StatusEnum::ACCEPTER]);
-            $order[0]->setStatus($status);
-            // On reset nos variables de session 
-            $shoppingCartService->resetSessionVariables($session);
-            // On met la commande à jour en bdd
-            $basketRepository->add($order[0], true);
-        }
-        // On récupère la dernière commande de l'utilisateur
-        $order = $basketRepository->findLastBasketWithCustomer($user->getId(), 1);        
+
+        // On finalize la commande et récupère la dernière commande de l'utilisateur
+        $order = $shoppingCartService->finalizeOrderInBdd($order[0], $statusRepository);
 
         return $this->renderForm('front/shoppingCart/success.html.twig', [
-            'items' => $order[0]->getContentShoppingCarts(),
+            'items' => $order->getContentShoppingCarts(),
             // On calcul le montant du panier
-            'total' => $shoppingCartService->getTotal($order[0]),
+            'total' => $shoppingCartService->getTotal($order),
             'message' => 'Votre commande à bien été enregistrée'
         ]);
+    }
+
+    // Page d'erreur de la transaction
+    #[Route('/error', name: 'checkout_error')]
+    public function error(): Response
+    {
+        // Gestion de l'exception : on affiche l'erreur et on redirige l'utilisateur vers l'accueil
+        $this->addFlash('error', 'Une erreur s\'est produite lors de la validation de votre commande. Veuillez réessayer plus tard.');
+        return $this->redirectToRoute('checkout_resume');
     }
 }

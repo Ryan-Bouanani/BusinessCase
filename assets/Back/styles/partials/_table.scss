@@ -1,3 +1,4 @@
+@use '../../../shared/styles/partials/variables' as *;
 
 .containerTable {
     background: white;
@@ -15,7 +16,7 @@ table {
         margin-bottom: 0.3rem;
     }
     thead .colPriceExclVat, thead .colPriceInclVat {
-        min-width: 6rem;
+        min-width: 10rem;
     }
     thead .colCategory {
         min-width: 10rem;
@@ -46,7 +47,7 @@ div.newBtnContainer {
 }
 .inputFilterDate {
     display: inline-block;
-    background: $gray;
+    background: $darkgray;
     width: 125px;
     border-radius: 0.4rem;
     padding: 0.4rem 0.5rem;

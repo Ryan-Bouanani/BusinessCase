@@ -1,5 +1,5 @@
 import { updateNodeListInputBtnQuantity } from "../quantityListener";
-console.log('lol');
+
 window.addEventListener('load', () => {
     
     // On récupère le button d'ajout de produit

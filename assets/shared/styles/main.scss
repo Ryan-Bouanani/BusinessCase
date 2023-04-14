@@ -1,14 +1,39 @@
+@use "lib/forteawsome";
+@use "lib/pagination";
+@use "partials/form";
+@use "partials/searchResultProduct";
+@use "partials/modal";
+@use "partials/filterSearch";
+@use 'partials/mixins' as *;
+@use 'partials/variables' as *;
 // @import "lib/bootstrap";
-@import "lib/forteawsome";
-@import "lib/pagination";
-@import "partials/form";
-@import "partials/searchResultProduct";
-@import "partials/modal";
-@import "partials/filterSearch";
 
 a {
     text-decoration: none;
     color: black;
+}
+// Affichage pourcentage promo card product
+span.percentagePromo {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.7rem;
+    // @include gradient-bg(90deg);
+    color: white;
+    background: linear-gradient(90deg, rgb(255, 183, 0) 0%, rgb(255, 123, 0) 100%);
+    border-radius: 0.2rem;
+    font-weight: bold;
+    max-width: 3rem;
+}
+.price {
+    font-weight: bold;
+    font-size: 1rem;
+    color: $colorGradient;
+}
+.inline {
+    display: inline;
+}
+del {
+    display: block;
+    color: hsl(0, 0%, 47%);
 }
 .button {
     color: white;
@@ -35,7 +60,7 @@ a {
     margin-bottom: 1rem;
 }
 
-// BTN DE QUANTITITE
+// BTN DE QUANTITÉ
 .lineQuantity {
     min-width: 6rem;
     a, button {

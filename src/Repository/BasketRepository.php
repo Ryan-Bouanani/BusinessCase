@@ -61,13 +61,13 @@ class BasketRepository extends AbstractRepository
             ->where('basket.status IS NOT NULL')
             ->andWhere('basket.customer = :id')
             ->leftJoin('basket.customer', 'customer')
-            ->orderBy('basket.dateCreated', 'ASC')
+            ->orderBy('basket.dateCreated', 'DESC')
             ->setParameter('id', $id)
             ->setMaxResults($limit)
             ->getQuery()
             ->getResult();
-            ;
-            return $oldBasket;
+        ;
+        return $oldBasket;
     }
 
 

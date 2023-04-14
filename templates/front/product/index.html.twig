@@ -38,18 +38,19 @@
                     </a>
                 </div>
                 
-                {% set priceTaxIncl = product[0].priceExclVat |priceTaxIncl( product[0].tva) %}
+                {% set priceTaxInclWithoutPromo = product[0] | priceTaxIncl(false) %}
+                {% set priceTaxAndPromoIncl = product[0] | priceTaxIncl %}
 
-                {% if product[0].promotion and product[0].promotion.expirationDate > 'now' | date('d/m/Y') %}
+                {% if product[0].promotion and product[0].promotion.expirationDate | date('Y-m-d H:i:s') > 'now' | date('Y-m-d H:i:s') %}
 
                     <span class="percentagePromo">{{ product[0].promotion.percentage | percentagePromo }}</span>
                     <div class="priceProduct">
-                        <p class="price priceInline">{{product[0].priceExclVat | priceTaxIncl( product[0].tva, product[0].promotion.percentage) }}€</p> 
-                        <del>{{ priceTaxIncl }}€</del>
+                        <p class="price priceInline">{{ priceTaxAndPromoIncl }}€</p> 
+                        <del>{{ priceTaxInclWithoutPromo }}€</del>
                     </div>
 
                 {% else %}
-                    <p class="price">{{ priceTaxIncl }}€</p>
+                    <p class="price">{{ priceTaxInclWithoutPromo }}€</p>
                 {% endif %}
 
                 <a href=" {{ path('app_shoppingCart_add', {id: product[0].id} )}}" class="btn btnAddBasket">Ajoutez au panier</a>
