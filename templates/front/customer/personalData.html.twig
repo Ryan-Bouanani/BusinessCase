@@ -179,7 +179,7 @@
                             <button class="btnUpdate"><i class="fa-solid fa-location-dot"></i></button>
                         </div>
                         <div class="leftContainer">
-                            {% if customer.address is defined %}                     
+                            {% if customer.address is defined and customer.address is not null %}                   
                                 <p>{{ customer.address.firstName }} {{ customer.address.lastName }}</p>
                                 <p>{{ customer.address.line1 }}</p>
                                 <p>{{ customer.address.city }}, {{ customer.address.postalCode }}</p>
@@ -251,17 +251,31 @@
             {% set content %}
                     {{ form_start(formPassword) }}
                         <div class="formChild">
-                            {{ form_widget(formPassword.password) }}
+
+                            {% for child in formPassword.password.children %}
+                                {{- form_label(child, null) -}}
+                                {% set input %} 
+                                    {{- form_widget(child) -}}
+                                {% endset %}
+                                {% include "/front/partials/_togglePassword.html.twig" with {
+                                    input: input,
+                                } %}
+                            {% endfor %}
 
                             {% if (form_errors(formPassword.password)) %}
                                 <div class="error">
                                     {{ form_errors(formPassword.password) }}
                                 </div>
-                            {% endif %}
+                            {% endif %} 
                         </div>
                         <div class="formChild">
                             {{ form_label(formPassword.newPassword) }}
-                            {{ form_widget(formPassword.newPassword) }}
+                            {% set input %} 
+                                    {{ form_widget(formPassword.newPassword) }}
+                            {% endset %}
+                            {% include "/front/partials/_togglePassword.html.twig" with {
+                                input: input,
+                            } %}
 
                             {% if form_errors(formPassword.newPassword) %}
                                 <div class="error">

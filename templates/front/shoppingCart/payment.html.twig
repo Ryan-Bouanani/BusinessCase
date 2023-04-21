@@ -18,7 +18,7 @@
                     {% for child in form.children.meanOfPayment %}
                         <div class="fieldMeanOfPayment">
                             {{- form_widget(child) -}}
-                        {{- form_label(child, null) -}}
+                            {{- form_label(child, null) -}}
                             {% if child.vars.label == 'Carte bancaire' %}
                             <div class="imagesMeanOfPayment">
                                 <img class="meanOfPaymentImg" src="{{ asset("build/images/logoVisa.png") }}" alt="Logo Visa">

@@ -78,6 +78,7 @@ class SecurityController extends AbstractController
     {
         /** @var Customer $user*/
         $user = $this->getUser();
+        // Si pas utilisateur non connecté on l’authentifie
         if (!$user) {
             $error = $authenticationUtils->getLastAuthenticationError();
             $lastUsername = $authenticationUtils->getLastUsername();
@@ -88,6 +89,7 @@ class SecurityController extends AbstractController
             ]);
         }
         
+        // Si pas de panier bdd on redirige vers l'accueil
         if (!$session->has('shoppingCart')) {
             return $this->redirectToRoute('app_home', [], Response::HTTP_SEE_OTHER);
         }

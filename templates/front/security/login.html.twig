@@ -7,7 +7,7 @@
 <div class="authentication">
     <h1 class="h3 mb-3 font-weight-normal">Connexion</h1>
     {% include "shared/partials/_flash.html.twig" %}
-    <form method="post" name="login">
+    <form method="post" name="login_form">
         {% if error %}
             <div class="error">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
         {% endif %}
@@ -25,7 +25,7 @@
         <div class="formChild">
             <label for="inputPassword">Mot de passe</label>
             {% set input %} 
-                <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" placeholder="******" required>
+                <input type="password" name="password" id="inputPassword" class="password form-control" autocomplete="current-password" placeholder="******" required>
             {% endset %}
             {% include "/front/partials/_togglePassword.html.twig" with {
                 input: input,

@@ -46,10 +46,16 @@ class ShoppingCartService {
         $this->security = $security;
     }
 
-    public function add(Product $product) {
+    /**
+     * Cette méthode va permettre à l'utilisateur d'ajouter des produits à son panier
+     *
+     * @param Product $product
+     * @return void
+     */
+    public function add(Product $product): void 
+    {
         $session = $this->requestStack->getSession();
         // $this->resetSessionVariables($session);
-        // dd('lol');
         $id = $product->getId();
         
 
@@ -108,11 +114,17 @@ class ShoppingCartService {
         // Et on met à jour panier et on ajoute la new ligne du panier en bdd
         $session->set('basket', $basket);
         $session->set('shoppingCart', $shoppingCart);
+        // dd($shoppingCart);
     }
 
 
-
-    public function remove(Product $product) {
+    /**
+     * Cette méthode va permettre à l'utilisateur d'enlever des produits de son panier
+     *
+     * @param Product $product
+     * @return void
+     */
+    public function remove(Product $product): void {
         $session = $this->requestStack->getSession();
 
         $id = $product->getId();
@@ -150,6 +162,12 @@ class ShoppingCartService {
         }
         
     }
+
+    /**
+     * Cette méthode va permettre d'afficher le contenu du panier
+     *
+     * @return array
+     */
     public function getFullCart(): array {
         $session = $this->requestStack->getSession();
 
@@ -188,6 +206,13 @@ class ShoppingCartService {
 
         return $basketWithData;
     }
+
+    /**
+     * Cette méthode va permettre d'avoir le prix total du panier
+     *
+     * @param Basket|null $order
+     * @return float
+     */
     public function getTotal(Basket $order = null): float {
 
         $total = 0;
@@ -215,65 +240,78 @@ class ShoppingCartService {
         return $total;
     }
 
+    /**
+     * Cette méthode va permettre de mettre à jour le panier session avec les infos du panier BDD et le panier BDD avec les infos du panier session (lorsque l'utilisateur se connecte par exemple)
+     *
+     * @return void
+     */
     public function transformShoppingCartToBasketSession() {
         // On récupère la session
         $session = $this->requestStack->getSession();
-
-        // On récupère notre panier de bdd et de session
+        // On récupère notre panier session et bdd 
         $basket = $session->get('basket', []);
-        $shoppingCart = $session->get('shoppingCart', []);
+        $shoppingCart = $session->get('shoppingCart', null);
 
         // S'il y a un panier d'achat en cours dans la session, je le récupère dans la base de données.
         if ($shoppingCart) {
             $shoppingCart = $this->basketRepository->find($shoppingCart->getId());
         }
+        
         /** @var Customer $customer*/
         $customer = $this->security->getUser();
 
-        // Si ancien panier existant on supprime le nouveau
+        // Je récupère le dernier panier de l'utilisateur
         $oldShoppingCart = $this->basketRepository->findBasketWithCustomer($customer->getId());
-        
-        if (!empty($oldShoppingCart[0]) && ($oldShoppingCart[0] !== $shoppingCart)) {
+
+        // dernier panier = panier crée par l'utilisateur avant de se déconnecter
+        // Si dernier panier de l'utilisateur existant et (dernier panier différent du panier actuelle (dans le cas ou la méthode est appeler 2 fois : au login et au checkout login le $oldShoppingCart devient le $shoppingCart met le $oldShoppingCart existe toujours))
+        if (!empty($oldShoppingCart[0]) && $oldShoppingCart[0] !== $shoppingCart) {
             if ($shoppingCart) {
+                // On supprime alors le panier crée sans être connecté pour reprendre avec le dernier panier de l'utilisateur
                 $this->basketRepository->remove($shoppingCart, true);
             }
+            // On remplace donc le panier crée sans être connecté par le dernier de l'utilisateur
             $shoppingCart = $oldShoppingCart[0];
 
-            // On recupere nos lignes de panier
+            // On récupère nos lignes de panier
             $contentShoppingCarts = $shoppingCart->getContentShoppingCarts();
 
-            // Et on set notre panier session avec les info du dernier panier que l'utilisateur n'a pas supprimé avant de se déconnecter
+            // Et on met à jour notre panier session en y ajoutant les info du dernier panier de l'utilisateur
             foreach ($contentShoppingCarts as $contentShoppingCart) {  
                 // Id du produit de la ligne
                 $id = $contentShoppingCart->getProduct()->getId();              
                 
-                // Si le produit du panier n'est pas dans la session on l'ajoute
+                // Si le produit du panier bdd n'est pas dans la session on l'ajoute
                 if (empty($basket[$id])) {
                     $basket[$id] = $contentShoppingCart->getQuantity();
                 } else {
-                    // sinon on additionne la quantité de la session et celle de la ligne du panier
+                    // Si il y est déjà on additionne la quantité de la session et celle de la ligne du panier
                     $basket[$id] += $contentShoppingCart->getQuantity();
                 }
             }  
-        }         
-        // Si dernier panier existant
-        if ($shoppingCart) {
+        }     
+           
+        // Si panier session ou dernier panier utilisateur existant
+        if ($shoppingCart && $basket) {
+            // dd($shoppingCart, $basket);
+            // Si le panier n'a pas d'utilisateur alors on set le panier au client
             if (!$shoppingCart->getCustomer()) {
                 $shoppingCart->setCustomer($customer);
                 $this->basketRepository->add($shoppingCart, true);
             }
-            // On recupere nos lignes de panier
+            // On récupère nos lignes de panier
             $contentShoppingCarts = $shoppingCart->getContentShoppingCarts();
     
-            foreach ($basket as $id => $quantity) {   
+            // Pour chaque ligne de mon panier session [400 (id) => 2 (quantité)]
+            foreach ($basket as $id => $quantity) {  
                 $notInShoppingCart = true;
                 foreach ($contentShoppingCarts as $contentShoppingCart) {
-                    // Si le produit de la session est déja dans la panier
+                    // Si le produit de la session est déjà dans la panier bdd on ne fait rien
                     if ($id === $contentShoppingCart->getProduct()->getId()) {
                         $notInShoppingCart = false;
                     }
                 }
-                // Si produit session n'est pas dans le panier alors on l'ajoute
+                // Si produit session n'est pas dans le panier bdd alors on l'ajoute
                 if ($notInShoppingCart) {
                     $product = $this->productRepository->getProductShoppingCart($id);
                     $contentShoppingCart = new ContentShoppingCart();
@@ -299,19 +337,20 @@ class ShoppingCartService {
         }
     }
     
-    public function subtractQuantity(Product $product) {
+    public function subtractQuantity(Product $product) 
+    {
         $session = $this->requestStack->getSession();
         $id = $product->getId();
-        // On récupere notre basket
+        // On récupère notre basket
         $basket = $session->get('basket', []);
 
-        // Je recupere mon entité panier et mon entité contentshoppingCart
+        // Je récupère mon entité panier et mon entité contentshoppingCart
         $shoppingCart = $session->get('shoppingCart', []);
         $shoppingCart = $this->basketRepository->find($shoppingCart->getId());
 
         $contentShoppingCarts = $shoppingCart->getContentShoppingCarts();
         
-        // Si le produit éxiste, on décrémente 
+        // Si le produit existe, on décrémente 
         if (!empty($basket[$id]) && $basket[$id] > 1) {
                 $basket[$id]--;
 
@@ -370,24 +409,24 @@ class ShoppingCartService {
      * @return Basket
      */
     public function finalizeOrderInBdd(Basket $order, StatusRepository $statusRepository): Basket
-{
-    $session = $this->requestStack->getSession();
+    {
+        $session = $this->requestStack->getSession();
 
-    /** @var Customer $customer*/
-   $customer = $this->security->getUser();
+        /** @var Customer $customer*/
+        $customer = $this->security->getUser();
 
-    // Mise à jour du status de la commande et réinitialisation des variables de session du panier  
-    if (is_null($order->getStatus())) {
-        $status = $statusRepository->findOneBy(['name' => StatusEnum::ACCEPTER]);
-        $order->setStatus($status);
-        $this->resetSessionVariables($session);
-        $this->basketRepository->add($order, true);
+        // Mise à jour du status de la commande et réinitialisation des variables de session du panier  
+        if (is_null($order->getStatus())) {
+            $status = $statusRepository->findOneBy(['name' => StatusEnum::ACCEPTER]);
+            $order->setStatus($status);
+            $this->resetSessionVariables($session);
+            $this->basketRepository->add($order, true);
+        }
+        // On récupère la dernière commande de l'utilisateur
+        $order = $this->basketRepository->findLastOrderWithCustomer($customer->getId(), 1);
+
+        return $order[0];
     }
-    // On récupère la dernière commande de l'utilisateur
-    $order = $this->basketRepository->findLastBasketWithCustomer($customer->getId(), 1);
-
-    return $order[0];
-}
     /**
      * Cette function va permettre de reset les variables de sessions
      *
@@ -397,7 +436,8 @@ class ShoppingCartService {
     public function resetSessionVariables(Session $session) 
     { 
         $session->remove('basket');
-        $session->remove('shoppingCart');   
+        $session->remove('shoppingCart');  
+        // dd('Reset variables session'); 
     }
 }
 ?>

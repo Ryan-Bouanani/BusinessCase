@@ -63,7 +63,7 @@ class CustomerController extends AbstractController
         }
 
         // On récupère les commandes de l'utilisateur
-        $orders = $basketRepository->findLastBasketWithCustomer($customer->getId());
+        $orders = $basketRepository->findLastOrderWithCustomer($customer->getId());
         // On récupère le total de chaque commande
         $total = [];
         foreach ($orders as $key => $order) {
@@ -127,14 +127,16 @@ class CustomerController extends AbstractController
                 $address = $customer->getAddress();
             }
             // Creation du formulaire d'adresse
-            $formAddress = $this->createForm(AddressType::class, $address);
+            $formAddress = $this->createForm(AddressType::class, $address, [
+                'customer' => $customer,
+            ]);
 
                 // On inspecte les requettes du formulaire
                 $formAddress->handleRequest($request);
 
                 // Si le formulaire est envoyé et valide
                 if ($formAddress->isSubmitted() && $formAddress->isValid()) {
-                    // On ajoute l'addresse en bdd
+                    // On ajoute l’adresse en bdd
                     $addressRepository->add($address, true);
                     $customer->setAddress($address);
                     $customerRepository->add($customer, true);
@@ -178,20 +180,20 @@ class CustomerController extends AbstractController
         // 
         // * FORM CHANGE PASSWORD
             // Creation du formulaire de changement de mot de passe 
-            $passForm = $this->createForm(UserPasswordType::class);
+            $formPassword = $this->createForm(UserPasswordType::class);
 
             // On inspecte les requettes du formulaire
-            $passForm->handleRequest($request);
+            $formPassword->handleRequest($request);
             
             // Si le formulaire est envoyé et valide
-            if ($passForm->isSubmitted() && $passForm->isValid()) {
-                if ($hasher->isPasswordValid($customer, $passForm->getData()['password'])) {
+            if ($formPassword->isSubmitted() && $formPassword->isValid()) {
+                if ($hasher->isPasswordValid($customer, $formPassword->getData()['password'])) {
 
                         // Et on set le nouveau mot de passe en le hachant
                         $customer->setPassword(
                             $hasher->hashPassword(
                                 $customer,
-                            $passForm->getData()['newPassword']
+                            $formPassword->getData()['newPassword']
                             )
                         );
 
@@ -212,12 +214,10 @@ class CustomerController extends AbstractController
         // 
  
          return $this->render('front/customer/personalData.html.twig', [
-             'addressForm' => $address,
              'formAddress' => $formAddress->createView(),
              'formEmail' => $formEmail->createView(),
-             'formPassword' => $passForm->createView(),
+             'formPassword' => $formPassword->createView(),
              'formUser' => $formUser->createView(),
-             'address' => $customer->getAddress(),
              'customer' => $customer
          ]);
     }

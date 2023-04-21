@@ -1,5 +1,5 @@
 
-#user_password_password div, #user_email_email div {
+#user_email_email div {
     display: flex;
     flex-direction: column;
     margin-bottom: 1rem;
@@ -34,7 +34,6 @@
         align-items: center;
         justify-content: space-between;
         width: 100%;
-        // border: 1px solid #d3d2cd;
         box-shadow: rgb(0 0 0 / 15%) 0px 5px 15px 0px;
         padding: 18px;
         border-radius: 5px;
@@ -48,6 +47,9 @@
             gap: 1rem;
             justify-content: space-between;
         }
+    }
+    form[name='user_password'] .input-container:nth-child(2) {
+        margin-bottom: 1rem;
     }
     .ordersContainer {
         background: #f6f6f6;

@@ -135,6 +135,7 @@
         {% include "front/partials/_shoppingCart.html.twig" with {
             contentCheckout: contentCheckout,
             path: 'checkout_choice_payment',
+            formSubmit: true,
         } %}
             {{ form_end(formAddress) }}
         </div>

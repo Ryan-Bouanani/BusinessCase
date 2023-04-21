@@ -17,6 +17,7 @@ class ResetPasswordFormType extends AbstractType
                 'label' => 'Entrez votre nouveau mot de passe',
                 'attr' => [
                     'placeholder' => '**************',
+                    'class' => 'password',
                 ],
                 'constraints' => [
                     new Regex('/^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{14,}$/', 'Votre mot de passe doit contenir au minimum 14 caractères avec une 1 majuscule, 1 minuscule, 1 chiffre et 1 caractère spécial '),

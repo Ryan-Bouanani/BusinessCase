@@ -51,10 +51,10 @@ class BasketRepository extends AbstractRepository
             ->setParameter('id', $id)
             ->getQuery()
             ->getResult();
-            ;
+        ;
     }
 
-    public function findLastBasketWithCustomer(int $id, $limit = null): array|null
+    public function findLastOrderWithCustomer(int $id, $limit = null): array|null
     {
         $oldBasket = $this->createQueryBuilder('basket')
             ->select('basket')

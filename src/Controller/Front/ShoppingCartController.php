@@ -151,7 +151,9 @@ class ShoppingCartController extends AbstractController
         // Si l'utilisateur à deja une adresse, on crée un form de modification
         // Sinon on Créer du formulaire d'ajout d'adresse
         $address = $user->getAddress() ?? New Address;
-        $formAddress = $this->createForm(AddressType::class, $address);
+        $formAddress = $this->createForm(AddressType::class, $address, [
+            'customer' => $user,
+        ]);
 
         // On récupère le dernier panier de l'utilisateur
         $order = $basketRepository->findBasketWithCustomer($user->getId());
@@ -242,7 +244,7 @@ class ShoppingCartController extends AbstractController
 
         // Si l'utilisateur n'a pas d'adresse on le redirige vers la page d’ajout( d'adresse)
         if ($user->getAddress() === NULL) {
-            return $this->redirectToRoute('app_address', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('checkout_address', [], Response::HTTP_SEE_OTHER);
         }
 
         // Creation du formulaire de moyen de paiement
@@ -301,7 +303,7 @@ class ShoppingCartController extends AbstractController
 
         return $this->renderForm('front/shoppingCart/resume.html.twig', [
             'order' => $order[0],
-            // On récupere et envoie notre panier 
+            // On récupère et envoie notre panier 
             'items' => $shoppingCartService->getFullCart(),
             // On calcul le montant du panier
             'total' => $shoppingCartService->getTotal(),
@@ -429,9 +431,13 @@ class ShoppingCartController extends AbstractController
         ShoppingCartService $shoppingCartService,
         StatusRepository $statusRepository,
         Request $request,  
-        PaymentOperationService $paymentOperationService  
+        PaymentOperationService $paymentOperationService,
+        SessionInterface $session,
         ) : Response
     {
+        $basket = $session->get('basket', []);
+        $shoppingCart = $session->get('shoppingCart', []);
+        // dd($basket, $shoppingCart);
         // Si pas d'utilisateur, on redirige vers l'accueil
         /** @var Customer $user*/
         $user = $this->getUser();

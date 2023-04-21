@@ -9,40 +9,44 @@ const openMenuIcon = document.querySelector('.top-nav .search-menu-mobile .menu'
 const closeMenuIcon = document.querySelector('.bottom-nav .top-nav-mobile .close');
 const navbar = document.querySelector('header .bottom-nav');
 
-openMenuIcon.addEventListener('click', () => {
+openMenuIcon?.addEventListener('click', () => {
     navbar.classList.add('open');
     navbar.classList.remove('close');
 });
-closeMenuIcon.addEventListener('click', () => {
+closeMenuIcon?.addEventListener('click', () => {
     navbar.classList.remove('open');
     navbar.classList.add('close');
 });
-
+// 💡 🔨 Update 
 // PASSWORD
-const eye = document.getElementById('btn-eye') as HTMLButtonElement;
-if (eye) {
-    eye.addEventListener('click', function() {
-        let input = document.querySelector('.input-container input[name="password"]') as HTMLInputElement;
-        
-        let icon = this.firstChild as HTMLElement;
-        if (input.type === 'password') {
-            input.type = 'text';
-            icon.classList.replace('fa-eye-slash', 'fa-eye');
-        } else {
-            input.type = 'password';
-            icon.classList.replace('fa-eye', 'fa-eye-slash');
-        }
-    });
+const eyes = document.querySelectorAll('#btn-eye');
+
+function togglePassword() {
+    eyes?.forEach((eye) => {
+        eye.addEventListener('click', function() {
+            let input = this.closest('.input-container')?.querySelector('input.password') as HTMLInputElement;
+                let icon = this.firstChild as HTMLElement;
+                if ( input.type === 'password') {
+                     input.type = 'text';
+                    icon.classList.replace('fa-eye-slash', 'fa-eye');
+                } else {
+                     input.type = 'password';
+                    icon.classList.replace('fa-eye', 'fa-eye-slash');
+                }
+        });
+    })
+}
+if (eyes) {
+    togglePassword();
 }
 
-
 // * carrousel products
-let cardContainers = [...document.querySelectorAll('.carrousel')];
-let preBtn = [...document.querySelectorAll('.arrow_left')];
-let nxtBtn = [...document.querySelectorAll('.arrow_right')];
+let cardContainers = [...document.querySelectorAll<HTMLElement>('.carrousel')];
+let preBtn = [...document.querySelectorAll<HTMLElement>('.arrow_left')];
+let nxtBtn = [...document.querySelectorAll<HTMLElement>('.arrow_right')];
 
 cardContainers.forEach((item, i) => {
-    // on récuper la width de notre container carrousel
+    // on récupère la width de notre container carrousel
     let containerDimensions = item.getBoundingClientRect();
     let containerWidth = containerDimensions.width;
 
@@ -73,10 +77,10 @@ linkCategory.forEach((icon, i) => {
 
 
 // * Carrousel testimonials
-const reviewsContainer = document.querySelector('.testimonials-slider');
-const reviewsItems = [...document.querySelectorAll('.testimonial-item')];
-let arrowLeft = document.querySelector('.testimonials-slider .arrow_left');
-let arrowRight = document.querySelector('.testimonials-slider .arrow_right');
+const reviewsContainer = document.querySelector<HTMLElement>('.testimonials-slider');
+const reviewsItems = [...document.querySelectorAll<HTMLElement>('.testimonial-item')];
+let arrowLeft = document.querySelector<HTMLElement>('.testimonials-slider .arrow_left');
+let arrowRight = document.querySelector<HTMLElement>('.testimonials-slider .arrow_right');
 const testimonialControls = [arrowLeft, arrowRight];
 let slideIndex = 2;
 
