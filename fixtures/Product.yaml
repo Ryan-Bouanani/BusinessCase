@@ -1,7 +1,1557 @@
 App\Entity\Product:
-  product{0..700}:
+  product0:
+    name: 'Croquettes pour chiens adultes de petite race - Royal Canin Mini Adult'
+    description: "Croquettes complètes et équilibrées pour chiens adultes de petite race (jusqu’à 10 kg) à partir de 10 mois."
+    priceExclVat: 19.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand0'
+    category: '@category7'
+
+  product1:
+    name: 'Pâté pour chien - Yarrah Bio'
+    description: "Pâté pour chien bio et sans gluten."
+    priceExclVat: 2.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand5'
+    category: '@category7'
+  
+  product2:
+    name: 'Croquettes pour chien adulte - Taste of the Wild Pacific Stream'
+    description: "Croquettes pour chien adulte de toutes races, sans céréales et à base de poisson, avec des fruits et légumes pour une alimentation équilibrée et savoureuse. Les ingrédients de qualité supérieure assurent une digestion optimale et une bonne santé."
+    priceExclVat: 54.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand1'
+    category: '@category7'
+
+  product3:
+    name: 'Croquettes pour chiens adultes de moyenne race - Royal Canin Medium Adult'
+    description: "Croquettes pour chiens adultes de moyenne race (de 11 à 25 kg) à partir de 12 mois."
+    priceExclVat: 24.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand0'
+    category: '@category7'
+
+  product4:
+    name: 'Croquettes pour chiens adultes de grande race - Royal Canin Maxi Adult'
+    description: "Croquettes pour chiens adultes de grande race (de 26 à 44 kg) à partir de 15 mois."
+    priceExclVat: 35.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand0'
+    category: '@category7'
+
+  product5:
+    name: 'Croquettes pour chiens adultes de race géante - Royal Canin Giant Adult'
+    description: "Croquettes pour chiens adultes de race géante (à partir de 45 kg) à partir de 18/24 mois."
+    priceExclVat: 44.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand0'
+    category: '@category7'
+
+  product6:
+    name: "Croquettes pour chien Royal Canin Maxi Adult 15 kg"
+    description: "Ces croquettes de qualité supérieure pour chien adulte de grande race sont élaborées avec des ingrédients soigneusement sélectionnés pour répondre aux besoins nutritionnels de votre compagnon. Elles sont riches en protéines, vitamines et minéraux essentiels pour une bonne santé et une digestion optimale."
+    priceExclVat: 39.99
+    active:  '<boolean(90)>'
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: '<randomFloat(2, 0, 20)>'
+    brand: '@brand0'
+    promotion: '50%? @promotion*'
+    category: "@category7"
+
+  product7:
+    name: 'Croquettes pour chien Royal Canin Mini Adult'
+    description: "Croquettes pour chiens adultes de race mini (<10 kg) âgés de 10 mois à 8 ans, favorisant une peau et un pelage sains, une bonne digestion et des selles régulières, avec des nutriments spécialement adaptés."
+    priceExclVat: 20.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand0'
+    promotion: '70%? @promotion*'
+    category: '@category7'
+
+  product8:
+    name: 'Collier anti-aboiement pour chien - Animalis'
+    description: "Collier anti-aboiement pour chien avec 10 niveaux de stimulation électrostatique et fonction de vibration."
+    priceExclVat: 44.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand8'
+    category: '@category8'
+
+  product9:
+    name: 'Harnais pour chien - Julius-K9 IDC'
+    description: "Harnais Julius-K9 IDC pour chien. Fabriqué en Europe, ce harnais pour chien est conçu pour résister à une utilisation intensive. Sa conception ergonomique assure une bonne répartition de la pression sur la poitrine de l'animal. Le harnais Julius-K9 IDC est équipé d'une poignée qui permet de soulever facilement le chien, ainsi que d'un système de fixation rapide et facile. Il est également équipé d'un élément réfléchissant pour une meilleure visibilité la nuit."
+    priceExclVat: 29.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand1'
+    category: '@category8'
+
+  product10:
+    name: 'Laisse en cuir pour chien - Purina'
+    description: "Laisse en cuir pour chien de la marque Purina. Cette laisse solide et résistante est fabriquée avec des matériaux de qualité pour une utilisation quotidienne. Elle est équipée d'un mousqueton en métal pour une attache facile et sécurisée."
+    priceExclVat: 18.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand6'
+    category: '@category8'
+
+  product11:
+    name: 'Collier en cuir pour chien - Purina'
+    description: "Collier en cuir de qualité supérieure pour chien, fabriqué à la main avec une boucle en métal robuste et une garniture en cuir doux pour un confort optimal. Disponible en différentes tailles pour s'adapter à tous les chiens."
+    priceExclVat: 25.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand6'
+    category: '@category8'
+
+  product12:
+    name: 'Gamelle en céramique - Animalis'
+    description: "Cette gamelle en céramique d’Animalis est idéale pour offrir à votre chien ou chat une alimentation confortable et saine. Sa surface lisse et facile à nettoyer assure une hygiène optimale pour votre animal. La gamelle est disponible en plusieurs tailles pour s’adapter aux besoins de votre animal. Le design simple et élégant de la gamelle s’intégrera parfaitement dans votre intérieur."
+    priceExclVat: 8.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand8'
+    category: '@category8'
+
+  product13:
+    name: 'Collier pour chien en cuir - Pedigree'
+    description: "Ce collier en cuir de Pedigree est à la fois résistant et élégant. Il est fabriqué à partir de matériaux de haute qualité pour offrir à votre chien un confort optimal. Disponible en plusieurs tailles et couleurs, ce collier conviendra à toutes les races de chiens. La boucle métallique du collier assure une fermeture sécurisée et facile. Offrez à votre chien un collier à la fois pratique et esthétique avec Pedigree."
+    priceExclVat: 14.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand3'
+    category: '@category8'
+
+  product14:
+    name: 'Tapis rafraîchissant pour chien - Animalis'
+    description: "Ce tapis rafraîchissant pour chien d’Animalis est idéal pour garder votre chien au frais lors des chaudes journées d’été. Il suffit de le mouiller avec de l’eau froide et il restera frais pendant des heures. Le tapis est facile à nettoyer et peut être utilisé à l’intérieur comme à l’extérieur."
+    priceExclVat: 25.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand8'
+    category: '@category8'
+
+  product15:
+    name: 'Jouet pour chien - Kong'
+    description: "Jouet en caoutchouc naturel pour chien, résistant et durable, idéal pour les mâcheurs et les chiens qui aiment jouer. Le Kong peut être rempli de friandises pour stimuler l'intérêt de votre chien et prolonger le plaisir."
+    priceExclVat: 9.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand7'
+    category: '@category9'
+
+  product16:
+    name: 'Balle de jeu pour chien'
+    description: "Balle solide et durable pour les chiens, idéale pour les jeux de lancer et rapporter."
+    priceExclVat: 7.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand11'
+    category: '@category9'
+
+  product17:
+    name: 'Jouet en peluche pour chien - Vitakraft'
+    description: "Ce jouet en peluche pour chien de Vitakraft est parfait pour les chiens qui aiment mordiller et jouer. La peluche est douce et facile à attraper pour les chiens de toutes tailles. Elle est également lavable en machine pour une utilisation prolongée."
+    priceExclVat: 6.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand2'
+    category: '@category9'
+
+  product18:
+    name: 'Jouet pour chien - Kong Classic'
+    description: "Jouet pour chien de la marque Kong. Le Kong Classic est un jouet résistant et ludique pour les chiens de tous âges et toutes tailles. Il peut être rempli de friandises ou de pâte à tartiner pour occuper votre chien pendant des heures."
+    priceExclVat: 10.49
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand7'
+    category: '@category9'
+
+  product19:
+    name: 'Shampooing pour chien - Douxo Calm'
+    description: "Shampooing pour chien pour peaux sensibles et irritées."
+    priceExclVat: 15.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand2'
+    category: '@category10'
+
+  product20:
+    name: 'Shampooing sec pour chien - Beaphar'
+    description: "Shampooing sec pour chien qui nettoie et désodorise rapidement le pelage sans eau."
+    priceExclVat: 8.50
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand2'
+    category: '@category10'
+
+  product21:
+    name: "Shampoing pour chien - Hill's"
+    description: "Ce shampoing pour chien de Hill's est formulé pour nettoyer en douceur le pelage de votre animal de compagnie. Il est adapté aux chiens de toutes races et de toutes tailles, et est idéal pour une utilisation fréquente. Le shampoing est sans parfum et ne contient pas de colorants."
+    priceExclVat: 11.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand9'
+    category: '@category10'
+
+  product22:
+    name: 'Shampooing pour chien - Beaphar'
+    description: "Shampooing pour chien de la marque Beaphar. Ce shampooing doux et parfumé nettoie en profondeur le pelage de votre chien tout en respectant sa peau sensible. Il est enrichi en vitamines et en huile d'avocat pour une peau saine et un poil brillant."
+    priceExclVat: 9.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand8'
+    category: '@category10'
+
+  product23:
+    name: 'Shampoing pour chien - Héry'
+    description: "Shampoing doux pour chien, à base d'huile d'avocat et d'aloe vera pour une peau saine et un pelage doux et brillant. Formule hypoallergénique adaptée à tous les types de peau, y compris les peaux sensibles."
+    priceExclVat: 12.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand8'
+    category: '@category10'
+
+  product24:
+    name: 'Friandises pour chiens - Vitakraft Beef-Sticks'
+    description: "Friandises pour chiens à base de viande de bœuf, sans colorants ni arômes artificiels."
+    priceExclVat: 2.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand2'
+    category: '@category11'
+
+  product25:
+    name: 'Biscuits pour chien - Yarrah'
+    description: "Biscuits pour chien biologiques et sans céréales, à base de poulet et de poisson pour une alimentation saine et équilibrée. Les ingrédients de qualité supérieure sont soigneusement sélectionnés pour une digestion optimale et une bonne santé."
+    priceExclVat: 4.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand5'
+    category: '@category11'
+
+  product26:
+    name: 'Os à mâcher pour chien - Pedigree Dentastix'
+    description: "Friandise pour chien favorisant l'hygiène bucco-dentaire, réduisant la formation de tartre et rafraîchissant l'haleine."
+    priceExclVat: 3.49
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand3'
+    category: '@category11'
+
+  product27:
+    name: 'Os à mâcher pour chien - Vitakraft'
+    description: "Offrez à votre chien une récompense saine et savoureuse avec les os à mâcher de Vitakraft. Faits à partir d’ingrédients naturels, ces os contribuent à renforcer la dentition et à prévenir l’accumulation de plaque dentaire. Disponibles en plusieurs saveurs, ils sauront satisfaire les goûts de votre chien. Les os à mâcher de Vitakraft sont également faciles à digérer et conviennent donc parfaitement aux estomacs sensibles."
+    priceExclVat: 3.49
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand2'
+    category: '@category11'
+
+  product28:
+    name: 'Os à mâcher pour chien - Almo Nature'
+    description: "Cet os à mâcher pour chien d'Almo Nature est fabriqué à partir de matières premières naturelles et est idéal pour les chiens qui aiment mâcher. L'os est riche en calcium et en phosphore pour des os et des dents forts, et est également faible en gras pour une alimentation saine."
+    priceExclVat: 3.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand7'
+    category: '@category11'
+
+  product29:
+    name: 'Friandises pour chien - Vitakraft Beef-Stick®'
+    description: "Délicieux bâtonnets à mâcher pour chien, fabriqués à partir de viande de bœuf frais, riches en protéines et faibles en matières grasses. Idéals pour les récompenses et les encouragements lors de l’éducation ou des séances d’entraînement. Les Beef-Stick® sont très appréciés des chiens grâce à leur goût intense et leur texture tendre."
+    priceExclVat: 2.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand2'
+    category: '@category11'
+
+  product30:
+    name: 'Friandises pour chien - Pedigree Rodeo'
+    description: "Friandises pour chien de la marque Pedigree. Les Rodeo sont des friandises savoureuses en forme de bâtonnets à mâcher pour les chiens de toutes tailles. Elles sont riches en protéines et faibles en matières grasses pour une alimentation équilibrée."
+    priceExclVat: 3.49
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand3'
+    category: '@category11'
+
+  product31:
+    name: 'Spray antiparasitaire pour chien - Frontline'
+    description: "Spray antiparasitaire pour chien."
+    priceExclVat: 24.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand6'
+    category: '@category12'
+
+  product32:
+    name: 'Collier anti-puces et anti-tiques - Seresto Bayer'
+    description: "Collier antiparasitaire Seresto pour chien, efficace contre les puces et les tiques pendant 8 mois. Résistant à l'eau et aux bains, il est également équipé d'un mécanisme de sécurité qui permet de le desserrer ou de le retirer si le chien s'accroche quelque part. Le collier Seresto convient à tous les types de chiens, y compris les chiots à partir de 7 semaines."
+    priceExclVat: 23.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand6'
+    category: '@category12'
+
+  product33:
+    name: 'Pâtée pour chat Whiskas Sélection Mixte en sauce'
+    description: "Pâtée pour chat adulte, avec une sélection de viandes et de poissons en sauce pour un repas savoureux et nutritif, avec des vitamines, des minéraux et des antioxydants pour renforcer la santé et le bien-être de votre chat."
+    priceExclVat: 1.29
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand4'
+    promotion: null
+    category: '@category13' 
+
+  product34:
+    name: 'Aliment humide pour chat Yarrah Bio au Poulet 405 g'
+    description: "Cet aliment humide pour chat est fabriqué à partir d’ingrédients biologiques de haute qualité. Il contient 100% de viande de poulet biologique, sans céréales ni sucres ajoutés."
+    priceExclVat: 2.49
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand5'
+    promotion: null
+    category: '@category13'
+
+  product35:
+    name: 'Croquettes pour chats adultes stérilisés - Purina One Sterilcat'
+    description: "Croquettes pour chats adultes stérilisés, riches en protéines et en fibres pour maintenir leur poids de forme."
+    priceExclVat: 8.69
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand6'
+    category: '@category13'
+
+  product36:
+    name: 'Croquettes pour chaton - Purina One Junior'
+    description: "Croquettes complètes et équilibrées pour chaton."
+    priceExclVat: 12.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand7'
+    category: '@category13'
+
+  product37:
+    name: 'Aliment complet pour chat - Whiskas Sachets Fraîcheur Sélection Mixte'
+    description: "Sachets fraîcheur pour chat contenant des bouchées en sauce pour une alimentation complète et équilibrée."
+    priceExclVat: 4.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand4'
+    category: '@category13'
+
+  product38:
+    name: 'Croquettes pour chaton - Royal Canin Kitten'
+    description: "Croquettes complètes et équilibrées pour chaton de 4 à 12 mois, favorisant la croissance et le développement."
+    priceExclVat: 24.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand0'
+    category: '@category13'
+
+  product39:
+    name: 'Pack de 4 filets de poulet pour chat - Yarrah'
+    description: "Pack de 4 filets de poulet biologique pour chat, pour une alimentation saine et équilibrée."
+    priceExclVat: 4.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand5'
+    category: '@category13'
+
+  product40:
+    name: 'Croquettes pour chat stérilisé - Purina One Sterilcat'
+    description: "Croquettes pour chat adulte stérilisé, riches en protéines et en fibres pour maintenir un poids optimal et une bonne santé urinaire."
+    priceExclVat: 22.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand6'
+    category: '@category13'
+
+  product41:
+    name: 'Croquettes pour chat stérilisé - Royal Canin'
+    description: "Croquettes pour chat stérilisé de la marque Royal Canin. Ces croquettes ont été spécialement formulées pour répondre aux besoins nutritionnels des chats stérilisés. Elles contiennent une combinaison de nutriments adaptée pour maintenir un poids de forme et favoriser la santé urinaire des chats stérilisés. Les croquettes pour chat stérilisé de Royal Canin sont disponibles en plusieurs formats pour s'adapter à tous les besoins."
+    priceExclVat: 15.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand4'
+    category: '@category13'
+
+  product42:
+    name: 'Jouet pour chat - Souris en peluche'
+    description: "Jouet en forme de souris en peluche avec herbe à chat à l'intérieur pour stimuler l'instinct de chasse de votre chat."
+    priceExclVat: 2.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand9'
+    category: '@category14'
+  
+  product43:
+    name: "Distributeur automatique de croquettes pour chat - PetSafe"
+    description: "Distributeur automatique de nourriture pour chat PetSafe. Permet de programmer les repas de votre chat jusqu'à 12 heures à l'avance. Facile à utiliser et à nettoyer, il convient parfaitement aux propriétaires de chats occupés."
+    priceExclVat: 49.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand7'
+    category: '@category14'
+
+  product44:
+    name: 'Arbre à chat - Zolux'
+    description: "Arbre à chat Zolux. Composé de plusieurs plateformes, d'un tunnel, d'un hamac et d'un grattoir, il offre à votre chat un espace de jeu et de repos confortable. Il s'intègre facilement dans votre intérieur grâce à son design élégant."
+    priceExclVat: 79.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand8'
+    category: '@category14'
+
+  product45:
+    name: 'Litière pour chat Vitakraft Hygiène Plus'
+    description: "Litière minérale pour chats, neutralise les odeurs, haut pouvoir absorbant, grains fins qui ne collent pas aux pattes de votre chat."
+    priceExclVat: 7.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand2'
+    category: '@category15'
+
+  product46:
+    name: 'Litière pour chat - Catsan Hygiène Plus'
+    description: "Litière minérale pour chat, ultra-absorbante et agglomérante pour une hygiène optimale."
+    priceExclVat: 9.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand5'
+    category: '@category15'
+
+  product47:
+    name: 'Litière silice pour chat - Vitakraft Magic Clean'
+    description: "Litière pour chat à base de silice Magic Clean de Vitakraft. Absorption rapide et efficace des odeurs pour une maison plus fraîche. La litière agglomérante pour chat Magic Clean est 4 fois plus absorbante que la litière agglomérante traditionnelle. Elle neutralise les odeurs de manière fiable grâce à ses perles de silice actives et assure ainsi une fraîcheur durable de la litière."
+    priceExclVat: 7.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand2'
+    category: '@category15'
+
+  product48:
+    name: 'Litière pour chat - Yarrah'
+    description: "La litière pour chat de Yarrah est faite à partir de matériaux naturels et biodégradables. Elle est efficace pour absorber les odeurs et facile à nettoyer. La litière est disponible en plusieurs formats et peut être utilisée pour tous types de chats. Elle est respectueuse de l’environnement et ne contient pas de substances toxiques pour votre chat ou pour la planète. Choisissez une litière de qualité supérieure pour votre chat avec Yarrah."
+    priceExclVat: 7.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand5'
+    category: '@category15'
+
+
+  product49:
+    name: 'Advantage 80mg - Antiparasitaire pour chat'
+    description: "Advantage 80mg est un traitement antiparasitaire pour chat efficace contre les puces. Il permet également de prévenir la multiplication des puces en réduisant leur durée de vie."
+    priceExclVat: 14.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand7'
+    category: '@category16'
+
+  product50:
+    name: 'Collier antiparasitaire pour chat Seresto'
+    description: "Le collier antiparasitaire Seresto protège votre chat contre les puces et les tiques pendant 7 à 8 mois. Il est résistant à l'eau et peut être porté en permanence."
+    priceExclVat: 24.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand1'
+    category: '@category16'
+
+  product51:
+    name: 'Advocate - Antiparasitaire pour chat'
+    description: "Advocate est un antiparasitaire pour chat qui permet de lutter efficacement contre les puces, les tiques, les vers et les acariens. Il peut être utilisé pour traiter les chats atteints de gale auriculaire."
+    priceExclVat: 18.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand9'
+    category: '@category16'
+
+  product52:
+    name: 'Pipettes antiparasitaires Frontline Combo pour chat'
+    description: "Les pipettes antiparasitaires Frontline Combo pour chat sont efficaces contre les puces, les tiques et les poux broyeurs. Elles contiennent également un régulateur de croissance des insectes qui empêche les larves de se développer."
+    priceExclVat: 22.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand3'
+    category: '@category16'
+
+  product53:
+    name: 'Aliment pour rongeur Vitakraft Emotion Sensitive'
+    description: "Aliment complet pour rongeurs, sans céréales ni sucre ajouté, à base de plantes et d'herbes aromatiques, convient aux animaux sensibles."
+    priceExclVat: 5.49
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand2'
+    category: '@category17'
+
+  product54:
+    name: 'Jouet à suspendre en bois pour rongeur - Animalis'
+    description: "Ce jouet en bois Animalis pour rongeur est parfait pour stimuler l’instinct naturel de votre rongeur à mordre et grignoter. Accrochez-le facilement dans la cage de votre rongeur pour lui offrir une activité ludique."
+    priceExclVat: 4.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand8'
+    category: '@category18'
+
+  product55:
+    name: 'Tunnel en tissu pour rongeur - Yarrah'
+    description: "Ce tunnel en tissu pour rongeur Yarrah est l’accessoire idéal pour divertir votre rongeur. Il peut le traverser, le mordiller et même y faire une petite sieste. Le tunnel est fabriqué avec des matériaux de qualité pour une utilisation à long terme."
+    priceExclVat: 8.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand5'
+    category: '@category18'
+
+  product56:
+    name: 'Biberon pour rongeur - Exo Terra'
+    description: "Ce biberon Exo Terra pour rongeur est parfait pour fournir de l’eau fraîche et propre à votre rongeur en tout temps. Il est facile à installer et peut contenir jusqu’à 500 ml d’eau."
+    priceExclVat: 6.49
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand14'
+    category: '@category18'
+
+  product57:
+    name: 'Labyrinthe pour rongeur - Lucky Reptile'
+    description: "Ce labyrinthe pour rongeur Lucky Reptile offre à votre animal de compagnie un espace ludique pour se dépenser. Il est facile à assembler et permettra à votre rongeur de s’amuser et de se dépenser en toute sécurité."
+    priceExclVat: 12.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand12'
+    category: '@category18'
+
+  product58:
+    name: 'Maison en bois pour rongeur - Versele Laga'
+    description: "Cette maison en bois pour rongeur Versele Laga est idéale pour offrir un refuge confortable et sécurisé à votre rongeur. Elle est fabriquée avec des matériaux de qualité pour une utilisation à long terme."
+    priceExclVat: 19.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand13'
+    category: '@category18'
+
+  product59:
+    name: 'Friandises pour rongeur Vitakraft Vitasmart aux légumes 50 g'
+    description: "Ces friandises pour rongeur sont riches en légumes et en vitamines essentielles pour la santé des petits animaux de compagnie. Elles sont également adaptées aux lapins nains."
+    priceExclVat: 1.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand2'
+    promotion: '20%? @promotion1'
+    category: '@category19'
+
+  product60:
+    name: 'JR Farm Biscuits Herbes - Pour lapins et rongeurs'
+    description: "Délicieux biscuits aux herbes pour lapins et rongeurs de chez JR Farm, fabriqués à partir d’ingrédients naturels de qualité supérieure. Les biscuits sont cuits lentement pour préserver les nutriments et le goût. Ils sont riches en fibres et favorisent ainsi la digestion. Votre animal de compagnie va adorer ces friandises saines et naturelles !"
+    priceExclVat: 4.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 10
+    brand: '@brand15'
+    category: '@category19'
+
+  product61:
+    name: 'Bâtonnets de carotte JR Farm - Pour lapins et rongeurs'
+    description: "Délicieux bâtonnets de carotte pour lapins et rongeurs de chez JR Farm, fabriqués à partir d’ingrédients naturels de qualité supérieure. Les bâtonnets sont riches en vitamines et en fibres, et ne contiennent ni sucre ni conservateur artificiel. Votre animal de compagnie va adorer ces friandises saines et naturelles !"
+    priceExclVat: 3.49
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 10
+    brand: '@brand12'
+    category: '@category19'
+
+  product62:
+    name: 'Barres de céréales aux baies - Pour hamsters et souris'
+    description: "Délicieuses barres de céréales aux baies pour hamsters et souris de chez Vitakraft, fabriquées à partir d’ingrédients naturels de qualité supérieure. Les barres sont riches en vitamines et en minéraux, et ne contiennent ni sucre ni conservateur artificiel. Votre animal de compagnie va adorer ces friandises saines et naturelles !"
+    priceExclVat: 2.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand2'
+    category: '@category19'
+
+  product63:
+    name: 'Cage à lapin Zolia Cottage avec enclos'
+    description: "Offrez une maison confortable et sûre à votre petit compagnon avec la cage Zolia Cottage. Cette cage avec enclos est parfaite pour les lapins et autres rongeurs de petite taille. Elle est équipée d'une grande porte frontale, d'une petite porte latérale, ainsi que d'un enclos pour que votre animal puisse se dépenser en toute sécurité."
+    priceExclVat: 129.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand8'
+    category: '@category20'
+
+  product64:
+    name: 'Clapier à lapin Zolia Sunny'
+    description: "Le clapier à lapin Zolia Sunny est une véritable petite maison pour votre animal de compagnie. Il est équipé de deux étages, d'une grande porte d'accès ainsi que d'un toit ouvrant pour un accès facile à l'intérieur. Le clapier est facile à nettoyer et dispose de toutes les fonctionnalités nécessaires pour assurer le confort et la sécurité de votre lapin."
+    priceExclVat: 99.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand8'
+    category: '@category20'
+
+  product65:
+    name: 'Cage pour hamster Zolia Ziggy'
+    description: "La cage pour hamster Zolia Ziggy est une cage spacieuse et confortable pour votre petit compagnon. Elle est équipée de tunnels, d'une roue d'exercice, d'un étage, ainsi que d'un abreuvoir et d'un bol pour la nourriture. La cage est facile à nettoyer et dispose d'une grande porte pour un accès facile."
+    priceExclVat: 59.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand8'
+    category: '@category20'
+
+  product66:
+    name: 'Clapier à lapin Ferplast Rabbit 120'
+    description: "Le clapier à lapin Ferplast Rabbit 120 est un clapier de haute qualité pour votre lapin ou autre petit rongeur. Il est équipé d'un espace intérieur spacieux, d'un étage, d'une grande porte frontale et de deux portes latérales. Le clapier est facile à nettoyer et dispose de toutes les fonctionnalités nécessaires pour assurer le confort et la sécurité de votre animal de compagnie."
+    priceExclVat: 159.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand13'
+    category: '@category20'
+
+  product67:
+    name: 'Litière végétale pour rongeur - Vitakraft Magic Clean'
+    description: "Litière pour rongeur à base de fibres végétales Magic Clean de Vitakraft. Cette litière ultra absorbante neutralise les odeurs et maintient une maison fraîche plus longtemps. Elle est également biodégradable et respectueuse de l'environnement. La litière végétale Magic Clean est facile à nettoyer et est idéale pour les rongeurs sensibles."
+    priceExclVat: 8.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand2'
+    category: '@category21'
+
+  product68:
+    name: 'Litière pour rongeur - Chipsi Super'
+    description: "Litière pour rongeur Chipsi Super à base de granulés de bois. Elle est très absorbante et garantit une hygiène parfaite pour votre petit animal. La litière Chipsi Super est faite à partir de matières premières 100% naturelles, elle est biodégradable et respectueuse de l'environnement."
+    priceExclVat: 6.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand13'
+    category: '@category21'
+
+  product69:
+    name: 'Litière pour rongeur - Versele-Laga Nature'
+    description: "Litière pour rongeur Versele-Laga Nature à base de granulés de cellulose. Cette litière assure une absorption rapide et efficace des odeurs pour une maison plus fraîche. Elle est sans poussière et respectueuse de l'environnement. La litière Versele-Laga Nature est idéale pour les petits animaux comme les lapins, les cochons d’Inde et les hamsters."
+    priceExclVat: 5.49
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand14'
+    category: '@category21'
+
+  product70:
+    name: 'Litière pour rongeur - Trixie'
+    description: "Litière pour rongeur Trixie à base de copeaux de bois non traité. Cette litière est très absorbante et garantit une hygiène parfaite pour votre petit animal. Elle est sans poussière et respectueuse de l'environnement. La litière Trixie convient à tous les types de rongeurs comme les hamsters, les souris, les rats et les gerbilles."
+    priceExclVat: 4.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand15'
+    category: '@category21'
+
+  product71:
+    name: 'Complément alimentaire pour reptiles - Exo Terra Calcium + Vitamine D3'
+    description: "Complément alimentaire pour reptiles contenant du calcium et de la vitamine D3 pour renforcer les os et prévenir les carences."
+    priceExclVat: 8.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand14'
+    category: '@category22'
+
+  product72:
+    name: 'Granulés pour tortue - Exo Terra'
+    description: "Ces granulés pour tortue Exo Terra contiennent des ingrédients de qualité supérieure et fournissent une alimentation équilibrée pour les tortues aquatiques. Les granulés flottent sur l’eau, ce qui permet une alimentation facile et une observation optimale de la tortue pendant le repas."
+    priceExclVat: 9.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 10
+    brand: '@brand14'
+    category: '@category22'
+
+  product73:
+    name: 'Nourriture pour reptile - Lucky Reptile'
+    description: "La nourriture pour reptile Lucky Reptile est un aliment de base en granulés pour tous les reptiles herbivores, tels que les tortues, les iguanes et les lézards. Elle contient des protéines végétales de haute qualité et est enrichie en vitamines et minéraux pour une alimentation équilibrée."
+    priceExclVat: 12.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 10
+    brand: '@brand12'
+    category: '@category22'
+
+  product74:
+    name: 'Nourriture pour lézard - Exo Terra'
+    description: "La nourriture pour lézard Exo Terra est une alimentation complète en granulés pour les lézards omnivores, tels que les agames barbus, les pogonas et les caméléons. Elle contient une variété d'ingrédients naturels, y compris des insectes, pour une alimentation équilibrée et délicieuse."
+    priceExclVat: 11.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 10
+    brand: '@brand14'
+    category: '@category22'
+    
+  product75:
+    name: 'Insectes séchés pour reptiles - Exo Terra'
+    description: "Les insectes séchés pour reptiles Exo Terra sont une source de protéines et de nutriments pour les reptiles insectivores, tels que les caméléons, les geckos et les iguanes. Ils sont faciles à digérer et peuvent être utilisés comme alimentation principale ou comme supplément pour enrichir l'alimentation des reptiles."
+    priceExclVat: 8.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 10
+    brand: '@brand14'
+    category: '@category22'
+
+  product76:
+    name: 'Granulés pour iguane - Exo Terra'
+    description: "Les granulés pour iguane Exo Terra sont une alimentation complète pour les iguanes adultes, riches en fibres et en nutriments pour une alimentation saine et équilibrée. Les granulés flottent sur l’eau, ce qui permet une alimentation facile et une observation optimale de l'iguane pendant le repas."
+    priceExclVat: 6.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 10
+    brand: '@brand14'
+    category: '@category22'
+
+  product77:
+    name: 'Grotte en résine pour reptile - Exo Terra'
+    description: "La grotte en résine Exo Terra offre un espace de repos et de cachette pour votre reptile. Elle permet à votre animal de se sentir en sécurité et de réduire le stress."
+    priceExclVat: 19.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand14'
+    category: '@category23'
+    
+  product78:
+    name: 'Lampe chauffante pour terrarium - Reptiles Planet'
+    description: "Lampe chauffante pour terrarium de Reptiles Planet pour reptiles et amphibiens. Cette lampe procure une chaleur et une lumière infrarouge qui est nécessaire pour le bien-être de vos animaux de compagnie. La lampe a une durée de vie de 3000 heures."
+    priceExclVat: 12.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand15'
+    category: '@category23'
+    
+  product79:
+    name: 'Gamelle en céramique pour reptile - Exo Terra'
+    description: "Gamelle en céramique pour reptile de la marque Exo Terra, idéale pour nourrir vos reptiles en toute sécurité. La céramique est un matériau durable, résistant à l'eau et facile à nettoyer."
+    priceExclVat: 5.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand14'
+    category: '@category23'
+    
+  product80:
+    name: 'Thermomètre pour terrarium - Zoo Med'
+    description: "Thermomètre pour terrarium de la marque Zoo Med pour surveiller la température de votre terrarium. Le thermomètre est facile à lire et à installer, il est également précis et fiable."
+    priceExclVat: 9.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand15'
+    category: '@category23'
+    
+  product81:
+    name: 'Bac à eau pour reptile - Exo Terra'
+    description: "Bac à eau pour reptile de la marque Exo Terra, idéal pour assurer l'hydratation de vos reptiles. Le bac est facile à nettoyer et à remplir, il peut contenir jusqu'à 300 ml d'eau."
+    priceExclVat: 7.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand14'
+    category: '@category23'
+
+  product82:
+    name: 'Lampe UVB pour reptiles - Exo Terra'
+    description: "Lampe UVB de la marque Exo Terra pour reptiles. Cette lampe fournit les rayons UVB nécessaires pour une croissance optimale des os et prévient les maladies métaboliques osseuses chez les reptiles."
+    priceExclVat: 19.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand14'
+    category: '@category24'
+
+  product83:
+    name: 'Ampoule chauffante pour reptiles - Exo Terra'
+    description: "L'ampoule chauffante Exo Terra procure la chaleur essentielle à la thermorégulation des reptiles. Elle émet des rayons infrarouges qui pénètrent la peau de l'animal et favorisent la digestion et le bien-être. Elle peut être utilisée avec un thermostat pour une régulation précise de la température. Disponible en plusieurs puissances."
+    priceExclVat: 14.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand14'
+    category: '@category24'
+
+  product84:
+    name: 'Néon T8 UVB pour reptiles - Zoo Med'
+    description: "Le néon T8 UVB Zoo Med est spécialement conçu pour fournir aux reptiles les rayons UVB essentiels à leur métabolisme et leur santé. Il émet des rayons UVB de haute qualité qui favorisent la synthèse de la vitamine D3, nécessaire à l'absorption du calcium et au développement des os. Compatible avec la plupart des terrariums, il est disponible en différentes tailles pour s'adapter à vos besoins."
+    priceExclVat: 34.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand14'
+    category: '@category24'
+
+  product85:
+    name: 'Spot chauffant pour reptiles - Exo Terra'
+    description: "Le spot chauffant Exo Terra est idéal pour fournir une source de chaleur locale aux reptiles. Il émet une chaleur infrarouge qui stimule la thermorégulation et favorise la digestion et le bien-être. Il peut être utilisé avec un thermostat pour une régulation précise de la température. Disponible en plusieurs puissances pour s'adapter à vos besoins."
+    priceExclVat: 12.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand14'
+    category: '@category24'
+
+  product86:
+    name: 'Ampoule UVB pour reptiles - Zoo Med'
+    description: "L'ampoule UVB Zoo Med est conçue pour fournir aux reptiles les rayons UVB essentiels à leur métabolisme et leur santé. Elle émet des rayons UVB de haute qualité qui favorisent la synthèse de la vitamine D3, nécessaire à l'absorption du calcium et au développement des os. Elle peut être utilisée avec un ballast électronique pour une régulation précise de l'intensité lumineuse. Disponible en plusieurs puissances."
+    priceExclVat: 29.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand14'
+    category: '@category24'
+
+  product87:
+    name: 'Tapis chauffant pour terrarium - Exo Terra'
+    description: "Tapis chauffant pour terrarium de marque Exo Terra. Ce tapis chauffant permet de fournir une chaleur confortable et stable pour les reptiles et les amphibiens. Il est parfait pour créer un point chaud dans le terrarium pour les espèces qui ont besoin d'un niveau de chaleur élevé."
+    priceExclVat: 19.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand14'
+    category: '@category25'
+    
+  product88:
+    name: 'Lampe chauffante céramique - Lucky Reptile'
+    description: "Lampe chauffante céramique de marque Lucky Reptile. Cette lampe est idéale pour les reptiles qui ont besoin d'une chaleur supplémentaire pendant la nuit ou pour les animaux qui ont besoin d'une source de chaleur permanente dans leur environnement."
+    priceExclVat: 29.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand12'
+    category: '@category25'
+    
+  product89:
+    name: 'Câble chauffant pour terrarium - Reptech'
+    description: "Câble chauffant pour terrarium de marque Reptech. Ce câble chauffant est facile à installer et permet de fournir une chaleur douce et constante pour les reptiles et les amphibiens. Il est parfait pour les animaux qui ont besoin d'un niveau de chaleur bas ou pour les terrariums de grande taille."
+    priceExclVat: 24.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand15'
+    category: '@category25'
+
+  product90:
+    name: 'Vitamines pour reptile - Exo Terra'
+    description: "Les vitamines en poudre Exo Terra sont des compléments alimentaires quotidiens pour reptiles et amphibiens. Elles contiennent tous les composants essentiels pour une croissance saine et la maintenance à long terme des reptiles. Les vitamines en poudre sont une source de calcium pour les reptiles, ce qui est important pour la santé des os et le métabolisme énergétique."
+    priceExclVat: 12.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand14'
+    category: '@category26'
+
+  product91:
+    name: 'Spray désinfectant pour terrarium - JBL TerraClean'
+    description: "Le spray désinfectant JBL TerraClean est un produit efficace pour nettoyer et désinfecter les terrariums pour reptiles. Il élimine les bactéries, les champignons et les virus en quelques minutes, et convient à toutes les surfaces du terrarium. Le spray est facile à utiliser et permet de garder le terrarium propre et hygiénique."
+    priceExclVat: 9.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand10'
+    category: '@category26'
+
+  product92:
+    name: 'Substrat pour serpent - Lucky Reptile'
+    description: "Le substrat pour serpent de Lucky Reptile est un mélange de fibres de coco et de tourbe de sphaigne qui convient à tous les types de serpents. Il est particulièrement adapté aux espèces qui ont besoin d'un taux d'humidité élevé. Le substrat retient bien l'eau et évite ainsi le dessèchement de l'environnement du serpent. Il est également facile à nettoyer et à remplacer."
+    priceExclVat: 14.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand12'
+    category: '@category26'
+
+  product93:
+    name: 'Calcium en poudre pour reptile - Zoo Med'
+    description: "Le calcium en poudre Zoo Med est un complément alimentaire pour les reptiles qui contribue à la santé des os et à la prévention des maladies métaboliques des os. Il est facile à utiliser en saupoudrant sur les aliments pour reptiles, comme les grillons, les vers ou les légumes. Il est recommandé de saupoudrer le calcium sur les aliments deux fois par semaine pour les reptiles adultes et tous les jours pour les juvéniles."
+    priceExclVat: 8.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand15'
+    category: '@category26'
+
+  product94:
+    name: 'Terrarium Exo Terra Nano Tall'
+    description: "Terrarium en verre de qualité supérieure pour reptiles et amphibiens, avec une ventilation optimale, une porte à charnière pratique et un design compact pour une installation facile et un entretien simple."
+    priceExclVat: 49.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand14'
+    promotion: null
+    category: '@category27'
+
+  product95:
+    name: 'Terrarium Exo Terra pour reptiles 60 x 45 x 45 cm'
+    description: "Ce terrarium en verre est parfait pour les reptiles de taille moyenne. Il est facile à nettoyer et dispose de plusieurs ouvertures pour une ventilation optimale."
+    priceExclVat: 159.90
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand8'
+    promotion: null
+    category: '@category27'
+
+  product96:
+    name: 'Alimentation pour poisson TetraMin Granules 500 ml'
+    description: "Cet aliment pour poisson en granulés est complet et équilibré. Il est enrichi en vitamines et en minéraux pour une croissance et une santé optimales des poissons d'aquarium."
+    priceExclVat: 10.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand8'
+    promotion: '10%? @promotion2'
+    category: '@category28'
+
+  product97:
+    name: 'Granulés pour poissons tropicaux - Tetra'
+    description: "Aliment complet en granulés pour poissons tropicaux de la marque Tetra. Les granulés TetraMin assurent une alimentation équilibrée pour tous les poissons tropicaux. Ils contiennent des nutriments, des vitamines et des oligo-éléments qui favorisent la santé, la croissance et la couleur des poissons."
+    priceExclVat: 9.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand11'
+    category: '@category28'
+
+  product98:
+    name: 'Nourriture en flocons pour poissons rouges - Sera Goldy Flake'
+    description: "Nourriture en flocons pour poissons rouges de la marque Sera. Les flocons Goldy Flake sont spécialement conçus pour les poissons rouges et les poissons d'eau froide. Ils contiennent des protéines, des vitamines et des minéraux qui favorisent la croissance et la santé des poissons. Les flocons sont faciles à digérer et ne polluent pas l'eau de l'aquarium."
+    priceExclVat: 5.49
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand13'
+    category: '@category28'
+
+  product99:
+    name: 'Granulés pour poissons de fond - JBL NovoTab'
+    description: "Aliment en granulés pour poissons de fond de la marque JBL. Les granulés NovoTab sont spécialement conçus pour les poissons de fond tels que les corydoras et les loches. Ils contiennent des protéines et des fibres qui favorisent la digestion et la santé des poissons. Les granulés ne se désintègrent pas dans l'eau, évitant ainsi de polluer l'aquarium."
+    priceExclVat: 7.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand14'
+    category: '@category28'
+
+  product100:
+    name: 'Nourriture en flocons pour poissons exotiques - JBL NovoColor'
+    description: "Nourriture en flocons pour poissons exotiques de la marque JBL. Les flocons NovoColor contiennent des protéines, des lipides et des fibres pour une alimentation équilibrée des poissons exotiques. Ils contiennent également des caroténoïdes qui favorisent la couleur et la santé des poissons."
+    priceExclVat: 6.49
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand14'
+    category: '@category28'
+
+  product101:
+    name: 'Plante en plastique pour aquarium - Marina'
+    description: "Plante artificielle pour aquarium de la marque Marina. Cette plante en plastique est idéale pour ajouter une touche de couleur et de vie à votre aquarium sans avoir à vous soucier de l'entretien. Elle est facile à nettoyer et durable dans le temps."
+    priceExclVat: 2.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand11'
+    category: '@category29'
+
+  product102:
+    name: 'Masse filtrante pour aquarium - Tetra EasyCrystal'
+    description: "Masse filtrante pour aquarium de la marque Tetra. Ce produit assure une filtration de l'eau de qualité supérieure grâce à ses cartouches EasyCrystal. Les cartouches sont faciles à remplacer et assurent une eau cristalline pour vos poissons."
+    priceExclVat: 12.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand11'
+    category: '@category29'
+
+  product103:
+    name: 'Thermomètre pour aquarium - JBL'
+    description: "Thermomètre pour aquarium de la marque JBL. Ce thermomètre est facile à installer et à lire. Il permet de surveiller la température de l'eau de votre aquarium afin d'assurer le bien-être de vos poissons."
+    priceExclVat: 4.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand10'
+    category: '@category29'
+
+  product104:
+    name: 'Epuisette pour aquarium - Marina'
+    description: "Epuisette pour aquarium de la marque Marina. Cette épuisette est idéale pour attraper facilement vos poissons lorsqu'il est nécessaire de les déplacer. Elle est facile à utiliser et à nettoyer."
+    priceExclVat: 3.49
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand11'
+    category: '@category29'
+
+  product105:
+    name: 'Décors pour aquarium - Exo Terra'
+    description: "Décors pour aquarium de la marque Exo Terra. Ces décors sont idéaux pour recréer un environnement naturel pour vos poissons. Ils sont fabriqués à partir de matériaux de qualité supérieure et sont très résistants."
+    priceExclVat: 18.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand14'
+    category: '@category29'
+
+  product106:
+    name: 'Filtre pour aquarium Tetra EasyCrystal'
+    description: "Filtre intérieur pour aquariums, facile à installer et à entretenir, efficace pour une eau cristalline."
+    priceExclVat: 24.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand4'
+    category: '@category30'
+
+  product107:
+    name: 'Pompe à air pour aquarium - Tetra'
+    description: "La pompe à air pour aquarium de Tetra assure un apport constant en oxygène dans l'eau de l'aquarium. Elle est équipée d'un boîtier insonorisant pour un fonctionnement silencieux."
+    priceExclVat: 21.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand11'
+    category: '@category30'
+
+  product108:
+    name: 'Filtre externe pour aquarium - JBL CristalProfi E902'
+    description: "Le filtre externe pour aquarium JBL CristalProfi E902 est un système de filtration performant qui assure une eau claire et saine pour les poissons et les plantes de l'aquarium. Il est facile à installer et à entretenir."
+    priceExclVat: 89.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand14'
+    category: '@category30'
+
+  product109:
+    name: 'Mousse de filtration pour aquarium - Eheim'
+    description: "La mousse de filtration pour aquarium d'Eheim est un filtre mécanique qui retient les particules en suspension dans l'eau de l'aquarium. Elle est facile à nettoyer et à remplacer."
+    priceExclVat: 5.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand8'
+    category: '@category30'
+
+  product110:
+    name: 'Chauffage pour aquarium - Jäger'
+    description: "Le chauffage pour aquarium Jäger maintient une température stable et optimale dans l'eau de l'aquarium pour le bien-être des poissons et des plantes. Il est précis, fiable et facile à utiliser."
+    priceExclVat: 29.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand6'
+    category: '@category30'
+
+  product111:
+    name: 'Filtre intérieur pour aquarium - Fluval U2'
+    description: "Le filtre intérieur pour aquarium Fluval U2 est un système de filtration puissant et silencieux qui assure une eau claire et saine pour les poissons et les plantes de l'aquarium. Il est facile à installer et à entretenir."
+    priceExclVat: 34.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand13'
+    category: '@category30'
+
+  product112:
+    name: 'Décoration aquarium - Pont en pierre'
+    description: "Créez un décor naturel et réaliste pour votre aquarium avec ce pont en pierre. Fabriqué à partir de matériaux de qualité supérieure, cette décoration est non-toxique et résistante à l'eau. Les poissons pourront nager à travers les arches et les plantes aquatiques pourront s'y enrouler pour un aspect encore plus naturel."
+    priceExclVat: 24.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand15'
+    category: '@category31'
+
+  product113:
+    name: 'Plante aquarium - Echinodorus'
+    description: "La plante aquarium Echinodorus est une plante facile à entretenir qui apporte une touche de couleur et de vie à votre aquarium. Elle est idéale pour les débutants et convient à la plupart des aquariums d'eau douce. La plante est livrée en pot avec un substrat nutritif pour un développement optimal."
+    priceExclVat: 5.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand13'
+    category: '@category31'
+
+  product114:
+    name: 'Décoration aquarium - Épave de bateau'
+    description: "Ajoutez une touche d'aventure à votre aquarium avec cette épave de bateau réaliste. Fabriquée à partir de résine non-toxique, elle est parfaitement adaptée pour les aquariums d'eau douce et d'eau de mer. Les poissons pourront nager à travers les trous et les plantes aquatiques pourront s'y enrouler pour un aspect encore plus réaliste."
+    priceExclVat: 29.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand14'
+    category: '@category31'
+
+  product115:
+    name: 'Plante aquarium - Cryptocoryne'
+    description: "La plante aquarium Cryptocoryne est une plante facile à entretenir qui apporte une touche de verdure à votre aquarium. Elle est idéale pour les débutants et convient à la plupart des aquariums d'eau douce. La plante est livrée en pot avec un substrat nutritif pour un développement optimal."
+    priceExclVat: 4.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand13'
+    category: '@category31'
+
+  product116:
+    name: 'Aquarium complet pour poisson - Tetra AquaArt Evolution Line'
+    description: "L'aquarium Tetra AquaArt Evolution Line est un aquarium complet pour poisson tropical ou d'eau froide. Son design moderne et élégant est parfait pour mettre en valeur vos poissons et s'intégrer harmonieusement dans votre intérieur. Il est équipé d'un filtre EasyCrystal, d'une pompe à air, d'un chauffage, d'un éclairage LED et d'un couvercle. Facile à installer et à entretenir, c'est le choix idéal pour les débutants comme pour les experts en aquariophilie."
+    priceExclVat: 119.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand11'
+    category: '@category32'
+    
+  product117:
+    name: 'Aquarium en verre pour poisson - Juwel Primo 60'
+    description: "L'aquarium Juwel Primo 60 est un aquarium en verre pour poisson d'eau douce ou d'eau froide. D'une capacité de 60 litres, il est équipé d'un système de filtration Bioflow One et d'un éclairage LED. Son design élégant et épuré conviendra parfaitement à tout type d'intérieur. Il est facile à installer et à entretenir, idéal pour les débutants comme pour les experts en aquariophilie."
+    priceExclVat: 139.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand14'
+    category: '@category32'
+    
+  product118:
+    name: 'Aquarium en acrylique pour poisson - Ferplast Cayman 110'
+    description: "L'aquarium Ferplast Cayman 110 est un aquarium en acrylique pour poisson d'eau douce ou d'eau froide. D'une capacité de 110 litres, il est équipé d'un système de filtration interne Bluwave 07 et d'un éclairage LED. Son design élégant et moderne conviendra parfaitement à tout type d'intérieur. Il est facile à installer et à entretenir, idéal pour les débutants comme pour les experts en aquariophilie."
+    priceExclVat: 239.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand9'
+    category: '@category32'
+
+  product119:
+    name: 'Aquarium en verre - Tetra AquaArt LED'
+    description: "Aquarium en verre Tetra AquaArt LED pour poissons. Cet aquarium moderne et élégant est équipé d'un système d'éclairage LED économique et d'un filtre performant pour une eau claire et saine. L'aquarium est facile à installer et à entretenir, et convient à une grande variété de poissons. Il est également équipé d'un couvercle amovible pour un accès facile."
+    priceExclVat: 99.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand11'
+    category: '@category32'
+
+  product120:
+    name: 'Terrarium pour reptiles - Zoomed Reptibreeze'
+    description: "Terrarium pour reptiles de la marque Zoomed, modèle Reptibreeze. Ce terrarium en maille d'aluminium permet une ventilation maximale pour un environnement sain pour vos reptiles. Disponible en différentes tailles."
+    priceExclVat: 69.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand12'
+    category: '@category32'
+
+  product121:
+    name: 'Conditionneur d’eau pour aquarium - Tetra AquaSafe'
+    description: "Conditionneur d’eau pour aquarium Tetra AquaSafe, idéal pour les aquariums d'eau douce et d'eau de mer. Ce produit protège les poissons et les plantes en neutralisant les toxines présentes dans l'eau du robinet. Il assure également une réduction significative des bactéries nocives."
+    priceExclVat: 9.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand11'
+    category: '@category33'
+
+  product122:
+    name: 'Anti-algue pour aquarium - JBL Algol'
+    description: "Traitement anti-algue pour aquarium JBL Algol, idéal pour éliminer les algues vertes et brunes. Ce produit est particulièrement efficace pour les aquariums d'eau douce et contient des agents actifs qui empêchent la réapparition des algues. Il ne nuit pas aux poissons ni aux plantes."
+    priceExclVat: 12.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand14'
+    category: '@category33'
+
+  product123:
+    name: 'Traitement de l’eau pour aquarium - JBL Biotopol C'
+    description: "Traitement de l’eau pour aquarium JBL Biotopol C, idéal pour les aquariums d'eau douce et d'eau de mer. Ce produit élimine les substances toxiques de l'eau et favorise le développement des bactéries bénéfiques pour les poissons. Il contient également des minéraux et des vitamines pour renforcer la résistance des poissons."
+    priceExclVat: 14.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand14'
+    category: '@category33'
+
+  product124:
+    name: 'Traitement de l’eau pour aquarium - JBL Denitrol'
+    description: "Traitement de l’eau pour aquarium JBL Denitrol, idéal pour les aquariums d'eau douce et d'eau de mer. Ce produit contient des bactéries bénéfiques qui éliminent les déchets organiques et l'ammoniaque dans l'eau. Il favorise également l'équilibre biologique de l'aquarium."
+    priceExclVat: 17.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand14'
+    category: '@category33'
+
+  product125:
+    name: 'Mélange de graines pour perroquets - Versele Laga Prestige Premium'
+    description: "Mélange de graines de qualité supérieure pour perroquets, composé de différentes graines sélectionnées pour leur goût et leur valeur nutritionnelle. Contient des graines de tournesol, des cacahuètes, des noix, des raisins secs et bien plus encore. Une alimentation savoureuse et équilibrée pour votre perroquet."
+    priceExclVat: 12.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 10
+    brand: '@brand13'
+    category: '@category34'
+
+  product126:
+    name: 'Graines pour oiseaux exotiques Versele-Laga Prestige Exotic Birds'
+    description: "Mélange de graines pour oiseaux exotiques, avec des ingrédients de qualité supérieure et une composition équilibrée pour répondre aux besoins nutritionnels spécifiques des oiseaux exotiques."
+    priceExclVat: 7.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand13'
+    promotion: null
+    category: '@category34'
+
+  product127:
+    name: 'Pâtée pour oiseaux exotiques - Nutribird'
+    description: "Pâtée pour oiseaux exotiques de Nutribird, enrichie en vitamines et minéraux pour une alimentation équilibrée. Convient aux oiseaux de petite taille comme les canaris et les diamants mandarins. Cette pâtée savoureuse et nutritive est un excellent complément à l'alimentation quotidienne de votre oiseau."
+    priceExclVat: 8.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 10
+    brand: '@brand10'
+    category: '@category34'
+
+  product128:
+    name: 'Graines de tournesol décortiquées pour oiseaux - Versele Laga'
+    description: "Graines de tournesol décortiquées pour oiseaux de Versele Laga, riches en acides gras essentiels et en protéines. Convient à la plupart des oiseaux de petite taille, tels que les canaris et les perruches. Les graines sont décortiquées pour une digestion facile et une absorption optimale des nutriments."
+    priceExclVat: 5.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 10
+    brand: '@brand13'
+    category: '@category34'
+
+  product129:
+    name: 'Mélange de graines pour canaris - Deli Nature'
+    description: "Mélange de graines pour canaris de Deli Nature, formulé pour répondre aux besoins nutritionnels spécifiques des canaris. Contient des graines de chardon, de navette, de niger, de lin et d'autres graines savoureuses et riches en nutriments. Une alimentation saine et équilibrée pour votre canari."
+    priceExclVat: 6.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 10
+    brand: '@brand7'
+    category: '@category34'
+
+  product130:
+    name: 'Perchoir en bois naturel pour oiseau - Animalis'
+    description: "Perchoir en bois naturel pour oiseau de chez Animalis. Ce perchoir offre un endroit confortable pour votre oiseau de se reposer et de se divertir. Il est également un excellent exercice pour les pattes de votre oiseau."
+    priceExclVat: 2.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand8'
+    category: '@category35'
+
+  product131:
+    name: 'Mangeoire pour oiseaux - Zolux'
+    description: "Mangeoire pour oiseaux en métal de la marque Zolux. Facile à remplir et à nettoyer, cette mangeoire offre un espace de nourriture pour les oiseaux sauvages qui visitent votre jardin."
+    priceExclVat: 9.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand8'
+    category: '@category35'
+
+  product132:
+    name: 'Jouet à suspendre pour oiseau'
+    description: "Jouet à suspendre pour oiseau, idéal pour les petits oiseaux comme les canaris, les mandarins et les perruches. Ce jouet offre une source de divertissement et d'exercice pour votre oiseau."
+    priceExclVat: 3.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand7'
+    category: '@category35'
+
+  product133:
+    name: 'Cage à oiseaux en métal - Zolux'
+    description: "Cage à oiseaux en métal de Zolux. Cette cage est parfaite pour les petits oiseaux comme les canaris, les mandarins et les perruches. Elle est équipée de mangeoires et de perchoirs pour offrir un confort maximal à votre oiseau."
+    priceExclVat: 49.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand3'
+    category: '@category36'
+
+  product134:
+    name: 'Cage pour perroquet - Zolux Neo Jili'
+    description: "La cage pour perroquet Neo Jili de Zolux offre un habitat spacieux et confortable pour votre oiseau. Elle est équipée d'une grande porte pour un accès facile et rapide, ainsi que de perchoirs et d'une mangeoire pour le confort de votre animal. La cage est facile à nettoyer et à déplacer grâce à ses roulettes."
+    priceExclVat: 199.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand8'
+    category: '@category36'
+    
+  product135:
+    name: 'Cage pour perruche - Montana Paradiso 150'
+    description: "La cage pour perruche Montana Paradiso 150 offre un grand espace de vie pour votre oiseau. Elle est équipée de perchoirs, d'une mangeoire et d'un abreuvoir pour le confort de votre animal. La cage est facile à nettoyer grâce à son tiroir amovible et son revêtement en poudre résistant."
+    priceExclVat: 149.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand11'
+    category: '@category36'
+    
+  product136:
+    name: 'Volière pour oiseaux - Skyline Arched Aviary'
+    description: "La volière pour oiseaux Skyline Arched Aviary offre un espace de vie spacieux et confortable pour vos oiseaux. Elle est équipée de perchoirs, d'une mangeoire et d'un abreuvoir pour le confort de vos animaux. La volière est facile à nettoyer grâce à ses tiroirs amovibles et ses grilles de fond."
+    priceExclVat: 399.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand6'
+    category: '@category36'
+    
+  product137:
+    name: 'Cage de transport pour oiseau - Ferplast Atlas'
+    description: "La cage de transport pour oiseau Ferplast Atlas est idéale pour les déplacements de votre animal. Elle est équipée d'une poignée ergonomique et d'une grande porte pour un accès facile. La cage est facile à nettoyer et à désinfecter grâce à son fond en plastique amovible."
+    priceExclVat: 29.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand4'
+    category: '@category36'
+
+  product138:
+    name: 'Spray nettoyant pour cage - Zolux'
+    description: "Nettoyant pour cage en spray de Zolux. Il élimine facilement les fientes, les salissures et les mauvaises odeurs et prévient la formation de bactéries grâce à ses propriétés désinfectantes."
+    priceExclVat: 7.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand8'
+    category: '@category37'
+
+  product139:
+    name: 'Shampoing pour oiseaux - Francodex'
+    description: "Shampoing pour oiseaux de Francodex. Sa formule douce et hypoallergénique nettoie en profondeur le plumage de votre oiseau sans agresser sa peau. Il laisse le plumage doux et brillant."    
+    priceExclVat: 9.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand5'
+    category: '@category37'
+
+  product140:
+    name: 'Bain pour oiseaux - Trixie'
+    description: "Bain pour oiseaux de Trixie. Il offre à votre oiseau un bain rafraîchissant et stimule son instinct de baignade naturel. Le bain s'accroche facilement à la cage et peut être rempli avec de l'eau ou du sable à bain."
+    priceExclVat: 5.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand11'
+    category: '@category37'
+
+  product141:
+    name: 'Perchoir en bois naturel - Living World'
+    description: "Perchoir en bois naturel de Living World. Il offre à votre oiseau un endroit confortable et sûr pour se reposer et se divertir. Le perchoir est facile à installer dans la cage et convient à toutes les espèces d'oiseaux."
+    priceExclVat: 3.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand9'
+    category: '@category35'
+
+  product142:
+    name: 'Granulés d’engraissement pour poulet - Versele Laga'
+    description: "Ces granulés d’engraissement Versele Laga sont spécialement conçus pour la croissance et le développement des poulets de chair. Composés d’ingrédients de qualité supérieure, ils offrent une excellente source d’énergie et de protéines pour les poulets. Les granulés sont faciles à digérer et contiennent des vitamines et des minéraux essentiels pour la santé des poulets. Disponible en sacs de 25 kg."
+    priceExclVat: 22.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 10
+    brand: '@brand13'
+    category: '@category38'
+
+  product143:
+    name: 'Aliments pour lapins nains - Yarrah'
+    description: "Ces aliments pour lapins nains de Yarrah sont composés d’ingrédients biologiques de haute qualité et sont spécialement formulés pour répondre aux besoins nutritionnels des lapins nains. Les aliments contiennent un mélange équilibré de fibres, de protéines, de graisses, de vitamines et de minéraux pour favoriser une santé optimale. Les aliments sont disponibles en sacs de 1,5 kg."
+    priceExclVat: 8.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 5.5
+    brand: '@brand5'
+    category: '@category38'
+
+  product144:
+    name: 'Aliments pour chèvres laitières - Animalis'
+    description: "Ces aliments pour chèvres laitières de Animalis sont spécialement formulés pour répondre aux besoins nutritionnels des chèvres laitières. Ils contiennent un mélange équilibré de protéines, de graisses, de vitamines et de minéraux pour favoriser une production de lait optimale et une santé optimale des chèvres. Les aliments sont disponibles en sacs de 20 kg."
+    priceExclVat: 39.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 10
+    brand: '@brand8'
+    category: '@category38'
+
+  product145:
+    name: 'Abreuvoir pour volaille'
+    description: "Cet abreuvoir pour volaille peut contenir jusqu’à 6 litres d’eau. Il est facile à remplir et à nettoyer grâce à son large bouchon. L’abreuvoir dispose d’une poignée pratique pour faciliter son transport et son placement dans l’enclos de vos volailles."
+    priceExclVat: 9.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand2'
+    category: '@category39'
+
+  product146:
+    name: 'Clôture électrique pour animaux'
+    description: "Cette clôture électrique pour animaux est idéale pour garder vos animaux en sécurité dans leur enclos. Elle est facile à installer et peut être ajustée en fonction de la taille de votre enclos. La clôture électrique est équipée d’un système de détection de clôture cassée qui vous alerte en cas de problème."
+    priceExclVat: 149.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand8'
+    category: '@category39'
+
+  product147:
+    name: 'Couveuse automatique'
+    description: "Cette couveuse automatique est idéale pour les éleveurs de volaille. Elle peut accueillir jusqu’à 56 œufs et dispose d’un système de régulation de la température et de l’humidité pour une incubation optimale. La couveuse est facile à utiliser et dispose d’un écran LCD pour suivre la progression de l’incubation."
+    priceExclVat: 299.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand12'
+    category: '@category39'
+
+  product148:
+    name: 'Lampe chauffante pour élevage'
+    description: "Cette lampe chauffante pour élevage est idéale pour maintenir une température constante dans votre poulailler. Elle est équipée d’un système de réglage de la température et d’une protection contre la surchauffe pour une utilisation en toute sécurité. La lampe chauffante est facile à installer et convient à tous les types d’élevage."
+    priceExclVat: 39.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand15'
+    category: '@category39'
+
+  product149:
+    name: 'Nid pour oiseau'
+    description: "Ce nid pour oiseau est conçu pour accueillir les petits oiseaux. Il est fabriqué en bois naturel et peut être accroché à l’extérieur ou à l’intérieur de votre maison. Le nid est facile à nettoyer et offre à vos oiseaux un espace confortable pour se reposer et se reproduire."
+    priceExclVat: 8.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand15'
+    category: '@category39'
+
+  product150:
+    name: 'Poulailler en bois avec pondoir - Poulehouse'
+    description: "Poulailler en bois de haute qualité avec pondoir intégré de la marque Poulehouse. Ce poulailler est équipé d'un toit en feutre bitumé pour protéger vos poules des intempéries. Il comprend également un espace de vie sécurisé, un tiroir à déjection et un pondoir avec couvercle. Le bois utilisé pour la fabrication est issu de forêts gérées durablement."
+    priceExclVat: 249.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand13'
+    category: '@category40'
+
+  product151:
+    name: 'Abreuvoir pour poules - Zolux'
+    description: "Abreuvoir en plastique pour poules de la marque Zolux. Cet abreuvoir est facile à remplir et à nettoyer, et dispose d'une grande capacité pour éviter les remplissages fréquents. Il est équipé d'un système anti-gaspillage pour une économie d'eau et un nettoyage facilité. Cet abreuvoir est adapté à toutes les races de poules."
+    priceExclVat: 7.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand12'
+    category: '@category40'
+
+  product152:
+    name: 'Graines de tournesol pour poules - Versele Laga'
+    description: "Graines de tournesol pour poules de la marque Versele Laga. Ces graines sont riches en protéines et en matières grasses pour une alimentation équilibrée de vos poules. Elles sont conditionnées dans un sachet refermable pour une conservation optimale. Ces graines peuvent être distribuées seules ou mélangées à d'autres aliments pour plus de variété."
+    priceExclVat: 4.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand13'
+    category: '@category40'
+
+  product153:
+    name: 'Filet de protection pour poulailler - Omlet'
+    description: "Filet de protection pour poulailler de la marque Omlet. Ce filet est conçu pour protéger vos poules des prédateurs tels que les renards ou les fouines. Il est fabriqué en matériau résistant et dispose de piquets de fixation pour une installation facile. Ce filet convient aux poulaillers de toutes tailles."
+    priceExclVat: 89.99
+    active: true
+    dateAdded: "<dateTimeBetween('-4 years','now')>"
+    tva: 20
+    brand: '@brand14'
+    category: '@category40'
+
+  product{154..700}:
     name (unique): '<text(20)>'
-    description: '<sentence(70, 90)>'
+    description: "<sentence(70, 90)>"
     priceExclVat: '<numberBetween(8, 50)>'
     active:  '<boolean(90)>'
     dateAdded: "<dateTimeBetween('-4 years','now')>"
@@ -9,3 +1559,4 @@ App\Entity\Product:
     brand: '@brand*'
     promotion: '70%? @promotion*'
     category: '@category<numberBetween(8, 40)>'
+

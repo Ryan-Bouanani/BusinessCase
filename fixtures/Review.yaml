@@ -1,7 +1,37 @@
 App\Entity\Review:
-  review{0..2000}:
-    comment: '<sentence(20,80)>'
-    note: '<numberBetween(0, 5)>'
+  review{0..500}:
+    comment: "Je suis très déçu de ce produit. Il ne fonctionne pas du tout comme annoncé et j'ai perdu mon argent. Je ne recommanderais pas ce produit à quiconque."
+    note: 1
     product: '@product*'
     customer: '@customer*'
     createdAt: '<dateTimeBetween("-200 days", "now")>'
+
+  review{501..1000}:
+    comment: "J'ai été plutôt déçu par ce produit. Il fonctionne, mais pas aussi bien que je l'espérais. Il y a aussi quelques défauts mineurs que j'ai remarqués. Dans l'ensemble, je pense qu'il y a de meilleurs produits sur le marché."
+    note: 2
+    product: '@product*'
+    customer: '@customer*'
+    createdAt: '<dateTimeBetween("-200 days", "now")>'
+
+  review{1000..1500}:
+    comment: "Ce produit est correct. Il fonctionne comme annoncé, mais il y a certaines choses qui pourraient être améliorées. Si vous cherchez un produit de base à un prix raisonnable, alors celui-ci pourrait être une option, mais il y a mieux sur le marché."
+    note: 3
+    product: '@product*'
+    customer: '@customer*'
+    createdAt: '<dateTimeBetween("-200 days", "now")>'
+
+  review{1501..2000}:
+    comment: "J'aime beaucoup ce produit. Il fonctionne très bien et répond à mes besoins. Il y a peut-être quelques améliorations mineures que je suggérerais, mais dans l'ensemble, je suis très satisfait de mon achat."
+    note: 4
+    product: '@product*'
+    customer: '@customer*'
+    createdAt: '<dateTimeBetween("-200 days", "now")>'
+
+  review{2001..2500}:
+    comment: "Ce produit est incroyable ! Je ne peux pas croire à quel point il fonctionne bien et à quel point il est facile à utiliser. J'ai essayé d'autres produits similaires, mais rien ne se compare à celui-ci. Je le recommande fortement à quiconque est à la recherche d'un produit de qualité supérieure."
+    note: 5
+    product: '@product*'
+    customer: '@customer*'
+    createdAt: '<dateTimeBetween("-200 days", "now")>'
+
+              

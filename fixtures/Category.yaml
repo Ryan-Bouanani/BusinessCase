@@ -23,13 +23,13 @@ App\Entity\Category:
     name: 'Jouets pour chien'
     categoryParent: '@category0'
   category10:
-    name: 'Hygiène et Soins  pour chien'
+    name: 'Hygiène et Soins pour chien'
     categoryParent: '@category0'
   category11:
     name: 'Friandises pour chien'
     categoryParent: '@category0'
   category12:
-    name: 'Antiparasites  pour chien'
+    name: 'Antiparasites pour chien'
     categoryParent: '@category0'
   category13:
     name: 'Alimentation pour chat'
