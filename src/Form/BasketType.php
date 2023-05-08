@@ -10,7 +10,6 @@ use App\Entity\Status;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -21,7 +20,7 @@ class BasketType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-        $this->contentShoppingCarts = $options['contentShoppingCarts'];
+        $contentShoppingCarts = $options['contentShoppingCarts'];
 
         $builder
             ->add('customer', EntityType::class, [
@@ -71,7 +70,7 @@ class BasketType extends AbstractType
 
 
             ;
-            if ($this->contentShoppingCarts !== null ) {
+            if ($contentShoppingCarts !== null ) {
                 $builder
                 ->add('product', TextType::class, [
                     'required' => false,
@@ -87,13 +86,13 @@ class BasketType extends AbstractType
                     'mapped'=> false,
                     'label' => 'Quantité',
                     'data' => 1, 
-                     'attr' => [
+                    'attr' => [
                         'class' => 'quantity'
                     ],
                 ])
                 ;
                 $count = 1;
-                foreach ( $this->contentShoppingCarts as $line) { 
+                foreach ( $contentShoppingCarts as $line) { 
                     $builder 
                     ->add('quantity'.$count, NumberType::class, [
                         'label' => false,

@@ -3,6 +3,7 @@
 namespace App\Controller\Front;
 
 use App\Entity\Review;
+use App\Form\AddToBasketType;
 use App\Form\ReviewType;
 use App\Repository\ProductRepository;
 use App\Repository\ReviewRepository;
@@ -47,6 +48,7 @@ class ProductController extends AbstractController
         $firstReview = true;
         $customer = $this->getUser();
 
+        $formAddToBasket = $this->createForm(AddToBasketType::class);
         $firstReview = $customer ? Review::isFirstReview($customer, $reviews) : false;
 
         // Si c'est le premier avis de l'utilisateur 
@@ -56,13 +58,13 @@ class ProductController extends AbstractController
             $review->setCustomer($customer);
             
                 // Creation du formulaire d'avis de produit
-            $form = $this->createForm(ReviewType::class, $review);
+            $formReview = $this->createForm(ReviewType::class, $review);
 
             // On inspecte les requêtes du formulaire
-            $form->handleRequest($request);
+            $formReview->handleRequest($request);
 
             // Si le formulaire est envoyé et valide
-            if ($form->isSubmitted() && $form->isValid()) {
+            if ($formReview->isSubmitted() && $formReview->isValid()) {
                         
                 // On met l'utilisateur à jour en bdd
                 $reviewRepository->add($review, true);       
@@ -74,7 +76,8 @@ class ProductController extends AbstractController
                 'product' => $product,
                 'productSameCategory' => $productSameCategory,
                 'reviews' => $reviews,
-                'formReview' => $form->createView(),
+                'formReview' => $formReview->createView(),
+                'formAddToBasket' => $formAddToBasket->createView(),
                 'productSameBrand' => $productSameBrand,
             ]);
         }  
@@ -82,6 +85,7 @@ class ProductController extends AbstractController
             'product' => $product,
             'productSameCategory' => $productSameCategory,
             'reviews' => $reviews,
+            'formAddToBasket' => $formAddToBasket->createView(),
             'productSameBrand' => $productSameBrand,
         ]);
 

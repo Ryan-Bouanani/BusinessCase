@@ -23,7 +23,7 @@
                 <div class="formChild">
                     <label for="inputPassword">Mot de passe</label>
                     {% set input %} 
-                        <input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" placeholder="******" required>
+                        <input type="password" name="password" id="inputPassword" class="password form-control" autocomplete="current-password" placeholder="******" required>
                     {% endset %}
                     {% include "/front/partials/_togglePassword.html.twig" with {
                         input: input,

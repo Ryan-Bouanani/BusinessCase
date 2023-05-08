@@ -374,7 +374,6 @@ class ShoppingCartController extends AbstractController
     
             // Redirect the user to PayPal to complete the payment
             try {
-                // dd($response);
                 if ($response->isRedirect()) {
                     $response->redirect();
                 } else {
@@ -409,7 +408,8 @@ class ShoppingCartController extends AbstractController
                     'quantity' => $item['quantity'],
                 ];
             }
-            $checkout = $paymentOperationService->checkout($user->getEmail(), $items, 'http://127.0.0.1:8000/checkout/success?id_sessions={CHECKOUT_SESSION_ID}', $cancelUrl);
+            $checkout = $paymentOperationService->checkout($user->getEmail(), $items, 'https://la-nimes-alerie.netkube.net/checkout/success?id_sessions={CHECKOUT_SESSION_ID}', $cancelUrl);
+
             return $this->redirect($checkout->url);
             // return New RedirectResponse($checkout->url);
         }
@@ -432,12 +432,8 @@ class ShoppingCartController extends AbstractController
         StatusRepository $statusRepository,
         Request $request,  
         PaymentOperationService $paymentOperationService,
-        SessionInterface $session,
         ) : Response
     {
-        $basket = $session->get('basket', []);
-        $shoppingCart = $session->get('shoppingCart', []);
-        // dd($basket, $shoppingCart);
         // Si pas d'utilisateur, on redirige vers l'accueil
         /** @var Customer $user*/
         $user = $this->getUser();

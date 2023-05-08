@@ -1,4 +1,4 @@
-import { deletContentShoppingCart } from "./fetch/deleteContentShoppingCart";
+import { deleteContentShoppingCart } from "./fetch/deleteContentShoppingCart";
 
 // Add Dynamic Quantity products order back office
 
@@ -16,7 +16,11 @@ export let btnsDelete: NodeListOf<HTMLButtonElement>;
 let arrayPriceOrder: Array<Number> = []; 
 
 updateNodeListInputBtnQuantity();
-export function updateNodeListInputBtnQuantity() {
+
+/**
+ * Cette fonction va permettre de gérer l'increment et le decrement de produits ainsi qu'afficher le prix de chaque ligne du panier et le total de la commande
+ */
+export function updateNodeListInputBtnQuantity(): void {
 
     // inputs de quantité
     quantityArray = document.querySelectorAll(' .lineQuantity .quantity');  
@@ -33,8 +37,8 @@ export function updateNodeListInputBtnQuantity() {
         
         arrayBtnQuantity = [addQuantity, subtractQuantity];
     
-        // Je met à jour ma fonction delete de ligne de panier
-        deletContentShoppingCart(btnsDelete);
+        // Je lace la function qui va me permettre de supprimer un produit d'une commande
+        deleteContentShoppingCart(btnsDelete);
     
         // Je récupère la value de chaque inputs de quantité et les stockent dans un tableau
         quantityArray.forEach((quantity : HTMLInputElement, key) => {
@@ -46,7 +50,7 @@ export function updateNodeListInputBtnQuantity() {
             inputQuantityListener(quantity, key);
         });
     
-        // Pour chacun des tableaux de buttons (increment et décrement) je lance la fonction quantityListener()
+        // Pour chacun des tableaux de buttons (increment et decrement) je lance la fonction quantityListener()
         arrayBtnQuantity.forEach((element: NodeListOf<HTMLButtonElement>) => {
             quantityListener(element);
         }); 
@@ -66,12 +70,12 @@ function quantityListener(arrayBtnQuantity: NodeListOf<HTMLButtonElement>) {
 
             let quantityValue = parseInt(quantityArray[key].value);
                 
-                // Si click sur un button d'ajout, on incremente
+                // Si click sur un button d'ajout, on incrémente
                 if (element === addQuantity[key]) {      
-                    // on incremente
+                    // on incrémente
                     quantityValue++;                       
                 } else {
-                    // Si click sur un button de soustraction, on décremente
+                    // Si click sur un button de soustraction, on décrémente
                     quantityValue--;
                 } 
                 // Je met à jour les buttons de quantités
@@ -125,7 +129,12 @@ export function removePriceTotalLineDelete(key: number) {
     resultTotalOrder(arrayPriceOrder);
 }
 
-// Function qui affiche le prix total de la ligne d'un panier
+
+/**
+ * Cette function va permettre d'afficher le prix total de la ligne d'un panier
+ * @param key 
+ * @returns Void
+ */
 function totalPriceLineListener(key = null) {
 
     if (key !== null) {
@@ -159,7 +168,11 @@ function totalPriceLineListener(key = null) {
     resultTotalOrder(arrayPriceOrder);
 }
 
-// Function qui affiche le prix total de la commande
+
+/**
+ * Cette fonction va permettre d'afficher le prix total de la commande
+ * @param arrayPriceOrder 
+ */
 function resultTotalOrder(arrayPriceOrder: Array<Number>) {
   
     let priceOrder: number = 0;
@@ -171,13 +184,24 @@ function resultTotalOrder(arrayPriceOrder: Array<Number>) {
     arrayPriceOrder = [];
 }
 
-// Function qui multiplie la prix TTC par la quantité
-function resultPriceTotalLine(key: number) {
+
+/**
+ * Cette fonction va permettre de multiplier le prix TTC par la quantité
+ * @param key 
+ * @returns string
+ */
+function resultPriceTotalLine(key: number): string {
      return (parseFloat(quantityArray[key].value) * parseFloat(priceProduct[key].innerHTML)).toFixed(2);
 }
 
-// Function qui met à jour le comportement des buttons
-function updateBtnQuantity(quantity, key: number) {
+
+/**
+ * Cette fonction va permettre de mettre à jour le comportement des buttons : "+" et "-" (disabled ou enabled) et mettre à jour l'input de quantité du produit
+ * @param quantity 
+ * @param key 
+ * @return Void
+ */
+function updateBtnQuantity(quantity, key: number): void {
     quantity = parseInt(quantity);
 
     // Si supérieur à 9 alors je désactive le button ajouter
@@ -203,7 +227,12 @@ function updateBtnQuantity(quantity, key: number) {
     totalPriceLineListener(key);
 }
 
-// Function qui vérifie si la valeur est un entier
+
+/**
+ * Cette fonction va permettre de vérifier si la valeur est un entier ou non
+ * @param value 
+ * @returns Boolean
+ */
 function isInt(value) {
     if (
       typeof value === 'number' &&
@@ -212,6 +241,5 @@ function isInt(value) {
     ) {
       return true;
     }
-  
     return false;
   }

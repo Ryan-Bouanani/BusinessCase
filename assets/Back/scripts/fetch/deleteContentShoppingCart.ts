@@ -1,7 +1,13 @@
 
 import { removePriceTotalLineDelete } from "../quantityListener";
 
-export function deletContentShoppingCart(btnsDelete: NodeListOf<HTMLButtonElement>) {
+
+/**
+ * Cette fonction va permettre de supprimer un produit d'une commande dans la partie back admin du site
+ * @param btnsDelete 
+ * @return Void
+ */
+export function deleteContentShoppingCart(btnsDelete: NodeListOf<HTMLButtonElement>): void {
     // On boucle sur les btnsDelete
     btnsDelete.forEach((btn : HTMLButtonElement, key) => {
         // On écoute le click

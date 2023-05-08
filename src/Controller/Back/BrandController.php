@@ -84,7 +84,7 @@ class BrandController extends AbstractController
         // Creation du formulaire d'ajout d'une marque
         $form = $this->createForm(BrandType::class, $brand);
 
-        // On inspecte les requettes du formulaire
+        // On inspecte les requêtes du formulaire
         $form->handleRequest($request);
 
         // Si le formulaire est envoyé et valide
@@ -129,7 +129,7 @@ class BrandController extends AbstractController
         // Creation du formulaire de marque
         $form = $this->createForm(BrandType::class, $brand);
         
-        // On inspecte les requettes du formulaire
+        // On inspecte les requêtes du formulaire
         $form->handleRequest($request);
 
         // Si le form est envoyé et valide

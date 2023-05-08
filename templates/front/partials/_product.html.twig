@@ -32,7 +32,7 @@
             {% else %}
                 <p class="price">{{ priceTaxInclWithoutPromo }}€</p>
             {% endif %}
-            <a href=" {{ path('app_shoppingCart_add', {id: product[0].id} )}}" class="btn btnAddBasket cover">Ajoutez au panier</a>
+            <a href=" {{ path('app_shoppingCart_add', {id: product[0].id} )}}" class="btn btnAddBasket cover">Ajouter au panier</a>
         </a>
         </div>            
     {% endfor %}

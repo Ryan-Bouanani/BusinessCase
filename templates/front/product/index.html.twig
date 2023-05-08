@@ -53,7 +53,17 @@
                     <p class="price">{{ priceTaxInclWithoutPromo }}€</p>
                 {% endif %}
 
-                <a href=" {{ path('app_shoppingCart_add', {id: product[0].id} )}}" class="btn btnAddBasket">Ajoutez au panier</a>
+                {# <div class="lineQuantity">
+                    <button class="increment">
+                        <i class="fa-solid fa-plus"></i>
+                    </button>
+                    {{ form_widget(formAddToBasket.quantity) }}
+                    {{ form_errors(formAddToBasket.quantity) }}
+                    <button class="decrement">
+                        <i class="fa-solid fa-minus"></i>
+                    </button>
+                </div> #}
+                <a href=" {{ path('app_shoppingCart_add', {id: product[0].id} )}}" class="btn btnAddBasket">Ajouter au panier</a>
             </div>
         </div>
         <div class="descriptionContainer">

@@ -227,7 +227,7 @@ class SecurityController extends AbstractController
                 $entityManager->flush();
 
                 // Si mot de passe changé alors on renvoie un message de succès
-                $this->addFlash('succes', 'Mot de passe mis à jour avec succès');
+                $this->addFlash('success', 'Mot de passe mis à jour avec succès');
                 return $this->redirectToRoute('app_login');
             }
 

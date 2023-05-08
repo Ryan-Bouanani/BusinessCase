@@ -33,15 +33,15 @@
                             {% endif %}
                         </div>
                         <div class="quantityAndTotalLineAndDelete">
-                        {% if quantity is defined or delete is defined %}
-                            <div class="lineQuantity">
-                                <a href="{{ path('app_shoppingCart_add', {id: item.product.id}) }}" class="increment"><i class="fa-solid fa-plus" ></i></a>
-                                <p class="quantity">{{ item.quantity }}</p>
-                                <a href="{{ path('app_shoppingCart_subtractQuantity', {id: item.product.id}) }}" class="decrement"><i class="fa-solid fa-minus"></i></a>
-                            </div>
-                        {% else %}
-                                <p class="quantity">Qté x{{ item.quantity }}</p>
-                        {% endif %}
+                            {% if quantity is defined or delete is defined %}
+                                <div class="lineQuantity">
+                                    <a href="{{ path('app_shoppingCart_add', {id: item.product.id}) }}" class="increment"><i class="fa-solid fa-plus" ></i></a>
+                                    <p class="quantity">{{ item.quantity }}</p>
+                                    <a href="{{ path('app_shoppingCart_subtractQuantity', {id: item.product.id}) }}" class="decrement"><i class="fa-solid fa-minus"></i></a>
+                                </div>
+                            {% else %}
+                                    <p class="quantity">Qté x{{ item.quantity }}</p>
+                            {% endif %}
                             <p class="totalLine">{{ (item.product | priceTaxIncl) * item.quantity}}€</p>
                             
                             {% if quantity is defined or delete is defined %}
