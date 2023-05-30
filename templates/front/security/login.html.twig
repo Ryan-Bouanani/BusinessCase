@@ -20,12 +20,13 @@
 
         <div class="formChild">
             <label for="inputUsername">Nom d'utilisateur</label>
-            <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus placeholder="Example123">
+            <input type="text" value="LaTerreEstPlate" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus placeholder="Example123">
+            {# {{ last_username }} #}
         </div>
         <div class="formChild">
             <label for="inputPassword">Mot de passe</label>
             {% set input %} 
-                <input type="password" name="password" id="inputPassword" class="password form-control" autocomplete="current-password" placeholder="******" required>
+                <input type="password" name="password" id="inputPassword" class="password form-control" autocomplete="current-password" placeholder="******" required value="Issou2021">
             {% endset %}
             {% include "/front/partials/_togglePassword.html.twig" with {
                 input: input,
