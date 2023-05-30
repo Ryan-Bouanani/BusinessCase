@@ -4,8 +4,27 @@
         <meta charset="UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %}La Nîmes'Alerie{% endblock %}</title>
-        <meta name="description" content="{% block metaDescription %} La Nîmes'Alerie animalerie en ligne N°1 en France ✓ Large Choix : +100 articles pour animaux ✓ Prix choc ✓ Livraison rapide ✓ {% endblock %}" />
+
+        <!-- Primary Meta Tags -->
+        <title>{% block title %}La Nîmes'Alerie | Animalerie en ligne{% endblock %}</title>
+        <meta name="description" content="{% block description %} La Nîmes'Alerie animalerie en ligne N°1 en France ✓ Large Choix : +100 articles pour animaux ✓ Prix choc ✓ Livraison rapide ✓ {% endblock %}"/>
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content="website">
+        
+        <meta property="og:url" content="{{ app.request.schemeAndHttpHost }}{{ app.request.requestUri }}">
+        <meta property="og:title" content="{{ block('title') }}">
+        <meta property="og:description" content="{{ block('description') }}">
+        <meta property="og:image" content="{{ app.request.schemeAndHttpHost }}build/images/Logo-La-Nîmes-Alerie-Only-Paw-metatag.png">
+
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image">
+        <meta property="twitter:url" content="{{ app.request.schemeAndHttpHost }}{{ app.request.requestUri }}">
+        <meta property="twitter:title" content="{{ block('title') }}">
+        <meta property="twitter:description" content="{{ block('description') }}">
+        <meta property="twitter:image" content="{{ app.request.schemeAndHttpHost }}build/images/Logo-La-Nîmes-Alerie-Only-Paw-metatag.png">
+
+
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% include "shared/partials/_favicon.html.twig" %}
         {% block stylesheets %}
